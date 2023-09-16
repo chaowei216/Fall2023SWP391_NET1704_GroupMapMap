@@ -10,7 +10,6 @@ namespace Api_ZooManagement_SWP391.Entities
         [Required]
         [StringLength(30)]
         public string FullName { get; set; }
-        [Required]
         [EmailAddress]
         public string Email { get; set; }
         [Phone]

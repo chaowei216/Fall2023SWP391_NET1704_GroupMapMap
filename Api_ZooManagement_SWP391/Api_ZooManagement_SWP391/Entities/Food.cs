@@ -6,7 +6,6 @@ namespace Api_ZooManagement_SWP391.Entities
     {
         [Required]
         [MaxLength(6)]
-        [RegularExpression(@"^F\d{5}$")]
         public string FoodId { get; set; }
 
         [Required] 
@@ -16,9 +15,9 @@ namespace Api_ZooManagement_SWP391.Entities
         public int Quantity { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        public DateOnly ImportDate { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime ImportDate { get; set; }
 
-        public ICollection<Feedschedule> Feedschedules { get; set; }
+        public ICollection<FeedSchedule> FeedSchedules { get; set; }
     }
 }

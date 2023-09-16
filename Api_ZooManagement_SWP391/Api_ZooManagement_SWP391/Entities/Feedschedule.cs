@@ -2,7 +2,7 @@
 
 namespace Api_ZooManagement_SWP391.Entities
 {
-    public class Feedschedule
+    public class FeedSchedule
     {
         
         [Required]
@@ -16,8 +16,8 @@ namespace Api_ZooManagement_SWP391.Entities
         public int Amount { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        public DateOnly FeedTime { get; set; }  
+        [DataType(DataType.DateTime)]
+        public DateTime FeedTime { get; set; }  
         public Animal  Animal { get; set; }
         public Food Food { get; set; }  
 

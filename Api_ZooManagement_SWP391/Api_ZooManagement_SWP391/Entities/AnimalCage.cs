@@ -2,7 +2,7 @@
 
 namespace Api_ZooManagement_SWP391.Entities
 {
-    public class AnimalCages
+    public class AnimalCage
     {
         [Required]
         public string AnimalId { get; set; }
@@ -11,12 +11,12 @@ namespace Api_ZooManagement_SWP391.Entities
         public string CageId { get; set;}
 
         [Required]
-        [DataType(DataType.Date)]
-        public DateOnly EntryDate { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime EntryDate { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        public DateOnly OutDate { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime OutDate { get; set; }
 
         public Animal Animal { get; set; }
         public Cage Cage { get; set; }
