@@ -174,6 +174,9 @@ namespace Api_ZooManagement_SWP391.Data
                 .HasOne(ac => ac.Cage)
                 .WithMany(c => c.AnimalCages)
                 .HasForeignKey(ac => ac.CageId);
+
+
+
         }
     }
 }
