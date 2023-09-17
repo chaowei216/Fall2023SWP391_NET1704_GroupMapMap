@@ -7,7 +7,7 @@ namespace Api_ZooManagement_SWP391.Data
     {
         public DataContext(DbContextOptions<DataContext> option) : base(option)
         {
-            
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -149,6 +149,9 @@ namespace Api_ZooManagement_SWP391.Data
                 .HasOne(ac => ac.Cage)
                 .WithMany(c => c.AnimalCages)
                 .HasForeignKey(ac => ac.CageId);
+
+
+
         }
     }
 }
