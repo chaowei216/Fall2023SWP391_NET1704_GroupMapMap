@@ -5,7 +5,7 @@ namespace Api_ZooManagement_SWP391.Entities
     public class WorkExperience
     {
         [Required]
-        [StringLength(20)]
+        [StringLength(10)]
         public string Type { get; set; }
 
         [Required]

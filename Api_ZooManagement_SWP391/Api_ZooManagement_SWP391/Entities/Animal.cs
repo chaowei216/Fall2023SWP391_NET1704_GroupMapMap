@@ -5,7 +5,7 @@ namespace Api_ZooManagement_SWP391.Entities
     public class Animal
     {
         [Required]
-        [MaxLength(6)]
+        [MaxLength(10)]
         public string AnimalID { get; set; }
 
         [Required]

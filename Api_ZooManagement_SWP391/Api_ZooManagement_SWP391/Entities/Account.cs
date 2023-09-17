@@ -19,5 +19,6 @@ namespace Api_ZooManagement_SWP391.Entities
         public Staff Staff { get; set; }
 
         public Admin Admin { get; set; }
+
     }
 }

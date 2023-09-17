@@ -7,7 +7,7 @@ namespace Api_ZooManagement_SWP391.Data
     {
         public DataContext(DbContextOptions<DataContext> option) : base(option)
         {
-            
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -53,7 +53,7 @@ namespace Api_ZooManagement_SWP391.Data
         {
             #region
             modelBuilder.Entity<Staff>()
-                .HasKey(staff => staff.SId);
+               .HasKey(staff => staff.SId);
 
             modelBuilder.Entity<Admin>()
                 .HasKey(admin => admin.AdminId);
@@ -93,6 +93,31 @@ namespace Api_ZooManagement_SWP391.Data
 
             modelBuilder.Entity<SpeciesAnimal>()
                 .HasKey(speciesAnimals => speciesAnimals.SpeciesId);
+
+            modelBuilder.Entity<Account>()
+                .HasOne(a => a.Admin)
+                .WithOne(b => b.Account)
+                .HasForeignKey<Admin>(c => c.Email)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Account>()
+                .HasOne(a => a.Staff)
+                .WithOne(b => b.Account)
+                .HasForeignKey<Staff>(c => c.Email)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Account>()
+                .HasOne(a => a.ZooTrainer)
+                .WithOne(b => b.Account)
+                .HasForeignKey<ZooTrainer>(c => c.Email)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Staff>()
+                .HasOne(a => a.Area)
+                .WithOne(b => b.Staff)
+                .HasForeignKey<Area>(c => c.AreaId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
             #endregion
 
             modelBuilder.Entity<OrderDetail>()

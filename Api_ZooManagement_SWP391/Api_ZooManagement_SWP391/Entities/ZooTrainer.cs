@@ -30,6 +30,7 @@ namespace Api_ZooManagement_SWP391.Entities
         [DataType(DataType.DateTime)]
         public DateTime StartDate { get; set; }
 
+        [AllowNull]
         [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
 
