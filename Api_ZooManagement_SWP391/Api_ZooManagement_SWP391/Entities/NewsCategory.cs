@@ -4,7 +4,6 @@
     {
         public string CategoryId { get; set; }
         public string CategoryName { get; set; }
-        public string Field {  get; set; }
         public ICollection<News> News { get; set; }
 
     }

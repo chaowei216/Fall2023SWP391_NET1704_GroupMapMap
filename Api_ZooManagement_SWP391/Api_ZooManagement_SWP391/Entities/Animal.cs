@@ -4,11 +4,10 @@ namespace Api_ZooManagement_SWP391.Entities
 {
     public class Animal
     {
-        public string AnimalID { get; set; }
+        public string AnimalId { get; set; }
         public string Name {  get; set; }
         public string Description { get; set; }
         public bool Sex { get; set; }
-        public string Type {  get; set; }
         public DateTime EntryDate { get; set; }
         public string Region { get; set; }
         public string HealthCheck { get; set; }

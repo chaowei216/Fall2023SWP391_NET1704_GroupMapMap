@@ -6,7 +6,7 @@ namespace Api_ZooManagement_SWP391.Entities
     {
         public string SpeciesId { get; set; }
         public string SpeciesName { get; set; }
-        public bool IsExtinc {  get; set; }
+        public bool IsExtinct {  get; set; }
         public ICollection<Animal> Animals { get; set; }
     }
 }
