@@ -117,6 +117,7 @@ namespace Api_ZooManagement_SWP391.Data
                 entity.Property(e => e.Region).HasMaxLength(30).IsRequired();
                 entity.Property(e => e.HealthCheck).IsRequired();
                 entity.Property(e => e.Birthday).IsRequired();
+                entity.Property(e => e.Status).IsRequired();
             });
 
             modelBuilder.Entity<Food>(entity =>
