@@ -1,6 +1,5 @@
 using Api_ZooManagement_SWP391.Data;
 using Api_ZooManagement_SWP391.Profiles;
-using Api_ZooManagement_SWP391.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +11,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddDbContext<DataContext>();
-builder.Services.AddScoped<IUserRepository, UserRespository>();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
