@@ -1,6 +1,8 @@
 ﻿using Api_ZooManagement_SWP391.Dtos;
 using Api_ZooManagement_SWP391.Entities;
 using Api_ZooManagement_SWP391.Repositories.RepositoriesBasic;
+using Api_ZooManagement_SWP391.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -15,17 +17,17 @@ namespace Api_ZooManagement_SWP391.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        private readonly IUserRepository _userRepo;
+        private readonly IUserService _userService;
 
-        public LoginController(IConfiguration configuration, IUserRepository userRepo)
+        public LoginController(IConfiguration configuration, IUserService userService)
         {
             _configuration = configuration;
-            _userRepo = userRepo;
+            _userService = userService;
         }
 
         private User Authentication(UserDto user)
         {
-            var user_ = _userRepo.CheckLogin(user.Email, user.Password);
+            var user_ = _userService.CheckLogin(user.Email, user.Password);
             if ( user_ != null)
             {
                 return user_;
@@ -37,22 +39,21 @@ namespace Api_ZooManagement_SWP391.Controllers
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.Email, user.Email),
             };
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
 
             var token = new JwtSecurityToken(
                  _configuration["Jwt:Issuer"],
-                _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(1),
+                expires: DateTime.Now.AddMinutes(5),
                 signingCredentials: credentials
             );
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public IActionResult Login(UserDto user)
         {
             var user_ = Authentication(user);
@@ -60,8 +61,21 @@ namespace Api_ZooManagement_SWP391.Controllers
             {
                 return BadRequest("User not found.");
             }
+            user.Role = user_.Role;     
             string token = GenerateToken(user);
             return Ok(token);
+        }
+
+        [HttpGet("GetUser")]
+        [Authorize]
+        public IActionResult GetUser()
+        {
+            var u = _userService.GetUsers();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(u);
         }
     }
 }
