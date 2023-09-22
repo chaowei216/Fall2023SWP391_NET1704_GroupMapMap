@@ -35,7 +35,6 @@ namespace Api_ZooManagement_SWP391.Data
         public DbSet<User> Users { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<NewsCategory> NewsCategories { get; set; }
-        public DbSet<NewsPost> NewsPosts { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Area> Areas { get; set; }
         public DbSet<Cage> Cages { get; set; }
@@ -118,6 +117,7 @@ namespace Api_ZooManagement_SWP391.Data
                 entity.Property(e => e.HealthCheck).IsRequired();
                 entity.Property(e => e.Birthday).IsRequired();
                 entity.Property(e => e.Status).IsRequired();
+                entity.Property(e => e.SpcId).HasMaxLength(5).IsRequired();
             });
 
             modelBuilder.Entity<Food>(entity =>
@@ -128,6 +128,7 @@ namespace Api_ZooManagement_SWP391.Data
                 entity.Property(f => f.Quantity).IsRequired();
                 entity.Property(f => f.ImportDate).IsRequired();
                 entity.Property(f => f.ExpiredDate).IsRequired();
+                entity.Property(f => f.CateId).HasMaxLength(5).IsRequired();
             });
 
             modelBuilder.Entity<FoodCategory>(entity =>
@@ -157,6 +158,8 @@ namespace Api_ZooManagement_SWP391.Data
             {
                 entity.HasKey(e => e.NewsId);
                 entity.Property(e => e.NewsId).HasMaxLength(5);
+                entity.Property(e => e.AuthorName).HasMaxLength(30).IsRequired();
+                entity.Property(e => e.ReleaseDate).IsRequired();
                 entity.Property(e => e.NewsTitle).HasMaxLength(30).IsRequired();
                 entity.Property(e => e.NewsContent).IsRequired();
             });
@@ -174,6 +177,7 @@ namespace Api_ZooManagement_SWP391.Data
                 entity.Property(u => u.Sex).IsRequired();
                 entity.Property(u => u.StartDate).IsRequired();
                 entity.Property(u => u.Role).IsRequired();
+                entity.Property(u => u.Status).IsRequired();
 
             });
 
@@ -196,11 +200,6 @@ namespace Api_ZooManagement_SWP391.Data
                 entity.Property(od => od.EntryDate).IsRequired();
             });
 
-            modelBuilder.Entity<NewsPost>(entity =>
-            {
-                entity.Property(np => np.ReleaseDate).IsRequired();
-            });
-
             modelBuilder.Entity<ExperienceDetail>(entity =>
             {
                 entity.Property(ed => ed.Company).HasMaxLength(30).IsRequired();
@@ -213,6 +212,7 @@ namespace Api_ZooManagement_SWP391.Data
             {
                 entity.Property(at => at.StartDate).IsRequired();
                 entity.Property(at => at.EndDate).IsRequired();
+                entity.Property(at => at.TrainingStatus).IsRequired();
             });
 
             modelBuilder.Entity<AnimalSchedule>(entity =>
@@ -298,17 +298,6 @@ namespace Api_ZooManagement_SWP391.Data
                 .HasOne(e => e.WorkExperience)
                 .WithMany(e => e.ExperienceDetails)
                 .HasForeignKey(e => e.ExperienceId);
-
-            modelBuilder.Entity<NewsPost>()
-                .HasKey(nc => new { nc.NewsId, nc.UserId });
-            modelBuilder.Entity<NewsPost>()
-                .HasOne(nc => nc.User)
-                .WithMany(nc => nc.NewPosts)
-                .HasForeignKey(nc => nc.UserId);
-            modelBuilder.Entity<NewsPost>()
-                .HasOne(nc => nc.News)
-                .WithMany(nc => nc.NewsPosts)
-                .HasForeignKey(nc => nc.NewsId);
             #endregion
 
         }
