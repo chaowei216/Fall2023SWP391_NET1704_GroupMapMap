@@ -74,6 +74,16 @@ builder.Services.AddScoped<WorkExperienceRepository>();
 builder.Services.AddScoped<ExperienceDetailRepository>();
 builder.Services.AddScoped<ScheduleRepository>();
 builder.Services.AddScoped<SpeciesAnimalRepository>();
+builder.Services.AddScoped<ReviewRepository>();
+builder.Services.AddScoped<GuestRepository>();
+builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<OrderDetailRepository>();
+builder.Services.AddScoped<TicketRepository>();
+builder.Services.AddScoped<NewRepository>();
+builder.Services.AddScoped<NewCategoryRepository>();
+builder.Services.AddScoped<AreaRepository>();
+builder.Services.AddScoped<CageRepository>();
+builder.Services.AddScoped<AnimalCageRepository>();
 
 builder.Services.AddCors(options =>
 {
