@@ -30,6 +30,16 @@ namespace Api_ZooManagement_SWP391.Repositories.BaseRepository
             }
         }
 
+        public async Task<List<T>> GetAllAsync()
+        {
+            return await _context.Set<T>().ToListAsync();
+        }
+
+        public async Task<T?> GetByIdAsync(Guid id)
+        {
+            return await _context.Set<T>().FindAsync(id);
+        }
+
         public void Update(T entity)
         {
             try
@@ -42,5 +52,7 @@ namespace Api_ZooManagement_SWP391.Repositories.BaseRepository
                 throw new Exception();
             }
         }
+
+
     }
 }
