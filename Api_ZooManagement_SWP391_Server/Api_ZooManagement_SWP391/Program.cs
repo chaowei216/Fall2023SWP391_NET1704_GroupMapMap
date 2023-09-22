@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -42,7 +43,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+//Authentication in swagger
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Description = "Standard Authorization header using the Bearer scheme (\"{token}\")",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
+
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddDbContext<DataContext>();

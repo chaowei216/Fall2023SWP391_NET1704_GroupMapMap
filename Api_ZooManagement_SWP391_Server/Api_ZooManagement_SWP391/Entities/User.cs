@@ -12,9 +12,13 @@
         public bool Sex { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public bool Status { get; set; }
+        public string VerificationToken { get; set; }
+        public DateTime VerifyAt { get; set; }
+        public string RefreshToken { get; set; }
+        public string ResetPassToken { get; set; }
         public Role Role { get; set; }
-        public ICollection<ExperienceDetail> ExperienceDetails { get; set; }
-        public ICollection<NewsPost> NewPosts { get; set; }    
+        public ICollection<ExperienceDetail> ExperienceDetails { get; set; }  
         public ICollection<AnimalTrainer> AnimalTrainers { get; set; }
 
 
