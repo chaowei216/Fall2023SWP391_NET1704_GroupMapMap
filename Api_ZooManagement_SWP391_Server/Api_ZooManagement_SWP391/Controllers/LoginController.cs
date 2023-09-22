@@ -35,14 +35,15 @@ namespace Api_ZooManagement_SWP391.Controllers
             return null;
         }
 
-        private string GenerateToken(UserDto user)
+        private string GenerateToken(User user)
         {
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
             };
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
+            var securityKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
                  _configuration["Jwt:Issuer"],
@@ -61,13 +62,13 @@ namespace Api_ZooManagement_SWP391.Controllers
             {
                 return BadRequest("User not found.");
             }
-            user.Role = user_.Role;     
-            string token = GenerateToken(user);
+            //user.Role = user_.Role;
+            string token = GenerateToken(user_);
             return Ok(token);
         }
 
         [HttpGet("GetUser")]
-        [Authorize]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult GetUser()
         {
             var u = _userService.GetUsers();
