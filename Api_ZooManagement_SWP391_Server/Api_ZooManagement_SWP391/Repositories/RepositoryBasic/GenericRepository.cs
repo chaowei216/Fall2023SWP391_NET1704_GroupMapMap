@@ -12,10 +12,10 @@ namespace Api_ZooManagement_SWP391.Repositories.BaseRepository
         public GenericRepository()
         {
         }
-        public GenericRepository(DataContext _context)
+        public GenericRepository(DataContext context)
         {
-            this._context = _context;
-            _dbSet = _context.Set<T>();
+            this._context = context;
+            _dbSet = context.Set<T>();
         }
         public void Add(T entity)
         {
