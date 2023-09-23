@@ -9,7 +9,6 @@ namespace Api_ZooManagement_SWP391.Entities
         public int Quantity { get; set; }
         public DateTime ImportDate { get; set; }
         public DateTime ExpiredDate { get; set; }
-        public string CateId { get; set; }
         public ICollection<AnimalFood> AnimalFoods { get; set; }
         public FoodCategory Category { get; set; }
     }

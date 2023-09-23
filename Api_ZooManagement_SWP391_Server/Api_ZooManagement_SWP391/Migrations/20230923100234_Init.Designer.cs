@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api_ZooManagement_SWP391.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230922034603_DataInits")]
-    partial class DataInits
+    [Migration("20230923100234_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -148,6 +148,9 @@ namespace Api_ZooManagement_SWP391.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("TrainingStatus")
+                        .HasColumnType("bit");
+
                     b.HasKey("UserId", "AnimalId");
 
                     b.HasIndex("AnimalId");
@@ -185,7 +188,7 @@ namespace Api_ZooManagement_SWP391.Migrations
                     b.Property<int>("AnimalQuantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("AreaID")
+                    b.Property<string>("AreaId")
                         .IsRequired()
                         .HasColumnType("nvarchar(5)");
 
@@ -194,7 +197,7 @@ namespace Api_ZooManagement_SWP391.Migrations
 
                     b.HasKey("CId");
 
-                    b.HasIndex("AreaID");
+                    b.HasIndex("AreaId");
 
                     b.ToTable("Cages");
                 });
@@ -304,6 +307,11 @@ namespace Api_ZooManagement_SWP391.Migrations
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
+                    b.Property<string>("AuthorName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
                     b.Property<string>("NewsCategoryCategoryId")
                         .IsRequired()
                         .HasColumnType("nvarchar(5)");
@@ -316,6 +324,9 @@ namespace Api_ZooManagement_SWP391.Migrations
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("NewsId");
 
@@ -338,24 +349,6 @@ namespace Api_ZooManagement_SWP391.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("NewsCategories");
-                });
-
-            modelBuilder.Entity("Api_ZooManagement_SWP391.Entities.NewsPost", b =>
-                {
-                    b.Property<string>("NewsId")
-                        .HasColumnType("nvarchar(5)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(5)");
-
-                    b.Property<DateTime>("ReleaseDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("NewsId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("NewsPosts");
                 });
 
             modelBuilder.Entity("Api_ZooManagement_SWP391.Entities.Order", b =>
@@ -537,6 +530,14 @@ namespace Api_ZooManagement_SWP391.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResetPassToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
@@ -544,6 +545,16 @@ namespace Api_ZooManagement_SWP391.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("VerificationToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("VerifyAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("UserId");
@@ -658,7 +669,7 @@ namespace Api_ZooManagement_SWP391.Migrations
                 {
                     b.HasOne("Api_ZooManagement_SWP391.Entities.Area", "Area")
                         .WithMany("Cages")
-                        .HasForeignKey("AreaID")
+                        .HasForeignKey("AreaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -704,25 +715,6 @@ namespace Api_ZooManagement_SWP391.Migrations
                         .IsRequired();
 
                     b.Navigation("NewsCategory");
-                });
-
-            modelBuilder.Entity("Api_ZooManagement_SWP391.Entities.NewsPost", b =>
-                {
-                    b.HasOne("Api_ZooManagement_SWP391.Entities.News", "News")
-                        .WithMany("NewsPosts")
-                        .HasForeignKey("NewsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Api_ZooManagement_SWP391.Entities.User", "User")
-                        .WithMany("NewPosts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("News");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Api_ZooManagement_SWP391.Entities.Order", b =>
@@ -804,11 +796,6 @@ namespace Api_ZooManagement_SWP391.Migrations
                     b.Navigation("Reviews");
                 });
 
-            modelBuilder.Entity("Api_ZooManagement_SWP391.Entities.News", b =>
-                {
-                    b.Navigation("NewsPosts");
-                });
-
             modelBuilder.Entity("Api_ZooManagement_SWP391.Entities.NewsCategory", b =>
                 {
                     b.Navigation("News");
@@ -839,8 +826,6 @@ namespace Api_ZooManagement_SWP391.Migrations
                     b.Navigation("AnimalTrainers");
 
                     b.Navigation("ExperienceDetails");
-
-                    b.Navigation("NewPosts");
                 });
 
             modelBuilder.Entity("Api_ZooManagement_SWP391.Entities.WorkExperience", b =>

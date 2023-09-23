@@ -13,7 +13,6 @@ namespace Api_ZooManagement_SWP391.Entities
         public string HealthCheck { get; set; }
         public DateTime Birthday { get; set; }
         public bool Status { get; set; }
-        public string SpcId { get; set; }
         public SpeciesAnimal SpeciesAnimal { get; set; }
         public ICollection<AnimalCage> AnimalCages { get; set; }
         public ICollection<AnimalTrainer> AnimalTrainers { get; set; }

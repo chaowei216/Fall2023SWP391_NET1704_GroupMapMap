@@ -10,7 +10,7 @@ namespace Api_ZooManagement_SWP391.Entities
 
         public DateTime EntryDate { get; set; }
 
-        public DateTime OutDate { get; set; }
+        public DateTime? OutDate { get; set; }
 
         public Animal Animal { get; set; }
         public Cage Cage { get; set; }

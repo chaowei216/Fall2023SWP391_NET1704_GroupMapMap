@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Api_ZooManagement_SWP391.Migrations
 {
-    public partial class InitData : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -111,6 +111,11 @@ namespace Api_ZooManagement_SWP391.Migrations
                     Sex = table.Column<bool>(type: "bit", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false),
+                    VerificationToken = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VerifyAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ResetPassToken = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -137,14 +142,14 @@ namespace Api_ZooManagement_SWP391.Migrations
                     CId = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
                     MaxCapacity = table.Column<int>(type: "int", nullable: false),
                     AnimalQuantity = table.Column<int>(type: "int", nullable: false),
-                    AreaID = table.Column<string>(type: "nvarchar(5)", nullable: false)
+                    AreaId = table.Column<string>(type: "nvarchar(5)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cages", x => x.CId);
                     table.ForeignKey(
-                        name: "FK_Cages_Areas_AreaID",
-                        column: x => x.AreaID,
+                        name: "FK_Cages_Areas_AreaId",
+                        column: x => x.AreaId,
                         principalTable: "Areas",
                         principalColumn: "AreaId",
                         onDelete: ReferentialAction.Cascade);
@@ -221,6 +226,8 @@ namespace Api_ZooManagement_SWP391.Migrations
                 columns: table => new
                 {
                     NewsId = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    AuthorName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     NewsTitle = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     NewsContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NewsCategoryCategoryId = table.Column<string>(type: "nvarchar(5)", nullable: false)
@@ -249,14 +256,14 @@ namespace Api_ZooManagement_SWP391.Migrations
                     HealthCheck = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
-                    SpeciesAnimalSpeciesId = table.Column<string>(type: "nvarchar(5)", nullable: false)
+                    SpeciesId = table.Column<string>(type: "nvarchar(5)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Animals", x => x.AnimalId);
                     table.ForeignKey(
-                        name: "FK_Animals_SpeciesAnimals_SpeciesAnimalSpeciesId",
-                        column: x => x.SpeciesAnimalSpeciesId,
+                        name: "FK_Animals_SpeciesAnimals_SpeciesId",
+                        column: x => x.SpeciesId,
                         principalTable: "SpeciesAnimals",
                         principalColumn: "SpeciesId",
                         onDelete: ReferentialAction.Cascade);
@@ -312,31 +319,6 @@ namespace Api_ZooManagement_SWP391.Migrations
                         column: x => x.TicketId,
                         principalTable: "Tickets",
                         principalColumn: "TicketId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "NewsPosts",
-                columns: table => new
-                {
-                    NewsId = table.Column<string>(type: "nvarchar(5)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(5)", nullable: false),
-                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_NewsPosts", x => new { x.NewsId, x.UserId });
-                    table.ForeignKey(
-                        name: "FK_NewsPosts_News_NewsId",
-                        column: x => x.NewsId,
-                        principalTable: "News",
-                        principalColumn: "NewsId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_NewsPosts_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -424,7 +406,8 @@ namespace Api_ZooManagement_SWP391.Migrations
                     UserId = table.Column<string>(type: "nvarchar(5)", nullable: false),
                     AnimalId = table.Column<string>(type: "nvarchar(5)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TrainingStatus = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -454,9 +437,9 @@ namespace Api_ZooManagement_SWP391.Migrations
                 column: "FoodId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Animals_SpeciesAnimalSpeciesId",
+                name: "IX_Animals_SpeciesId",
                 table: "Animals",
-                column: "SpeciesAnimalSpeciesId");
+                column: "SpeciesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AnimalSchedules_AnimalId",
@@ -469,9 +452,9 @@ namespace Api_ZooManagement_SWP391.Migrations
                 column: "AnimalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cages_AreaID",
+                name: "IX_Cages_AreaId",
                 table: "Cages",
-                column: "AreaID");
+                column: "AreaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExperienceDetails_ExperienceId",
@@ -487,11 +470,6 @@ namespace Api_ZooManagement_SWP391.Migrations
                 name: "IX_News_NewsCategoryCategoryId",
                 table: "News",
                 column: "NewsCategoryCategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_NewsPosts_UserId",
-                table: "NewsPosts",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDetails_TicketId",
@@ -527,7 +505,7 @@ namespace Api_ZooManagement_SWP391.Migrations
                 name: "ExperienceDetails");
 
             migrationBuilder.DropTable(
-                name: "NewsPosts");
+                name: "News");
 
             migrationBuilder.DropTable(
                 name: "OrderDetails");
@@ -548,13 +526,13 @@ namespace Api_ZooManagement_SWP391.Migrations
                 name: "Animals");
 
             migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
                 name: "WorkExperiences");
 
             migrationBuilder.DropTable(
-                name: "News");
-
-            migrationBuilder.DropTable(
-                name: "Users");
+                name: "NewsCategories");
 
             migrationBuilder.DropTable(
                 name: "Orders");
@@ -570,9 +548,6 @@ namespace Api_ZooManagement_SWP391.Migrations
 
             migrationBuilder.DropTable(
                 name: "SpeciesAnimals");
-
-            migrationBuilder.DropTable(
-                name: "NewsCategories");
 
             migrationBuilder.DropTable(
                 name: "Guests");

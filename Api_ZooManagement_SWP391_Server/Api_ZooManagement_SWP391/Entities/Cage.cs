@@ -7,7 +7,6 @@ namespace Api_ZooManagement_SWP391.Entities
         public string CId {  get; set; }
         public int MaxCapacity { get; set; }
         public int AnimalQuantity {  get; set; }
-        public string AreaID { get; set; }
 
         public ICollection<AnimalCage> AnimalCages {  get; set; }
 

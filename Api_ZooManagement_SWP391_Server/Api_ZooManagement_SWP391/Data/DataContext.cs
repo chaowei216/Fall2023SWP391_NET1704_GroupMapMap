@@ -117,7 +117,6 @@ namespace Api_ZooManagement_SWP391.Data
                 entity.Property(e => e.HealthCheck).IsRequired();
                 entity.Property(e => e.Birthday).IsRequired();
                 entity.Property(e => e.Status).IsRequired();
-                entity.Property(e => e.SpcId).HasMaxLength(5).IsRequired();
             });
 
             modelBuilder.Entity<Food>(entity =>
@@ -128,7 +127,6 @@ namespace Api_ZooManagement_SWP391.Data
                 entity.Property(f => f.Quantity).IsRequired();
                 entity.Property(f => f.ImportDate).IsRequired();
                 entity.Property(f => f.ExpiredDate).IsRequired();
-                entity.Property(f => f.CateId).HasMaxLength(5).IsRequired();
             });
 
             modelBuilder.Entity<FoodCategory>(entity =>
