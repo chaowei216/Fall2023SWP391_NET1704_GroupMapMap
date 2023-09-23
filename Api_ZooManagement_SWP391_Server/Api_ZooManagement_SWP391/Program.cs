@@ -61,6 +61,30 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddDbContext<DataContext>();
+
+// add scope for repository
+builder.Services.AddScoped<AnimalFoodRepository>();
+builder.Services.AddScoped<AnimalRepository>();
+builder.Services.AddScoped<AnimalScheduleRepository>();
+builder.Services.AddScoped<AnimalTrainerRepository>();
+builder.Services.AddScoped<FoodCategoryRepository>();
+builder.Services.AddScoped<FoodRepository>();
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<WorkExperienceRepository>();
+builder.Services.AddScoped<ExperienceDetailRepository>();
+builder.Services.AddScoped<ScheduleRepository>();
+builder.Services.AddScoped<SpeciesAnimalRepository>();
+builder.Services.AddScoped<ReviewRepository>();
+builder.Services.AddScoped<GuestRepository>();
+builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<OrderDetailRepository>();
+builder.Services.AddScoped<TicketRepository>();
+builder.Services.AddScoped<NewRepository>();
+builder.Services.AddScoped<NewCategoryRepository>();
+builder.Services.AddScoped<AreaRepository>();
+builder.Services.AddScoped<CageRepository>();
+builder.Services.AddScoped<AnimalCageRepository>();
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
