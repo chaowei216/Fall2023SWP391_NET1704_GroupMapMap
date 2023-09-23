@@ -1,6 +1,6 @@
 ﻿using Api_ZooManagement_SWP391.Dtos;
 using Api_ZooManagement_SWP391.Entities;
-using Api_ZooManagement_SWP391.Repositories.RepositoriesBasic;
+using Api_ZooManagement_SWP391.Repositories;
 using Api_ZooManagement_SWP391.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,11 +18,13 @@ namespace Api_ZooManagement_SWP391.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IUserService _userService;
+        private readonly UserRepository _userRepo;
 
-        public LoginController(IConfiguration configuration, IUserService userService)
+        public LoginController(IConfiguration configuration, IUserService userService, UserRepository userRepository)
         {
             _configuration = configuration;
             _userService = userService;
+            _userRepo = userRepository;
         }
 
         private User Authentication(UserDto user)
@@ -69,6 +71,7 @@ namespace Api_ZooManagement_SWP391.Controllers
 
         [HttpGet("GetUser")]
         [Authorize(Roles = "ADMIN")]
+
         public IActionResult GetUser()
         {
             var u = _userService.GetUsers();

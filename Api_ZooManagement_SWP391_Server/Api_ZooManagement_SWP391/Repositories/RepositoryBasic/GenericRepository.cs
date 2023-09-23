@@ -1,13 +1,14 @@
 ﻿using Api_ZooManagement_SWP391.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 
 namespace Api_ZooManagement_SWP391.Repositories.BaseRepository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
 
-        private readonly DataContext _context;
-        private readonly DbSet<T> _dbSet;
+        protected readonly DataContext _context;
+        protected readonly DbSet<T> _dbSet;
 
         public GenericRepository()
         {
@@ -30,14 +31,14 @@ namespace Api_ZooManagement_SWP391.Repositories.BaseRepository
             }
         }
 
-        public async Task<List<T>> GetAllAsync()
+        public ICollection<T> GetAll()
         {
-            return await _context.Set<T>().ToListAsync();
+            return _dbSet.ToList();
         }
 
-        public async Task<T?> GetByIdAsync(Guid id)
+        public T GetById(string id)
         {
-            return await _context.Set<T>().FindAsync(id);
+            return _dbSet.Find(id);
         }
 
         public void Update(T entity)
@@ -52,7 +53,5 @@ namespace Api_ZooManagement_SWP391.Repositories.BaseRepository
                 throw new Exception();
             }
         }
-
-
     }
 }

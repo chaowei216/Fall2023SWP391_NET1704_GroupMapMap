@@ -7,7 +7,7 @@ namespace Api_ZooManagement_SWP391.Repositories.BaseRepository
     {
         void Add(T entity);
         void Update(T entity);
-        Task<List<T>> GetAllAsync();
-        Task<T?> GetByIdAsync(Guid id);
+        ICollection<T> GetAll();
+        T GetById(string id);
     }
 }
