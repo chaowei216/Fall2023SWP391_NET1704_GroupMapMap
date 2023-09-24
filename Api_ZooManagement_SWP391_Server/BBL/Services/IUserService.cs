@@ -1,6 +1,6 @@
-﻿using Api_ZooManagement_SWP391.Entities;
+﻿using DAL.Entities;
 
-namespace Api_ZooManagement_SWP391.Services
+namespace BBL.Services
 {
     public interface IUserService
     {

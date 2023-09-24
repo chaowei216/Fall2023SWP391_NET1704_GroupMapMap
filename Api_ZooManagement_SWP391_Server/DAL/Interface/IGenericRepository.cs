@@ -1,7 +1,4 @@
-﻿using Api_ZooManagement_SWP391.Data;
-using Microsoft.EntityFrameworkCore;
-
-namespace DAL.Interface
+﻿namespace DAL.Interface
 {
     public interface IGenericRepository<T> where T : class
     {

@@ -1,4 +1,4 @@
-﻿using Api_ZooManagement_SWP391.Entities;
+﻿using DAL.Entities;
 using AutoMapper;
 
 namespace Api_ZooManagement_SWP391.Profiles

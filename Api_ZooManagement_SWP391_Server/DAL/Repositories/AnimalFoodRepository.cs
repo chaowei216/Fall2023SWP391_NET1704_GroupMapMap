@@ -1,8 +1,8 @@
-﻿using Api_ZooManagement_SWP391.Data;
-using Api_ZooManagement_SWP391.Entities;
+﻿using DAL.Data;
+using DAL.Entities;
 using DAL.Interface;
 
-namespace Api_ZooManagement_SWP391.Repositories
+namespace DAL.Repositories
 {
     public class AnimalFoodRepository: GenericRepository<AnimalFood>
     {

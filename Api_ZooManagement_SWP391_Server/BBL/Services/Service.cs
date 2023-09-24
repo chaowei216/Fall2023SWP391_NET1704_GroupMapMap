@@ -1,4 +1,4 @@
-﻿namespace Api_ZooManagement_SWP391.Services
+﻿namespace BBL.Services
 {
     public class Service
     {

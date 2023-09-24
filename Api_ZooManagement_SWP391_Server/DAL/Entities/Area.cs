@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Api_ZooManagement_SWP391.Entities
+namespace DAL.Entities
 {
     public class Area
     {

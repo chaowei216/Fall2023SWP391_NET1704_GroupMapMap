@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 
-namespace Api_ZooManagement_SWP391.Entities
+namespace DAL.Entities
 {
     public class Order
     {

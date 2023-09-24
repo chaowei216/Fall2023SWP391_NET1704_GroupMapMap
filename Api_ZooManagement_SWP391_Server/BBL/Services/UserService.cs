@@ -1,8 +1,8 @@
-﻿using Api_ZooManagement_SWP391.Data;
-using Api_ZooManagement_SWP391.Entities;
+﻿using DAL.Data;
+using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Api_ZooManagement_SWP391.Services
+namespace BBL.Services
 {
 
     public class UserService : IUserService

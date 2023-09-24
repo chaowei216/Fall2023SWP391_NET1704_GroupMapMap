@@ -1,7 +1,7 @@
-﻿using Api_ZooManagement_SWP391.Dtos;
-using Api_ZooManagement_SWP391.Entities;
-using Api_ZooManagement_SWP391.Repositories;
-using Api_ZooManagement_SWP391.Services;
+﻿using BBL.Dtos;
+using DAL.Entities;
+using DAL.Repositories;
+using BBL.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

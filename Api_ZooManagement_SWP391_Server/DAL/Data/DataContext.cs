@@ -1,31 +1,14 @@
-﻿using Api_ZooManagement_SWP391.Entities;
+﻿using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace Api_ZooManagement_SWP391.Data
+namespace DAL.Data
 {
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> option) : base(option)
         {
 
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(GetConnectionString());
-            }
-        }
-
-        private string GetConnectionString()
-        {
-            IConfiguration config = new ConfigurationBuilder()
-             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", true, true)
-            .Build();
-            var strConn = config["ConnectionStrings:ZooManagement"];
-            return strConn;
         }
 
         #region Entities

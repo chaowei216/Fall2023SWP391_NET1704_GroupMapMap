@@ -1,6 +1,5 @@
-﻿using Api_ZooManagement_SWP391.Data;
+﻿using DAL.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
 
 namespace DAL.Interface
 {

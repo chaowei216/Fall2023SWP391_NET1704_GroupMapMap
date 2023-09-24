@@ -1,13 +1,13 @@
-using Api_ZooManagement_SWP391.Data;
+using DAL.Data;
 using Api_ZooManagement_SWP391.Profiles;
-using Api_ZooManagement_SWP391.Repositories;
-using Api_ZooManagement_SWP391.Services;
+using DAL.Repositories;
+using BBL.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
-
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +25,10 @@ builder.Services.AddSwaggerGen(options =>
     });
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ZooManagement"));
 });
 //Create JWTBearer Require and AddAuthen
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
