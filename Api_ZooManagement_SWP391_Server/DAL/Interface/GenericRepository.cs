@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
 
-namespace Api_ZooManagement_SWP391.Repositories.BaseRepository
+namespace DAL.Interface
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
@@ -15,7 +15,7 @@ namespace Api_ZooManagement_SWP391.Repositories.BaseRepository
         }
         public GenericRepository(DataContext context)
         {
-            this._context = context;
+            _context = context;
             _dbSet = context.Set<T>();
         }
         public void Add(T entity)

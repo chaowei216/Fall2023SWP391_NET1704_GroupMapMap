@@ -1,5 +1,6 @@
 ﻿using Api_ZooManagement_SWP391.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Api_ZooManagement_SWP391.Data
 {
