@@ -1,5 +1,4 @@
 using DAL.Data;
-using Api_ZooManagement_SWP391.Profiles;
 using DAL.Repositories;
 using BBL.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,12 +7,13 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using DAL.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-//Create Author
+//Create Authorization
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -53,27 +53,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddDbContext<DataContext>();
 
 // add scope for repository
-builder.Services.AddScoped<AnimalFoodRepository>();
-builder.Services.AddScoped<AnimalRepository>();
-builder.Services.AddScoped<AnimalScheduleRepository>();
-builder.Services.AddScoped<AnimalTrainerRepository>();
-builder.Services.AddScoped<FoodCategoryRepository>();
-builder.Services.AddScoped<FoodRepository>();
-builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<WorkExperienceRepository>();
-builder.Services.AddScoped<ExperienceDetailRepository>();
-builder.Services.AddScoped<ScheduleRepository>();
-builder.Services.AddScoped<SpeciesAnimalRepository>();
-builder.Services.AddScoped<ReviewRepository>();
-builder.Services.AddScoped<GuestRepository>();
-builder.Services.AddScoped<OrderRepository>();
-builder.Services.AddScoped<OrderDetailRepository>();
-builder.Services.AddScoped<TicketRepository>();
-builder.Services.AddScoped<NewRepository>();
-builder.Services.AddScoped<NewCategoryRepository>();
-builder.Services.AddScoped<AreaRepository>();
-builder.Services.AddScoped<CageRepository>();
-builder.Services.AddScoped<AnimalCageRepository>();
+builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 
 builder.Services.AddCors(options =>
 {

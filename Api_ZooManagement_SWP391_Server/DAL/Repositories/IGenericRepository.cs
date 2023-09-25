@@ -1,9 +1,9 @@
-﻿namespace DAL.Interface
+﻿namespace DAL.Repositories
 {
     public interface IGenericRepository<T> where T : class
     {
-        void Add(T entity);
-        void Update(T entity);
+        bool Add(T entity);
+        bool Update(T entity);
         ICollection<T> GetAll();
         T GetById(string id);
     }

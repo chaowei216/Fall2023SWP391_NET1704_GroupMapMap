@@ -1,7 +1,7 @@
 ﻿using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Interface
+namespace DAL.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
@@ -9,20 +9,17 @@ namespace DAL.Interface
         protected readonly DataContext _context;
         protected readonly DbSet<T> _dbSet;
 
-        public GenericRepository()
-        {
-        }
         public GenericRepository(DataContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();
         }
-        public void Add(T entity)
+        public bool Add(T entity)
         {
             try
             {
                 _dbSet.Add(entity);
-                _context.SaveChanges();
+                return _context.SaveChanges() > 0 ? true : false;
             }
             catch (Exception ex)
             {
@@ -40,12 +37,12 @@ namespace DAL.Interface
             return _dbSet.Find(id);
         }
 
-        public void Update(T entity)
+        public bool Update(T entity)
         {
             try
             {
                 _dbSet.Update(entity);
-                _context.SaveChanges();
+                return _context.SaveChanges() > 0 ? true : false;
             }
             catch (Exception ex)
             {

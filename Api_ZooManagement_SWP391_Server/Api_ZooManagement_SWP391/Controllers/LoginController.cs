@@ -3,12 +3,11 @@ using DAL.Entities;
 using DAL.Repositories;
 using BBL.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
+using System.Security.Cryptography;
 
 namespace Api_ZooManagement_SWP391.Controllers
 {
@@ -18,9 +17,9 @@ namespace Api_ZooManagement_SWP391.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IUserService _userService;
-        private readonly UserRepository _userRepo;
+        private readonly IGenericRepository<User> _userRepo;
 
-        public LoginController(IConfiguration configuration, IUserService userService, UserRepository userRepository)
+        public LoginController(IConfiguration configuration, IUserService userService, IGenericRepository<User> userRepository)
         {
             _configuration = configuration;
             _userService = userService;
@@ -69,17 +68,68 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(token);
         }
 
-        [HttpGet("GetUser")]
+        [HttpGet("users")]
         [Authorize(Roles = "ADMIN")]
-
-        public IActionResult GetUser()
+        public IActionResult GetUsers()
         {
-            var u = _userService.GetUsers();
+            var u = _userRepo.GetAll();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             return Ok(u);
+        }
+
+        [HttpPost("verify")]
+        public IActionResult VerifyEmail(string token)
+        {
+            var result = _userService.VerifyEmail(token);
+
+            if (!result)
+            {
+                return BadRequest("Invalid token");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok("User verified!!");
+
+        }
+
+        [HttpPost("forgot-password")]
+        public IActionResult ForgotPassword(string email)
+        {
+            var user = _userService.GetByEmail(email);
+
+            if (user == null)
+            {
+                return BadRequest("invalid email");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var resetToken = CreateRandomToken().ToString();
+
+            var result = _userService.ForgotPassword(user, resetToken);
+
+            if (!result)
+            {
+                return BadRequest("invalid token");
+            }
+
+            return Ok("you can reset your password");
+
+        }
+
+        private object CreateRandomToken()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
     }
 }
