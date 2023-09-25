@@ -17,13 +17,11 @@ namespace Api_ZooManagement_SWP391.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IUserService _userService;
-        private readonly IGenericRepository<User> _userRepo;
 
-        public LoginController(IConfiguration configuration, IUserService userService, IGenericRepository<User> userRepository)
+        public LoginController(IConfiguration configuration, IUserService userService)
         {
             _configuration = configuration;
             _userService = userService;
-            _userRepo = userRepository;
         }
 
         private User Authentication(UserDto user)
@@ -72,31 +70,12 @@ namespace Api_ZooManagement_SWP391.Controllers
         [Authorize(Roles = "ADMIN")]
         public IActionResult GetUsers()
         {
-            var u = _userRepo.GetAll();
+            var u = _userService.GetUsers();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             return Ok(u);
-        }
-
-        [HttpPost("verify")]
-        public IActionResult VerifyEmail(string token)
-        {
-            var result = _userService.VerifyEmail(token);
-
-            if (!result)
-            {
-                return BadRequest("Invalid token");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            return Ok("User verified!!");
-
         }
 
         [HttpPost("forgot-password")]
@@ -124,6 +103,31 @@ namespace Api_ZooManagement_SWP391.Controllers
             }
 
             return Ok("you can reset your password");
+
+        }
+
+        [HttpPost("reset-password")]
+        public IActionResult ResetPassword([FromQuery]ResetPasswordDto request)
+        {
+            var user = _userService.GetUsers().Where(user => user.ResetPassToken == request.Token).FirstOrDefault();
+
+            if(user == null || user.ResetTokenExpires < DateTime.Now)
+            {
+                return BadRequest("Invalid Token");
+            }
+
+            var result = _userService.ResetPassword(user, request.Password, request.PasswordConfirmation);
+            if(!result)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok("Reset Successfully");
 
         }
 

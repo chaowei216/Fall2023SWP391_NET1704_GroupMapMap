@@ -160,7 +160,6 @@ namespace DAL.Data
                 entity.Property(u => u.StartDate).IsRequired();
                 entity.Property(u => u.Role).IsRequired();
                 entity.Property(u => u.Status).IsRequired();
-
             });
 
             modelBuilder.Entity<Schedule>(entity =>

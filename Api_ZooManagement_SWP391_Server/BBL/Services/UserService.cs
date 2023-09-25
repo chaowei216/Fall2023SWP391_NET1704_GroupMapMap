@@ -12,6 +12,12 @@ namespace BBL.Services
         {
             _userRepository = userRepository;
         }
+
+        public bool Add(User user)
+        {
+            return _userRepository.Add(user);
+        }
+
         public User CheckLogin(string username, string password)
         {
             var users = _userRepository.GetAll();
@@ -32,6 +38,7 @@ namespace BBL.Services
             if (token != null)
             {
                 user.ResetPassToken = token;
+                user.ResetTokenExpires = DateTime.Now.AddHours(1);
                 return _userRepository.Update(user);
             }
             return false;
@@ -47,6 +54,11 @@ namespace BBL.Services
             return users.FirstOrDefault(u => u.Email.Equals(email));
         }
 
+        public User GetById(string id)
+        {
+            return _userRepository.GetById(id);
+        }
+
         public User GetByPassword(string password)
         {
             var users = _userRepository.GetAll();
@@ -57,24 +69,25 @@ namespace BBL.Services
             return users.FirstOrDefault(p => p.Password.Equals(password));
         }
 
-        public bool ResetPassword()
+        public ICollection<User> GetUsers()
         {
-            throw new NotImplementedException();
+            return _userRepository.GetAll();
         }
 
-        public bool VerifyEmail(string token)
+        public bool ResetPassword(User user, string newPassword, string confirmPassword)
         {
-            var users = _userRepository.GetAll();
-            if(users != null)
-            {
-                var user = users.FirstOrDefault(u => u.VerificationToken == token);
-                if (user != null)
-                {
-                    user.VerifyAt = DateTime.Now;
-                    return _userRepository.Update(user);
-                }
-            }
-            return false;
+            if (user == null) return false;
+            if (newPassword == null || confirmPassword == null) return false;
+            if(!newPassword.Equals(confirmPassword)) return false;
+            user.Password = newPassword;
+            user.ResetPassToken = null;
+            user.ResetTokenExpires = null;
+            return Update(user);
+        }
+
+        public bool Update(User user)
+        {
+            return _userRepository.Update(user);
         }
     }
 }
