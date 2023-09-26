@@ -43,6 +43,7 @@ namespace DAL.Data
                 entity.HasKey(area => area.AreaId);
                 entity.Property(area => area.AreaId).HasMaxLength(5);
                 entity.Property(e => e.AreaName).HasMaxLength(5).IsRequired();
+                entity.HasIndex(e => e.AreaName).IsUnique();
                 entity.Property(e => e.Description).HasMaxLength(50);
             });
 
@@ -66,10 +67,8 @@ namespace DAL.Data
             {
                 e.HasKey(order => order.OrderId);
                 e.Property(c => c.OrderId).HasMaxLength(5);
-                e.Property(c => c.Email).HasMaxLength(30);
                 e.Property(c => c.FullName).HasMaxLength(50).IsRequired();
                 e.Property(p => p.Phone).HasMaxLength(10);
-                e.Property(d => d.BuyDate).IsRequired();
                 e.Property(d => d.TotalPrice).IsRequired();
             });
 
@@ -77,7 +76,7 @@ namespace DAL.Data
             {
                 e.HasKey(o => o.TicketId);
                 e.Property(c => c.TicketId).HasMaxLength(5);
-                e.Property(c => c.Type).HasMaxLength(30).IsRequired();
+                e.Property(c => c.Type).HasMaxLength(50).IsRequired();
                 e.Property(c => c.Price).IsRequired();
             });
 
@@ -94,7 +93,7 @@ namespace DAL.Data
                 entity.HasKey(animal => animal.AnimalId);
                 entity.Property(e => e.AnimalId).HasMaxLength(5);
                 entity.Property(e => e.Name).HasMaxLength(50).IsRequired();
-                entity.Property(e => e.Description).HasMaxLength(50).IsRequired();
+                entity.Property(e => e.Description).IsRequired();
                 entity.Property(e => e.Sex).IsRequired();
                 entity.Property(e => e.EntryDate).IsRequired();
                 entity.Property(e => e.Region).HasMaxLength(30).IsRequired();
@@ -115,17 +114,18 @@ namespace DAL.Data
 
             modelBuilder.Entity<FoodCategory>(entity =>
             {
-                entity.HasKey(foodCategory => foodCategory.CategoryId);
-                entity.Property(fc => fc.CategoryId).HasMaxLength(5);
+                entity.HasKey(foodCategory => foodCategory.Id);
+                entity.Property(fc => fc.Id).HasMaxLength(5);
                 entity.Property(fc => fc.CategoryName).HasMaxLength(30).IsRequired();
             });
 
             modelBuilder.Entity<SpeciesAnimal>(entity =>
             {
-                entity.HasKey(speciesAnimals => speciesAnimals.SpeciesId);
-                entity.Property(sa => sa.SpeciesId).HasMaxLength(5);
+                entity.HasKey(speciesAnimals => speciesAnimals.Id);
+                entity.Property(sa => sa.Id).HasMaxLength(5);
                 entity.Property(sa => sa.SpeciesName).HasMaxLength(30).IsRequired();
-                entity.Property(sa => sa.IsExtinct).IsRequired();
+                entity.HasIndex(sa => sa.SpeciesName).IsUnique();
+                entity.Property(sa => sa.Rarity).IsRequired();
             });
 
             modelBuilder.Entity<Review>(entity =>
@@ -151,6 +151,7 @@ namespace DAL.Data
                 entity.HasKey(u => u.UserId);
                 entity.Property(u => u.UserId).HasMaxLength(5);
                 entity.Property(u => u.Email).HasMaxLength(30).IsRequired();
+                entity.HasIndex(u => u.Email).IsUnique();
                 entity.Property(u => u.Password).HasMaxLength(20).IsRequired();
                 entity.Property(u => u.Firstname).HasMaxLength(10).IsRequired();
                 entity.Property(u => u.Lastname).HasMaxLength(10).IsRequired();
@@ -171,14 +172,15 @@ namespace DAL.Data
 
             modelBuilder.Entity<NewsCategory>(entity =>
             {
-                entity.HasKey(nc => nc.CategoryId);
-                entity.Property(nc => nc.CategoryId).HasMaxLength(5);
+                entity.HasKey(nc => nc.Id);
+                entity.Property(nc => nc.Id).HasMaxLength(5);
                 entity.Property(nc => nc.CategoryName).HasMaxLength(30).IsRequired();
             });
 
             modelBuilder.Entity<OrderDetail>(entity =>
             {
                 entity.Property(od => od.EntryDate).IsRequired();
+                entity.Property(od => od.BuyDate).IsRequired();
             });
 
             modelBuilder.Entity<ExperienceDetail>(entity =>

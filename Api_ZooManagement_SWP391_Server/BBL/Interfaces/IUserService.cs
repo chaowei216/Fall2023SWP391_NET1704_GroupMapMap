@@ -1,4 +1,6 @@
-﻿using DAL.Entities;
+﻿
+using DAL.Entities;
+
 
 namespace BBL.Interfaces
 {
