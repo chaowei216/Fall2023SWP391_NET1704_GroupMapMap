@@ -26,6 +26,11 @@ namespace BBL.Services
             return false;
         }
 
+        public bool AddOrder(string ticketId, Order order)
+        {
+            throw new NotImplementedException();
+        }
+
         public ICollection<Order> GetAllOrders()
         {
             return _orderRepo.GetAll();
