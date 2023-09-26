@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BBL.Dtos
+namespace Api_ZooManagement_SWP391.Dtos
 {
     public class ResetPasswordDto
     {

@@ -1,5 +1,6 @@
 using DAL.Data;
 using DAL.Repositories;
+using BBL.Interfaces;
 using BBL.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -49,11 +50,22 @@ builder.Services.AddEndpointsApiExplorer();
 
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
-builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddDbContext<DataContext>();
+//add scope service
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<INewsService, NewsService>();
+
+
 
 // add scope for repository
 builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
+builder.Services.AddScoped<IGenericRepository<Order>, GenericRepository<Order>>();
+builder.Services.AddScoped<IGenericRepository<Ticket>, GenericRepository<Ticket>>();
+builder.Services.AddScoped<IGenericRepository<News>, GenericRepository<News>>();
+
+
 
 builder.Services.AddCors(options =>
 {

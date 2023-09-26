@@ -1,7 +1,7 @@
 ﻿
 using DAL.Entities;
 
-namespace BBL.Dtos
+namespace Api_ZooManagement_SWP391.Dtos
 {
     public class UserDto
     {
