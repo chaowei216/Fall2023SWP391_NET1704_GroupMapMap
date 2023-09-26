@@ -6,7 +6,7 @@ namespace DAL.Entities
     {
         public string SpeciesId { get; set; }
         public string SpeciesName { get; set; }
-        public bool IsExtinct {  get; set; }
+        public bool Rarity {  get; set; }
         public ICollection<Animal> Animals { get; set; }
     }
 }
