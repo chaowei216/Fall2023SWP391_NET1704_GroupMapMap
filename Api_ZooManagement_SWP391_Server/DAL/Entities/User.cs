@@ -1,8 +1,11 @@
-﻿namespace DAL.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DAL.Entities
 {
     public class User
     {
         public string UserId { get; set; }
+        [EmailAddress]
         public string Email { get; set; }
         public string Password { get; set; }
         public string Firstname { get; set; }

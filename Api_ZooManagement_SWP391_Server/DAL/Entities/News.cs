@@ -1,4 +1,6 @@
-﻿namespace DAL.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DAL.Entities
 {
     public class News
     {

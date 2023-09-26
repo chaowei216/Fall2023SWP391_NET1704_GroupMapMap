@@ -43,6 +43,7 @@ namespace DAL.Data
                 entity.HasKey(area => area.AreaId);
                 entity.Property(area => area.AreaId).HasMaxLength(5);
                 entity.Property(e => e.AreaName).HasMaxLength(5).IsRequired();
+                entity.HasIndex(e => e.AreaName).IsUnique();
                 entity.Property(e => e.Description).HasMaxLength(50);
             });
 
@@ -113,16 +114,17 @@ namespace DAL.Data
 
             modelBuilder.Entity<FoodCategory>(entity =>
             {
-                entity.HasKey(foodCategory => foodCategory.CategoryId);
-                entity.Property(fc => fc.CategoryId).HasMaxLength(5);
+                entity.HasKey(foodCategory => foodCategory.Id);
+                entity.Property(fc => fc.Id).HasMaxLength(5);
                 entity.Property(fc => fc.CategoryName).HasMaxLength(30).IsRequired();
             });
 
             modelBuilder.Entity<SpeciesAnimal>(entity =>
             {
-                entity.HasKey(speciesAnimals => speciesAnimals.SpeciesId);
-                entity.Property(sa => sa.SpeciesId).HasMaxLength(5);
+                entity.HasKey(speciesAnimals => speciesAnimals.Id);
+                entity.Property(sa => sa.Id).HasMaxLength(5);
                 entity.Property(sa => sa.SpeciesName).HasMaxLength(30).IsRequired();
+                entity.HasIndex(sa => sa.SpeciesName).IsUnique();
                 entity.Property(sa => sa.Rarity).IsRequired();
             });
 
@@ -149,6 +151,7 @@ namespace DAL.Data
                 entity.HasKey(u => u.UserId);
                 entity.Property(u => u.UserId).HasMaxLength(5);
                 entity.Property(u => u.Email).HasMaxLength(30).IsRequired();
+                entity.HasIndex(u => u.Email).IsUnique();
                 entity.Property(u => u.Password).HasMaxLength(20).IsRequired();
                 entity.Property(u => u.Firstname).HasMaxLength(10).IsRequired();
                 entity.Property(u => u.Lastname).HasMaxLength(10).IsRequired();
@@ -169,8 +172,8 @@ namespace DAL.Data
 
             modelBuilder.Entity<NewsCategory>(entity =>
             {
-                entity.HasKey(nc => nc.CategoryId);
-                entity.Property(nc => nc.CategoryId).HasMaxLength(5);
+                entity.HasKey(nc => nc.Id);
+                entity.Property(nc => nc.Id).HasMaxLength(5);
                 entity.Property(nc => nc.CategoryName).HasMaxLength(30).IsRequired();
             });
 
