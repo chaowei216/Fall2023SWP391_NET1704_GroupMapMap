@@ -1,7 +1,7 @@
 ﻿using BBL.Dtos;
 using DAL.Entities;
 
-namespace BBL.Services
+namespace BBL.Interfaces
 {
     public interface IUserService
     {

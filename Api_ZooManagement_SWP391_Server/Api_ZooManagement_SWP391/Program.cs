@@ -1,6 +1,7 @@
 using DAL.Data;
 using DAL.Repositories;
 using BBL.Services;
+using BBL.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -51,9 +52,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddDbContext<DataContext>();
-
+builder.Services.AddScoped<ICageService, CageService>();
+builder.Services.AddScoped<IAreaService, AreaService>();
+builder.Services.AddScoped<ISpeciesAnimalsService, SpeciesAnimalsService>();
+builder.Services.AddScoped<IFoodService, FoodService>();
 // add scope for repository
 builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
+builder.Services.AddScoped<IGenericRepository<Cage>, GenericRepository<Cage>>();
+builder.Services.AddScoped<IGenericRepository<Area>, GenericRepository<Area>>();
+builder.Services.AddScoped<IGenericRepository<SpeciesAnimal>, GenericRepository<SpeciesAnimal>>();
+builder.Services.AddScoped<IGenericRepository<Food>, GenericRepository<Food>>();
 
 builder.Services.AddCors(options =>
 {
