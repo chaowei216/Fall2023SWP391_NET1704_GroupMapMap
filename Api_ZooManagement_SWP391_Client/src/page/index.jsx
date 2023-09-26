@@ -5,7 +5,7 @@ import SectionGap from './sectionGap';
 import SectionDiscover from './sectionDiscover';
 import SectionGapType from './sectionGapType';
 import SectionGapTwo from './sectionGapTwo';
-import SectionGapNoTop from './\bsectionGapNoTop';
+import SectionNoTop from './sectionNoTop';
 import GapNoBottom from './gapNoBottom';
 import GapNoBottomTwoHeading from './gapNoBottom-twoHeading';
 import GapBackground from './gapBackground';
@@ -19,7 +19,7 @@ function Index() {
     <SectionDiscover/>
     <SectionGapType/>
     <SectionGapTwo/>
-    <SectionGapNoTop/>
+    <SectionNoTop/>
     <GapNoBottom/>
     <GapNoBottomTwoHeading/>
     <GapBackground/>

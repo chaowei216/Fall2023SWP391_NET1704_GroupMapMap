@@ -1,6 +1,6 @@
 import React from 'react'
 
-function SectionGapNoTop() {
+function SectionNoTop() {
   return (
     <div>
         <section className="gap no-top">
@@ -68,4 +68,4 @@ function SectionGapNoTop() {
   )
 }
 
-export default SectionGapNoTop
+export default SectionNoTop
