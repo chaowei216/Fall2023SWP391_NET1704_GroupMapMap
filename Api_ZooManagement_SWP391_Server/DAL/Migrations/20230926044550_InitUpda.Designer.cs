@@ -4,6 +4,7 @@ using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230926044550_InitUpda")]
+    partial class InitUpda
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,7 +57,8 @@ namespace DAL.Migrations
                     b.Property<bool>("Sex")
                         .HasColumnType("bit");
 
-                    b.Property<string>("SpeciesAnimalId")
+                    b.Property<string>("SpeciesAnimalSpeciesId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(5)");
 
                     b.Property<bool>("Status")
@@ -63,7 +66,7 @@ namespace DAL.Migrations
 
                     b.HasKey("AnimalId");
 
-                    b.HasIndex("SpeciesAnimalId");
+                    b.HasIndex("SpeciesAnimalSpeciesId");
 
                     b.ToTable("Animals");
                 });
@@ -173,9 +176,6 @@ namespace DAL.Migrations
 
                     b.HasKey("AreaId");
 
-                    b.HasIndex("AreaName")
-                        .IsUnique();
-
                     b.ToTable("Areas");
                 });
 
@@ -267,7 +267,7 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.FoodCategory", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("CategoryId")
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
@@ -276,7 +276,7 @@ namespace DAL.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CategoryId");
 
                     b.ToTable("FoodCategories");
                 });
@@ -313,7 +313,8 @@ namespace DAL.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("NewsCategoryId")
+                    b.Property<string>("NewsCategoryCategoryId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(5)");
 
                     b.Property<string>("NewsContent")
@@ -330,14 +331,14 @@ namespace DAL.Migrations
 
                     b.HasKey("NewsId");
 
-                    b.HasIndex("NewsCategoryId");
+                    b.HasIndex("NewsCategoryCategoryId");
 
                     b.ToTable("News");
                 });
 
             modelBuilder.Entity("DAL.Entities.NewsCategory", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("CategoryId")
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
@@ -346,7 +347,7 @@ namespace DAL.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CategoryId");
 
                     b.ToTable("NewsCategories");
                 });
@@ -450,7 +451,7 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.SpeciesAnimal", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("SpeciesId")
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
@@ -462,10 +463,7 @@ namespace DAL.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("SpeciesName")
-                        .IsUnique();
+                    b.HasKey("SpeciesId");
 
                     b.ToTable("SpeciesAnimals");
                 });
@@ -551,9 +549,6 @@ namespace DAL.Migrations
 
                     b.HasKey("UserId");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
-
                     b.ToTable("Users");
                 });
 
@@ -577,7 +572,9 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.SpeciesAnimal", "SpeciesAnimal")
                         .WithMany("Animals")
-                        .HasForeignKey("SpeciesAnimalId");
+                        .HasForeignKey("SpeciesAnimalSpeciesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("SpeciesAnimal");
                 });
@@ -703,7 +700,9 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.NewsCategory", "NewsCategory")
                         .WithMany("News")
-                        .HasForeignKey("NewsCategoryId");
+                        .HasForeignKey("NewsCategoryCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("NewsCategory");
                 });

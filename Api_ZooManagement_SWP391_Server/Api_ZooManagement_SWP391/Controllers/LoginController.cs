@@ -1,13 +1,13 @@
-﻿using BBL.Dtos;
-using DAL.Entities;
-using DAL.Repositories;
-using BBL.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using Api_ZooManagement_SWP391.Dtos;
+using BBL.Interfaces;
+using DAL.Entities;
 
 namespace Api_ZooManagement_SWP391.Controllers
 {

@@ -1,5 +1,6 @@
 using DAL.Data;
 using DAL.Repositories;
+using BBL.Interfaces;
 using BBL.Services;
 using BBL.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -50,18 +51,26 @@ builder.Services.AddEndpointsApiExplorer();
 
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
-builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddDbContext<DataContext>();
+
 builder.Services.AddScoped<ICageService, CageService>();
 builder.Services.AddScoped<IAreaService, AreaService>();
 builder.Services.AddScoped<ISpeciesAnimalsService, SpeciesAnimalsService>();
 builder.Services.AddScoped<IFoodService, FoodService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<INewsService, NewsService>();
 // add scope for repository
 builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 builder.Services.AddScoped<IGenericRepository<Cage>, GenericRepository<Cage>>();
 builder.Services.AddScoped<IGenericRepository<Area>, GenericRepository<Area>>();
 builder.Services.AddScoped<IGenericRepository<SpeciesAnimal>, GenericRepository<SpeciesAnimal>>();
 builder.Services.AddScoped<IGenericRepository<Food>, GenericRepository<Food>>();
+builder.Services.AddScoped<IGenericRepository<Order>, GenericRepository<Order>>();
+builder.Services.AddScoped<IGenericRepository<Ticket>, GenericRepository<Ticket>>();
+builder.Services.AddScoped<IGenericRepository<News>, GenericRepository<News>>();
+
+
 
 builder.Services.AddCors(options =>
 {

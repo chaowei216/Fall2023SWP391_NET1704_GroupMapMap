@@ -1,6 +1,6 @@
-﻿using DAL.Entities;
+﻿using BBL.Interfaces;
+using DAL.Entities;
 using DAL.Repositories;
-using BBL.Interfaces;
 
 namespace BBL.Services
 {

@@ -7,12 +7,9 @@ namespace DAL.Entities
     public class Order
     {
         public string OrderId { get; set; }
-        public string Email {  get; set; }
         public string FullName { get; set; }
         public string Phone { get; set; }
-        public DateTime BuyDate { get; set; }
         public double TotalPrice {  get; set; }
-
         public ICollection<OrderDetail> OrderDetails { get; set; }
 
         public Guest Guest { get; set; }
