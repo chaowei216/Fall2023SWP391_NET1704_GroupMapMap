@@ -9,7 +9,7 @@ namespace DAL.Entities
         public int Quantity { get; set; }
         public DateTime ImportDate { get; set; }
         public DateTime ExpiredDate { get; set; }
+        public string Category { get; set; }
         public ICollection<AnimalFood> AnimalFoods { get; set; }
-        public FoodCategory Category { get; set; }
     }
 }

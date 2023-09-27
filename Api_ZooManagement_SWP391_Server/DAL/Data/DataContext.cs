@@ -32,7 +32,6 @@ namespace DAL.Data
         public DbSet<SpeciesAnimal> SpeciesAnimals { get; set; }
         public DbSet<AnimalCage> AnimalCages { get; set; }
         public DbSet<AnimalTrainer> AnimalTrainers { get; set; }
-        public DbSet<FoodCategory> FoodCategories { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -110,13 +109,7 @@ namespace DAL.Data
                 entity.Property(f => f.Quantity).IsRequired();
                 entity.Property(f => f.ImportDate).IsRequired();
                 entity.Property(f => f.ExpiredDate).IsRequired();
-            });
-
-            modelBuilder.Entity<FoodCategory>(entity =>
-            {
-                entity.HasKey(foodCategory => foodCategory.Id);
-                entity.Property(fc => fc.Id).HasMaxLength(5);
-                entity.Property(fc => fc.CategoryName).HasMaxLength(30).IsRequired();
+                entity.Property(f => f.Category).IsRequired();
             });
 
             modelBuilder.Entity<SpeciesAnimal>(entity =>
