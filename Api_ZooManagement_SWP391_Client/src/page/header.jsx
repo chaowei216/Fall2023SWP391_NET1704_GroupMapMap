@@ -1,4 +1,6 @@
 import React from 'react'
+import useShopping from '../hooks/useShopping';
+
 
 const socialMediaLinks = [
   { text: 'Facebook', url: '#' },
@@ -8,6 +10,7 @@ const socialMediaLinks = [
 const menuItems = [
   {
     text: 'Home',
+    link:"/",
     subMenuItems: [
       { text: 'Home 1', link: 'index.html' },
       { text: 'Home 2', link: 'index-2.html' },
@@ -72,13 +75,17 @@ const renderSubMenuItems = (subMenuItems) => {
 const renderMenuItems = () => {
   return menuItems.map((menuItem, index) => (
     <li key={index} className="navbar-dropdown">
-      <a href="#">{menuItem.text}</a>
+      <a href={menuItem.link}>{menuItem.text}</a>
       <div className="dropdown">{renderSubMenuItems(menuItem.subMenuItems)}</div>
     </li>
   ));
 };
 
 function Header() {
+  const {shoppingCart,updateLocalStorage} =useShopping();
+  const post =(listShop)=>{
+  updateLocalStorage(listShop);
+}
   return (
     <div>
       <header className="one">
@@ -107,7 +114,7 @@ function Header() {
                   <div className="register">
                     <i>
                       <svg clipRule="evenodd" fillRule="evenodd" height="512" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 32 32" width="512" xmlns="http://www.w3.org/2000/svg"><g id="Approved-User"><path d="m10.105 22.3c.21-.482.511-.926.89-1.305.797-.797 1.878-1.245 3.005-1.245h4c1.127 0 2.208.448 3.005 1.245.379.379.68.823.89 1.305.166.379.608.553.988.387.379-.165.553-.608.387-.987-.285-.653-.691-1.253-1.204-1.766-1.078-1.078-2.541-1.684-4.066-1.684-1.3 0-2.7 0-4 0-1.525 0-2.988.606-4.066 1.684-.513.513-.919 1.113-1.204 1.766-.166.379.008.822.387.987.38.166.822-.008.988-.387z" /><path d="m16 8.25c-3.174 0-5.75 2.576-5.75 5.75s2.576 5.75 5.75 5.75 5.75-2.576 5.75-5.75-2.576-5.75-5.75-5.75zm0 1.5c2.346 0 4.25 1.904 4.25 4.25s-1.904 4.25-4.25 4.25-4.25-1.904-4.25-4.25 1.904-4.25 4.25-4.25z" /><path d="m26.609 12.25c.415 1.173.641 2.435.641 3.75 0 6.209-5.041 11.25-11.25 11.25s-11.25-5.041-11.25-11.25 5.041-11.25 11.25-11.25c1.315 0 2.577.226 3.75.641.39.138.819-.067.957-.457s-.067-.819-.457-.957c-1.329-.471-2.76-.727-4.25-.727-7.037 0-12.75 5.713-12.75 12.75s5.713 12.75 12.75 12.75 12.75-5.713 12.75-12.75c0-1.49-.256-2.921-.727-4.25-.138-.39-.567-.595-.957-.457s-.595.567-.457.957z" /><path d="m21.47 8.53 2 2c.293.293.767.293 1.06 0l4-4c.293-.292.293-.768 0-1.06-.292-.293-.768-.293-1.06 0l-3.47 3.469s-1.47-1.469-1.47-1.469c-.292-.293-.768-.293-1.06 0-.293.292-.293.768 0 1.06z" /></g></svg>
-                    </i><a href="login.html">Login / Register</a>
+                    </i><a href="/login">Login / Register</a>
                   </div>
                 </div>
               </div>
@@ -148,9 +155,9 @@ function Header() {
                 <div className="hamburger-icon">
                   <div className="donation">
 
-                    <a href="" className="pr-cart">
+                    <a href="/cart" onClick={()=>post(shoppingCart)} className="pr-cart">
 
-                      <svg id="Shoping-bags" enableBackground="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><g><path d="m452 120h-60.946c-7.945-67.478-65.477-120-135.054-120s-127.109 52.522-135.054 120h-60.946c-11.046 0-20 8.954-20 20v352c0 11.046 8.954 20 20 20h392c11.046 0 20-8.954 20-20v-352c0-11.046-8.954-20-20-20zm-196-80c47.484 0 87.019 34.655 94.659 80h-189.318c7.64-45.345 47.175-80 94.659-80zm176 432h-352v-312h40v60c0 11.046 8.954 20 20 20s20-8.954 20-20v-60h192v60c0 11.046 8.954 20 20 20s20-8.954 20-20v-60h40z"></path></g></svg>
+                      <svg id="Shoping-bags"  enableBackground="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><g><path d="m452 120h-60.946c-7.945-67.478-65.477-120-135.054-120s-127.109 52.522-135.054 120h-60.946c-11.046 0-20 8.954-20 20v352c0 11.046 8.954 20 20 20h392c11.046 0 20-8.954 20-20v-352c0-11.046-8.954-20-20-20zm-196-80c47.484 0 87.019 34.655 94.659 80h-189.318c7.64-45.345 47.175-80 94.659-80zm176 432h-352v-312h40v60c0 11.046 8.954 20 20 20s20-8.954 20-20v-60h192v60c0 11.046 8.954 20 20 20s20-8.954 20-20v-60h40z"></path></g></svg>
 
                     </a>
 

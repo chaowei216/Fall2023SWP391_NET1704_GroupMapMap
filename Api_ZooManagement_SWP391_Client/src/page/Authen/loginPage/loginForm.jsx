@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
-import axios from 'axios'; // Import Axios
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate,useLocation, Navigate } from 'react-router-dom';
 
 
 
 function LoginForm() {
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
   const [loadingApi, setLoadingApi] = useState(false);
-  const [error,setError]=useState("");
-    
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+// useEffect(()=>{
+//   let token =localStorage.getItem("token");
+//   if (token) {
+  
+//   }
+// })
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -23,34 +31,31 @@ function LoginForm() {
       });
 
       if (res && res.status === 200) {
-        // Xử lý dữ liệu phản hồi ở đây nếu cần
-        const { token } = res.data;
-        setToken(token);
-        localStorage.setItem("token", token);
+        const tokens = res.data;
+        setToken(tokens.token);
+        
+        localStorage.setItem('token', tokens.token);
+        const userResponse = await axios.get('https://reqres.in/api/users/2', {
+          headers: {
+            Authorization: `Bearer ${tokens.token}`,
+          },
+        });
 
-        // Đoạn mã xử lý sau khi đăng nhập thành công
-        // Ví dụ: chuyển hướng đến trang chính của ứng dụng
-        // window.location.href = '/dashboard';
-      } else {
-        if (res && res.status === 400) {
-          // Hiển thị thông báo toast với thông báo lỗi từ dữ liệu phản hồi
-          setError(res.data.error);
-          
-        } 
+        // Xử lý dữ liệu người dùng ở đây (userResponse.data).
+        console.log('Thông tin người dùng:', userResponse.data);
+        localStorage.setItem("dataUser",JSON.stringify(userResponse.data))
+        navigate('/staff');
+      } else if (res && res.status === 400) {
+        setError(res.data.error);
       }
     } catch (error) {
-      // Xử lý lỗi nếu có
-     
       toast.error(error.response.data.error);
-        
     } finally {
       setLoadingApi(false);
     }
   };
 
   return (
-   
-    
     <div>
       <section className="gap">
         <div className="container">
@@ -88,7 +93,6 @@ function LoginForm() {
                     Login
                   </button>
                 </form>
-            
               </div>
             </div>
           </div>
@@ -96,7 +100,6 @@ function LoginForm() {
       </section>
       <ToastContainer />
     </div>
-    
   );
 }
 

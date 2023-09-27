@@ -810,7 +810,7 @@ section.slider-hero {
     height: 140px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     text-align: center;
     margin-top: 12px;
     transform: translateY(22px);

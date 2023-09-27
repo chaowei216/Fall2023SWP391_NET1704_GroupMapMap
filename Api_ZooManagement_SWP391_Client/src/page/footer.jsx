@@ -1,11 +1,12 @@
 import React from 'react'
 const socialMediaLinks = [
-   { text: 'Facebook', url: '#' },
-   { text: 'Instagram', url: '#' },
-   { text: 'Youtube', url: '#' },
+   {id:1, text: 'Facebook', url: '#' },
+   { id:2,text: 'Instagram', url: '#' },
+   { id:3,text: 'Youtube', url: '#' },
  ];
 function Footer() {
   return (
+
     <div>
         <footer style={{backgroundImage: 'url(https://via.placeholder.com/1920x660)',backgroundColor: '#f5f8fd'}}>
    <div className="container">
@@ -57,7 +58,7 @@ function Footer() {
          <h6><span>© 2023 Foodio</span> | Restaurant and BBQ.</h6>
          <div className="header-social-media">
             {socialMediaLinks.map((i)=>(
-                <a  href="#">{i.text}</a>
+                <a key={i.id} href="#">{i.text}</a>
             ))}
            
               
