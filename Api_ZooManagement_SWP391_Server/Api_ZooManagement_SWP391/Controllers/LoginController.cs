@@ -66,18 +66,6 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(token);
         }
 
-        [HttpGet("users")]
-        [Authorize(Roles = "ADMIN")]
-        public IActionResult GetUsers()
-        {
-            var u = _userService.GetUsers();
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            return Ok(u);
-        }
-
         [HttpPost("forgot-password")]
         public IActionResult ForgotPassword(string email)
         {

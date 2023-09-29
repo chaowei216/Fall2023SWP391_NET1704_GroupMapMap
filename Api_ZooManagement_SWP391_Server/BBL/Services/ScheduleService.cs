@@ -20,7 +20,7 @@ namespace BBL.Services
 
         public bool AddSchedule(Schedule schedule)
         {
-            throw new NotImplementedException();
+            return _scheduleRepository.Add(schedule);
         }
 
         public ICollection<Schedule> GetAllSchedule()
@@ -35,7 +35,7 @@ namespace BBL.Services
 
         public bool UpdateSchedule(Schedule schedule)
         {
-            throw new NotImplementedException();
+            return _scheduleRepository.Update(schedule);
         }
     }
 }

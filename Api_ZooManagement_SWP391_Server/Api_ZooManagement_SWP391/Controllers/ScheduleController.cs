@@ -25,7 +25,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(schedule);
         }
         [HttpGet("scheduleId")]
-        public IActionResult GetArea(string id)
+        public IActionResult GetSchedule(string id)
         {
             var schedule = _scheduleService.GetSchedule(id);
             if (schedule == null)

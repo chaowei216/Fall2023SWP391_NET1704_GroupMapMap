@@ -181,7 +181,6 @@ namespace DAL.Data
                 entity.Property(ed => ed.Company).HasMaxLength(30).IsRequired();
                 entity.Property(ed => ed.StartDate).IsRequired();
                 entity.Property(ed => ed.EndDate).IsRequired();
-                entity.Property(ed => ed.Description).HasMaxLength(60).IsRequired();
             });
 
             modelBuilder.Entity<AnimalTrainer>(entity =>
