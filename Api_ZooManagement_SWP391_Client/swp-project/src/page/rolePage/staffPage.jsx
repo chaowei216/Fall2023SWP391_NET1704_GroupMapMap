@@ -10,7 +10,7 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import { useNavigate,useLocation, Navigate } from 'react-router-dom';
-const dataUser = JSON.parse(localStorage.getItem("dataUser"));
+
 
 
 import { Avatar, Layout, Menu, theme } from 'antd';
@@ -33,18 +33,21 @@ const items = [
 function StaffPage() {
     const navigate = useNavigate();
    
- 
+    const dataUser = JSON.parse(localStorage.getItem("dataUser"));
    
 
     const handleLogout=()=>{
         localStorage.removeItem('dataUser');
+        localStorage.removeItem('token');
         navigate("/");
     }
   const {
     token: { colorBgContainer },
   } = theme.useToken();
   const [showLogout, setShowLogout] = useState(false); 
+  console.log("haha",dataUser);
   return (
+   
     <Layout hasSider>
       <Sider
         style={{
@@ -78,7 +81,7 @@ function StaffPage() {
           <div className="demo-logo-vertical" />
           <div style={{ display: 'flex', alignItems: 'center' }} onMouseEnter={() => setShowLogout(true)} onMouseLeave={() => setShowLogout(false)}>
     <Avatar size="default" icon={<UserOutlined />} style={{ marginRight: '10px', color: 'black' }} />
-    <span style={{ marginRight: '20px' }}>{dataUser.data.first_name} {dataUser.data.last_name}</span>
+    <span style={{ marginRight: '20px' }}>{dataUser && dataUser.data ? `${dataUser.data.first_name} ${dataUser.data.last_name}` : 'User Name'}</span>
     {showLogout && (
               <span style={{ marginLeft: '8px', cursor: 'pointer' }} onClick={handleLogout}>
                 Đăng xuất

@@ -1,7 +1,10 @@
 import React from 'react'
 
+
 function SectionDiscover() {
+   
   return (
+  
     <div>
         <section className="section-discover-menu">
    <div className="container">
