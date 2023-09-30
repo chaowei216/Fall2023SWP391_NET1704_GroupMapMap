@@ -13,7 +13,7 @@ import Footer from './footer';
 function Index() {
   return (
     <div>
-    <Header/>
+         <Header/>
     <SliderHero/>
     <SectionGap/>
     <SectionDiscover/>

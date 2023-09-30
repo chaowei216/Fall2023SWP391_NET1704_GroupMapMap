@@ -1,4 +1,5 @@
-import React from 'react'
+import React,{useState} from 'react'
+import { Link } from 'react-router-dom';
 import useShopping from '../hooks/useShopping';
 
 
@@ -81,11 +82,11 @@ const renderMenuItems = () => {
   ));
 };
 
+
 function Header() {
-  const {shoppingCart,updateLocalStorage} =useShopping();
-  const post =(listShop)=>{
-  updateLocalStorage(listShop);
-}
+  const {shoppingCart} =useShopping();
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+ 
   return (
     <div>
       <header className="one">
@@ -154,77 +155,32 @@ function Header() {
               <div className="col-lg-3">
                 <div className="hamburger-icon">
                   <div className="donation">
-
-                    <a href="/cart" onClick={()=>post(shoppingCart)} className="pr-cart">
-
-                      <svg id="Shoping-bags"  enableBackground="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><g><path d="m452 120h-60.946c-7.945-67.478-65.477-120-135.054-120s-127.109 52.522-135.054 120h-60.946c-11.046 0-20 8.954-20 20v352c0 11.046 8.954 20 20 20h392c11.046 0 20-8.954 20-20v-352c0-11.046-8.954-20-20-20zm-196-80c47.484 0 87.019 34.655 94.659 80h-189.318c7.64-45.345 47.175-80 94.659-80zm176 432h-352v-312h40v60c0 11.046 8.954 20 20 20s20-8.954 20-20v-60h192v60c0 11.046 8.954 20 20 20s20-8.954 20-20v-60h40z"></path></g></svg>
-
-                    </a>
-
-                    <div className="cart-popup">
-
+                    <span  onMouseEnter={() => setIsPopupVisible(true)} onMouseLeave={() => setIsPopupVisible(false)}>
+                      <Link to="/cart" className="pr-cart">
+                      <svg id="Shoping-bags"  enableBackground="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><g><path d="m452 120h-60.946c-7.945-67.478-65.477-120-135.054-120s-127.109 52.522-135.054 120h-60.946c-11.046 0-20 8.954-20 20v352c0 11.046 8.954 20 20 20h392c11.046 0 20-8.954 20-20v-352c0-11.046-8.954-20-20-20zm-196-80c47.484 0 87.019 34.655 94.659 80h-189.318c7.64-45.345 47.175-80 94.659-80zm176 432h-352v-312h40v60c0 11.046 8.954 20 20 20s20-8.954 20-20v-60h192v60c0 11.046 8.954 20 20 20s20-8.954 20-20v-60h40z"></path>
+                      </g></svg>
+                      </Link>
+                      </span>
+                     
+                  {isPopupVisible && (
+                    <div className="cart-popup show-cart">
                       <ul>
-
-                        <li className="d-flex align-items-center position-relative">
-
-                          <div className="p-img light-bg">
-
-                            <img src="https://via.placeholder.com/75x75" alt="Product Image" />
-
-                          </div>
-
-                          <div className="p-data">
-
-                            <h3 className="font-semi-bold">Brown Sandwich</h3>
-
-                            <p className="theme-clr font-semi-bold">1 x $10.50</p>
-
-                          </div>
-
-                          <a href="" id="crosss"></a>
-
-                        </li>
-
-                        <li className="d-flex align-items-center position-relative">
-
-                          <div className="p-img light-bg">
-
-                            <img src="https://via.placeholder.com/75x75" alt="Product Image" />
-
-                          </div>
-
-                          <div className="p-data">
-
-                            <h3 className="font-semi-bold">Banana Leaves</h3>
-
-                            <p className="theme-clr font-semi-bold">1 x $12.60</p>
-
-                          </div>
-
-                          <a href="" id="cross"></a>
-
-                        </li>
-
+                        {shoppingCart.length>0 && shoppingCart !==null ?(shoppingCart.map((product) => (
+                          <li key={product.id} className="d-flex align-items-center position-relative">
+                            <div className="p-img light-bg">
+                              <img src="https://via.placeholder.com/75x75" alt="Product Image" />
+                            </div>
+                            <div className="p-data">
+                              <h3 className="font-semi-bold">{product.name}</h3>
+                              <p className="theme-clr font-semi-bold">1 x ${product.price}</p>
+                            </div>
+                            <a href="" id={`cross${product.id}`}></a>
+                          </li>
+                        ))) :(<li style={{color:"white",display:"flex",justifyContent:"center",alignItems:"center",marginRight:"25px",marginTop:"15px"}}>nothing here</li>)}
                       </ul>
-
-                      <div className="cart-total d-flex align-items-center justify-content-between">
-
-                        <span className="font-semi-bold">Total:</span>
-
-                        <span className="font-semi-bold">$23.10</span>
-
-                      </div>
-
-                      <div className="cart-btns d-flex align-items-center justify-content-between">
-
-                        <a className="font-bold" href="shop-cart.html">View Cart</a>
-
-                        <a className="font-bold theme-bg-clr text-white checkout" href="cart-checkout.html">Checkout</a>
-
-                      </div>
-
                     </div>
-
+                  )}
+                  
                   </div>
                   <a href="contact.html" className="button">Reserve a Table</a>
                 </div>

@@ -11,8 +11,11 @@ function SectionGapType() {
   const onSubmit =(item)=>{
       handleAddItem(item);
     
-     console.log(shoppingCart);
+     
   }
+  const itemExistsInCart = (item) => {
+    return shoppingCart.some((cartItem) => cartItem.id === item.id);
+  };
 
   useEffect(() => {
     // Gọi API và lấy dữ liệu
@@ -31,8 +34,9 @@ function SectionGapType() {
   }, []);
 
   return (
+   
    <div>
-      
+      {console.log("shoping cart",shoppingCart)}
       <section className="gap">
    <div className="container">
       <div className="row">
@@ -45,7 +49,12 @@ function SectionGapType() {
         <div>
          
           
-        </div>  <Button onClick={()=>onSubmit(item)}  style ={{marginRight:'25px',color:"blue"}}size="large">Buy</Button>
+        </div>
+        {itemExistsInCart(item) ? (
+                        <span  style={{ marginRight: '25px', color: 'red' }} size="large">Exists in cart</span>
+                      ) : (
+                        <Button onClick={() => onSubmit(item)} style={{ marginRight: '25px', color: 'blue' }} size="large">Buy</Button>
+                      )}
       </div>
     
     </div>
