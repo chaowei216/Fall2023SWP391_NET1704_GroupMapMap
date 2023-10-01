@@ -49,5 +49,10 @@ namespace BBL.Services
         {
             return _areaRepository.Update(area);
         }
+
+        public bool AreaExists(string id)
+        {
+            return _areaRepository.GetById(id) != null ? true : false;
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace BBL.Interfaces
         bool UpdateSchedule(Schedule schedule);
         ICollection<Schedule> GetAllSchedule();
         Schedule GetSchedule(string id);
+        bool ScheduleExists(string id);
     }
 }

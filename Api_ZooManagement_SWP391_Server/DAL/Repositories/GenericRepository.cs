@@ -23,7 +23,7 @@ namespace DAL.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception();
+                return false;
             }
         }
 
@@ -46,7 +46,7 @@ namespace DAL.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception();
+                return false;
             }
         }
     }

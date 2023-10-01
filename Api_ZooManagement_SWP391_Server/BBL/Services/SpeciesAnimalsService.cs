@@ -49,5 +49,10 @@ namespace BBL.Services
         {
             return _speciesRepository.Update(speciesAnimal);
         }
+
+        public bool SpeciesExists(string id)
+        {
+            return _speciesRepository.GetById(id) != null ? true : false;
+        }
     }
 }

@@ -14,5 +14,6 @@ namespace BBL.Interfaces
         ICollection<SpeciesAnimal> GetAll();
         SpeciesAnimal GetBySpeciesAnimalsId(string id);
         SpeciesAnimal GetBySpeciesAnimalsName(string name);
+        bool SpeciesExists(string id);
     }
 }

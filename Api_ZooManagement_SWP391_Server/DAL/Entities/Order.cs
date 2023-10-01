@@ -11,7 +11,7 @@ namespace DAL.Entities
         public string Phone { get; set; }
         public double TotalPrice {  get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; }
-
         public Guest Guest { get; set; }
+        public string Email {  get; set; }
     }
 }

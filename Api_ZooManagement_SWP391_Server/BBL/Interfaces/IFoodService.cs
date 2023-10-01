@@ -14,5 +14,6 @@ namespace BBL.Interfaces
         ICollection<Food> GetAllFood();
         Food GetByFoodId(string id);
         Food GetByFoodName(string name);
+        bool FoodExists(string id);
     }
 }

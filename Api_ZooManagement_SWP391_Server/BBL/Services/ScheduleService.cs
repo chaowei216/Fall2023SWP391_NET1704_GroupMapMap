@@ -37,5 +37,9 @@ namespace BBL.Services
         {
             return _scheduleRepository.Update(schedule);
         }
+        public bool ScheduleExists(string id)
+        {
+            return _scheduleRepository.GetById(id) != null ? true : false;
+        }
     }
 }

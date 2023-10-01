@@ -24,7 +24,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             _userService = userService;
         }
 
-        private User Authentication(UserDto user)
+        private User Authentication(LoginDto user)
         {
             var user_ = _userService.CheckLogin(user.Email, user.Password);
             if ( user_ != null)
@@ -54,7 +54,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(UserDto user)
+        public IActionResult Login(LoginDto user)
         {
             var user_ = Authentication(user);
             if (user_ == null)

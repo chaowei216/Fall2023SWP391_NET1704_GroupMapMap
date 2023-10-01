@@ -15,9 +15,11 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<Ticket, TicketDto>();
             CreateMap<News, NewsDto>();
             CreateMap<Animal, AnimalDto>();
-            CreateMap<AnimalDto, Animal>();
             CreateMap<User, UserDto>();
-            CreateMap<UserDto, User>();
+            CreateMap<Area,AreaDto>();
+            CreateMap<AreaDto, Area>();
+            CreateMap<Cage, CageDto>();
+            CreateMap<CageDto, Cage>();
         }
 
     }

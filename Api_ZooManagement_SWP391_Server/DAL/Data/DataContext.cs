@@ -52,6 +52,10 @@ namespace DAL.Data
                 entity.Property(cage => cage.CId).HasMaxLength(5);
                 entity.Property(e => e.MaxCapacity).IsRequired();
                 entity.Property(e => e.AnimalQuantity).IsRequired();
+                entity.Property(e => e.AreaId).IsRequired();
+                entity.HasOne(a => a.Area)
+                .WithMany(c => c.Cages)
+                .HasForeignKey(a => a.AreaId);
             });
 
             modelBuilder.Entity<Guest>(e =>
@@ -69,6 +73,11 @@ namespace DAL.Data
                 e.Property(c => c.FullName).HasMaxLength(50).IsRequired();
                 e.Property(p => p.Phone).HasMaxLength(10);
                 e.Property(d => d.TotalPrice).IsRequired();
+                e.Property(d => d.Email).IsRequired();
+
+                e.HasOne(g => g.Guest)
+                .WithMany(o => o.Orders)
+                .HasForeignKey(g => g.Email);
             });
 
             modelBuilder.Entity<Ticket>(e =>
@@ -99,6 +108,11 @@ namespace DAL.Data
                 entity.Property(e => e.HealthCheck).IsRequired();
                 entity.Property(e => e.Birthday).IsRequired();
                 entity.Property(e => e.Status).IsRequired();
+                entity.Property(e => e.SpeciesId).IsRequired();
+
+                entity.HasOne(s => s.SpeciesAnimal)
+                    .WithMany(a => a.Animals)
+                    .HasForeignKey(s => s.SpeciesId);
             });
 
             modelBuilder.Entity<Food>(entity =>
@@ -127,6 +141,10 @@ namespace DAL.Data
                 entity.Property(e => e.ReviewId).HasMaxLength(5);
                 entity.Property(e => e.Title).HasMaxLength(30).IsRequired();
                 entity.Property(e => e.Description).HasMaxLength(100).IsRequired();
+                entity.Property(e => e.Email).IsRequired();
+                entity.HasOne(e => e.Guest)
+                .WithMany(r => r.Reviews)
+                .HasForeignKey(e => e.Email);
             });
 
             modelBuilder.Entity<News>(entity =>

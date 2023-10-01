@@ -35,5 +35,10 @@ namespace BBL.Services
         {
             return _cageRepository.Update(cage);
         }
+
+        public bool CageExists(string id)
+        {
+            return _cageRepository.GetById(id) != null ? true : false;
+        }
     }
 }

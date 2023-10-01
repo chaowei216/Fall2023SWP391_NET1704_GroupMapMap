@@ -40,13 +40,14 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpGet("{animalId}")]
-        [ProducesResponseType(200)]
-        public IActionResult GetAnimalById(string id)
+        [ProducesResponseType(200, Type = typeof(Animal))]
+        [ProducesResponseType(400)]
+        public IActionResult GetAnimalById(string animalId)
         {
-            if (!_animalService.AnimalExists(id))
+            if (!_animalService.AnimalExists(animalId))
                 return NotFound();
 
-            var animal = _mapper.Map<AnimalDto>(_animalService.GetByAnimalId(id));
+            var animal = _mapper.Map<AnimalDto>(_animalService.GetByAnimalId(animalId));
 
             if (!ModelState.IsValid)
                 return BadRequest();

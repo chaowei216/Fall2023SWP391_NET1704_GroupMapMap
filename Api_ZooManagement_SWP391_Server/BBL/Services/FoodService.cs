@@ -49,5 +49,10 @@ namespace BBL.Services
         {
             return _foodRepository.Update(food);
         }
+
+        public bool FoodExists(string id)
+        {
+            return _foodRepository.GetById(id) != null ? true : false;
+        }
     }
 }

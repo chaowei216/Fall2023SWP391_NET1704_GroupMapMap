@@ -10,6 +10,7 @@ namespace DAL.Entities
         public float Rating { get; set; }
 
         public Guest Guest { get; set; }
+        public string Email { get; set; }
 
 
     }

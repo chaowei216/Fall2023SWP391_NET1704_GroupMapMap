@@ -14,5 +14,6 @@ namespace BBL.Interfaces
         ICollection<Area> GetAll();
         Area GetByAreaId(string id);
         Area GetByAreaName(string name);
+        bool AreaExists(string id);
     }
 }

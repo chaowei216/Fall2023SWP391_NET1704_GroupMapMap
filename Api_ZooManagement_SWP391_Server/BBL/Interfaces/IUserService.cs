@@ -7,6 +7,7 @@ namespace BBL.Interfaces
     {
         bool Add(User user);
         bool Update(User user);
+        bool UserExists(string id);
         ICollection<User> GetUsers();
         User GetById(string id);
         public User CheckLogin(string username, string password);

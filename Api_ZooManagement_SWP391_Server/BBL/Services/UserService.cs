@@ -19,6 +19,11 @@ namespace BBL.Services
             return _userRepository.Add(user);
         }
 
+        public bool UserExists(string id)
+        {
+            return _userRepository.GetById(id) != null ? true : false;
+        }
+
         public User CheckLogin(string username, string password)
         {
             var users = _userRepository.GetAll();

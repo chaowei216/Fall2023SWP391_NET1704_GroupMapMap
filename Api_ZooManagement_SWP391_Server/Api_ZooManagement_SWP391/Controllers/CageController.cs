@@ -2,6 +2,10 @@
 using BBL.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Api_ZooManagement_SWP391.Dtos;
+using AutoMapper;
+using DAL.Entities;
+using System.Text.RegularExpressions;
 
 namespace Api_ZooManagement_SWP391.Controllers
 {
@@ -10,10 +14,14 @@ namespace Api_ZooManagement_SWP391.Controllers
     public class CageController : ControllerBase
     {
         private readonly ICageService _cageService;
+        private readonly IAreaService _areaService;
+        private readonly IMapper _mapper;
+        public Regex areaFormat = new Regex(@"^AE\d{3}");
 
-        public CageController(ICageService cageService)
+        public CageController(IMapper mapper, ICageService cageService)
         {
             _cageService = cageService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -27,15 +35,44 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(cages);
         }
         [HttpGet("CageId")]
-        public IActionResult GetArea(string id)
+        public IActionResult GetArea(string cageId)
         {
-            var cage = _cageService.GetByCageId(id);
-            if (cage == null)
-            {
+            if (!_cageService.CageExists(cageId))
                 return NotFound();
-            }
-            return Ok(cage);
 
+            var cage = _mapper.Map<CageDto>(_cageService.GetByCageId(cageId));
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(cage);
+        }
+
+        [HttpPost]
+        public IActionResult CreateCage([FromBody] CageDto cageDto)
+        {
+            if (cageDto == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if(!areaFormat.IsMatch(cageDto.AreaId))
+            {
+                return BadRequest("Wrong area format.");
+            }
+
+            int count = _cageService.GetAll().Count() + 1;
+            var cageId = "C" + count.ToString().PadLeft(4, '0');
+
+            var cageMap = _mapper.Map<Cage>(cageDto);
+            cageMap.CId = cageId;
+            _cageService.AddCage(cageMap);
+
+            return Ok("Successfully");
         }
     }
 }
