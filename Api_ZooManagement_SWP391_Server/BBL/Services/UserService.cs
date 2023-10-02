@@ -1,6 +1,8 @@
 ﻿using BBL.Interfaces;
+using DAL.Data;
 using DAL.Entities;
 using DAL.Repositories;
+using System.Security.Cryptography;
 
 namespace BBL.Services
 {
@@ -8,14 +10,32 @@ namespace BBL.Services
     public class UserService : IUserService
     {
         private readonly IGenericRepository<User> _userRepository;
+        private readonly IGenericRepository<WorkExperience> _workExpRepository;
+        private readonly IGenericRepository<ExperienceDetail> _expDetailRepository;
 
-        public UserService(IGenericRepository<User> userRepository)
+        public UserService(DataContext context, IGenericRepository<User> userRepository,
+            IGenericRepository<WorkExperience> workExpRepository,
+            IGenericRepository<ExperienceDetail> expDetailRepository)
         {
             _userRepository = userRepository;
+            _workExpRepository = workExpRepository;
+            _expDetailRepository = expDetailRepository;
         }
 
-        public bool Add(User user)
+        public bool Add(string? expId, string? company, User user)
         {
+            if (expId != null && company != null)
+            {
+                var workExp = _workExpRepository.GetById(expId);
+                var expDetail = new ExperienceDetail()
+                {
+                    User = user,
+                    WorkExperience = workExp,
+                    Company = company,
+                };
+                _expDetailRepository.Add(expDetail);
+            }
+
             return _userRepository.Add(user);
         }
 
@@ -26,13 +46,11 @@ namespace BBL.Services
 
         public User CheckLogin(string username, string password)
         {
-            var users = _userRepository.GetAll();
-            foreach (User u in users)
+            var user = GetByEmail(username);
+            if(user == null) return null;
+            if(VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
-                if (u.Email.Equals(username) && u.Password.Equals(password))
-                {
-                    return u;
-                }
+                return user;
             }
             return null;
         }
@@ -65,35 +83,37 @@ namespace BBL.Services
             return _userRepository.GetById(id);
         }
 
-        public User GetByPassword(string password)
-        {
-            var users = _userRepository.GetAll();
-            if (password == null || users == null)
-            {
-                return null;
-            }
-            return users.FirstOrDefault(p => p.Password.Equals(password));
-        }
-
         public ICollection<User> GetUsers()
         {
             return _userRepository.GetAll();
         }
 
-        public bool ResetPassword(User user, string newPassword, string confirmPassword)
+        public bool ResetPassword(User user, byte[] passwordHash, byte[] passwordSalt)
         {
             if (user == null) return false;
-            if (newPassword == null || confirmPassword == null) return false;
-            if(!newPassword.Equals(confirmPassword)) return false;
-            user.Password = newPassword;
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
             user.ResetPassToken = null;
             user.ResetTokenExpires = null;
             return Update(user);
         }
-
+    
         public bool Update(User user)
         {
             return _userRepository.Update(user);
         }
+
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512(passwordSalt))
+            {
+                var computedHash = hmac
+                    .ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                return computedHash.SequenceEqual(passwordHash);
+            }
+        }
+
+
     }
 }

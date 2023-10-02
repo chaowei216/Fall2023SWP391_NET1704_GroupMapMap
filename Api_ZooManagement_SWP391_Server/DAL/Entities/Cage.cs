@@ -11,6 +11,5 @@ namespace DAL.Entities
         public ICollection<AnimalCage> AnimalCages {  get; set; }
 
         public Area Area { get; set; }
-        public string AreaId { get; set; }
     }
 }

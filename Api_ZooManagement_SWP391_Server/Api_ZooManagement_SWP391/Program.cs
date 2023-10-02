@@ -62,6 +62,7 @@ builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<INewsService, NewsService>();
 builder.Services.AddScoped<IScheduleService, ScheduleService>();
 builder.Services.AddScoped<IAnimalService, AnimalService>();
+builder.Services.AddScoped<IUserService, UserService>();
 // add scope for repository
 builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 builder.Services.AddScoped<IGenericRepository<Cage>, GenericRepository<Cage>>();
@@ -73,6 +74,8 @@ builder.Services.AddScoped<IGenericRepository<Ticket>, GenericRepository<Ticket>
 builder.Services.AddScoped<IGenericRepository<News>, GenericRepository<News>>();
 builder.Services.AddScoped<IGenericRepository<Schedule>, GenericRepository<Schedule>>();
 builder.Services.AddScoped<IGenericRepository<Animal>, GenericRepository<Animal>>();
+builder.Services.AddScoped<IGenericRepository<WorkExperience>, GenericRepository<WorkExperience>>();
+builder.Services.AddScoped<IGenericRepository<ExperienceDetail>, GenericRepository<ExperienceDetail>>();
 
 
 

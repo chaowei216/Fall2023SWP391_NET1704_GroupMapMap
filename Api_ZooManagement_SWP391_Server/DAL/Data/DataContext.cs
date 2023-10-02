@@ -24,7 +24,7 @@ namespace DAL.Data
         public DbSet<Cage> Cages { get; set; }
         public DbSet<Guest> Guests { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<OrderTicket> OrderTickets { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<WorkExperience> WorkExperiences { get; set; }
         public DbSet<Animal> Animals { get; set; }
@@ -52,10 +52,6 @@ namespace DAL.Data
                 entity.Property(cage => cage.CId).HasMaxLength(5);
                 entity.Property(e => e.MaxCapacity).IsRequired();
                 entity.Property(e => e.AnimalQuantity).IsRequired();
-                entity.Property(e => e.AreaId).IsRequired();
-                entity.HasOne(a => a.Area)
-                .WithMany(c => c.Cages)
-                .HasForeignKey(a => a.AreaId);
             });
 
             modelBuilder.Entity<Guest>(e =>
@@ -70,14 +66,7 @@ namespace DAL.Data
             {
                 e.HasKey(order => order.OrderId);
                 e.Property(c => c.OrderId).HasMaxLength(5);
-                e.Property(c => c.FullName).HasMaxLength(50).IsRequired();
-                e.Property(p => p.Phone).HasMaxLength(10);
                 e.Property(d => d.TotalPrice).IsRequired();
-                e.Property(d => d.Email).IsRequired();
-
-                e.HasOne(g => g.Guest)
-                .WithMany(o => o.Orders)
-                .HasForeignKey(g => g.Email);
             });
 
             modelBuilder.Entity<Ticket>(e =>
@@ -108,191 +97,177 @@ namespace DAL.Data
                 entity.Property(e => e.HealthCheck).IsRequired();
                 entity.Property(e => e.Birthday).IsRequired();
                 entity.Property(e => e.Status).IsRequired();
-                entity.Property(e => e.SpeciesId).IsRequired();
-
-                entity.HasOne(s => s.SpeciesAnimal)
-                    .WithMany(a => a.Animals)
-                    .HasForeignKey(s => s.SpeciesId);
             });
 
-            modelBuilder.Entity<Food>(entity =>
-            {
-                entity.HasKey(food => food.FoodId);
-                entity.Property(f => f.FoodId).HasMaxLength(5);
-                entity.Property(f => f.FName).HasMaxLength(30).IsRequired();
-                entity.Property(f => f.Quantity).IsRequired();
-                entity.Property(f => f.ImportDate).IsRequired();
-                entity.Property(f => f.ExpiredDate).IsRequired();
-                entity.Property(f => f.Category).IsRequired();
+                modelBuilder.Entity<Food>(entity =>
+                {
+                    entity.HasKey(food => food.FoodId);
+                    entity.Property(f => f.FoodId).HasMaxLength(5);
+                    entity.Property(f => f.FName).HasMaxLength(30).IsRequired();
+                    entity.Property(f => f.Quantity).IsRequired();
+                    entity.Property(f => f.ImportDate).IsRequired();
+                    entity.Property(f => f.ExpiredDate).IsRequired();
+                    entity.Property(f => f.Category).IsRequired();
+                });
+
+                modelBuilder.Entity<SpeciesAnimal>(entity =>
+                {
+                    entity.HasKey(speciesAnimals => speciesAnimals.Id);
+                    entity.Property(sa => sa.Id).HasMaxLength(5);
+                    entity.Property(sa => sa.SpeciesName).HasMaxLength(30).IsRequired();
+                    entity.HasIndex(sa => sa.SpeciesName).IsUnique();
+                    entity.Property(sa => sa.Rarity).IsRequired();
+                });
+
+                modelBuilder.Entity<Review>(entity =>
+                {
+                    entity.HasKey(e => e.ReviewId);
+                    entity.Property(e => e.ReviewId).HasMaxLength(5);
+                    entity.Property(e => e.Title).HasMaxLength(30).IsRequired();
+                    entity.Property(e => e.Description).HasMaxLength(100).IsRequired();
             });
 
-            modelBuilder.Entity<SpeciesAnimal>(entity =>
-            {
-                entity.HasKey(speciesAnimals => speciesAnimals.Id);
-                entity.Property(sa => sa.Id).HasMaxLength(5);
-                entity.Property(sa => sa.SpeciesName).HasMaxLength(30).IsRequired();
-                entity.HasIndex(sa => sa.SpeciesName).IsUnique();
-                entity.Property(sa => sa.Rarity).IsRequired();
-            });
+                modelBuilder.Entity<News>(entity =>
+                {
+                    entity.HasKey(e => e.NewsId);
+                    entity.Property(e => e.NewsId).HasMaxLength(5);
+                    entity.Property(e => e.AuthorName).HasMaxLength(30).IsRequired();
+                    entity.Property(e => e.ReleaseDate).IsRequired();
+                    entity.Property(e => e.NewsTitle).HasMaxLength(30).IsRequired();
+                    entity.Property(e => e.NewsContent).IsRequired();
+                });
 
-            modelBuilder.Entity<Review>(entity =>
-            {
-                entity.HasKey(e => e.ReviewId);
-                entity.Property(e => e.ReviewId).HasMaxLength(5);
-                entity.Property(e => e.Title).HasMaxLength(30).IsRequired();
-                entity.Property(e => e.Description).HasMaxLength(100).IsRequired();
-                entity.Property(e => e.Email).IsRequired();
-                entity.HasOne(e => e.Guest)
-                .WithMany(r => r.Reviews)
-                .HasForeignKey(e => e.Email);
-            });
+                modelBuilder.Entity<User>(entity =>
+                {
+                    entity.HasKey(u => u.UserId);
+                    entity.Property(u => u.UserId).HasMaxLength(5);
+                    entity.Property(u => u.Email).HasMaxLength(30).IsRequired();
+                    entity.HasIndex(u => u.Email).IsUnique();
+                    entity.Property(u => u.Firstname).HasMaxLength(10).IsRequired();
+                    entity.Property(u => u.Lastname).HasMaxLength(10).IsRequired();
+                    entity.Property(u => u.Phone).HasMaxLength(10).IsRequired();
+                    entity.Property(u => u.Address).HasMaxLength(50).IsRequired();
+                    entity.Property(u => u.Sex).IsRequired();
+                    entity.Property(u => u.StartDate).IsRequired();
+                    entity.Property(u => u.Role).IsRequired();
+                    entity.Property(u => u.Status).IsRequired();
+                });
 
-            modelBuilder.Entity<News>(entity =>
-            {
-                entity.HasKey(e => e.NewsId);
-                entity.Property(e => e.NewsId).HasMaxLength(5);
-                entity.Property(e => e.AuthorName).HasMaxLength(30).IsRequired();
-                entity.Property(e => e.ReleaseDate).IsRequired();
-                entity.Property(e => e.NewsTitle).HasMaxLength(30).IsRequired();
-                entity.Property(e => e.NewsContent).IsRequired();
-            });
+                modelBuilder.Entity<Schedule>(entity =>
+                {
+                    entity.HasKey(s => s.ScheduleId);
+                    entity.Property(s => s.ScheduleId).HasMaxLength(5);
+                    entity.Property(s => s.MealType).HasMaxLength(10).IsRequired();
+                });
 
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.HasKey(u => u.UserId);
-                entity.Property(u => u.UserId).HasMaxLength(5);
-                entity.Property(u => u.Email).HasMaxLength(30).IsRequired();
-                entity.HasIndex(u => u.Email).IsUnique();
-                entity.Property(u => u.Password).HasMaxLength(20).IsRequired();
-                entity.Property(u => u.Firstname).HasMaxLength(10).IsRequired();
-                entity.Property(u => u.Lastname).HasMaxLength(10).IsRequired();
-                entity.Property(u => u.Phone).HasMaxLength(10).IsRequired();
-                entity.Property(u => u.Address).HasMaxLength(50).IsRequired();
-                entity.Property(u => u.Sex).IsRequired();
-                entity.Property(u => u.StartDate).IsRequired();
-                entity.Property(u => u.Role).IsRequired();
-                entity.Property(u => u.Status).IsRequired();
-            });
+                modelBuilder.Entity<NewsCategory>(entity =>
+                {
+                    entity.HasKey(nc => nc.Id);
+                    entity.Property(nc => nc.Id).HasMaxLength(5);
+                    entity.Property(nc => nc.CategoryName).HasMaxLength(30).IsRequired();
+                });
 
-            modelBuilder.Entity<Schedule>(entity =>
-            {
-                entity.HasKey(s => s.ScheduleId);
-                entity.Property(s => s.ScheduleId).HasMaxLength(5);
-                entity.Property(s => s.MealType).HasMaxLength(10).IsRequired();
-            });
+                modelBuilder.Entity<OrderTicket>(entity =>
+                {
+                    entity.Property(ot => ot.TicketQuantity).IsRequired();
+                });
 
-            modelBuilder.Entity<NewsCategory>(entity =>
-            {
-                entity.HasKey(nc => nc.Id);
-                entity.Property(nc => nc.Id).HasMaxLength(5);
-                entity.Property(nc => nc.CategoryName).HasMaxLength(30).IsRequired();
-            });
+                modelBuilder.Entity<ExperienceDetail>(entity =>
+                {
+                    entity.Property(ed => ed.Company).HasMaxLength(30).IsRequired();
+                });
 
-            modelBuilder.Entity<OrderDetail>(entity =>
-            {
-                entity.Property(od => od.EntryDate).IsRequired();
-                entity.Property(od => od.BuyDate).IsRequired();
-            });
+                modelBuilder.Entity<AnimalTrainer>(entity =>
+                {
+                    entity.Property(at => at.StartDate).IsRequired();
+                    entity.Property(at => at.EndDate).IsRequired();
+                });
 
-            modelBuilder.Entity<ExperienceDetail>(entity =>
-            {
-                entity.Property(ed => ed.Company).HasMaxLength(30).IsRequired();
-                entity.Property(ed => ed.StartDate).IsRequired();
-                entity.Property(ed => ed.EndDate).IsRequired();
-            });
+                modelBuilder.Entity<AnimalSchedule>(entity =>
+                {
+                    entity.Property(ash => ash.Time).IsRequired();
+                    entity.Property(ash => ash.Description).HasMaxLength(50).IsRequired();
+                });
 
-            modelBuilder.Entity<AnimalTrainer>(entity =>
-            {
-                entity.Property(at => at.StartDate).IsRequired();
-                entity.Property(at => at.EndDate).IsRequired();
-                entity.Property(at => at.TrainingStatus).IsRequired();
-            });
+                modelBuilder.Entity<AnimalFood>(entity =>
+                {
+                    entity.Property(af => af.Amount).IsRequired();
+                });
 
-            modelBuilder.Entity<AnimalSchedule>(entity =>
-            {
-                entity.Property(ash => ash.Time).IsRequired();
-                entity.Property(ash => ash.Description).HasMaxLength(50).IsRequired();
-            });
+                modelBuilder.Entity<AnimalCage>(entity =>
+                {
+                    entity.Property(ac => ac.EntryDate).IsRequired();
+                });
+                #endregion
 
-            modelBuilder.Entity<AnimalFood>(entity =>
-            {
-                entity.Property(af => af.Amount).IsRequired();
-            });
+                #region M_to_M_Relationship
+                modelBuilder.Entity<OrderTicket>()
+                    .HasKey(od => new { od.OrderId, od.TicketId });
+                modelBuilder.Entity<OrderTicket>()
+                    .HasOne(od => od.Ticket)
+                    .WithMany(t => t.OrderTickets)
+                    .HasForeignKey(od => od.TicketId);
+                modelBuilder.Entity<OrderTicket>()
+                    .HasOne(od => od.Order)
+                    .WithMany(o => o.OrderTickets)
+                    .HasForeignKey(od => od.OrderId);
 
-            modelBuilder.Entity<AnimalCage>(entity =>
-            {
-                entity.Property(ac => ac.EntryDate).IsRequired();
-            });
-            #endregion
+                modelBuilder.Entity<AnimalCage>()
+                    .HasKey(ac => new { ac.AnimalId, ac.CageId });
+                modelBuilder.Entity<AnimalCage>()
+                    .HasOne(ac => ac.Animal)
+                    .WithMany(a => a.AnimalCages)
+                    .HasForeignKey(ac => ac.AnimalId);
+                modelBuilder.Entity<AnimalCage>()
+                    .HasOne(ac => ac.Cage)
+                    .WithMany(c => c.AnimalCages)
+                    .HasForeignKey(ac => ac.CageId);
 
-            #region M_to_M_Relationship
-            modelBuilder.Entity<OrderDetail>()
-                .HasKey(od => new { od.OrderId, od.TicketId });
-            modelBuilder.Entity<OrderDetail>()
-                .HasOne(od => od.Ticket)
-                .WithMany(t => t.OrderDetails)
-                .HasForeignKey(od => od.TicketId);
-            modelBuilder.Entity<OrderDetail>()
-                .HasOne(od => od.Order)
-                .WithMany(o => o.OrderDetails)
-                .HasForeignKey(od => od.OrderId);
+                modelBuilder.Entity<AnimalSchedule>()
+                    .HasKey(e => new { e.ScheduleId, e.AnimalId });
+                modelBuilder.Entity<AnimalSchedule>()
+                    .HasOne(e => e.Animal)
+                    .WithMany(e => e.AnimalSchedules)
+                    .HasForeignKey(e => e.AnimalId);
+                modelBuilder.Entity<AnimalSchedule>()
+                    .HasOne(e => e.Schedule)
+                    .WithMany(e => e.AnimalSchedules)
+                    .HasForeignKey(e => e.ScheduleId);
 
-            modelBuilder.Entity<AnimalCage>()
-                .HasKey(ac => new { ac.AnimalId, ac.CageId });
-            modelBuilder.Entity<AnimalCage>()
-                .HasOne(ac => ac.Animal)
-                .WithMany(a => a.AnimalCages)
-                .HasForeignKey(ac => ac.AnimalId);
-            modelBuilder.Entity<AnimalCage>()
-                .HasOne(ac => ac.Cage)
-                .WithMany(c => c.AnimalCages)
-                .HasForeignKey(ac => ac.CageId);
+                modelBuilder.Entity<AnimalFood>()
+                    .HasKey(af => new { af.AnimalId, af.FoodId });
+                modelBuilder.Entity<AnimalFood>()
+                    .HasOne(af => af.Animal)
+                    .WithMany(af => af.AnimalFoods)
+                    .HasForeignKey(af => af.AnimalId);
+                modelBuilder.Entity<AnimalFood>()
+                    .HasOne(af => af.Food)
+                    .WithMany(af => af.AnimalFoods)
+                    .HasForeignKey(af => af.FoodId);
 
-            modelBuilder.Entity<AnimalSchedule>()
-                .HasKey(e => new { e.ScheduleId, e.AnimalId });
-            modelBuilder.Entity<AnimalSchedule>()
-                .HasOne(e => e.Animal)
-                .WithMany(e => e.AnimalSchedules)
-                .HasForeignKey(e => e.AnimalId);
-            modelBuilder.Entity<AnimalSchedule>()
-                .HasOne(e => e.Schedule)
-                .WithMany(e => e.AnimalSchedules)
-                .HasForeignKey(e => e.ScheduleId);
+                modelBuilder.Entity<AnimalTrainer>()
+                    .HasKey(e => new { e.UserId, e.AnimalId });
+                modelBuilder.Entity<AnimalTrainer>()
+                    .HasOne(e => e.Animal)
+                    .WithMany(e => e.AnimalTrainers)
+                    .HasForeignKey(e => e.AnimalId);
+                modelBuilder.Entity<AnimalTrainer>()
+                    .HasOne(e => e.User)
+                    .WithMany(e => e.AnimalTrainers)
+                    .HasForeignKey(e => e.UserId);
 
-            modelBuilder.Entity<AnimalFood>()
-                .HasKey(af => new { af.AnimalId, af.FoodId });
-            modelBuilder.Entity<AnimalFood>()
-                .HasOne(af => af.Animal)
-                .WithMany(af => af.AnimalFoods)
-                .HasForeignKey(af => af.AnimalId);
-            modelBuilder.Entity<AnimalFood>()
-                .HasOne(af => af.Food)
-                .WithMany(af => af.AnimalFoods)
-                .HasForeignKey(af => af.FoodId);
+                modelBuilder.Entity<ExperienceDetail>()
+                    .HasKey(e => new { e.UserId, e.ExperienceId });
+                modelBuilder.Entity<ExperienceDetail>()
+                    .HasOne(e => e.User)
+                    .WithMany(e => e.ExperienceDetails)
+                    .HasForeignKey(e => e.UserId);
+                modelBuilder.Entity<ExperienceDetail>()
+                    .HasOne(e => e.WorkExperience)
+                    .WithMany(e => e.ExperienceDetails)
+                    .HasForeignKey(e => e.ExperienceId);
+                #endregion
 
-            modelBuilder.Entity<AnimalTrainer>()
-                .HasKey(e => new { e.UserId, e.AnimalId });
-            modelBuilder.Entity<AnimalTrainer>()
-                .HasOne(e => e.Animal)
-                .WithMany(e => e.AnimalTrainers)
-                .HasForeignKey(e => e.AnimalId);
-            modelBuilder.Entity<AnimalTrainer>()
-                .HasOne(e => e.User)
-                .WithMany(e => e.AnimalTrainers)
-                .HasForeignKey(e => e.UserId);
-
-            modelBuilder.Entity<ExperienceDetail>()
-                .HasKey(e => new { e.UserId, e.ExperienceId });
-            modelBuilder.Entity<ExperienceDetail>()
-                .HasOne(e => e.User)
-                .WithMany(e => e.ExperienceDetails)
-                .HasForeignKey(e => e.UserId);
-            modelBuilder.Entity<ExperienceDetail>()
-                .HasOne(e => e.WorkExperience)
-                .WithMany(e => e.ExperienceDetails)
-                .HasForeignKey(e => e.ExperienceId);
-            #endregion
-
-        }
+            }
     }
-}
+    }

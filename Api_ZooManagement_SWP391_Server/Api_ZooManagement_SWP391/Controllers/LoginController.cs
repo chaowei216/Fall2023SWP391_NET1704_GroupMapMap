@@ -1,5 +1,4 @@
-
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -104,7 +103,9 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest("Invalid Token");
             }
 
-            var result = _userService.ResetPassword(user, request.Password, request.PasswordConfirmation);
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            var result = _userService.ResetPassword(user, passwordHash, passwordSalt);
             if(!result)
             {
                 return BadRequest();
@@ -122,6 +123,16 @@ namespace Api_ZooManagement_SWP391.Controllers
         private object CreateRandomToken()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        }
+
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac
+                    .ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
         }
     }
 }

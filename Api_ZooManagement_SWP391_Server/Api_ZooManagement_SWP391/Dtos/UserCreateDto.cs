@@ -2,9 +2,8 @@
 
 namespace Api_ZooManagement_SWP391.Dtos
 {
-    public class UserDto
+    public class UserCreateDto
     {
-        public string UserId { get; set; }
         public string Email { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
@@ -12,8 +11,5 @@ namespace Api_ZooManagement_SWP391.Dtos
         public string Phone { get; set; }
         public bool Sex { get; set; }
         public Role Role { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public bool Status { get; set; }
     }
 }
