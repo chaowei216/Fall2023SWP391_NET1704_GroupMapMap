@@ -17,9 +17,15 @@ namespace BBL.Services
         {
             _foodRepository = foodRepository;
         }
+
         public bool AddFood(Food food)
         {
             return _foodRepository.Add(food);
+        }
+
+        public bool FoodExists(string id)
+        {
+            return _foodRepository.GetById(id) != null ? true : false;
         }
 
         public ICollection<Food> GetAllFood()
@@ -37,7 +43,7 @@ namespace BBL.Services
             var Foods = _foodRepository.GetAll();
             foreach (Food food in Foods)
             {
-                if ( food.FName == name)
+                if (food.FName == name)
                 {
                     return food;
                 }
@@ -47,12 +53,9 @@ namespace BBL.Services
 
         public bool UpdateFood(Food food)
         {
-            return _foodRepository.Update(food);
-        }
+            _foodRepository.Update(food);
+            return true;
 
-        public bool FoodExists(string id)
-        {
-            return _foodRepository.GetById(id) != null ? true : false;
         }
     }
 }

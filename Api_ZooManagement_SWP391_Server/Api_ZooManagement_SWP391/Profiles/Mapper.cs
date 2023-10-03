@@ -22,6 +22,8 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<AreaDto, Area>();
             CreateMap<Cage, CageDto>();
             CreateMap<CageDto, Cage>();
+            CreateMap<Food, FoodDto>();
+            CreateMap<FoodDto, Food>();
         }
 
     }

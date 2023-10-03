@@ -77,7 +77,7 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             if (!_userService.Add(expId, company, user))
             {
-                ModelState.AddModelError("", "Something went wrong while saving 12");
+                ModelState.AddModelError("", "Something went wrong while saving");
                 return StatusCode(500, ModelState);
             }
 
