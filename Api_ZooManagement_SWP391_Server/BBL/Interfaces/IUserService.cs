@@ -11,6 +11,7 @@ namespace BBL.Interfaces
         ICollection<User> GetUsers();
         User GetById(string id);
         int GetTotalUserByRole(Role role);
+        User GetUserByPhone(string phone);
         public User CheckLogin(string username, string password);
         public User GetByEmail(string email);
         public bool ForgotPassword(User user, string token);

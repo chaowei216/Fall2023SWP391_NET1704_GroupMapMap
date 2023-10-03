@@ -88,7 +88,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdatePokemon(string userId, [FromBody] UserDto updateUser)
+        public IActionResult UpdatePokemon(string userId, [FromBody] UserUpdateDto updateUser)
         {
             if (updateUser == null)
                 return BadRequest(ModelState);
@@ -99,10 +99,21 @@ namespace Api_ZooManagement_SWP391.Controllers
             if (!_userService.UserExists(userId))
                 return NotFound();
 
+            if (_userService.GetUserByPhone(updateUser.Phone) != null)
+                return BadRequest(ModelState);
+
             if (!ModelState.IsValid)
                 return BadRequest();
 
             var userMap = _mapper.Map<User>(updateUser);
+            var user = _userService.GetById(userId);
+            user.Firstname = updateUser.Firstname;
+            user.Lastname = updateUser.Lastname;
+            user.Address = updateUser.Address;
+            user.Role = updateUser.Role;
+            user.Phone = updateUser.Phone;
+            user.EndDate = updateUser.EndDate;
+            user.Status = updateUser.Status;
 
 
             if (!_userService.Update(userMap))

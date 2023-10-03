@@ -24,7 +24,6 @@ namespace BBL.Services
 
         public bool Add(string? expId, string? company, User user)
         {
-<<<<<<< HEAD
             if(_userRepository.Add(user))
             {
                 if (expId != null && company != null)
@@ -42,21 +41,6 @@ namespace BBL.Services
                 return true;
             }
             return false;
-=======
-            if (expId != null && company != null)
-            {
-                var workExp = _workExpRepository.GetById(expId);
-                var expDetail = new ExperienceDetail()
-                {
-                    User = user,
-                    WorkExperience = workExp,
-                    Company = company,
-                };
-                _expDetailRepository.Add(expDetail);
-            }
-
-            return _userRepository.Add(user);
->>>>>>> 8a2623b934d30af9e5470daa298ce9e736308120
         }
 
         public bool UserExists(string id)
@@ -121,7 +105,19 @@ namespace BBL.Services
     
         public bool Update(User user)
         {
-            return _userRepository.Update(user);
+            var user1 = _userRepository.GetById(user.UserId);
+            if(user1 != null)
+            {
+                user1.Firstname = user.Firstname;
+                user1.Lastname = user.Lastname;
+                user1.EndDate = user.EndDate;
+                user1.Address = user.Address;
+                user1.Phone = user.Phone;
+                user1.Role = user.Role;
+                user1.Status = user.Status;
+            }
+
+            return _userRepository.Update(user1);
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
@@ -134,13 +130,15 @@ namespace BBL.Services
             }
         }
 
-<<<<<<< HEAD
         public int GetTotalUserByRole(Role role)
         {
             return _userRepository.GetAll().Where(x => x.Role == role).Count();
         }
-=======
 
->>>>>>> 8a2623b934d30af9e5470daa298ce9e736308120
+        public User GetUserByPhone(string phone)
+        {
+            if(phone == null) return null;
+            return _userRepository.GetAll().Where(x => x.Phone == phone).FirstOrDefault();
+        }
     }
 }
