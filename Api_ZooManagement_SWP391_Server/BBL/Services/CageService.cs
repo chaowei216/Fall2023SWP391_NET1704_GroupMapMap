@@ -12,9 +12,11 @@ namespace BBL.Services
     public class CageService : ICageService
     {
         private readonly IGenericRepository<Cage> _cageRepository;
-        public CageService(IGenericRepository<Cage> cageRepositiry)
+        private readonly IGenericRepository<Area> _areaRepository;
+        public CageService(IGenericRepository<Cage> cageRepositiry, IGenericRepository<Area> areaRepository)
         {
             _cageRepository = cageRepositiry;
+            _areaRepository = areaRepository;
         }
         public bool AddCage(Cage cage)
         {

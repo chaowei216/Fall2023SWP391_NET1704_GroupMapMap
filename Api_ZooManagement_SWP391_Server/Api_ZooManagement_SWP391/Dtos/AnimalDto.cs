@@ -10,6 +10,5 @@
         public string HealthCheck { get; set; }
         public DateTime Birthday { get; set; }
         public bool Status { get; set; }
-        public string SpeciesId { get; set; }
     }
 }

@@ -4,6 +4,5 @@
     {
         public int MaxCapacity { get; set; }
         public int AnimalQuantity { get; set; }
-        public string AreaId { get; set; }
     }
 }

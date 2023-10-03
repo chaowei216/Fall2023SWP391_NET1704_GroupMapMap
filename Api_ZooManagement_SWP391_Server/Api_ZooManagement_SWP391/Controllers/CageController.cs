@@ -18,10 +18,11 @@ namespace Api_ZooManagement_SWP391.Controllers
         private readonly IMapper _mapper;
         public Regex areaFormat = new Regex(@"^AE\d{3}");
 
-        public CageController(IMapper mapper, ICageService cageService)
+        public CageController(IMapper mapper, ICageService cageService, IAreaService areaService)
         {
             _cageService = cageService;
             _mapper = mapper;
+            _areaService = areaService;
         }
 
         [HttpGet]
@@ -49,7 +50,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateCage([FromBody] CageDto cageDto)
+        public IActionResult CreateCage([FromQuery] string areaId, [FromBody] CageDto cageDto)
         {
             if (cageDto == null)
             {
@@ -60,16 +61,18 @@ namespace Api_ZooManagement_SWP391.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if(!areaFormat.IsMatch(cageDto.AreaId))
-            {
-                return BadRequest("Wrong area format.");
-            }
 
             int count = _cageService.GetAll().Count() + 1;
             var cageId = "C" + count.ToString().PadLeft(4, '0');
 
             var cageMap = _mapper.Map<Cage>(cageDto);
             cageMap.CId = cageId;
+            cageMap.Area = _areaService.GetByAreaId(areaId);
+            if(cageMap.MaxCapacity < cageMap.AnimalQuantity)
+            {
+                ModelState.AddModelError("", "Animal quantity must less than max capacity");
+                return BadRequest(ModelState);
+            }
             _cageService.AddCage(cageMap);
 
             return Ok("Successfully");

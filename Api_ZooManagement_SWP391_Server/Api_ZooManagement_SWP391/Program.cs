@@ -76,6 +76,10 @@ builder.Services.AddScoped<IGenericRepository<Schedule>, GenericRepository<Sched
 builder.Services.AddScoped<IGenericRepository<Animal>, GenericRepository<Animal>>();
 builder.Services.AddScoped<IGenericRepository<WorkExperience>, GenericRepository<WorkExperience>>();
 builder.Services.AddScoped<IGenericRepository<ExperienceDetail>, GenericRepository<ExperienceDetail>>();
+builder.Services.AddScoped<IGenericRepository<AnimalCage>, GenericRepository<AnimalCage>>();
+builder.Services.AddScoped<IGenericRepository<AnimalFood>, GenericRepository<AnimalFood>>();
+builder.Services.AddScoped<IGenericRepository<AnimalSchedule>, GenericRepository<AnimalSchedule>>();
+builder.Services.AddScoped<IGenericRepository<AnimalTrainer>, GenericRepository<AnimalTrainer>>();
 
 
 
