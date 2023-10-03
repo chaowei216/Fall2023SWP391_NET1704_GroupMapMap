@@ -55,8 +55,7 @@ namespace DAL.Migrations
                     b.Property<bool>("Sex")
                         .HasColumnType("bit");
 
-                    b.Property<string>("SpeciesId")
-                        .IsRequired()
+                    b.Property<string>("SpeciesAnimalId")
                         .HasColumnType("nvarchar(5)");
 
                     b.Property<bool>("Status")
@@ -64,9 +63,9 @@ namespace DAL.Migrations
 
                     b.HasKey("AnimalId");
 
-                    b.HasIndex("SpeciesId");
+                    b.HasIndex("SpeciesAnimalId");
 
-                    b.ToTable("Animals");
+                    b.ToTable("Animals", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.AnimalCage", b =>
@@ -87,7 +86,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CageId");
 
-                    b.ToTable("AnimalCages");
+                    b.ToTable("AnimalCages", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.AnimalFood", b =>
@@ -105,7 +104,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("FoodId");
 
-                    b.ToTable("AnimalFoods");
+                    b.ToTable("AnimalFoods", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.AnimalSchedule", b =>
@@ -128,7 +127,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("AnimalId");
 
-                    b.ToTable("AnimalSchedules");
+                    b.ToTable("AnimalSchedules", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.AnimalTrainer", b =>
@@ -146,14 +145,11 @@ namespace DAL.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("TrainingStatus")
-                        .HasColumnType("bit");
-
                     b.HasKey("UserId", "AnimalId");
 
                     b.HasIndex("AnimalId");
 
-                    b.ToTable("AnimalTrainers");
+                    b.ToTable("AnimalTrainers", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Area", b =>
@@ -177,7 +173,7 @@ namespace DAL.Migrations
                     b.HasIndex("AreaName")
                         .IsUnique();
 
-                    b.ToTable("Areas");
+                    b.ToTable("Areas", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Cage", b =>
@@ -200,7 +196,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("AreaId");
 
-                    b.ToTable("Cages");
+                    b.ToTable("Cages", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.ExperienceDetail", b =>
@@ -216,18 +212,11 @@ namespace DAL.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<DateTime?>("EndDate")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("UserId", "ExperienceId");
 
                     b.HasIndex("ExperienceId");
 
-                    b.ToTable("ExperienceDetails");
+                    b.ToTable("ExperienceDetails", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Food", b =>
@@ -256,7 +245,7 @@ namespace DAL.Migrations
 
                     b.HasKey("FoodId");
 
-                    b.ToTable("Foods");
+                    b.ToTable("Foods", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Guest", b =>
@@ -277,7 +266,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Email");
 
-                    b.ToTable("Guests");
+                    b.ToTable("Guests", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.News", b =>
@@ -310,7 +299,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("NewsCategoryId");
 
-                    b.ToTable("News");
+                    b.ToTable("News", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.NewsCategory", b =>
@@ -326,7 +315,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NewsCategories");
+                    b.ToTable("NewsCategories", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Order", b =>
@@ -335,31 +324,21 @@ namespace DAL.Migrations
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("GuestEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
 
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("Email");
+                    b.HasIndex("GuestEmail");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
-            modelBuilder.Entity("DAL.Entities.OrderDetail", b =>
+            modelBuilder.Entity("DAL.Entities.OrderTicket", b =>
                 {
                     b.Property<string>("OrderId")
                         .HasColumnType("nvarchar(5)");
@@ -367,17 +346,14 @@ namespace DAL.Migrations
                     b.Property<string>("TicketId")
                         .HasColumnType("nvarchar(5)");
 
-                    b.Property<DateTime>("BuyDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("EntryDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("TicketQuantity")
+                        .HasColumnType("int");
 
                     b.HasKey("OrderId", "TicketId");
 
                     b.HasIndex("TicketId");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderTickets", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Review", b =>
@@ -391,7 +367,7 @@ namespace DAL.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("GuestEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(30)");
 
@@ -405,9 +381,9 @@ namespace DAL.Migrations
 
                     b.HasKey("ReviewId");
 
-                    b.HasIndex("Email");
+                    b.HasIndex("GuestEmail");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Schedule", b =>
@@ -423,7 +399,7 @@ namespace DAL.Migrations
 
                     b.HasKey("ScheduleId");
 
-                    b.ToTable("Schedules");
+                    b.ToTable("Schedules", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.SpeciesAnimal", b =>
@@ -445,7 +421,7 @@ namespace DAL.Migrations
                     b.HasIndex("SpeciesName")
                         .IsUnique();
 
-                    b.ToTable("SpeciesAnimals");
+                    b.ToTable("SpeciesAnimals", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Ticket", b =>
@@ -464,7 +440,7 @@ namespace DAL.Migrations
 
                     b.HasKey("TicketId");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("Tickets", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
@@ -496,10 +472,13 @@ namespace DAL.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<string>("Password")
+                    b.Property<byte[]>("PasswordHash")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -532,7 +511,10 @@ namespace DAL.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.HasIndex("Phone")
+                        .IsUnique();
+
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.WorkExperience", b =>
@@ -548,16 +530,14 @@ namespace DAL.Migrations
 
                     b.HasKey("ExperienceId");
 
-                    b.ToTable("WorkExperiences");
+                    b.ToTable("WorkExperiences", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Animal", b =>
                 {
                     b.HasOne("DAL.Entities.SpeciesAnimal", "SpeciesAnimal")
                         .WithMany("Animals")
-                        .HasForeignKey("SpeciesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SpeciesAnimalId");
 
                     b.Navigation("SpeciesAnimal");
                 });
@@ -681,23 +661,23 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.Guest", "Guest")
                         .WithMany("Orders")
-                        .HasForeignKey("Email")
+                        .HasForeignKey("GuestEmail")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Guest");
                 });
 
-            modelBuilder.Entity("DAL.Entities.OrderDetail", b =>
+            modelBuilder.Entity("DAL.Entities.OrderTicket", b =>
                 {
                     b.HasOne("DAL.Entities.Order", "Order")
-                        .WithMany("OrderDetails")
+                        .WithMany("OrderTickets")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DAL.Entities.Ticket", "Ticket")
-                        .WithMany("OrderDetails")
+                        .WithMany("OrderTickets")
                         .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -711,7 +691,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.Guest", "Guest")
                         .WithMany("Reviews")
-                        .HasForeignKey("Email")
+                        .HasForeignKey("GuestEmail")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -758,7 +738,7 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.Order", b =>
                 {
-                    b.Navigation("OrderDetails");
+                    b.Navigation("OrderTickets");
                 });
 
             modelBuilder.Entity("DAL.Entities.Schedule", b =>
@@ -773,7 +753,7 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.Ticket", b =>
                 {
-                    b.Navigation("OrderDetails");
+                    b.Navigation("OrderTickets");
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>

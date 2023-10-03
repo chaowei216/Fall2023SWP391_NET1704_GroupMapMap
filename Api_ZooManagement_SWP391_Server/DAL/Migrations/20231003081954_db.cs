@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DAL.Migrations
 {
-    public partial class Init : Migration
+    public partial class db : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -107,7 +107,8 @@ namespace DAL.Migrations
                 {
                     UserId = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     Firstname = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Lastname = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -163,8 +164,6 @@ namespace DAL.Migrations
                 columns: table => new
                 {
                     OrderId = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     TotalPrice = table.Column<double>(type: "float", nullable: false),
                     GuestEmail = table.Column<string>(type: "nvarchar(30)", nullable: false)
                 },
@@ -252,9 +251,7 @@ namespace DAL.Migrations
                 {
                     UserId = table.Column<string>(type: "nvarchar(5)", nullable: false),
                     ExperienceId = table.Column<string>(type: "nvarchar(5)", nullable: false),
-                    Company = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Company = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -274,25 +271,24 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderDetails",
+                name: "OrderTickets",
                 columns: table => new
                 {
                     OrderId = table.Column<string>(type: "nvarchar(5)", nullable: false),
                     TicketId = table.Column<string>(type: "nvarchar(5)", nullable: false),
-                    EntryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BuyDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    TicketQuantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderDetails", x => new { x.OrderId, x.TicketId });
+                    table.PrimaryKey("PK_OrderTickets", x => new { x.OrderId, x.TicketId });
                     table.ForeignKey(
-                        name: "FK_OrderDetails_Orders_OrderId",
+                        name: "FK_OrderTickets_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "OrderId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderDetails_Tickets_TicketId",
+                        name: "FK_OrderTickets_Tickets_TicketId",
                         column: x => x.TicketId,
                         principalTable: "Tickets",
                         principalColumn: "TicketId",
@@ -383,8 +379,7 @@ namespace DAL.Migrations
                     UserId = table.Column<string>(type: "nvarchar(5)", nullable: false),
                     AnimalId = table.Column<string>(type: "nvarchar(5)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TrainingStatus = table.Column<bool>(type: "bit", nullable: false)
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -450,14 +445,14 @@ namespace DAL.Migrations
                 column: "NewsCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetails_TicketId",
-                table: "OrderDetails",
-                column: "TicketId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Orders_GuestEmail",
                 table: "Orders",
                 column: "GuestEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderTickets_TicketId",
+                table: "OrderTickets",
+                column: "TicketId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_GuestEmail",
@@ -474,6 +469,12 @@ namespace DAL.Migrations
                 name: "IX_Users_Email",
                 table: "Users",
                 column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Phone",
+                table: "Users",
+                column: "Phone",
                 unique: true);
         }
 
@@ -498,7 +499,7 @@ namespace DAL.Migrations
                 name: "News");
 
             migrationBuilder.DropTable(
-                name: "OrderDetails");
+                name: "OrderTickets");
 
             migrationBuilder.DropTable(
                 name: "Reviews");

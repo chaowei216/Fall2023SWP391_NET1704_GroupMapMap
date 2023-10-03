@@ -14,7 +14,6 @@ namespace DAL.Entities
         public DateTime Birthday { get; set; }
         public bool Status { get; set; }
         public SpeciesAnimal SpeciesAnimal { get; set; }
-        public string SpeciesId {  get; set; }
         public ICollection<AnimalCage> AnimalCages { get; set; }
         public ICollection<AnimalTrainer> AnimalTrainers { get; set; }
         public ICollection<AnimalSchedule> AnimalSchedules { get; set; }

@@ -10,7 +10,7 @@ namespace DAL.Entities
 
         public double Price { get; set; }
 
-        public ICollection<OrderDetail> OrderDetails { get; set; }
+        public ICollection<OrderTicket> OrderTickets { get; set; }
 
     }
 }

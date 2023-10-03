@@ -16,15 +16,9 @@ namespace DAL.Repositories
         }
         public bool Add(T entity)
         {
-            try
-            {
-                _dbSet.Add(entity);
-                return _context.SaveChanges() > 0 ? true : false;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            _dbSet.Add(entity);
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
 
         public ICollection<T> GetAll()

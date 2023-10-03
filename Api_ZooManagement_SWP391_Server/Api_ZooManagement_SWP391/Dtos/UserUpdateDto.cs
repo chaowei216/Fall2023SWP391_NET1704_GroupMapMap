@@ -2,7 +2,7 @@
 
 namespace Api_ZooManagement_SWP391.Dtos
 {
-    public class UserDto
+    public class UserUpdateDto
     {
         public string UserId { get; set; }
         public string Email { get; set; }

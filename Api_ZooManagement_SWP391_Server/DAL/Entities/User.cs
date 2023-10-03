@@ -5,9 +5,9 @@ namespace DAL.Entities
     public class User
     {
         public string UserId { get; set; }
-        [EmailAddress]
         public string Email { get; set; }
-        public string Password { get; set; }
+        public byte[] PasswordHash { get; set; } = new byte[32];
+        public byte[] PasswordSalt { get; set; } = new byte[32];
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string Address { get; set; }
