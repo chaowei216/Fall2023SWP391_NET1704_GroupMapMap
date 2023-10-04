@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import useShopping from '../../hooks/useShopping';
 
 function ListItem() {
@@ -85,7 +86,7 @@ function ListItem() {
                       <td className="product-name">
                         <img alt="img" src={product.imageSrc} />
                         <div>
-                          <a href="#">{product.name}</a>
+                          <a style={{textDecoration:"none",color:"red"}} href="#">{product.name}</a>
                           <span>{product.description}</span>
                         </div>
                       </td>
@@ -189,9 +190,10 @@ function ListItem() {
                     </table>
                   </div>
                   <div className="wc-proceed-to-checkout">
-                    <a href="#" className="button">
-                      <span>Proceed to checkout</span>
-                    </a>
+                    <Link to="/checkout" className="button">
+                    <span>Proceed to checkout</span>
+                    </Link>
+                    
                   </div>
                 </div>
               </div>

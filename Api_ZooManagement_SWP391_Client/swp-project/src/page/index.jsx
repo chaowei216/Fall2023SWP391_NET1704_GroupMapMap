@@ -4,7 +4,6 @@ import SliderHero from './sliderHero';
 import SectionGap from './sectionGap';
 import SectionDiscover from './sectionDiscover';
 import SectionGapType from './sectionGapType';
-import SectionGapTwo from './sectionGapTwo';
 import SectionNoTop from './sectionNoTop';
 import GapNoBottom from './gapNoBottom';
 import GapNoBottomTwoHeading from './gapNoBottom-twoHeading';
@@ -18,7 +17,6 @@ function Index() {
     <SectionGap/>
     <SectionDiscover/>
     <SectionGapType/>
-    <SectionGapTwo/>
     <SectionNoTop/>
     <GapNoBottom/>
     <GapNoBottomTwoHeading/>

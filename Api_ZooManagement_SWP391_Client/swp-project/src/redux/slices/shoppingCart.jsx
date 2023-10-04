@@ -23,14 +23,7 @@ const shoppingSlice = createSlice({
         });
       }
     },
-    updateShoppingCart(state, action) {
-      const { id, newQuantity } = action.payload;
-      const productToUpdate = state.find((product) => product.id === id);
-
-      if (productToUpdate) {
-        productToUpdate.quantity = newQuantity;
-      }
-    },
+    
     removeItem() {},
     
     updateShoppingCart(state, action) {
