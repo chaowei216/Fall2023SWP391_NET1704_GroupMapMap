@@ -12,9 +12,11 @@ namespace BBL.Services
     public class AreaService : IAreaService
     {
         private readonly IGenericRepository<Area> _areaRepository;
-        public AreaService(IGenericRepository<Area> areaRepository)
+        private readonly IGenericRepository<Cage> _cageRepository;
+        public AreaService(IGenericRepository<Area> areaRepository, IGenericRepository<Cage> cageRepository)
         {
             _areaRepository = areaRepository;
+            _cageRepository = cageRepository;
         }
 
         public bool AddArea(Area area)

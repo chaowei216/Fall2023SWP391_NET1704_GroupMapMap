@@ -16,13 +16,15 @@ namespace Api_ZooManagement_SWP391.Controllers
     {
         private readonly IAnimalService _animalService;
         private readonly IMapper _mapper;
+        private readonly ISpeciesAnimalsService _speciesAnimalsService;
         public Regex animalRegex = new Regex(@"^A\d{4}");
         public Regex userRegex = new Regex(@"^U\d{4}");
 
-        public AnimalController(IMapper mapper, IAnimalService animalService) 
+        public AnimalController(IMapper mapper, IAnimalService animalService, ISpeciesAnimalsService speciesAnimalsService) 
         {
             _animalService = animalService;
             _mapper = mapper;
+            _speciesAnimalsService = speciesAnimalsService;
         }
 
         [HttpGet]
@@ -55,9 +57,12 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(animal);
         }
 
-        /*[HttpPost]
-        [ProducesResponseType(200)]
-        public IActionResult CreateAnimal([FromBody] AnimalDto animalDto)
+        [HttpPost]
+        public IActionResult CreateAnimal([FromQuery] string? userId, [FromQuery] AnimalTrainerDto? animalTrainerDto,
+                                          [FromQuery] string? cageId, [FromQuery] AnimalCageDto? animalCageDto,
+                                          [FromQuery] string? foodId, [FromQuery] AnimalFoodDto? animalFoodDto,
+                                          [FromQuery] string speciesId,
+                                          [FromBody] AnimalDto animalDto)
         {
             if (animalDto == null)
             {
@@ -73,44 +78,21 @@ namespace Api_ZooManagement_SWP391.Controllers
             var animalId = "A" + count.ToString().PadLeft(4, '0');
 
             var animalMap = _mapper.Map<Animal>(animalDto);
-            animalMap.AnimalId = animalId;
+            var userMap = _mapper.Map<AnimalTrainer>(animalTrainerDto);
+            var cageMap = _mapper.Map<AnimalCage>(animalCageDto);
+            var foodMap = _mapper.Map<AnimalFood>(animalFoodDto);
 
-            if (!_animalService.AddAnimal(animalMap))
+            animalMap.AnimalId = animalId;
+            animalMap.SpeciesAnimal = _speciesAnimalsService.GetBySpeciesAnimalsId(speciesId);
+
+            if (!_animalService.AddAnimal(userId, userMap, cageId, cageMap, foodId, foodMap, animalMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving!!!");
                 return StatusCode(500, ModelState);
             }
 
             return Ok("Successfully");
-        }*/
-
-        /*[HttpPost]
-        public IActionResult CreateAnimal(string userId, [FromBody] AnimalDto animalDto)
-        {
-            if (animalDto == null)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            int count = _animalService.GetAll().Count() + 1;
-            var animalId = "A" + count.ToString().PadLeft(4, '0');
-
-            var animalMap = _mapper.Map<Animal>(animalDto);
-            animalMap.AnimalId = animalId;
-
-            if (!_animalService.AddAnimal(animalMap))
-            {
-                ModelState.AddModelError("", "Something went wrong while saving!!!");
-                return StatusCode(500, ModelState);
-            }
-
-            return Ok("Successfully");
-        } */
+        }
 
     }
 }
