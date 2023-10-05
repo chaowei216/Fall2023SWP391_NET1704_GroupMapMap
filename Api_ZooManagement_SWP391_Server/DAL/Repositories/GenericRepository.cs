@@ -33,6 +33,7 @@ namespace DAL.Repositories
 
         public bool Update(T entity)
         {
+            _dbSet.Update(entity);
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }

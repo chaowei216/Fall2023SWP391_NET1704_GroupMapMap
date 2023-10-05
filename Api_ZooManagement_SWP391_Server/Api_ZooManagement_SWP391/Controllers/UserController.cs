@@ -25,7 +25,6 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpGet("users")]
-        [Authorize(Roles = "ADMIN")]
         public IActionResult GetUsers()
         {
             var u = _mapper.Map<List<UserDto>>(_userService.GetUsers());
@@ -34,6 +33,19 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest(ModelState);
             }
             return Ok(u);
+        }
+
+        [HttpGet("users/active")]
+        [ProducesResponseType(200, Type= typeof(IEnumerable<UserDto>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetActiveUsers()
+        {
+            var users = _mapper.Map<List<UserDto>>(_userService.GetActiveUsers());
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(users);
         }
 
         [HttpPost]
@@ -54,10 +66,16 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return StatusCode(422, ModelState);
             }
 
+            var user = _mapper.Map<User>(userCreate);
+            if (_userService.GetUserByPhone(userCreate.Phone) != null)
+            {
+                return BadRequest("Phone Existed!!");
+            }
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var user = _mapper.Map<User>(userCreate);
+
             string userId = "";
             int count = _userService.GetTotalUserByRole(user.Role) + 1;
 
@@ -88,7 +106,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdatePokemon(string userId, [FromBody] UserUpdateDto updateUser)
+        public IActionResult UpdateUser(string userId, [FromBody] UserUpdateDto updateUser)
         {
             if (updateUser == null)
                 return BadRequest(ModelState);
@@ -99,27 +117,49 @@ namespace Api_ZooManagement_SWP391.Controllers
             if (!_userService.UserExists(userId))
                 return NotFound();
 
-            if (_userService.GetUserByPhone(updateUser.Phone) != null)
-                return BadRequest(ModelState);
-
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var userMap = _mapper.Map<User>(updateUser);
             var user = _userService.GetById(userId);
-            user.Firstname = updateUser.Firstname;
-            user.Lastname = updateUser.Lastname;
-            user.Address = updateUser.Address;
-            user.Role = updateUser.Role;
-            user.Phone = updateUser.Phone;
-            user.EndDate = updateUser.EndDate;
-            user.Status = updateUser.Status;
+            var userMap = _mapper.Map<User>(updateUser);
 
+            if (user.Phone != userMap.Phone &&
+                _userService.GetUserByPhone(userMap.Phone) != null)
+            {
+                return BadRequest("Phone Existed!!");
+            }
 
-            if (!_userService.Update(userMap))
+            if (!_userService.Update(user, userMap))
             {
                 ModelState.AddModelError("", "Error when updating user!!");
                 return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{userId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteUser(string userId)
+        {
+            if (!_userService.UserExists(userId))
+            {
+                return NotFound();
+            }
+
+            var animals = _userService.GetAnimalsByUserId(userId);
+
+            if (animals != null)
+                return BadRequest("User still manage animals!!!");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_userService.DeleteUser(userId))
+            {
+                ModelState.AddModelError("", "Something went wrong while deleting user");
             }
 
             return NoContent();

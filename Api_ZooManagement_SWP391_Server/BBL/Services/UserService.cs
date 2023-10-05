@@ -12,6 +12,7 @@ namespace BBL.Services
         private readonly IGenericRepository<User> _userRepository;
         private readonly IGenericRepository<WorkExperience> _workExpRepository;
         private readonly IGenericRepository<ExperienceDetail> _expDetailRepository;
+        private readonly DataContext _context;
 
         public UserService(DataContext context, IGenericRepository<User> userRepository,
             IGenericRepository<WorkExperience> workExpRepository,
@@ -20,6 +21,7 @@ namespace BBL.Services
             _userRepository = userRepository;
             _workExpRepository = workExpRepository;
             _expDetailRepository = expDetailRepository;
+            _context = context;
         }
 
         public bool Add(string? expId, string? company, User user)
@@ -100,24 +102,26 @@ namespace BBL.Services
             user.PasswordSalt = passwordSalt;
             user.ResetPassToken = null;
             user.ResetTokenExpires = null;
-            return Update(user);
+            return Update(user, null);
         }
     
-        public bool Update(User user)
+        public bool Update(User user, User? userMap)
         {
-            var user1 = _userRepository.GetById(user.UserId);
-            if(user1 != null)
+            if(userMap != null)
             {
-                user1.Firstname = user.Firstname;
-                user1.Lastname = user.Lastname;
-                user1.EndDate = user.EndDate;
-                user1.Address = user.Address;
-                user1.Phone = user.Phone;
-                user1.Role = user.Role;
-                user1.Status = user.Status;
+                user.Firstname = userMap.Firstname;
+                user.Lastname = userMap.Lastname;
+                user.Address = userMap.Address;
+                user.Role = user.Role;
+                if(user.Phone != userMap.Phone &&
+                    GetUserByPhone(userMap.Phone) == null)
+                {
+                    user.Phone = userMap.Phone;
+                }
+                user.EndDate = userMap.EndDate;
+                user.Status = userMap.Status;
             }
-
-            return _userRepository.Update(user1);
+            return _userRepository.Update(user);
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
@@ -139,6 +143,34 @@ namespace BBL.Services
         {
             if(phone == null) return null;
             return _userRepository.GetAll().Where(x => x.Phone == phone).FirstOrDefault();
+        }
+
+        public bool DeleteUser(string id)
+        {
+            var user = _userRepository.GetById(id);
+            if (user == null) return false;
+            
+            user.Status = false;
+            return _userRepository.Update(user);
+        }
+
+        public ICollection<User> GetActiveUsers()
+        {
+            return _userRepository.GetAll().Where(u => u.Status == true).ToList();
+        }
+
+        public ICollection<Animal> GetAnimalsByUserId(string userId)
+        {
+            var user = _userRepository.GetById(userId);
+            if (user == null) return null;
+
+            if(UserRoleExtensions.ToIntValue(user.Role) == 3)
+            {
+                var animals = _context.AnimalTrainers.Where(u => u.UserId == userId).Select(animal => animal.Animal).ToList();
+                if (animals == null || animals.Count() == 0) return null;
+                return animals;
+            }
+            return null;
         }
     }
 }
