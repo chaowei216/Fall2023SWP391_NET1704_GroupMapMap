@@ -2,7 +2,7 @@
 {
     public class AnimalTrainerDto
     {
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTime StartTrainDate { get; set; }
+        public DateTime? EndTrainDate { get; set; }
     }
 }

@@ -6,8 +6,8 @@ namespace DAL.Entities
     {
         public string UserId { get; set; }
         public string AnimalId { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTime StartTrainDate { get; set; }
+        public DateTime? EndTrainDate { get; set; }
         public User User { get; set; }
         public Animal Animal { get; set; }
 

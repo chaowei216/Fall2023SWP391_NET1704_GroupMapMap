@@ -13,7 +13,8 @@ namespace DAL.Entities
         public string HealthCheck { get; set; }
         public DateTime Birthday { get; set; }
         public bool Status { get; set; }
-        public SpeciesAnimal SpeciesAnimal { get; set; }
+        public string Species { get; set; }
+        public bool Rarity { get; set; }
         public ICollection<AnimalCage> AnimalCages { get; set; }
         public ICollection<AnimalTrainer> AnimalTrainers { get; set; }
         public ICollection<AnimalSchedule> AnimalSchedules { get; set; }

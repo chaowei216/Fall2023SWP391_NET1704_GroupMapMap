@@ -33,39 +33,26 @@ namespace BBL.Services
             _animalFoodRepo = animalFoodRepo;
             _animalTrainerRepo = animalTrainerRepo;
         }
-        public bool AddAnimal(string? userId, AnimalTrainer? animalTrainer,
-                              string? cageId, AnimalCage? animalCage,
-                              string? foodId, AnimalFood? animalFood,
-                              Animal animal)
+        public bool AddAnimal(string? userId, string? cageId, Animal animal)
         {
             if (_animalRepo.Add(animal))
             {
                 var trainer = _userRepo.GetById(userId);
                 var cage = _cageRepo.GetById(cageId);
-                var food = _foodRepo.GetById(foodId);
                 AnimalTrainer newAnimalTrainer = new AnimalTrainer
                 {
                     User = trainer,
                     Animal = animal,
-                    EndDate = animalTrainer.EndDate,
-                    StartDate = animalTrainer.StartDate,
+                    StartTrainDate = DateTime.Now,
                 };
                 _animalTrainerRepo.Add(newAnimalTrainer);
                 AnimalCage newAnimalCage = new AnimalCage
                 {
                     Cage = cage,
                     Animal = animal,
-                    EntryDate = animalCage.EntryDate,
-                    OutDate = animalCage.OutDate,
+                    EntryCageDate = DateTime.Now,
                 };
                 _animalCageRepo.Add(newAnimalCage);
-                AnimalFood newAnimalFood = new AnimalFood
-                {
-                    Food = food,
-                    Animal = animal,
-                    Amount = animalFood.Amount,
-                };
-                _animalFoodRepo.Add(newAnimalFood);
                 return true;
             }
             return false;
@@ -86,9 +73,28 @@ namespace BBL.Services
             return _animalRepo.GetById(id);
         }
 
-        public bool UpdateAnimal(string animalId, string userId, string cageId, string foodId, Animal animal)
+        public bool UpdateAnimal(string userId, string cageId,
+                                 Animal animal)
         {
-            return _animalRepo.Update(animal);
-        }
+            if (_animalRepo.Update(animal))
+            {
+                var trainer = _userRepo.GetById(userId);
+                var cage = _cageRepo.GetById(cageId);
+                AnimalTrainer newAnimalTrainer = new AnimalTrainer
+                {
+                    User = trainer,
+                    Animal = animal,
+                };
+                _animalTrainerRepo.Update(newAnimalTrainer);
+                AnimalCage newAnimalCage = new AnimalCage
+                {
+                    Cage = cage,
+                    Animal = animal,
+                };
+                _animalCageRepo.Update(newAnimalCage);
+                return true;
+            }
+            return false;
+        } 
     }
 }

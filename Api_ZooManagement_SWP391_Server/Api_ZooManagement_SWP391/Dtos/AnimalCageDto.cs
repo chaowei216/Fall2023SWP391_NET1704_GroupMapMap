@@ -2,8 +2,8 @@
 {
     public class AnimalCageDto
     {
-        public DateTime EntryDate { get; set; }
+        public DateTime EntryCageDate { get; set; }
 
-        public DateTime? OutDate { get; set; }
+        public DateTime? OutCageDate { get; set; }
     }
 }
