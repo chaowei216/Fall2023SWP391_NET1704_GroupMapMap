@@ -16,15 +16,13 @@ namespace Api_ZooManagement_SWP391.Controllers
     {
         private readonly IAnimalService _animalService;
         private readonly IMapper _mapper;
-        private readonly ISpeciesAnimalsService _speciesAnimalsService;
         public Regex animalRegex = new Regex(@"^A\d{4}");
         public Regex userRegex = new Regex(@"^U\d{4}");
 
-        public AnimalController(IMapper mapper, IAnimalService animalService, ISpeciesAnimalsService speciesAnimalsService) 
+        public AnimalController(IMapper mapper, IAnimalService animalService) 
         {
             _animalService = animalService;
             _mapper = mapper;
-            _speciesAnimalsService = speciesAnimalsService;
         }
 
         [HttpGet]
@@ -58,10 +56,8 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateAnimal([FromQuery] string? userId, [FromQuery] AnimalTrainerDto? animalTrainerDto,
-                                          [FromQuery] string? cageId, [FromQuery] AnimalCageDto? animalCageDto,
-                                          [FromQuery] string? foodId, [FromQuery] AnimalFoodDto? animalFoodDto,
-                                          [FromQuery] string speciesId,
+        [HttpPost]
+        public IActionResult CreateAnimal([FromQuery] string? userId, [FromQuery] string? cageId,
                                           [FromBody] AnimalDto animalDto)
         {
             if (animalDto == null)
@@ -78,14 +74,15 @@ namespace Api_ZooManagement_SWP391.Controllers
             var animalId = "A" + count.ToString().PadLeft(4, '0');
 
             var animalMap = _mapper.Map<Animal>(animalDto);
-            var userMap = _mapper.Map<AnimalTrainer>(animalTrainerDto);
-            var cageMap = _mapper.Map<AnimalCage>(animalCageDto);
-            var foodMap = _mapper.Map<AnimalFood>(animalFoodDto);
-
+            var userMap = _mapper.Map<AnimalTrainer>(animalDto);
+            var cageMap = _mapper.Map<AnimalCage>(animalDto);
             animalMap.AnimalId = animalId;
-            animalMap.SpeciesAnimal = _speciesAnimalsService.GetBySpeciesAnimalsId(speciesId);
+            cageMap.EntryCageDate = DateTime.Now;
+            userMap.StartTrainDate = DateTime.Now;
+            animalMap.EntryDate = DateTime.Now;
+            animalMap.Status = true;
 
-            if (!_animalService.AddAnimal(userId, userMap, cageId, cageMap, foodId, foodMap, animalMap))
+            if (!_animalService.AddAnimal(userId, cageId, animalMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving!!!");
                 return StatusCode(500, ModelState);
@@ -94,5 +91,63 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok("Successfully");
         }
 
+        /*[HttpPut("{animalId}")]
+        public IActionResult UpdateAnimal(string animalId, [FromQuery] string? userId, [FromQuery] string? cageId,
+                                          [FromBody] UpdateAnimalDto updateAnimalDto)
+        {
+            if (updateAnimalDto == null)
+                return BadRequest(ModelState);
+
+            if (animalId != updateAnimalDto.AnimalId)
+                return BadRequest(ModelState);
+
+            if (!_animalService.AnimalExists(animalId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var animal = _animalService.GetByAnimalId(animalId);
+            var animalMap = _mapper.Map<Animal>(updateAnimalDto);
+            var userMap = _mapper.Map<AnimalTrainer>(updateAnimalDto);
+            var cageMap = _mapper.Map<AnimalCage>(updateAnimalDto);
+            animal.AnimalId = animalId;
+
+            if (!_animalService.UpdateAnimal(userMap, cageMap, animalMap))
+            {
+                ModelState.AddModelError("", "Error when updating user!!");
+                return StatusCode(500, ModelState);
+            }
+            return Ok();
+        } */
+
+        /*[HttpPut("{animalId}")]
+        public IActionResult UpdateAnimal(string animalId, [FromQuery] string userId, [FromQuery] string cageId,
+                                         [FromBody] UpdateAnimalDto updateAnimalDto)
+        {
+            if (updateAnimalDto == null)
+                return BadRequest(ModelState);
+
+            if (animalId != updateAnimalDto.AnimalId)
+                return BadRequest(ModelState);
+
+            if (!_animalService.AnimalExists(animalId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var animal = _animalService.GetByAnimalId(animalId);
+            var animalMap = _mapper.Map<Animal>(updateAnimalDto);
+            var userMap = _mapper.Map<AnimalTrainer>(updateAnimalDto);
+            var cageMap = _mapper.Map<AnimalCage>(updateAnimalDto);
+
+            if (!_animalService.UpdateAnimal(userId, cageId, animalMap))
+            {
+                ModelState.AddModelError("", "Error when updating user!!");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
+        }*/
     }
 }

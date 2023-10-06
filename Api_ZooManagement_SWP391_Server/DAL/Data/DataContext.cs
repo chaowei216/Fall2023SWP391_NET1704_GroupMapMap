@@ -28,7 +28,6 @@ namespace DAL.Data
         public DbSet<WorkExperience> WorkExperiences { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<Food> Foods { get; set; }
-        public DbSet<SpeciesAnimal> SpeciesAnimals { get; set; }
         public DbSet<AnimalCage> AnimalCages { get; set; }
         public DbSet<AnimalTrainer> AnimalTrainers { get; set; }
         #endregion
@@ -91,6 +90,8 @@ namespace DAL.Data
                 entity.Property(e => e.HealthCheck).IsRequired();
                 entity.Property(e => e.Birthday).IsRequired();
                 entity.Property(e => e.Status).IsRequired();
+                entity.Property(e => e.Species).IsRequired();
+                entity.Property(e => e.Rarity).IsRequired();
             });
 
                 modelBuilder.Entity<Food>(entity =>
@@ -102,15 +103,6 @@ namespace DAL.Data
                     entity.Property(f => f.ImportDate).IsRequired();
                     entity.Property(f => f.ExpiredDate).IsRequired();
                     entity.Property(f => f.Category).IsRequired();
-                });
-
-                modelBuilder.Entity<SpeciesAnimal>(entity =>
-                {
-                    entity.HasKey(speciesAnimals => speciesAnimals.Id);
-                    entity.Property(sa => sa.Id).HasMaxLength(5);
-                    entity.Property(sa => sa.SpeciesName).HasMaxLength(30).IsRequired();
-                    entity.HasIndex(sa => sa.SpeciesName).IsUnique();
-                    entity.Property(sa => sa.Rarity).IsRequired();
                 });
 
                 modelBuilder.Entity<Review>(entity =>
@@ -174,8 +166,8 @@ namespace DAL.Data
 
                 modelBuilder.Entity<AnimalTrainer>(entity =>
                 {
-                    entity.Property(at => at.StartDate).IsRequired();
-                    entity.Property(at => at.EndDate).IsRequired();
+                    entity.Property(at => at.StartTrainDate).IsRequired();
+                    entity.Property(at => at.EndTrainDate).HasDefaultValueSql(null);
                 });
 
                 modelBuilder.Entity<AnimalSchedule>(entity =>
@@ -191,7 +183,8 @@ namespace DAL.Data
 
                 modelBuilder.Entity<AnimalCage>(entity =>
                 {
-                    entity.Property(ac => ac.EntryDate).IsRequired();
+                    entity.Property(ac => ac.EntryCageDate).IsRequired();
+                    entity.Property(ac => ac.OutCageDate).HasDefaultValueSql(null);
                 });
                 #endregion
 

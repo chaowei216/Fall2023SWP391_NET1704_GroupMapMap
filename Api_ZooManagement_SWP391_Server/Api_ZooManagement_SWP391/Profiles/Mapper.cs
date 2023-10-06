@@ -32,7 +32,6 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<AnimalFood, AnimalFoodDto>();
             CreateMap<AnimalTrainer, AnimalTrainerDto>();
             CreateMap<AnimalTrainerDto, AnimalTrainer>();
-            CreateMap<UpdateAnimalDto, Animal>().ReverseMap();
             CreateMap<OrderDto, Order>();
             CreateMap<OrderCreateDto, Order>();
             CreateMap<TicketDto, Ticket>();

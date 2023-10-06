@@ -55,7 +55,6 @@ builder.Services.AddDbContext<DataContext>();
 
 builder.Services.AddScoped<ICageService, CageService>();
 builder.Services.AddScoped<IAreaService, AreaService>();
-builder.Services.AddScoped<ISpeciesAnimalsService, SpeciesAnimalsService>();
 builder.Services.AddScoped<IFoodService, FoodService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
@@ -67,7 +66,6 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 builder.Services.AddScoped<IGenericRepository<Cage>, GenericRepository<Cage>>();
 builder.Services.AddScoped<IGenericRepository<Area>, GenericRepository<Area>>();
-builder.Services.AddScoped<IGenericRepository<SpeciesAnimal>, GenericRepository<SpeciesAnimal>>();
 builder.Services.AddScoped<IGenericRepository<Food>, GenericRepository<Food>>();
 builder.Services.AddScoped<IGenericRepository<Order>, GenericRepository<Order>>();
 builder.Services.AddScoped<IGenericRepository<Ticket>, GenericRepository<Ticket>>();
