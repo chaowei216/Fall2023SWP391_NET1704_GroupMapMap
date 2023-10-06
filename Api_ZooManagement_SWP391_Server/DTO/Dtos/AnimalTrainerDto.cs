@@ -1,4 +1,4 @@
-﻿namespace Api_ZooManagement_SWP391.Dtos
+﻿namespace DTO.Dtos
 {
     public class AnimalTrainerDto
     {

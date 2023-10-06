@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using BBL.Interfaces;
 using DAL.Entities;
 using AutoMapper;
-using Api_ZooManagement_SWP391.Dtos;
+using DTO.Dtos;
 
 namespace Api_ZooManagement_SWP391.Controllers
 {

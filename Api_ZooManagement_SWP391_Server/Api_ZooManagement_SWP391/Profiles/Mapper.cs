@@ -1,6 +1,6 @@
 
 using AutoMapper;
-using Api_ZooManagement_SWP391.Dtos;
+using DTO.Dtos;
 using DAL.Entities;
 
 
@@ -36,6 +36,15 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<OrderCreateDto, Order>();
             CreateMap<TicketDto, Ticket>();
             CreateMap<Ticket, TicketShowDto>();
+            CreateMap<UpdateAnimalDto, Animal>();
+            CreateMap<Animal, UpdateAnimalDto>();
+            CreateMap<AnimalTrainer, AnimalDto>();
+            CreateMap<AnimalDto, AnimalTrainer>();
+            CreateMap<AnimalCage, AnimalDto>();
+            CreateMap<AnimalDto, AnimalCage>();
+            CreateMap<AnimalTrainer, UpdateAnimalDto>();
+            CreateMap<UpdateAnimalDto, AnimalTrainer>();
+            CreateMap<UpdateAnimalDto, AnimalCage>();
         }
 
     }

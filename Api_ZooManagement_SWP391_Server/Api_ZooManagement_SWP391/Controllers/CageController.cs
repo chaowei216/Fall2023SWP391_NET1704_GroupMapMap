@@ -2,7 +2,7 @@
 using BBL.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Api_ZooManagement_SWP391.Dtos;
+using DTO.Dtos;
 using AutoMapper;
 using DAL.Entities;
 using System.Text.RegularExpressions;

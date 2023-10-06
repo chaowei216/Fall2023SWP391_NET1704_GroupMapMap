@@ -1,6 +1,8 @@
 ﻿using BBL.Interfaces;
+using DAL.Data;
 using DAL.Entities;
 using DAL.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,22 +18,21 @@ namespace BBL.Services
         private readonly IGenericRepository<Cage> _cageRepo;
         private readonly IGenericRepository<AnimalTrainer> _animalTrainerRepo;
         private readonly IGenericRepository<AnimalCage> _animalCageRepo;
-        private readonly IGenericRepository<AnimalFood> _animalFoodRepo;
-        private readonly IGenericRepository<Food> _foodRepo;
+        private readonly DataContext _context;
+
 
         public AnimalService(IGenericRepository<Animal> animalRepo,
                              IGenericRepository<User> userRepo,
                              IGenericRepository<Cage> cageRepo,
-                             IGenericRepository<Food> foodRepo, IGenericRepository<AnimalCage> animalCageRepo, IGenericRepository<AnimalFood> animalFoodRepo,
-                             IGenericRepository<AnimalTrainer> animalTrainerRepo)
+                             IGenericRepository<Food> foodRepo, IGenericRepository<AnimalCage> animalCageRepo,
+                             IGenericRepository<AnimalTrainer> animalTrainerRepo, DataContext context)
         {
             _animalRepo = animalRepo;
             _cageRepo = cageRepo;
             _userRepo = userRepo;
-            _foodRepo = foodRepo;
             _animalCageRepo = animalCageRepo;
-            _animalFoodRepo = animalFoodRepo;
             _animalTrainerRepo = animalTrainerRepo;
+            _context = context;
         }
         public bool AddAnimal(string? userId, string? cageId, Animal animal)
         {
@@ -43,14 +44,12 @@ namespace BBL.Services
                 {
                     User = trainer,
                     Animal = animal,
-                    StartTrainDate = DateTime.Now,
                 };
                 _animalTrainerRepo.Add(newAnimalTrainer);
                 AnimalCage newAnimalCage = new AnimalCage
                 {
                     Cage = cage,
                     Animal = animal,
-                    EntryCageDate = DateTime.Now,
                 };
                 _animalCageRepo.Add(newAnimalCage);
                 return true;
@@ -73,28 +72,82 @@ namespace BBL.Services
             return _animalRepo.GetById(id);
         }
 
-        public bool UpdateAnimal(string userId, string cageId,
-                                 Animal animal)
+        public ICollection<AnimalTrainer> GetAnimalTrainers()
         {
-            if (_animalRepo.Update(animal))
+            return _animalTrainerRepo.GetAll();
+        }
+
+        public ICollection<AnimalCage> GetAnimalCages()
+        {
+            return _animalCageRepo.GetAll();
+        }
+
+        public ICollection<AnimalTrainer> GetTrainerByAnimalId(string animalId)
+        {
+            var user = _context.AnimalTrainers.Where(a => a.AnimalId == animalId).ToList();
+            if (user == null) return null;
+            return user;
+        }
+
+        public ICollection<AnimalCage> GetCageByAnimalId(string animalId)
+        {
+            var cage = _context.AnimalCages.Where(a => a.AnimalId == animalId).ToList();
+            if (cage == null) return null;
+            return cage;
+        }
+
+        public bool UpdateAnimal(Animal animal, Animal? animalMap)
+        {
+            if (animalMap != null)
+            {
+                animal.Description = animalMap.Description;
+                animal.HealthCheck = animalMap.HealthCheck;
+                animal.Status = animalMap.Status;
+                animal.Rarity = animalMap.Rarity;
+            }
+            return _animalRepo.Update(animal);
+        }
+        public bool AddAnimalTrainer(string userId, string animalId, AnimalTrainer animalTrainer)
+        {
+            if (animalTrainer.UserId != null)
             {
                 var trainer = _userRepo.GetById(userId);
-                var cage = _cageRepo.GetById(cageId);
+                var animal = _animalRepo.GetById(animalId);
                 AnimalTrainer newAnimalTrainer = new AnimalTrainer
                 {
                     User = trainer,
                     Animal = animal,
+                    StartTrainDate = animalTrainer.StartTrainDate,
                 };
-                _animalTrainerRepo.Update(newAnimalTrainer);
+                return _animalTrainerRepo.Add(newAnimalTrainer);
+            }
+            return false;
+        }
+
+        public bool AddAnimalCage(string cageId, string animalId, AnimalCage animalCage)
+        {
+            if (animalCage.CageId != null)
+            {
+                var cage = _cageRepo.GetById(cageId);
+                var animal = _animalRepo.GetById(animalId);
                 AnimalCage newAnimalCage = new AnimalCage
                 {
                     Cage = cage,
                     Animal = animal,
+                    EntryCageDate = DateTime.Now,
                 };
-                _animalCageRepo.Update(newAnimalCage);
-                return true;
+                return _animalCageRepo.Add(newAnimalCage);
             }
             return false;
-        } 
+        }
+        public bool DeleteAnimal(string animalId)
+        {
+            var animal = _animalRepo.GetById(animalId);
+            if (animal == null)
+                return false;
+
+            animal.Status = false;
+            return _animalRepo.Update(animal);
+        }
     }
 }

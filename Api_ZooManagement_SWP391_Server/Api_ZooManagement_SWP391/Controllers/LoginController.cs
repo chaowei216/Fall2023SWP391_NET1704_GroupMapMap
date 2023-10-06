@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using Api_ZooManagement_SWP391.Dtos;
+using DTO.Dtos;
 using BBL.Interfaces;
 using DAL.Entities;
 

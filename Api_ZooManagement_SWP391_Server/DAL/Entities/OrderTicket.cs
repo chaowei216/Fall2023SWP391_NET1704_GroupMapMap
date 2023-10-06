@@ -11,8 +11,6 @@ namespace DAL.Entities
         public string OrderId { get; set; }
         public string TicketId { get; set; }
         public int TicketQuantity { get; set; }
-
-
         //define fk
         public Order Order { get; set; }
         public Ticket Ticket { get; set; }

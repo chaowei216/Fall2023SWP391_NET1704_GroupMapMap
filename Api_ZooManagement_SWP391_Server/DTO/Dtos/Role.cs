@@ -1,4 +1,4 @@
-﻿namespace DAL.Entities
+﻿namespace DTO.Dtos
 {
     public enum Role
     {

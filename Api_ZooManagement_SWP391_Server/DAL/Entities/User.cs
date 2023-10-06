@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DTO.Dtos;
 
 namespace DAL.Entities
 {

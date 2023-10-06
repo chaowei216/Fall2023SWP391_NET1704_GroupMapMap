@@ -1,11 +1,10 @@
-﻿namespace Api_ZooManagement_SWP391.Dtos
+﻿namespace DTO.Dtos
 {
-    public class OrderCreateDto
+    public class OrderDto
     {
         public string Email { get; set; }
         public string FullName { get; set; }
         public string PhoneNumber { get; set; }
         public double TotalPrice { get; set; }
-        public List<TicketDto>? Tickets { get; set; }
     }
 }
