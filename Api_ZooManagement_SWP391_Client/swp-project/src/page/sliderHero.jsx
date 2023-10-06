@@ -5,13 +5,13 @@ function SliderHero() {
         <div>
             <section className="slider-hero">
                 <div className="slider-home-1 owl-carousel owl-theme">
-                    <div className="hero-section item" style={{backgroundImage: 'url(https://via.placeholder.com/1920x709)'}}>
+                    <div className="hero-section item" >
                         <div className="container">
                             <div className="row align-items-end">
                                 <div className="col-xl-6">
                                     <div className="featured-area">
                                         <h2>The Perfect Space to Enjoy Fantastic Food</h2>
-                                        <h5>Festive dining at Farthings where we are strong believers in using the very best produce</h5>
+                                        <h5>The animal world contains diversity and richness, from small species to magnificent wild creatures</h5>
                                         <div className="d-md-flex align-items-center">
                                             <a href="menu-1.html" className="button">See Our Menus</a>
                                             <div className="video">
@@ -27,14 +27,14 @@ function SliderHero() {
                             </div>
                         </div>
                     </div>
-                    <div className="hero-section item" style={{backgroundImage: 'url(https://via.placeholder.com/1920x709)'}}>
+                    <div className="hero-section item" >
                         <div className="container">
                             <div className="row align-items-end">
                                 <div className="col-xl-6">
                                     <div className="featured-area">
-                                        <h2>grilled cheese</h2>
-                                        <h1>burger</h1>
-                                        <h6>limited time offer</h6>
+                                        <h2>Lepidoptera</h2>
+                                        <h1>BUTTERFLY</h1>
+                                        <h6>Butterflies are outstanding insects with unique color beauty and magical transformations in life.</h6>
                                         <div className="d-md-flex align-items-center">
                                             <a href="menu-1.html" className="button">get offer today</a>
                                         </div>
@@ -43,14 +43,14 @@ function SliderHero() {
                             </div>
                         </div>
                     </div>
-                    <div className="hero-section item" style={{backgroundImage: 'url(https://via.placeholder.com/1920x709)'}}>
+                    <div className="hero-section item" >
                         <div className="container">
                             <div className="row align-items-end">
                                 <div className="col-xl-6">
                                     <div className="featured-area">
-                                        <h2>delicious</h2>
-                                        <h1>Hot Pizza</h1>
-                                        <h6>don't miss this deal</h6>
+                                        <h2>Felidae</h2>
+                                        <h1>LION </h1>
+                                        <h6>Lion is a large carnivorous animal that often lives in prides and is known for its strength and top position in their food chain.</h6>
                                         <div className="d-md-flex align-items-center">
                                             <a href="menu-1.html" className="button">get offer today</a>
                                         </div>
@@ -59,14 +59,14 @@ function SliderHero() {
                             </div>
                         </div>
                     </div>
-                    <div className="hero-section item" style={{backgroundImage:' url(https://via.placeholder.com/1920x709)'}}>
+                    <div className="hero-section item">
                         <div className="container">
                             <div className="row align-items-end">
                                 <div className="col-xl-6">
                                     <div className="featured-area">
-                                        <h2>Summer Drink</h2>
-                                        <h1>Cocktail</h1>
-                                        <h6>limited time offer</h6>
+                                        <h2>Sciuridae</h2>
+                                        <h1>SQUIRREL</h1>
+                                        <h6>Squirrel is a small animal with thick fur and a long tail. It typically lives independently and enjoys climbing on trees and other structures. Squirrels primarily eat nuts, fruits, and plant-based foods.</h6>
                                         <div className="d-md-flex align-items-center">
                                             <a href="menu-1.html" className="button">get offer today</a>
                                         </div>

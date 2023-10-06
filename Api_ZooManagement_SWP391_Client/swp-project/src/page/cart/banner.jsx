@@ -23,13 +23,13 @@ function Banner() {
             <div className="row">
                <div className="col-6">
                   <div className="title-area-img">
-                     <img alt="title-area-img" src="https://via.placeholder.com/230x376"/>
+                     <img alt="title-area-img" src="../../src/assets/img/anhticket1-2.jpeg"/>
                      <img alt="pata" className="pata" src="../../src/assets/img/pata.png"/>
                   </div>
                </div>
                <div className="col-6">
                   <div className="title-area-img two">
-                     <img alt="title-area-img" src="https://via.placeholder.com/230x376"/>
+                     <img alt="title-area-img" src="../../src/assets/img/anhticket2-2.jpeg"/>
                   </div>
                </div>
             </div>

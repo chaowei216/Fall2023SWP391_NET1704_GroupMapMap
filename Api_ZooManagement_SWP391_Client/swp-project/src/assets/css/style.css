@@ -478,12 +478,25 @@ figure {
     width: 30%;
 }
 /* 5. hero-section */
-.hero-section {
+.hero-section  {
+    background-image: url(../../assets/img/anhnen2.jpg);
     padding-top: 170px;
     padding-bottom: 40px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover ;
+}
+.hero-section:nth-child(2) {
+    background-image: url(../../assets/img/buom.jpg);
+   
+}
+.hero-section:nth-child(3) {
+    background-image: url(../../assets/img/sutu.jpg);
+   
+}
+.hero-section:nth-child(4) {
+    background-image: url(../../assets/img/soc.jpg);
+   
 }
 .featured-area h2, .featured-area h5 {
     color: white;
@@ -634,9 +647,12 @@ section.slider-hero {
 .restaurant-card {
     position: relative;
     overflow: hidden;
+    height: 500px;
+    
 }
 .restaurant-card img {
     border-radius: 30px;
+    height: 100%;
 }
 .restaurant-card span {
     left: 0;

@@ -16,7 +16,7 @@ function Index() {
     <SliderHero/>
     <SectionGap/>
     <SectionDiscover/>
-    <SectionGapType/>
+    {/* <SectionGapType/> */}
     <SectionNoTop/>
     {/* <GapNoBottom/> */}
     <GapNoBottomTwoHeading/>
