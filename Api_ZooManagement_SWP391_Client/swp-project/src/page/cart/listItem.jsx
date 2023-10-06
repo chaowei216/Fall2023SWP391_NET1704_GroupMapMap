@@ -17,14 +17,14 @@ function ListItem() {
       return total + calculateProductTotal(product);
     }, 0);
   };
-  // const [shoppingCart, setShoppingCart] = useState([]); // Sử dụng state để lưu trữ dữ liệu từ localStorage
-  // const handleDeleteCart = () => {
-  //   // Xoá dữ liệu khỏi localStorage
-  //   localStorage.removeItem('shoppingCart');
-
-  //   // Cập nhật state giỏ hàng về mảng rỗng
-  //   setShoppingCart([]);
-  // };
+  
+  const Store = (cartData) => {
+    // Chuyển dữ liệu giỏ hàng thành chuỗi JSON
+    const cartDataJSON = JSON.stringify(cartData);
+    
+    // Lưu vào localStorage
+    localStorage.setItem('shoppingCart', cartDataJSON);
+  };
   // useEffect(() => {
   //   // Lấy dữ liệu từ localStorage và cập nhật state khi thành phần được tạo
   //   const shoppingCartData = localStorage.getItem('shoppingCart');
@@ -190,7 +190,7 @@ function ListItem() {
                     </table>
                   </div>
                   <div className="wc-proceed-to-checkout">
-                    <Link to="/checkout" className="button">
+                    <Link to="/checkout" className="button" onClick={Store(shoppingCart)}>
                     <span>Proceed to checkout</span>
                     </Link>
                     

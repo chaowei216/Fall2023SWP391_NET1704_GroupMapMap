@@ -1,8 +1,74 @@
-import React from 'react'
+import React,{useState} from 'react'
 import Footer from '../footer'
 import Header from '../header'
 
 function Checkout() {
+const cartDataJSON = localStorage.getItem('shoppingCart');
+const shoppingCart = JSON.parse(cartDataJSON);
+const totalPrice = shoppingCart.reduce((total, product) => {
+    
+    const productTotal = product.price * product.quantity;
+  
+    
+    return total + productTotal;
+  }, 0);
+  // tách object
+//   const newObject = {
+//     shoppingCart: shoppingCart.map((product) => {
+//       return {
+//         id: product.id,
+//         name: product.name
+//       };
+//     })
+//   };
+  
+//   setFormData({
+//     ...formData,
+//     tickets: newObject
+//   });
+  
+    const [formData, setFormData] = useState({
+        fullName: '',
+        email: '',
+        phoneNumber: '',
+        totalPrice:totalPrice,
+        tickets:{shoppingCart},
+        payment_method: '', // To store the selected payment method
+      });
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value,
+        }));
+      };
+      console.log(formData.totalPrice);
+      console.log(formData.tickets);
+
+    
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log('Form submitted');
+        // Here, you can make an HTTP request to send the formData to your API
+        try {
+          const response = await fetch('https://reqres.in/api/users', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          });
+    
+          if (response.ok) {
+            const responseData = await response.json();
+            console.log('API Response Data:', responseData);
+          } else {
+            // Handle errors, e.g., display an error message
+          }
+        } catch (error) {
+          // Handle network errors
+        }
+      };
     return (
         <div>
             <Header />
@@ -42,48 +108,23 @@ function Checkout() {
             </section>
             <section className="gap">
                 <div className="container">
-                    <form className="checkout-meta donate-page">
+                    <form className="checkout-meta donate-page" onSubmit={handleSubmit}>
                         <div className="row">
                             <div className="col-lg-8">
                                 <h3 className="pb-3">Billing details</h3>
                                 <div className="col-lg-12">
-                                    <input type="text" className="input-text " name="billing_name" placeholder="Complete Name" />
-                                    <input type="email" className="input-text " name="billing_email" placeholder="Email address" />
-                                    <select name="billing_country" className="nice-select Advice country_to_state">
-                                        <option>Country</option>
-                                        <option>Select Topic 1</option>
-                                        <option>Select Topic 2</option>
-                                        <option>Select Topic 3</option>
-                                        <option>Select Topic 4</option>
-                                    </select>
+                                    <input type="text" className="input-text " name="fullName" placeholder="Complete Name"  onChange={handleChange} />
+                                    <input type="email" className="input-text " name="email" placeholder="Email address" />
+                                    
                                     <div className="row">
+                                        
+                                        
                                         <div className="col-lg-6">
-                                            <select name="billing_country" className="nice-select Advice city">
-                                                <option>City</option>
-                                                <option>Select Topic 1</option>
-                                                <option>Select Topic 2</option>
-                                                <option>Select Topic 3</option>
-                                                <option>Select Topic 4</option>
-                                            </select>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <select name="billing_country" className="nice-select Advice state province">
-                                                <option>State / Province</option>
-                                                <option>Select Topic 1</option>
-                                                <option>Select Topic 2</option>
-                                                <option>Select Topic 3</option>
-                                                <option>Select Topic 4</option>
-                                            </select>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <input type="text" name="Postal_Code" placeholder="Postal Code" />
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <input type="tel" className="input-text " name="billing_phone" placeholder="Phone" />
+                                            <input type="tel" className="input-text " name="phoneNumber" placeholder="Phone"  onChange={handleChange} />
                                         </div>
                                     </div>
                                     <input type="text" name="Address" placeholder="Address" />
-                                    <div className="ship-address">
+                                    {/* <div className="ship-address">
                                         <div className="d-flex">
                                             <input type="radio" id="Create" name="Create" value="Create" />
                                             <label htmlFor="Create">
@@ -96,7 +137,7 @@ function Checkout() {
                                                 Ship to same Address
                                             </label>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="woocommerce-additional-fields">
                                     <textarea name="order_comments" className="input-text " placeholder="Order Note"></textarea>

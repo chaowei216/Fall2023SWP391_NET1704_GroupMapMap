@@ -236,17 +236,32 @@ figure {
 .navbar-links {
   list-style-type: none;
   display: flex;
+  color:#EDF5E1;
+  justify-content: space-around;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+ 
 }
 .navbar-links li a {
+    margin: 10px;
     display: block;
     text-decoration: none;
-    color: #707070;
+    color:#EDF5E1;
+    
     padding: 40px 25px;
     transition: 0.4s all;
+    border: 0px;
+    margin: 0;
 }
 .navbar-links li.navbar-dropdown {
+   
   position: relative;
 }
+.navbar-links .navbar-dropdown a {
+   
+    color:#EDF5E1;
+  }
 .navbar-links li.navbar-dropdown:hover .dropdown {
     border-radius: 25px;
     visibility: visible;
@@ -254,6 +269,7 @@ figure {
     transform: translatex(0px);
     z-index: 1111;
 }
+
 .navbar-links li.navbar-dropdown .dropdown {
     visibility: hidden;
      border-top: 10px #379683 solid;
@@ -275,7 +291,7 @@ figure {
     border: 0;
     position: relative;
     text-transform: capitalize;
-    color: #222;
+    color:#EDF5E1;
 }
 .navbar-links li.navbar-dropdown .dropdown a:not(:last-child):before {
     content: "";
@@ -296,12 +312,12 @@ figure {
     align-items: center;
     justify-content: end;
 }
-.hamburger-icon svg {
+.donation svg {
     width: 25px;
     height: 25px;
-    fill: black;
+    fill: #EDF5E1;
     margin-right: 20px;
-    display: block;
+    display: flex;
 }
 .donation{
     position: relative;
@@ -452,7 +468,7 @@ figure {
     position: absolute;
     width: 94%;
     right: -8px;
-    border: 3px solid #379683;
+    border: 3px solid #EDF5E1;
     height: 75px;
     border-radius: 12px;
     top: -6.5px;

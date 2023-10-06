@@ -18,9 +18,9 @@ function Index() {
     <SectionDiscover/>
     <SectionGapType/>
     <SectionNoTop/>
-    <GapNoBottom/>
+    {/* <GapNoBottom/> */}
     <GapNoBottomTwoHeading/>
-    <GapBackground/>
+    {/* <GapBackground/> */}
     <Footer/>
     </div>
   )
