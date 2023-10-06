@@ -22,6 +22,8 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<AreaDto, Area>();
             CreateMap<Cage, CageDto>();
             CreateMap<CageDto, Cage>();
+            CreateMap<FoodDto, Food>();
+            CreateMap<FoodUpdateDto, Food>();
             CreateMap<AnimalCage, AnimalCageDto>();
             CreateMap<AnimalCageDto, AnimalCage>();
             CreateMap<AnimalSchedule, AnimalScheduleDto>();
@@ -31,6 +33,10 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<AnimalTrainer, AnimalTrainerDto>();
             CreateMap<AnimalTrainerDto, AnimalTrainer>();
             CreateMap<UpdateAnimalDto, Animal>().ReverseMap();
+            CreateMap<OrderDto, Order>();
+            CreateMap<OrderCreateDto, Order>();
+            CreateMap<TicketDto, Ticket>();
+            CreateMap<Ticket, TicketShowDto>();
         }
 
     }

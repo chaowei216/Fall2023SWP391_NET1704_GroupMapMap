@@ -12,10 +12,13 @@ namespace BBL.Services
     public class OrderService : IOrderService
     {
         private readonly IGenericRepository<Order> _orderRepo;
+        private readonly IGenericRepository<OrderTicket> _ordTicketRepo;
 
-        public OrderService(IGenericRepository<Order> orderRepo)
+        public OrderService(IGenericRepository<Order> orderRepo, IGenericRepository<Ticket> ticketRepo,
+            IGenericRepository<OrderTicket> ordTicketRepo)
         {
             _orderRepo = orderRepo;
+            _ordTicketRepo = ordTicketRepo;
         }
         public bool AddOrder(Order order)
         {
@@ -26,9 +29,16 @@ namespace BBL.Services
             return false;
         }
 
-        public bool AddOrder(string ticketId, Order order)
+        public bool AddOrder(List<OrderTicket> ordTickets, Order order)
         {
-            throw new NotImplementedException();
+            if (ordTickets == null || ordTickets.Count == 0) return false;
+            double totalPrice = ordTickets.Sum(u => u.Ticket.Price * u.TicketQuantity);
+            if (!totalPrice.Equals(order.TotalPrice)) return false;
+            foreach(OrderTicket ticket in ordTickets)
+            {
+                _ordTicketRepo.Add(ticket);
+            }
+            return true;
         }
 
         public ICollection<Order> GetAllOrders()
@@ -47,14 +57,5 @@ namespace BBL.Services
             return false;
         }
 
-        public bool UpdateOrder(Order order)
-        {
-            if(order != null)
-            {
-                return _orderRepo.Update(order);
-            }
-            return false;
-
-        }
     }
 }

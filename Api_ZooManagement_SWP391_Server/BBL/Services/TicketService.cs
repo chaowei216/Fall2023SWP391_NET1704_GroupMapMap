@@ -27,6 +27,8 @@ namespace BBL.Services
             return _ticketRepo.GetById(ticketId);
         }
 
+        public Ticket GetTicketByType(string type) => _ticketRepo.GetAll().FirstOrDefault(t => t.Type == type);
+
         public ICollection<Ticket> GetTickets()
         {
             return _ticketRepo.GetAll();

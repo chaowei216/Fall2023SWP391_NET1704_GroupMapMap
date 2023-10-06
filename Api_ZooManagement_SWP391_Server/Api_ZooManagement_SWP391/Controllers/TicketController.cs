@@ -21,10 +21,10 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpGet()]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Ticket>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<TicketShowDto>))]
         public IActionResult GetTickets()
         {
-            var tickets = _mapper.Map<List<TicketDto>>(_ticketService.GetTickets());
+            var tickets = _mapper.Map<List<TicketShowDto>>(_ticketService.GetTickets());
 
             if (!ModelState.IsValid)
                 return BadRequest();

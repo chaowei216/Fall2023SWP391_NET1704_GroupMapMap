@@ -22,7 +22,6 @@ namespace DAL.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Area> Areas { get; set; }
         public DbSet<Cage> Cages { get; set; }
-        public DbSet<Guest> Guests { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderTicket> OrderTickets { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
@@ -54,19 +53,14 @@ namespace DAL.Data
                 entity.Property(e => e.AnimalQuantity).IsRequired();
             });
 
-            modelBuilder.Entity<Guest>(e =>
-            {
-                e.HasKey(guest => guest.Email);
-                e.Property(a => a.Email).HasMaxLength(30);
-                e.Property(a => a.FullName).HasMaxLength(50).IsRequired();
-                e.Property(p => p.PhoneNumber).HasMaxLength(10).IsRequired();
-            });
-
             modelBuilder.Entity<Order>(e =>
             {
                 e.HasKey(order => order.OrderId);
-                e.Property(c => c.OrderId).HasMaxLength(5);
-                e.Property(d => d.TotalPrice).IsRequired();
+                e.Property(o => o.OrderId).HasMaxLength(5);
+                e.Property(o => o.TotalPrice).IsRequired();
+                e.Property(o => o.Email).HasMaxLength(30).IsRequired();
+                e.Property(o => o.FullName).HasMaxLength(50).IsRequired();
+                e.Property(o => o.PhoneNumber).HasMaxLength(10).IsRequired();
             });
 
             modelBuilder.Entity<Ticket>(e =>

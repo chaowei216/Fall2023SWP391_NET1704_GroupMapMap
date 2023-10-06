@@ -12,11 +12,14 @@ namespace Api_ZooManagement_SWP391.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
+        private readonly ITicketService _ticketService;
         private readonly IMapper _mapper;
 
-        public OrderController(IOrderService orderService, IMapper mapper)
+        public OrderController(IOrderService orderService, IMapper mapper,
+            ITicketService ticketService)
         {
             _orderService = orderService;
+            _ticketService = ticketService;
             _mapper = mapper;
         }
 
@@ -30,7 +33,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpGet("{orderId}")]
-        [ProducesResponseType(200, Type = typeof(Order))]
+        [ProducesResponseType(200, Type = typeof(OrderDto))]
         [ProducesResponseType(400)]
         public IActionResult GetOrder(string orderId)
         {
@@ -46,25 +49,48 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateOrder([FromQuery] string ticketId, [FromBody] OrderDto orderCreate)
+        public IActionResult CreateOrder([FromBody] OrderCreateDto orderCreate)
         {
             if (orderCreate == null)
                 return BadRequest();
 
+            var orderMap = _mapper.Map<Order>(orderCreate);
+            int count = _orderService.GetAllOrders().Count() + 1;
+            orderMap.OrderId = "O" + count.ToString().PadLeft(4, '0');
+
+
+            var TicketQuantities = orderCreate.Tickets;
+            List<OrderTicket> orderTickets = new List<OrderTicket>();
+            if (TicketQuantities == null || TicketQuantities.Count() == 0)
+            {
+                return BadRequest("No ticket");
+            }
+            foreach (var ticketQuantity in TicketQuantities)
+            {
+                var ticket = _ticketService.GetTicketByType(ticketQuantity.Type);
+
+                if (ticket == null) return BadRequest("Ticket Not Found");
+                
+                if(ticketQuantity.Amount == 0) continue;
+                orderTickets.Add(new OrderTicket()
+                {
+                       Order = orderMap,
+                       Ticket = ticket,
+                       TicketQuantity = ticketQuantity.Amount
+                 });
+            }
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var orderMap = _mapper.Map<Order>(orderCreate);
-
-            if (!_orderService.AddOrder(ticketId, orderMap))
-            {
-                ModelState.AddModelError("", "Something went wrong while saving");
+            if (!_orderService.AddOrder(orderTickets, orderMap))
+                {
+                    ModelState.AddModelError("", "Something went wrong while saving");
                 return StatusCode(500, ModelState);
             }
 
             return Ok("Successful Created");
         }
-
 
 
     }

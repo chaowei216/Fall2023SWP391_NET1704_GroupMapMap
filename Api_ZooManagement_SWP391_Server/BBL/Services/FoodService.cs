@@ -1,4 +1,5 @@
 ﻿using BBL.Interfaces;
+using DAL.Data;
 using DAL.Entities;
 using DAL.Repositories;
 using System;
@@ -13,14 +14,29 @@ namespace BBL.Services
 
     {
         private readonly IGenericRepository<Food> _foodRepository;
-        public FoodService(IGenericRepository<Food> foodRepository)
+        private readonly IGenericRepository<AnimalFood> _animalFoodRepo;
+        private readonly DataContext _context;
+
+        public FoodService(IGenericRepository<Food> foodRepository,
+            IGenericRepository<AnimalFood> animalFoodRepo, DataContext context)
         {
             _foodRepository = foodRepository;
+            _animalFoodRepo = animalFoodRepo;
+            _context = context;
         }
 
         public bool AddFood(Food food)
         {
             return _foodRepository.Add(food);
+        }
+
+        public bool DeleteFood(string foodId)
+        {
+            var food = _foodRepository.GetById(foodId);
+            if (food == null) return false;
+            _context.Remove(food);
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
 
         public bool FoodExists(string id)
@@ -31,6 +47,13 @@ namespace BBL.Services
         public ICollection<Food> GetAllFood()
         {
             return _foodRepository.GetAll();
+        }
+
+        public List<Animal> GetAnimalsByFoodId(string foodId)
+        {
+            var animals = _animalFoodRepo.GetAll().Where(e => e.FoodId == foodId).Select(a => a.Animal).ToList();
+            if (animals == null || animals.Count() == 0) return null;
+            return animals;
         }
 
         public Food GetByFoodId(string id)
@@ -51,11 +74,15 @@ namespace BBL.Services
             return null;
         }
 
-        public bool UpdateFood(Food food)
+        public bool UpdateFood(Food foodMap)
         {
-            _foodRepository.Update(food);
-            return true;
-
+            var food = _foodRepository.GetById(foodMap.FoodId);
+            if (food == null) return false;
+            food.FName = foodMap.FName;
+            food.ImportDate = foodMap.ImportDate;
+            food.ExpiredDate = foodMap.ExpiredDate;
+            food.Quantity = foodMap.Quantity;          
+            return _foodRepository.Update(food);
         }
     }
 }

@@ -9,8 +9,7 @@ namespace BBL.Interfaces
 {
     public interface IOrderService
     {
-        bool AddOrder(string ticketId, Order order);
-        bool UpdateOrder(Order order);
+        bool AddOrder(List<OrderTicket> ordTickets, Order order);
         ICollection<Order> GetAllOrders();
         Order GetOrder(string id);
         bool OrderExists(string id);

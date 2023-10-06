@@ -60,16 +60,18 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest(ModelState);
             }
 
+            var foodMap = _mapper.Map<Food>(foodDto);
+
+            if (foodMap.Quantity == 0)
+                return BadRequest("Fail to Add");
+            int count = _foodService.GetAllFood().Count() + 1;
+            var foodId = "F" + count.ToString().PadLeft(4, '0');
+            foodMap.FoodId = foodId;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            int count = _foodService.GetAllFood().Count() + 1;
-            var foodId = "F" + count.ToString().PadLeft(4, '0');
-
-            var foodMap = _mapper.Map<Food>(foodDto);
-            foodMap.FoodId = foodId;
 
             if (!_foodService.AddFood(foodMap))
             {
@@ -78,6 +80,62 @@ namespace Api_ZooManagement_SWP391.Controllers
             }
 
             return Ok("Successful Created");
+        }
+
+        [HttpPut("{foodId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateFood(string foodId, [FromBody] FoodUpdateDto foodUpdate)
+        {
+            if (foodUpdate == null)
+                return BadRequest(ModelState);
+
+            if (foodId != foodUpdate.FoodId)
+                return BadRequest(ModelState);
+
+            if (!_foodService.FoodExists(foodId))
+                return NotFound();
+
+            var foodMap = _mapper.Map<Food>(foodUpdate);
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            if (!_foodService.UpdateFood(foodMap))
+            {
+                ModelState.AddModelError("", "Error when updating food!!");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{foodId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteFood(string foodId)
+        {
+            if (!_foodService.FoodExists(foodId))
+            {
+                return NotFound();
+            }
+
+            var animals = _foodService.GetAnimalsByFoodId(foodId);
+
+            if (animals != null)
+                return BadRequest("Food still serve animals!!!");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_foodService.DeleteFood(foodId))
+            {
+                ModelState.AddModelError("", "Something went wrong while deleting food");
+            }
+
+            return NoContent();
         }
 
     }

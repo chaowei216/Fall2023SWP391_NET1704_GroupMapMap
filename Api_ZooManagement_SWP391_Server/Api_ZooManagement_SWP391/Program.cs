@@ -80,6 +80,7 @@ builder.Services.AddScoped<IGenericRepository<AnimalCage>, GenericRepository<Ani
 builder.Services.AddScoped<IGenericRepository<AnimalFood>, GenericRepository<AnimalFood>>();
 builder.Services.AddScoped<IGenericRepository<AnimalSchedule>, GenericRepository<AnimalSchedule>>();
 builder.Services.AddScoped<IGenericRepository<AnimalTrainer>, GenericRepository<AnimalTrainer>>();
+builder.Services.AddScoped<IGenericRepository<OrderTicket>, GenericRepository<OrderTicket>>();
 
 
 
