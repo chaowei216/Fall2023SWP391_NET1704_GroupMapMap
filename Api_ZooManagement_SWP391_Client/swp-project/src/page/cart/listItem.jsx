@@ -169,12 +169,6 @@ function ListItem() {
                             </span>
                           </td>
                         </tr>
-                        <tr className="Shipping">
-                          <th>Shipping:</th>
-                          <td>
-                            <span className="woocommerce-Price-amount amount">free</span>
-                          </td>
-                        </tr>
                         <tr className="Total">
                           <th>Total:</th>
                           <td>

@@ -13,27 +13,18 @@ const totalPrice = shoppingCart.reduce((total, product) => {
     return total + productTotal;
   }, 0);
   // tách object
-//   const newObject = {
-//     shoppingCart: shoppingCart.map((product) => {
-//       return {
-//         id: product.id,
-//         name: product.name
-//       };
-//     })
-//   };
-  
-//   setFormData({
-//     ...formData,
-//     tickets: newObject
-//   });
+  const newObject = shoppingCart.map((product) => {
+      return {
+        type: product.name,
+        Amount: product.quantity,
+    }})
   
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
         phoneNumber: '',
         totalPrice:totalPrice,
-        tickets:{shoppingCart},
-        payment_method: '', // To store the selected payment method
+        tickets: newObject,
       });
       const handleChange = (e) => {
         const { name, value } = e.target;
@@ -42,8 +33,8 @@ const totalPrice = shoppingCart.reduce((total, product) => {
           [name]: value,
         }));
       };
-      console.log(formData.totalPrice);
-      console.log(formData.tickets);
+      console.log(formData);
+    //   console.log(formData.tickets);
 
     
       const handleSubmit = async (e) => {
@@ -51,7 +42,7 @@ const totalPrice = shoppingCart.reduce((total, product) => {
         console.log('Form submitted');
         // Here, you can make an HTTP request to send the formData to your API
         try {
-          const response = await fetch('https://reqres.in/api/users', {
+          const response = await fetch('https://localhost:44352/api/Order', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -114,7 +105,7 @@ const totalPrice = shoppingCart.reduce((total, product) => {
                                 <h3 className="pb-3">Billing details</h3>
                                 <div className="col-lg-12">
                                     <input type="text" className="input-text " name="fullName" placeholder="Complete Name"  onChange={handleChange} />
-                                    <input type="email" className="input-text " name="email" placeholder="Email address" />
+                                    <input type="email" className="input-text " name="email" placeholder="Email address" onChange={handleChange} />
                                     
                                     <div className="row">
                                         
@@ -123,7 +114,7 @@ const totalPrice = shoppingCart.reduce((total, product) => {
                                             <input type="tel" className="input-text " name="phoneNumber" placeholder="Phone"  onChange={handleChange} />
                                         </div>
                                     </div>
-                                    <input type="text" name="Address" placeholder="Address" />
+                                    
                                     {/* <div className="ship-address">
                                         <div className="d-flex">
                                             <input type="radio" id="Create" name="Create" value="Create" />
@@ -154,16 +145,8 @@ const totalPrice = shoppingCart.reduce((total, product) => {
                                                     <td>
                                                         <span className="woocommerce-Price-amount">
                                                             <bdi>
-                                                                <span className="woocommerce-Price-currencySymbol">$</span>358.00
+                                                                <span className="woocommerce-Price-currencySymbol">$</span>{totalPrice}
                                                             </bdi>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr className="Shipping">
-                                                    <th>Shipping:</th>
-                                                    <td>
-                                                        <span className="woocommerce-Price-amount amount">
-                                                            free
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -172,7 +155,7 @@ const totalPrice = shoppingCart.reduce((total, product) => {
                                                     <td>
                                                         <span className="woocommerce-Price-amount">
                                                             <bdi>
-                                                                <span>$</span>358.00
+                                                                <span>$</span>{totalPrice}
                                                             </bdi>
                                                         </span>
                                                     </td>
