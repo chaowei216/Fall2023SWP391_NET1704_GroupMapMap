@@ -4,6 +4,7 @@ import {
   AppstoreOutlined,
   MailOutlined,
   SettingOutlined,
+  AlertOutlined,
 } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, Switch, Divider } from "antd";
@@ -17,21 +18,22 @@ function getItem(label, key, icon, children, type) {
   };
 }
 const items = [
-  getItem("Navigation One", "sub1", <MailOutlined />, [
+  getItem("Zoo Management", "sub1", <AlertOutlined />, [
     getItem(
-      "Item 1",
+      "Manage",
       "g1",
       null,
-      [getItem("Option 1", "/staff/1"), getItem("Option 2", "2")],
+      [getItem("User", "/staff/1"), getItem("Animal", "2")],
       "group"
     ),
     getItem(
       "Item 2",
       "g2",
       null,
-      [getItem("Option 3", "2"), getItem("Option 4", "4")],
+      [getItem("Option 3", "3"), getItem("Option 4", "4")],
       "group"
     ),
+    
   ]),
   getItem("Navigation Two", "sub2", <AppstoreOutlined />, [
     getItem("Option 5", "/staff/2"),
@@ -77,17 +79,17 @@ const SideMenuTest = ({ openSidebarToggle, OpenSidebar }) => {
       {/* <aside
         id="sidebar"
       > */}
-      <Switch
+      {/* <Switch
         checked={theme === "dark"}
         onChange={changeTheme}
         checkedChildren="Dark"
         unCheckedChildren="Light"
         style={{ margin: "10px" }}
-      />
+      /> */}
       <Menu
-        theme={theme}
+        theme="dark"
         style={{
-          height: 900,
+          height: 920,
         }}
         onClick={(item) => {
           //item.key

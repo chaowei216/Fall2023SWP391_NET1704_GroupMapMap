@@ -10,6 +10,9 @@ import TableUser from "./page/TableUser";
 import { useState } from "react";
 import HeaderLayout from "./HeaderLayout";
 import AddPage from "./page/User/AddPage";
+import TableAnimal from "./page/Animal/TableAnimal";
+import AddFood from "./page/Food/AddFood";
+import TableFood from "./page/Food/TableFood";
 
 // const HeaderLayout = () => (
 
@@ -42,11 +45,15 @@ const router = createBrowserRouter([
       },
       {
         path: "2",
-        element: <div>foo</div>,
+        element: <TableAnimal></TableAnimal>,
+      },
+      {
+        path: "3",
+        element: <TableFood></TableFood>
       },
       {
         path: "4",
-        element: <div>foo</div>,
+        element: <AddFood></AddFood>,
       },
     ],
   },

@@ -8,12 +8,12 @@ import {
   MDBModalTitle,
   MDBModalBody,
 } from "mdb-react-ui-kit";
-    import "../../assets/css/dashboard.css";
+import "../../assets/css/dashboard.css";
 export default function ModalAdd({ optSmModal, toggleShow, setOptSmModal }) {
   const [Name, setName] = useState("");
 
   const [Job, setJob] = useState("");
-  
+
   return (
     <>
       {/* <MDBBtn onClick={toggleShow}>Small modal</MDBBtn> */}
@@ -54,7 +54,7 @@ export default function ModalAdd({ optSmModal, toggleShow, setOptSmModal }) {
                     />
                   </div>
                 </div>
-                
+
                 <div className="mb-3">
                   <label className="form-label">Enter Password</label>
                   <input
@@ -77,7 +77,6 @@ export default function ModalAdd({ optSmModal, toggleShow, setOptSmModal }) {
                     }}
                   />
                 </div>
-                
               </form>
             </MDBModalBody>
           </MDBModalContent>
