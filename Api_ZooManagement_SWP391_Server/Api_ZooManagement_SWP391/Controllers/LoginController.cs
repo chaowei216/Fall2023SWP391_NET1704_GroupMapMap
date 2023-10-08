@@ -1,14 +1,12 @@
-﻿using Api_ZooManagement_SWP391.Dtos;
-using Api_ZooManagement_SWP391.Entities;
-using Api_ZooManagement_SWP391.Repositories;
-using Api_ZooManagement_SWP391.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
+using System.Security.Cryptography;
+using DTO.Dtos;
+using BBL.Interfaces;
+using DAL.Entities;
 
 namespace Api_ZooManagement_SWP391.Controllers
 {
@@ -18,16 +16,14 @@ namespace Api_ZooManagement_SWP391.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IUserService _userService;
-        private readonly UserRepository _userRepo;
 
-        public LoginController(IConfiguration configuration, IUserService userService, UserRepository userRepository)
+        public LoginController(IConfiguration configuration, IUserService userService)
         {
             _configuration = configuration;
             _userService = userService;
-            _userRepo = userRepository;
         }
 
-        private User Authentication(UserDto user)
+        private User Authentication(LoginDto user)
         {
             var user_ = _userService.CheckLogin(user.Email, user.Password);
             if ( user_ != null)
@@ -57,7 +53,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(UserDto user)
+        public IActionResult Login(LoginDto user)
         {
             var user_ = Authentication(user);
             if (user_ == null)
@@ -69,17 +65,74 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(token);
         }
 
-        [HttpGet("GetUser")]
-        [Authorize(Roles = "ADMIN")]
-
-        public IActionResult GetUser()
+        [HttpPost("forgot-password")]
+        public IActionResult ForgotPassword(string email)
         {
-            var u = _userService.GetUsers();
+            var user = _userService.GetByEmail(email);
+
+            if (user == null)
+            {
+                return BadRequest("invalid email");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            return Ok(u);
+
+            var resetToken = CreateRandomToken().ToString();
+
+            var result = _userService.ForgotPassword(user, resetToken);
+
+            if (!result)
+            {
+                return BadRequest("invalid token");
+            }
+
+            return Ok("you can reset your password");
+
+        }
+
+        [HttpPost("reset-password")]
+        public IActionResult ResetPassword([FromQuery]ResetPasswordDto request)
+        {
+            var user = _userService.GetUsers().Where(user => user.ResetPassToken == request.Token).FirstOrDefault();
+
+            if(user == null || user.ResetTokenExpires < DateTime.Now)
+            {
+                return BadRequest("Invalid Token");
+            }
+
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            var result = _userService.ResetPassword(user, passwordHash, passwordSalt);
+            if(!result)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok("Reset Successfully");
+
+        }
+
+        private object CreateRandomToken()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        }
+
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac
+                    .ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
         }
     }
 }

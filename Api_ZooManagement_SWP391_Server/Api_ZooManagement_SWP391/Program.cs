@@ -1,19 +1,21 @@
-using Api_ZooManagement_SWP391.Data;
-using Api_ZooManagement_SWP391.Profiles;
-using Api_ZooManagement_SWP391.Repositories;
-using Api_ZooManagement_SWP391.Services;
+using DAL.Data;
+using DAL.Repositories;
+using BBL.Interfaces;
+using BBL.Services;
+using BBL.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
-
+using Microsoft.EntityFrameworkCore;
+using DAL.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-//Create Author
+//Create Authorization
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -25,6 +27,10 @@ builder.Services.AddSwaggerGen(options =>
     });
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ZooManagement"));
 });
 //Create JWTBearer Require and AddAuthen
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -45,31 +51,36 @@ builder.Services.AddEndpointsApiExplorer();
 
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
-builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddDbContext<DataContext>();
 
+builder.Services.AddScoped<ICageService, CageService>();
+builder.Services.AddScoped<IAreaService, AreaService>();
+builder.Services.AddScoped<IFoodService, FoodService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<INewsService, NewsService>();
+builder.Services.AddScoped<IScheduleService, ScheduleService>();
+builder.Services.AddScoped<IAnimalService, AnimalService>();
+builder.Services.AddScoped<IUserService, UserService>();
 // add scope for repository
-builder.Services.AddScoped<AnimalFoodRepository>();
-builder.Services.AddScoped<AnimalRepository>();
-builder.Services.AddScoped<AnimalScheduleRepository>();
-builder.Services.AddScoped<AnimalTrainerRepository>();
-builder.Services.AddScoped<FoodCategoryRepository>();
-builder.Services.AddScoped<FoodRepository>();
-builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<WorkExperienceRepository>();
-builder.Services.AddScoped<ExperienceDetailRepository>();
-builder.Services.AddScoped<ScheduleRepository>();
-builder.Services.AddScoped<SpeciesAnimalRepository>();
-builder.Services.AddScoped<ReviewRepository>();
-builder.Services.AddScoped<GuestRepository>();
-builder.Services.AddScoped<OrderRepository>();
-builder.Services.AddScoped<OrderDetailRepository>();
-builder.Services.AddScoped<TicketRepository>();
-builder.Services.AddScoped<NewRepository>();
-builder.Services.AddScoped<NewCategoryRepository>();
-builder.Services.AddScoped<AreaRepository>();
-builder.Services.AddScoped<CageRepository>();
-builder.Services.AddScoped<AnimalCageRepository>();
+builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
+builder.Services.AddScoped<IGenericRepository<Cage>, GenericRepository<Cage>>();
+builder.Services.AddScoped<IGenericRepository<Area>, GenericRepository<Area>>();
+builder.Services.AddScoped<IGenericRepository<Food>, GenericRepository<Food>>();
+builder.Services.AddScoped<IGenericRepository<Order>, GenericRepository<Order>>();
+builder.Services.AddScoped<IGenericRepository<Ticket>, GenericRepository<Ticket>>();
+builder.Services.AddScoped<IGenericRepository<News>, GenericRepository<News>>();
+builder.Services.AddScoped<IGenericRepository<Schedule>, GenericRepository<Schedule>>();
+builder.Services.AddScoped<IGenericRepository<Animal>, GenericRepository<Animal>>();
+builder.Services.AddScoped<IGenericRepository<WorkExperience>, GenericRepository<WorkExperience>>();
+builder.Services.AddScoped<IGenericRepository<ExperienceDetail>, GenericRepository<ExperienceDetail>>();
+builder.Services.AddScoped<IGenericRepository<AnimalCage>, GenericRepository<AnimalCage>>();
+builder.Services.AddScoped<IGenericRepository<AnimalFood>, GenericRepository<AnimalFood>>();
+builder.Services.AddScoped<IGenericRepository<AnimalSchedule>, GenericRepository<AnimalSchedule>>();
+builder.Services.AddScoped<IGenericRepository<AnimalTrainer>, GenericRepository<AnimalTrainer>>();
+builder.Services.AddScoped<IGenericRepository<OrderTicket>, GenericRepository<OrderTicket>>();
+
+
 
 builder.Services.AddCors(options =>
 {
