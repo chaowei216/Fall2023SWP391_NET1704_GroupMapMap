@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Index from "./page";
 import Login from "./page/Authen/loginPage/login";
+import Checkout from "./page/cart-checkout/checkout";
 import Cart from "./page/cart/cart";
 import AppHeader from "./page/rolePage/headerTest";
 import SideMenuTest from "./page/rolePage/SideMenuTest";
@@ -13,6 +14,7 @@ import AddPage from "./page/User/AddPage";
 import TableAnimal from "./page/Animal/TableAnimal";
 import AddFood from "./page/Food/AddFood";
 import TableFood from "./page/Food/TableFood";
+import OrderTable from "./page/Order/OrderTable";
 
 // const HeaderLayout = () => (
 
@@ -32,6 +34,10 @@ const router = createBrowserRouter([
     element: <Cart />,
   },
   {
+    path: "checkout",
+    element: <Checkout />,
+  },
+  {
     path: "/staff",
     element: <HeaderLayout />,
     children: [
@@ -49,14 +55,13 @@ const router = createBrowserRouter([
       },
       {
         path: "3",
-        element: <TableFood></TableFood>
+        element: <TableFood></TableFood>,
       },
       {
         path: "4",
-        element: <AddFood></AddFood>,
+        element: <OrderTable></OrderTable>
       },
     ],
   },
 ]);
 export default router;
-

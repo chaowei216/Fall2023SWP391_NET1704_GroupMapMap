@@ -12,7 +12,7 @@ function SectionNoTop() {
       <div className="row">
          <div className="col-xl-4 col-lg-6">
             <div className="chef">
-               <img alt="cook chef" src="https://via.placeholder.com/392x505"/>
+               <img alt="cook chef" src="../../src/assets/img/anhzootrainer1-2.jpeg"/>
                <div className="chef-text">
                   <div>
                      <span>Dessert specialist</span>
@@ -29,7 +29,7 @@ function SectionNoTop() {
          </div>
          <div className="col-xl-4 col-lg-6">
             <div className="chef">
-               <img alt="cook chef" src="https://via.placeholder.com/392x505"/>
+               <img alt="cook chef" src="../../src/assets/img/anhzootrainer2-2.jpeg"/>
                <div className="chef-text">
                   <div>
                      <span>Chef Master</span>
@@ -46,7 +46,7 @@ function SectionNoTop() {
          </div>
          <div className="col-xl-4 col-lg-6">
             <div className="chef mb-0">
-               <img alt="cook chef" src="https://via.placeholder.com/392x505"/>
+               <img alt="cook chef" src="../../src/assets/img/anhzootrainer3-2.jpeg"/>
                <div className="chef-text">
                   <div>
                      <span>Dessert specialist</span>

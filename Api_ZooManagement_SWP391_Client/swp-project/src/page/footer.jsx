@@ -8,7 +8,7 @@ function Footer() {
   return (
 
     <div>
-        <footer style={{backgroundImage: 'url(https://via.placeholder.com/1920x660)',backgroundColor: '#f5f8fd'}}>
+        <footer style={{backgroundColor: '#f5f8fd'}}>
    <div className="container">
       <div className="row">
          <div className="col-xl-4 col-lg-6">

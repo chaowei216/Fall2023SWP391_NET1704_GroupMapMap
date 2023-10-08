@@ -46,7 +46,4 @@ export const schema = yup.object().shape({
     .string()
     .required()
     .matches(dateRegex)
-    .test('is-future-date', 'Please choose date after ImportDate', value => {
-      return moment(value, dateFormat).isBefore(moment(importDate, dateFormat))
-    })
 });

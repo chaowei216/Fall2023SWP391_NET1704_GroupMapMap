@@ -37,7 +37,9 @@ function LoginForm() {
 
     try {
       setLoadingApi(true);
-      const res = await axios.post("https://localhost:44352/api/Login/login", {
+      const url = "https://reqres.in/api/login";
+      const urlTest = "https://localhost:44352/api/Login/login";
+      const res = await axios.post(url, {
         email,
         password,
       });
@@ -61,11 +63,14 @@ function LoginForm() {
         setTimeout(() => {
           navigate("/staff");
         }, 2000);
-      } else if (res && res.status === 400) {
-        setError(res.data.error);
-      }
+        } else if (res && res.status === 400) {
+          setError(res.data.error);
+          // console.log("error: " + res.data.error)
+        }
     } catch (error) {
       toast.error(error.response.data.error);
+      // toast.error("aa")
+      console.log("error: " + error.response.data.error);
     } finally {
       setLoadingApi(false);
     }

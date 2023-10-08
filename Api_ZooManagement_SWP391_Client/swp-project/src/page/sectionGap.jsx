@@ -28,7 +28,7 @@ function SectionGap() {
       <div className="row mt-5">
          <div className="col-xl-4 col-lg-6">
             <div className="restaurant-card">
-               <img alt="Restaurant-img" className="w-100" src="https://via.placeholder.com/416x528"/>
+               <img alt="Restaurant-img" className="w-100" src="../../src/assets/img/baotuyet.jpg"/>
                <div className="restaurant-span">
                   <span>Restaurant</span>
                </div>
@@ -41,7 +41,7 @@ function SectionGap() {
          </div>
          <div className="col-xl-4 col-lg-6">
             <div className="restaurant-card coctail">
-               <img alt="Restaurant-img" className="w-100" src="https://via.placeholder.com/416x528"/>
+               <img alt="Restaurant-img" className="w-100" src="../../src/assets/img/tuanloc.jpg"/>
                <div className="restaurant-span">
                   <span>Coctail Bar</span>
                </div>
@@ -54,7 +54,7 @@ function SectionGap() {
          </div>
          <div className="col-xl-4 col-lg-6">
             <div className="restaurant-card">
-               <img alt="Restaurant-img" className="w-100" src="https://via.placeholder.com/416x528"/>
+               <img alt="Restaurant-img" className="w-100" src="../../src/assets/img/tegiac.jpg"/>
                <div className="restaurant-span">
                   <span>Private Dining</span>
                </div>

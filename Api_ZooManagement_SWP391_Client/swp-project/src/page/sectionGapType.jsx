@@ -14,17 +14,17 @@ function SectionGapType() {
      
   }
   const itemExistsInCart = (item) => {
-    return shoppingCart.some((cartItem) => cartItem.id === item.id);
+    return shoppingCart.some((cartItem) => cartItem.id === item.ticketId);
   };
 
   useEffect(() => {
     // Gọi API và lấy dữ liệu
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://reqres.in/api/unknown'); // Thay 'URL_CUA_API' bằng URL thực tế của API
-        const data = response.data.data; // Lấy danh sách dữ liệu từ phản hồi API
+        const response = await axios.get('https://localhost:44352/api/Ticket'); // Thay 'URL_CUA_API' bằng URL thực tế của API
+        const data = response.data; // Lấy danh sách dữ liệu từ phản hồi API
         setDataList(data); // Lưu danh sách dữ liệu vào state
-        console.log(data);
+        console.log("api: " + response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -43,8 +43,8 @@ function SectionGapType() {
       {dataList.map((item, index) => (
   <div key={index} className="col-sm-4 mb-4">
     <div className="bbq" style={{ backgroundImage: `url(https://via.placeholder.com/630x366)` }}>
-      <h2>{item.name}</h2>
-      <p>canonical classNameics to obscure<br/> tiki drinks</p>
+      <h2>{item.type}</h2>
+      <p>{item.price}</p>
       <div className="bbr-price">
         <div>
          

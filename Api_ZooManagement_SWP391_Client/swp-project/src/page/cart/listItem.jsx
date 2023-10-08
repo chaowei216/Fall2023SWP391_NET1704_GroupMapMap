@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import useShopping from '../../hooks/useShopping';
 
 function ListItem() {
@@ -16,14 +17,14 @@ function ListItem() {
       return total + calculateProductTotal(product);
     }, 0);
   };
-  // const [shoppingCart, setShoppingCart] = useState([]); // Sử dụng state để lưu trữ dữ liệu từ localStorage
-  // const handleDeleteCart = () => {
-  //   // Xoá dữ liệu khỏi localStorage
-  //   localStorage.removeItem('shoppingCart');
-
-  //   // Cập nhật state giỏ hàng về mảng rỗng
-  //   setShoppingCart([]);
-  // };
+  
+  const Store = (cartData) => {
+    // Chuyển dữ liệu giỏ hàng thành chuỗi JSON
+    const cartDataJSON = JSON.stringify(cartData);
+    
+    // Lưu vào localStorage
+    localStorage.setItem('shoppingCart', cartDataJSON);
+  };
   // useEffect(() => {
   //   // Lấy dữ liệu từ localStorage và cập nhật state khi thành phần được tạo
   //   const shoppingCartData = localStorage.getItem('shoppingCart');
@@ -85,7 +86,7 @@ function ListItem() {
                       <td className="product-name">
                         <img alt="img" src={product.imageSrc} />
                         <div>
-                          <a href="#">{product.name}</a>
+                          <a style={{textDecoration:"none",color:"red"}} href="#">{product.name}</a>
                           <span>{product.description}</span>
                         </div>
                       </td>
@@ -168,12 +169,6 @@ function ListItem() {
                             </span>
                           </td>
                         </tr>
-                        <tr className="Shipping">
-                          <th>Shipping:</th>
-                          <td>
-                            <span className="woocommerce-Price-amount amount">free</span>
-                          </td>
-                        </tr>
                         <tr className="Total">
                           <th>Total:</th>
                           <td>
@@ -189,9 +184,10 @@ function ListItem() {
                     </table>
                   </div>
                   <div className="wc-proceed-to-checkout">
-                    <a href="#" className="button">
-                      <span>Proceed to checkout</span>
-                    </a>
+                    <Link to="/checkout" className="button" onClick={Store(shoppingCart)}>
+                    <span>Proceed to checkout</span>
+                    </Link>
+                    
                   </div>
                 </div>
               </div>

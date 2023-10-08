@@ -116,6 +116,7 @@ export default function EditFood(pros) {
                           type="text"
                           style={{ height: "56px" }}
                           id="category"
+                          disabled  
                           placeholder="category"
                           aria-describedby="inputGroupPrepend"
                           name="category"

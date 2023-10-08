@@ -134,7 +134,7 @@ function SectionDiscover() {
             <div className="row align-items-center discover-menu">
                <div className="col-xl-6">
                   <div className="discover-img">
-                     <img alt="discover" src="https://via.placeholder.com/590x588"/>
+                     <img alt="discover" src="../../src/assets/img/caheo.jpg"/>
                   </div>
                </div>
                <div className="col-xl-5">
@@ -178,7 +178,7 @@ function SectionDiscover() {
             <div className="row align-items-center discover-menu">
                <div className="col-xl-6">
                   <div className="discover-img">
-                     <img alt="discover" src="https://via.placeholder.com/590x588"/>
+                     <img alt="discover" src="../../src/assets/img/vet.jpg"/>
                   </div>
                </div>
                <div className="col-xl-5">
@@ -222,7 +222,7 @@ function SectionDiscover() {
             <div className="row align-items-center discover-menu">
                <div className="col-xl-6">
                   <div className="discover-img">
-                     <img alt="discover" src="https://via.placeholder.com/590x588"/>
+                     <img alt="discover" src="../../src/assets/img/vet.jpg"/>
                   </div>
                </div>
                <div className="col-xl-5">
