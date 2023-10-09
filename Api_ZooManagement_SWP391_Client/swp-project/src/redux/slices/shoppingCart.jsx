@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+
 const initialState = [];
 
 const shoppingSlice = createSlice({
@@ -44,3 +45,4 @@ const shoppingSlice = createSlice({
 
 export const { addItem, updateShoppingCart, countTotal, removeItem } = shoppingSlice.actions;
 export default shoppingSlice.reducer;
+

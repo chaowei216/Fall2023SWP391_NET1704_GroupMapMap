@@ -1,0 +1,179 @@
+.menu-icon {
+    display: none;
+}
+.icon {
+    vertical-align: middle;
+    line-height: 1px;
+    font-size: 20px;
+  }
+.close_icon {
+    color: red;
+    margin-left: 30px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+.add-new{
+    text-align: start;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+.add-new span{
+    font-size: 25px
+}
+.search-container{
+  display: flex;
+  margin-right: 10px;
+}
+.search-content{
+  display: flex;
+  margin-right: 10px;
+}
+.table-content{
+  width: 100%;
+  height: 100%;
+    border-radius: 8px 8px 8px 8px;
+    padding: 10px;
+    /* background: white; */
+}
+.table{
+  height: 94%;
+}
+
+.table>tbody {
+  vertical-align: middle;
+}
+.table-component{
+  width: 92%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6px;
+  align-items: center;
+  background: white;
+    border-radius: 8px 8px 8px 8px;
+}
+.AppHeader{
+  height: 7%;
+}
+
+.pagination-container{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: end;
+}
+.table-content table{
+    margin-bottom: 0;
+}
+
+.row {
+    --mdb-gutter-x: 1.5rem;
+    --mdb-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(var(--mdb-gutter-y)*-1);
+    margin-right: calc(var(--mdb-gutter-x)*-0.5);
+    margin-left: calc(var(--mdb-gutter-x)*-0.5);
+    width: 100%;
+}
+.row-content{
+  width: 50%;
+}
+.row-content-2{
+  width: 50%;
+  display: flex;
+}
+.form-container{
+  width: 82%;
+}
+.form-container-1{
+  width: 100%;
+}
+.form-content{
+  display: flex;
+  justify-content: center;
+}
+.form{
+    width: 98%;
+    border-radius: 8px 8px 8px 8px;
+    background: white;
+    padding: 17px 17px 0px 17px;
+}
+.form-control{
+  width: 95%;
+}
+.btn-header{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.form-header{
+    margin-top: 10px;
+    text-align: center;
+}
+:where(.css-dev-only-do-not-override-1ck3jst).ant-menu{
+  font-size: 17px;
+}
+/* #sidebar {
+  grid-area: sidebar;
+  
+  background-color: #263043;
+  
+  display: none;
+} */
+.Slide-Container{
+    width: 18%;
+    overflow-y: auto;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  margin-top: 14px;
+}
+.table-container{
+    display: flex;
+    width: 82%;
+    height: 96%;
+    justify-content: center;
+    margin-top: 20px;
+}
+.ant-radio-button span{
+  vertical-align: middle;
+}
+.sidebar-responsive {
+    display: none !important;
+    position: absolute;
+    /*
+      we want the z-index of the sidebar higher so that
+      the charts are not showing over the sidebar 
+      on small screens
+    */
+    z-index: 12 !important;
+  }
+  .sidebar-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px 0px 30px;
+    margin-bottom: 30px;
+  }
+  
+  .sidebar-title > span {
+    display: none;
+  }
+ @media screen and (max-width: 992px){
+.menu-icon {
+        display: inline;
+      }
+.sidebar-title > span {
+        display: inline;
+      }
+.table-container{
+    width: 95%;
+}
+}
+.btn-footer{
+  text-align: end;
+  margin-right: 20px;
+  display: flex;
+  justify-content: end;
+}
