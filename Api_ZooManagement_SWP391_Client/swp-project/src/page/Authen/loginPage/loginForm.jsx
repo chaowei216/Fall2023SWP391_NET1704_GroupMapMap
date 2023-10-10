@@ -38,7 +38,8 @@ function setItemToLocalStorage(key, value) {
 
     try {
       setLoadingApi(true);
-      const res = await axios.post('https://localhost:44352/api/Login/login', {
+      const url = "https://localhost:44352/api/Login/login";
+      const res = await axios.post(url, {
         email,
         password,
       });

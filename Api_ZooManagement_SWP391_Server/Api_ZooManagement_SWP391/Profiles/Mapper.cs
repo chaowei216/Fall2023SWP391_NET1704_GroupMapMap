@@ -47,6 +47,8 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<UpdateAnimalDto, AnimalCage>();
             CreateMap<User, UserUpdateDto>();
             CreateMap<UserUpdateDto, User>();
+            CreateMap<Animal, AnimalFoodDto>();
+            CreateMap<AnimalFoodDto, Animal>();
         }
 
     }

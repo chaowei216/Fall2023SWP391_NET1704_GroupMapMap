@@ -62,6 +62,7 @@ builder.Services.AddScoped<INewsService, NewsService>();
 builder.Services.AddScoped<IScheduleService, ScheduleService>();
 builder.Services.AddScoped<IAnimalService, AnimalService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAnimalFoodService, AnimalFoodService>();
 // add scope for repository
 builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 builder.Services.AddScoped<IGenericRepository<Cage>, GenericRepository<Cage>>();

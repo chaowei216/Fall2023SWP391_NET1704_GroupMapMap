@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Button } from 'antd';
 import useShopping from '../hooks/useShopping';
 import shoppingCart from '../redux/slices/shoppingCart';
+import childTicket from '../assets/img/Child_Ticket.png';
+import adultTicket from '../assets/img/Adult_Ticket.png';
 
 function SectionGapType() {
   const [dataList, setDataList] = useState([]);
@@ -31,33 +33,46 @@ function SectionGapType() {
     };
 
     fetchData();
-  }, []);
+  }, [dataList]);
 
   return (
    
    <div>
       {console.log("shoping cart",shoppingCart)}
       <section className="gap">
+      <div className="heading-two">
+         <h2>Ticket</h2>
+         <div className="line"></div>
+      </div>
    <div className="container">
       <div className="row">
       {dataList.map((item, index) => (
   <div key={index} className="col-sm-4 mb-4">
-    <div className="bbq" style={{ backgroundImage: `url(https://via.placeholder.com/630x366)` }}>
+    {index == 0 ? (
+    <div className="bbq" style={{ backgroundImage: `url(${adultTicket})` }}>
       <h2>{item.type}</h2>
       <p>{item.price}</p>
-      <div className="bbr-price">
-        <div>
-         
-          
-        </div>
+      <Button onClick={() => onSubmit(item)} className="bbr-price">
         {itemExistsInCart(item) ? (
-                        <span  style={{ marginRight: '25px', color: 'red' }} size="large">Exists in cart</span>
+                        <span  style={{textAlign: "center", color: 'red', fontWeight: "bold", fontSize: "16px" }} size="large">Exists in cart</span>
                       ) : (
-                        <Button onClick={() => onSubmit(item)} style={{ marginRight: '25px', color: 'blue' }} size="large">Buy</Button>
+                        <span  style={{textAlign: "center", color: 'black', fontWeight: "bold", fontSize: "23px" }} size="large">Buy</span>
                       )}
-      </div>
-    
-    </div>
+
+      </Button>  
+    </div>) : (
+    <div className="bbq" style={{ backgroundImage: `url(${childTicket})` }}>
+      <h2>{item.type}</h2>
+      <p>{item.price}</p>
+      <Button onClick={() => onSubmit(item)} className="bbr-price">
+        {itemExistsInCart(item) ? (
+                        <span  style={{textAlign: "center", color: 'red', fontWeight: "bold", fontSize: "16px" }} size="large">Exists in cart</span>
+                      ) : (
+                        <span  style={{textAlign: "center", color: 'black', fontWeight: "bold", fontSize: "23px" }} size="large">Buy</span>
+                      )}
+
+      </Button>  
+    </div>)}
     
   </div>
 ))}

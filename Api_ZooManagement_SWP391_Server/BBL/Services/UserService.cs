@@ -4,7 +4,12 @@ using DTO.Dtos;
 using DAL.Entities;
 using DAL.Repositories;
 using System.Security.Cryptography;
-
+using Microsoft.Extensions.Configuration;
+using System.Net.Mail;
+using MimeKit;
+using MailKit.Security;
+using MimeKit.Text;
+using MailKit.Net.Smtp;
 namespace BBL.Services
 {
 
@@ -14,15 +19,17 @@ namespace BBL.Services
         private readonly IGenericRepository<WorkExperience> _workExpRepository;
         private readonly IGenericRepository<ExperienceDetail> _expDetailRepository;
         private readonly DataContext _context;
+        private readonly IConfiguration _config;
 
         public UserService(DataContext context, IGenericRepository<User> userRepository,
             IGenericRepository<WorkExperience> workExpRepository,
-            IGenericRepository<ExperienceDetail> expDetailRepository)
+            IGenericRepository<ExperienceDetail> expDetailRepository, IConfiguration config)
         {
             _userRepository = userRepository;
             _workExpRepository = workExpRepository;
             _expDetailRepository = expDetailRepository;
             _context = context;
+            _config = config;
         }
 
         public bool Add(string? expId, string? company, User user)
@@ -70,6 +77,17 @@ namespace BBL.Services
             {
                 user.ResetPassToken = token;
                 user.ResetTokenExpires = DateTime.Now.AddHours(1);
+                var email = new MimeMessage();
+                email.From.Add(MailboxAddress.Parse("mapmapzoofpt@gmail.com"));
+                email.To.Add(MailboxAddress.Parse(user.Email));
+                email.Subject = "Reset Password";
+                email.Body = new TextPart(TextFormat.Text) { Text = "This is your token to reset your password:\n " + user.ResetPassToken + "\n\nMapMap Zoo thank you for join with us!!!" };
+
+                using var smtp = new MailKit.Net.Smtp.SmtpClient();
+                smtp.Connect(_config.GetSection("EmailHost").Value, 587, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_config.GetSection("EmailUser").Value, _config.GetSection("EmailPassword").Value);
+                smtp.Send(email);
+                smtp.Disconnect(true);
                 return _userRepository.Update(user);
             }
             return false;
