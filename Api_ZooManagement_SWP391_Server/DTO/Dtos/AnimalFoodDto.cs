@@ -2,6 +2,8 @@
 {
     public class AnimalFoodDto
     {
-        public float Amount { get; set; }
+
+        public string AnimalId { get; set; }
+        public List<FoodAmountDto> Foods { get; set; }
     }
 }
