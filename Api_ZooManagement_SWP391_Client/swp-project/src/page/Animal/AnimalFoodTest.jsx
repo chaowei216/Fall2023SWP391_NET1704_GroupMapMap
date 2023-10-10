@@ -65,7 +65,35 @@ function YourComponent(pros) {
     ]);
     form.setFieldValue(field.name, selectedFoodId);
   };
+  const submitForm = async (values) => {
+   
 
+    const animalFood = {
+      animalId: values.animalId,
+      foods: [
+        {
+        fName: "Orange",
+        amount: Number(5)
+        }
+      ]
+    }
+    console.log(animalFood);
+    console.log(values)
+    const url = "https://localhost:44352/api/AnimalFood";
+    const request = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(animalFood),
+    };
+    // request.body = JSON.stringify(animal)
+    const response = await fetch(url, request);
+    if (response.ok) {
+      console.log("Success");
+      // window.location.href("/staff/1");
+    }
+  };
   return (
     <>
       <MDBModal staticBackdrop tabIndex="-1" show={show} onHide={handleClose}>
@@ -81,21 +109,20 @@ function YourComponent(pros) {
             </MDBModalHeader>
             <MDBModalBody>
               <Formik
-                initialValues={{ animaId: "", fields }}
+                initialValues={{ animalId: "", fields }}
                 onSubmit={(values) => {
-                  console.log(values);
-                  console.log(values.fields[0].quantity);
+                  submitForm(values);
                 }}
               >
-                {({ values, handleChange, handleBlur }) => (
+                {({ values, handleChange, handleBlur}) => (
                   <Form>
                     <div className="mb-5" style={{ textAlign: "center" }}>
                       <label className="form-label">Enter Animal ID</label>
                       <FormControl
                         type="text"
-                        id="animaId"
-                        name="animaId"
-                        value={values.animaId}
+                        id="animalId"
+                        name="animalId"
+                        value={values.animalId}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />

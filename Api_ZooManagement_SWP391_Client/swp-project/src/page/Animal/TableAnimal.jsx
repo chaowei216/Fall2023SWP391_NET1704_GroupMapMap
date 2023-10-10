@@ -137,11 +137,11 @@ function TableAnimal() {
           <Table size="100px" hover>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>First name</th>
-                <th>Last name</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Gender</th>
+                <th>Region</th>
+                <th>Status</th>
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
             </thead>

@@ -18,6 +18,7 @@ import OrderTable from "./page/Order/OrderTable";
 import YourComponent from "./page/Animal/AnimalFoodTest";
 import SliderHero from "./page/sliderHero";
 import Forget from "./page/Authen/forgotPassword/fogotPassword";
+import Dashboard from "./page/dashBoard";
 
 // const HeaderLayout = () => (
 
@@ -50,7 +51,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <SliderHero></SliderHero>,
+        element: <Dashboard></Dashboard>,
       },
       {
         path: "1",
