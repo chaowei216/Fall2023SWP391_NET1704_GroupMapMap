@@ -14,6 +14,7 @@ import ViewAnimal from "./ViewAnimalPage";
 import AddAnimalFood from "./AnimalFoodPage";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
+import YourComponent from "./AnimalFoodTest";
 function TableAnimal() {
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
@@ -45,19 +46,20 @@ function TableAnimal() {
   const handleClick2 = () => {
     setShowmodalFoodAnimal(true);
     setAnchorEl(null);
+    // window.location.href = setAnchorEl(null);
   };
   const handleClickPop = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
-    setShowmodalFoodAnimal(false)
+    setShowmodalFoodAnimal(false);
     setShowmodalEdit(false);
     setShowmodalAdd(false);
     setShowmodalView(false);
     setShowmodalFood(false);
     setAnchorEl(null);
   };
-  
+
   const handleEditUser = (item) => {
     // setDataUserEdit(item);
     console.log(item);
@@ -195,7 +197,11 @@ function TableAnimal() {
         handleClose={handleClose}
         dataAnimalView={dataAnimalView}
       />
-      <AddAnimalFood show={showModalFoodAnimal} handleClose={handleClose} />
+      {/* <AddAnimalFood show={showModalFoodAnimal} handleClose={handleClose} /> */}
+      <YourComponent
+        show={showModalFoodAnimal}
+        handleClose={handleClose}
+      ></YourComponent>
     </div>
   );
 }

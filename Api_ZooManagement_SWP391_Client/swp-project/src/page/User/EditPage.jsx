@@ -48,9 +48,10 @@ export default function EditPage(pros) {
   const [Sex, setSex] = useState("");
   const [company, setCompany] = useState("");
   const [uID, setUID] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [endDate, setEndDate] = useState(null);
   const [status, setStatus] = useState(true);
-  const [wID, setWID] = useState("");
+  const [wID, setWID] = useState("2");
+  const [error, setError] = useState("");
   useEffect(() => {
     if (show) {
       setUID(dataUserEdit.userId);
@@ -60,31 +61,33 @@ export default function EditPage(pros) {
         setEmail(dataUserEdit.email),
         setPassword(dataUserEdit.password),
         setAddress(dataUserEdit.address),
-        setRole(Number(dataUserEdit.Role) === "2" ? "2" : "3");
+        setRole(dataUserEdit.role);
       setSex(String(dataUserEdit.sex) === "true" ? "2" : "3"),
         setCompany(dataUserEdit.company),
         setEndDate(dataUserEdit.endDate),
-        setStatus(dataUserEdit.status);
+        setStatus(dataUserEdit.status),
+        setWID(dataUserEdit.wID === null ? '2' : `${wID}`)
     }
   }, [dataUserEdit]);
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     const formData = {
-      userId: event.target.elements.first_name.value
-    }
+      userId: event.target.elements.first_name.value,
+    };
     const user = {
       userId: uID,
       firstname: first_name,
       lastname: last_name,
       address: address,
       phone: phone,
-      role: Number(Role),
-      endDate: "2023-10-03T17:01:04.176Z",
+      role: Role,
+      endDate: endDate,
       status: status,
     };
-    console.log(user.firstname === dataUserEdit.firstname)
-    if (user.firstname === dataUserEdit.firstname){
+    console.log(user.firstname === dataUserEdit.firstname);
+    if (user.firstname === dataUserEdit.firstname) {
       console.log("Nothing changed");
+      setError("Nothing changed");
       return;
     }
     console.log("OK");
@@ -100,7 +103,7 @@ export default function EditPage(pros) {
       console.log("Success");
       // localStorage.setItem("isAdded", true);
       // handleClose()
-      window.location.href = '/staff/1'
+      window.location.href = "/staff/1";
       // navigate("/staff/1")
     }
   };
@@ -129,7 +132,9 @@ export default function EditPage(pros) {
     // setRole(value);
     setWID(value.target.value);
   };
-  const handleRadioChange2 = (value) => {};
+  const handleRadioChange2 = (value) => {
+    setStatus(value.target.value);
+  };
   const handlePhoneChange = (value) => {
     if (value.target.value == null) {
       console.log("not enter");
@@ -169,6 +174,12 @@ export default function EditPage(pros) {
                   <div className="form-content">
                     <div className="form">
                       <div className="row mb-3">
+                        {error && (
+                          <div className="mb-3" style={{"textAlign": "center", "fontWeight": "bolder", "color": "red", "fontSize": "30px"}}>
+                            {error}
+                          </div>
+                        )}
+                       
                         <div className="mb-3 row-content">
                           <label className="form-label">Enter FirstName</label>
                           <Form.Control
@@ -243,11 +254,31 @@ export default function EditPage(pros) {
                               handleRoleChange(e);
                             }}
                             value={Role}
+                            defaultValue={Role}
                             buttonStyle="solid"
                           >
-                            <Radio.Button value="2">Staff</Radio.Button>
-                            <Radio.Button value="3">ZooTrainer</Radio.Button>
-                            <Radio.Button value="other">Other</Radio.Button>
+                            <Radio.Button
+                              style={{
+                                textAlign: "center",
+                                height: "37px",
+                              }}
+                              value={2}
+                            >
+                              <span style={{ verticalAlign: "middle" }}>
+                                Staff
+                              </span>
+                            </Radio.Button>
+                            <Radio.Button
+                              style={{
+                                textAlign: "center ",
+                                height: "37px",
+                              }}
+                              value={3}
+                            >
+                              <span style={{ verticalAlign: "middle" }}>
+                                ZooTrainer
+                              </span>
+                            </Radio.Button>
                           </Radio.Group>
                         </div>
                       </div>
@@ -271,7 +302,7 @@ export default function EditPage(pros) {
                           </Form.Control.Feedback>
                         </div>
                         <div className="mb-3 row-content">
-                          <label className="form-label">Choose Sex</label>
+                          <label className="form-label">Gender</label>
                           <br />
                           <Radio.Group
                             id="sex"
@@ -283,7 +314,6 @@ export default function EditPage(pros) {
                           >
                             <Radio.Button value="2">Male</Radio.Button>
                             <Radio.Button value="3">Female</Radio.Button>
-                            <Radio.Button value="other">Other</Radio.Button>
                           </Radio.Group>
                         </div>
                       </div>
@@ -322,7 +352,6 @@ export default function EditPage(pros) {
                         <div className="mb-3" style={{ width: "33%" }}>
                           <label className="form-label">Enter EndDate</label>
                           <br />
-                          <Space direction="vertical" size={20}>
                             <Form.Control
                               type="date"
                               id="endDate"
@@ -335,10 +364,9 @@ export default function EditPage(pros) {
                               }
                               // onBlur={formik.handleBlur}
                             />
-                          </Space>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Enter Company</label>
+                          <label className="form-label">Company</label>
                           <Form.Control
                             type="text"
                             id="company"
@@ -346,9 +374,7 @@ export default function EditPage(pros) {
                             aria-describedby="inputGroupPrepend"
                             name="company"
                             value={company}
-                            onChange={(event) => {
-                              setCompany(event.target.value);
-                            }}
+                            disabled
                             // onBlur={formik.handleBlur}
                             // isInvalid={
                             //   // formik.errors.company && formik.touched.company
@@ -367,12 +393,11 @@ export default function EditPage(pros) {
                             id="wID"
                             name="wID"
                             onChange={handleChange1}
-                            value="2"
+                            value={wID}
                             buttonStyle="solid"
                           >
                             <Radio.Button value="2">Staff</Radio.Button>
                             <Radio.Button value="3">ZooTrainer</Radio.Button>
-                            <Radio.Button value="0">Other</Radio.Button>
                           </Radio.Group>
                         </div>
                       </div>
@@ -388,7 +413,6 @@ export default function EditPage(pros) {
                         >
                           <Radio.Button value={true}>Active</Radio.Button>
                           <Radio.Button value={false}>Inactive</Radio.Button>
-                          <Radio.Button value="other">Other</Radio.Button>
                         </Radio.Group>
                       </div>
                       <div className="btn-footer">

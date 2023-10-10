@@ -96,6 +96,7 @@ export default function EditFood(pros) {
                         <Form.Control
                           type="text"
                           style={{ height: "56px" }}
+                          disabled
                           id="fName"
                           placeholder="fName"
                           aria-describedby="inputGroupPrepend"

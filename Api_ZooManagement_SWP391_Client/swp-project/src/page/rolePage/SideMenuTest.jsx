@@ -30,14 +30,14 @@ const items = [
       "Item 2",
       "g2",
       null,
-      [getItem("Option 3", "3"), getItem("Option 4", "4")],
+      [getItem("Food", "3"), getItem("Order", "4")],
       "group"
     ),
     
   ]),
   getItem("Navigation Two", "sub2", <AppstoreOutlined />, [
     getItem("Option 5", "/staff/2"),
-    getItem("Option 6", "6"),
+    getItem("Option 6", "5"),
     getItem("Submenu", "sub3", null, [
       getItem("Option 7", "7"),
       getItem("Option 8", "8"),
@@ -63,9 +63,6 @@ const items = [
 const SideMenuTest = ({ openSidebarToggle, OpenSidebar }) => {
   const [theme, setTheme] = useState("light");
   const [current, setCurrent] = useState("1");
-  const changeTheme = (value) => {
-    setTheme(value ? "dark" : "light");
-  };
   const [selectedKeys, setSelectedKeys] = useState("/");
   useEffect(() => {
     const pathName = location.pathname;
@@ -87,9 +84,11 @@ const SideMenuTest = ({ openSidebarToggle, OpenSidebar }) => {
         style={{ margin: "10px" }}
       /> */}
       <Menu
-        theme="dark"
+        // theme="blue"
         style={{
           height: 920,
+          "backgroundColor": "wheat",
+          "borderRadius": "10px 10px 10px 10px",
         }}
         onClick={(item) => {
           //item.key

@@ -18,6 +18,7 @@ import axios from "axios";
 import AddPage from "./User/AddPage";
 import EditPage from "./User/EditPage";
 import { toast, ToastContainer } from "react-toastify";
+import ViewUser from "./User/ViewUser";
 function TableUser() {
   // const [isAdded, setIsAdded] = useState(
   //   localStorage.getItem("isAdded") === "true"
@@ -28,10 +29,12 @@ function TableUser() {
       toast.success("Added Successfully");
       localStorage.removeItem("isAdded");
     }
-  }, [localStorage.getItem("isAdded") === "true"]);
+  }, []);
 
   const [dataUserEdit, setDataUserEdit] = useState({});
+  const [dataUserView, setDataUserView] = useState({});
   const [showModalEdit, setShowmodalEdit] = useState(false);
+  const [showModalView, setShowmodalView] = useState(false);
   const [listUsers, setListUsers] = useState([]);
   // const fetchAllUser = () => {
   //   return axios.get("https://reqres.in/api/users?page=2");
@@ -42,13 +45,18 @@ function TableUser() {
     console.log(item);
     const user = item;
     setDataUserEdit(user);
-    console.log(user);
     setShowmodalEdit(true);
+  };
+  const handleViewUser = (item) => {
+    const user = item;
+    setDataUserView(user);
+    setShowmodalView(true);
   };
   const handleClose = () => {
     setShowmodalEdit(false);
+    setShowmodalView(false)
   };
- 
+
   const getList = () => {
     return fetch("https://localhost:44352/api/User/users").then((data) =>
       data.json()
@@ -133,7 +141,13 @@ function TableUser() {
                       <td>{item.firstname}</td>
                       <td>{item.lastname}</td>
                       <td style={{ width: "13rem" }}>
-                        <Button variant="text" style={{ padding: 0 }}>
+                        <Button
+                          variant="text"
+                          style={{ padding: 0 }}
+                          onClick={() => {
+                            handleViewUser(item);
+                          }}
+                        >
                           <VisibilityIcon />
                         </Button>
                         <Button
@@ -187,6 +201,11 @@ function TableUser() {
         show={showModalEdit}
         handleClose={handleClose}
         dataUserEdit={dataUserEdit}
+      />
+      <ViewUser
+        show={showModalView}
+        handleClose={handleClose}
+        dataUserView={dataUserView}
       />
       <ToastContainer
         position="top-right"

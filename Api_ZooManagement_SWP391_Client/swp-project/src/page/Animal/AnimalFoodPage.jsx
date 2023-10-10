@@ -12,10 +12,11 @@ import {
 import Form from "react-bootstrap/Form";
 import Button from "@mui/material/Button";
 import { ToastContainer } from "react-toastify";
-import { useFormik } from "formik";
+import { useFormik, FieldArray } from "formik";
 import { Formik, Field, ErrorMessage } from "formik";
 import { DatePicker, Radio, Select, Space } from "antd";
 import { South } from "@mui/icons-material";
+import { schemaAnimal } from "./validationAnimal";
 // import { schema } from "./validationFood";
 
 export default function AddAnimalFood(pros) {
@@ -51,23 +52,29 @@ export default function AddAnimalFood(pros) {
       quantity: "",
     },
   ]);
-
   // Hàm xử lý khi click nút +
-  const handleAdd = () => {
-    // Tạo mảng mới bằng cách spread ra mảng cũ
-    // Sau đó thêm phần tử mới vào cuối
-    const newFoods = [...foods];
+  // const handleAdd = () => {
+  //   // Tạo mảng mới bằng cách spread ra mảng cũ
+  //   // Sau đó thêm phần tử mới vào cuối
+  //   const newFoods = [...foods];
 
-    newFoods.push(
-        {
-            foodID:"",
-            quantity: ""
-        });
-    // Cập nhật lại state với mảng mới
-    setFoods(newFoods);
-    console.log(foods)
-    formik.values.foods = foods;
+  //   newFoods.push(
+  //       {
+  //           foodID:"",
+  //           quantity: ""
+  //       });
+  //   // Cập nhật lại state với mảng mới
+  //   setFoods(newFoods);
+  //   console.log(foods)
+  //   formik.values.foods = foods;
+  // };
+  const handleAdd = (push) => {
+    push({
+      foodID: "",
+      quantity: "",
+    });
   };
+
   const handleFoodIDChange = (e, index) => {
     const newFoods = [...foods];
     newFoods[index].foodID = e.target.value;
@@ -85,11 +92,16 @@ export default function AddAnimalFood(pros) {
   const formik = useFormik({
     initialValues: {
       animalId: "",
-      foodId: "",
-      quantity: "",
-      foods: [],
+      // foodId: "",
+      // quantity: "",
+      foods: [
+        {
+          foodID: "",
+          quantity: "",
+        },
+      ],
     },
-    // validationSchema: schema,
+    // validationSchema: schemaAnimal,
     onSubmit: (values) => {
       submitForm(values);
     },
@@ -136,24 +148,29 @@ export default function AddAnimalFood(pros) {
                         </Form.Control.Feedback> */}
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Enter Food ID</label>
+                        <Form.Label>Món ăn</Form.Label>
                         <Form.Control
-                          type="text"
-                          style={{ height: "56px" }}
-                          id="foodId"
-                          placeholder="foodId"
-                          aria-describedby="inputGroupPrepend"
+                          as="select"
                           name="foodId"
                           value={formik.values.foodId}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          //   isInvalid={
-                          //     formik.errors.category && formik.touched.category
-                          //   }
-                        />
-                        {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.category}
-                        </Form.Control.Feedback> */}
+                          isInvalid={
+                            formik.touched.foodId && formik.errors.foodId
+                          }
+                        >
+                          <option value="">Chọn món ăn</option>
+                          {foodOptions.map((food) => (
+                            <option key={food.id} value={food.id}>
+                              {food.name}
+                            </option>
+                          ))}
+                        </Form.Control>
+                        {/* {formik.touched.foodId && formik.errors.foodId && (
+                          <Form.Control.Feedback type="invalid">
+                            {formik.errors.foodId}
+                          </Form.Control.Feedback>
+                        )} */}
                       </div>
                       <div className="mb-3">
                         <label className="form-label">Enter The Quantity</label>
@@ -177,22 +194,52 @@ export default function AddAnimalFood(pros) {
                       </div>
                       <div className="mb-3">
                         {/* Lặp qua mảng foods và render từng phần tử */}
-                        {foods.map((food, index) => (
-                          <div key={index}>
-                            <input
+                        {/* {foods.map((food, index) => (
+                          <div style={{display: "flex"}} key={index}>
+                          <Form.Control
                               type="text"
-                              value={food.foodID}
-                              onChange={(e) => handleFoodIDChange(e, index)}
+                              // value={food.foodID}
+                              name={`foods[${index}].foodID`}
+                              style={{width: "45%",marginRight: "34px"}}
+                              // onChange={(e) => handleFoodIDChange(e, index)}
                             />
-                            <input
+                            <Form.Control
                               type="number"
-                              value={food.quantity}
-                              onChange={(e) => handleQuantityChange(e, index)}
+                              // value={food.quantity}
+                              name={`foods[${index}].quantity`}
+                              style={{width: "45%"}}
+                              // onChange={(e) => handleQuantityChange(e, index)}
                             />
-                          </div>
-                        ))}
-
-                        <button onClick={handleAdd}>+</button>
+                            </div>
+                        ))} */}
+                        {/* onClick={handleAdd} */}
+                        {/* <Button onClick={() => handleAdd(push)}>More</Button> */}
+                        <FieldArray name="foods">
+                          {({ push }) => (
+                            <div>
+                              {foods.map((food, index) => (
+                                <div key={index}>
+                                  <Form.Control
+                                    type="text"
+                                    name={`foods[${index}].foodID`}
+                                    placeholder="ID món ăn"
+                                  />
+                                  <Form.Control
+                                    type="text"
+                                    name={`foods[${index}].quantity`}
+                                    placeholder="Số lượng"
+                                  />
+                                </div>
+                              ))}
+                              <Button
+                                type="button"
+                                onClick={() => handleAdd(push)}
+                              >
+                                +
+                              </Button>
+                            </div>
+                          )}
+                        </FieldArray>
                       </div>
                       <MDBModalFooter>
                         <Button

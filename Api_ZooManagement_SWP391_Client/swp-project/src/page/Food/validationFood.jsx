@@ -38,12 +38,10 @@ export const schema = yup.object().shape({
     .matches(
       dateRegex,
       "Import date must be a valid date in YYYY-MM-DD format"
-    )
-    .test('format', 'Invalid date format', value => {
-        return isValidDate(value, dateFormat) 
-      }),
+    ),
     expiredDate: yup  
     .string()
     .required()
     .matches(dateRegex)
+    .max(yup.ref('importDate'), 'exportDate must be after importDate'),
 });

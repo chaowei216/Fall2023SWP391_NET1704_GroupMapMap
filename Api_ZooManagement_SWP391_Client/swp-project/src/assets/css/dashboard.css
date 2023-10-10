@@ -51,11 +51,14 @@
   justify-content: center;
   padding: 6px;
   align-items: center;
+  margin-top: 26px;
   background: white;
+  border: 1px solid wheat;
     border-radius: 8px 8px 8px 8px;
 }
 .AppHeader{
   height: 7%;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
 
 .pagination-container{
@@ -86,6 +89,7 @@
 }
 .form-container{
   width: 82%;
+  margin-top: 18px;
 }
 .form-container-1{
   width: 100%;
@@ -102,6 +106,22 @@
 }
 .form-control{
   width: 95%;
+}
+.control-field{
+  display: block;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--bs-body-color);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 .btn-header{
   display: flex;

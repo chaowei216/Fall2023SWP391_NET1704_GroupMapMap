@@ -16,10 +16,12 @@ import { useFormik } from "formik";
 import { DatePicker, Radio, Select, Space } from "antd";
 import { South } from "@mui/icons-material";
 import { schema } from "./validationFood";
+import { useNavigate } from "react-router-dom";
 
 export default function AddFood(pros) {
   const [staticModal, setStaticModal] = useState(false);
   const { show, handleClose } = pros;
+  const navigate = useNavigate();
   const handleSave = () => {
     console.log(formik.errors);
     console.log("haha");
@@ -46,6 +48,7 @@ export default function AddFood(pros) {
     const response = await fetch(url, request);
     if (response.ok) {
       console.log("Success");
+      navigate('/staff/2');
     }
   };
   const formik = useFormik({
@@ -153,11 +156,6 @@ export default function AddFood(pros) {
                               Choose ImportDate
                             </label>
                             <br />
-                            <Space
-                              direction="vertical"
-                              size={20}
-                              style={{ width: "90%" }}
-                            >
                               <Form.Control
                                 type="date"
                                 id="importDate"
@@ -170,7 +168,6 @@ export default function AddFood(pros) {
                                   formik.touched.importDate
                                 }
                               />
-                            </Space>
                             <Form.Control.Feedback type="invalid">
                               {formik.errors.quantity}
                             </Form.Control.Feedback>
@@ -181,11 +178,6 @@ export default function AddFood(pros) {
                             Choose ExpiredDate
                           </label>
                           <br />
-                          <Space
-                            direction="vertical"
-                            size={20}
-                            style={{ width: "90%" }}
-                          >
                             <Form.Control
                               type="date"
                               id="expiredDate"
@@ -198,7 +190,6 @@ export default function AddFood(pros) {
                                 formik.touched.expiredDate
                               }
                             />
-                          </Space>
                           <Form.Control.Feedback type="invalid">
                             {formik.errors.expiredDate}
                           </Form.Control.Feedback>

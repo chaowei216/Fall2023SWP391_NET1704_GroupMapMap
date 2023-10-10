@@ -1,81 +1,98 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useNavigate, useLocation, Navigate } from "react-router-dom";
-import useShopping from "../../../hooks/useShopping";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate,useLocation, Navigate } from 'react-router-dom';
+import useShopping from '../../../hooks/useShopping';
+
+
 
 function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [token, setToken] = useState("");
+  
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [token, setToken] = useState('');
   const [loadingApi, setLoadingApi] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const navigate = useNavigate();
-  // useEffect(()=>{
-  //   let token =localStorage.getItem("token");
-  //   if (token) {
+// useEffect(()=>{
+//   let token =localStorage.getItem("token");
+//   if (token) {
 
-  //   }
-  // })
-  const { shoppingCart } = useShopping();
-  {
-    console.log("discover", shoppingCart);
-  }
-  function setItemToLocalStorage(key, value) {
-    return new Promise((resolve, reject) => {
-      try {
-        localStorage.setItem(key, value);
-        resolve();
-      } catch (error) {
-        reject(error);
-      }
-    });
-  }
+//   }
+// })
+const {shoppingCart}=useShopping();
+   {console.log("discover",shoppingCart)}
+function setItemToLocalStorage(key, value) {
+  return new Promise((resolve, reject) => {
+    try {
+      localStorage.setItem(key, value);
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
       setLoadingApi(true);
-      const url = "https://reqres.in/api/login";
-      const urlTest = "https://localhost:44352/api/Login/login";
-      const res = await axios.post(url, {
+      const res = await axios.post('https://localhost:44352/api/Login/login', {
         email,
         password,
       });
-      //https://localhost:7289/api/Login/GetUser
-      //https://reqres.in/api/users/2
+
       if (res && res.status === 200) {
         const tokens = res.data;
-        await setItemToLocalStorage("token", tokens.token);
-        const userResponse = await axios.get("https://reqres.in/api/users/2", {
+        await setItemToLocalStorage('token', tokens.token)
+        const userResponse = await axios.get('https://reqres.in/api/users/2', {
           headers: {
             Authorization: `Bearer ${tokens.token}`,
           },
         });
 
         // Xử lý dữ liệu người dùng ở đây (userResponse.data).
-        console.log("Thông tin người dùng:", userResponse.data);
-        await setItemToLocalStorage(
-          "dataUser",
-          JSON.stringify(userResponse.data)
-        );
+        console.log('Thông tin người dùng:', userResponse.data);
+        await setItemToLocalStorage("dataUser", JSON.stringify(userResponse.data));
         setTimeout(() => {
-          navigate("/staff");
+          navigate('/staff');
         }, 2000);
-        } else if (res && res.status === 400) {
-          setError(res.data.error);
-          // console.log("error: " + res.data.error)
-        }
+      } else if (res && res.status === 400) {
+        setError(res.data.error);
+      }
     } catch (error) {
       toast.error(error.response.data.error);
-      // toast.error("aa")
-      console.log("error: " + error.response.data.error);
+      console.log(error.respons.e);
     } finally {
       setLoadingApi(false);
     }
   };
-
+  const handleForgotPassword = async () => {
+    console.log(email);
+   
+    if (email) {
+      
+      try {
+        setLoadingApi(true);
+        const response = await axios.post(`https://localhost:44352/api/Login/forgot-password?email=${email}`);
+        console.log(response);
+        if (response.status === 200) {
+          localStorage.setItem("tokenEmail",response.data.token);
+          setTimeout(() => {
+            navigate('/reset');
+          }, 2000);
+        
+        } else {
+          toast.error('Failed to send password reset email.');
+        }
+      } catch (error) {
+        toast.error('Failed to send password reset email.');
+      } finally {
+        setLoadingApi(false);
+      }
+    }
+  };
   return (
     <div>
       <section className="gap">
@@ -104,15 +121,17 @@ function LoginForm() {
                       <input type="checkbox" name="checkbox" id="checkbox" />
                       <label htmlFor="checkbox">Remember me</label>
                     </div>
-                    <div className="second">
-                      <a href="">Forget a Password?</a>
+                    <div style={{cursor:"pointer"}} className="second">
+                    <a  onClick={handleForgotPassword}>Forget a Password?</a>
                     </div>
                   </div>
                   <button type="submit" className="button">
                     {loadingApi && <i className="fas fa-sync fa-spin"></i>}
-                    &nbsp; Login
+                    &nbsp;
+                    Login
                   </button>
                 </form>
+              
               </div>
             </div>
           </div>

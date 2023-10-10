@@ -24,10 +24,10 @@ import axios from "axios";
 import { creatNewUser } from "../../service/UserService";
 import { Navigate, json, useNavigate } from "react-router-dom";
 import { MDBCollapse } from "mdb-react-ui-kit";
+import { schemaAnimal } from "./validationAnimal";
 function AddAnimal(pros) {
   const { show, handleClose } = pros;
   const submitForm = async (values) => {
-    console.log(values);
     const animal = {
       name: values.name,
       description: values.description,
@@ -43,10 +43,12 @@ function AddAnimal(pros) {
     };
     const params = {
       userId: values.userId,
-      cageId: values.cageId
+      cageId: values.cageId,
     };
 
-    const url = `https://localhost:44352/api/Animal?${new URLSearchParams(params)}`;
+    const url = `https://localhost:44352/api/Animal?${new URLSearchParams(
+      params
+    )}`;
     const request = {
       method: "POST",
       headers: {
@@ -58,8 +60,10 @@ function AddAnimal(pros) {
     const response = await fetch(url, request);
     if (response.ok) {
       console.log("Success");
+      window.location.href('/staff/1')
     }
   };
+  const a = "huhu";
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -75,8 +79,9 @@ function AddAnimal(pros) {
       species: "",
       rarity: true,
       entryDate: "",
+      image: null,
     },
-    // validationSchema: basicSchema,
+    validationSchema: schemaAnimal,
     onSubmit: (values) => {
       submitForm(values);
     },
@@ -117,14 +122,13 @@ function AddAnimal(pros) {
                             value={formik.values.name}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.first_name &&
-                            //   formik.touched.first_name
-                            // }
+                            isInvalid={
+                              formik.errors.name && formik.touched.name
+                            }
                           />
-                          {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.first_name}
-                          </Form.Control.Feedback> */}
+                          <Form.Control.Feedback type="invalid">
+                            {formik.errors.name}
+                          </Form.Control.Feedback>
                         </div>
                         <div className="mb-3 row-content">
                           <label className="form-label">Enter Region</label>
@@ -137,16 +141,13 @@ function AddAnimal(pros) {
                             value={formik.values.region}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.last_name &&
-                            //   formik.touched.last_name
-                            // }
+                            isInvalid={
+                              formik.errors.region && formik.touched.region
+                            }
                           />
-                          {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.last_name}
-                          </Form.Control.Feedback> */}
+                          <Form.Control.Feedback type="invalid">
+                            {formik.errors.region}
+                          </Form.Control.Feedback>
                         </div>
                       </div>
                       <div className="row mb-3">
@@ -163,12 +164,12 @@ function AddAnimal(pros) {
                             value={formik.values.species}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={phone == nul}
+                            isInvalid={
+                              formik.errors.species && formik.touched.species
+                            }
                           />
                           <Form.Control.Feedback type="invalid">
-                            Haha
+                            {formik.errors.species}
                           </Form.Control.Feedback>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
@@ -183,13 +184,14 @@ function AddAnimal(pros) {
                             value={formik.values.entryDate}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.email && formik.touched.email
-                            // }
+                            isInvalid={
+                              formik.errors.entryDate &&
+                              formik.touched.entryDate
+                            }
                           />
-                          {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.email}
-                          </Form.Control.Feedback> */}
+                          <Form.Control.Feedback type="invalid">
+                            {a}
+                          </Form.Control.Feedback>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
                           <div>
@@ -254,10 +256,12 @@ function AddAnimal(pros) {
                             onBlur={formik.handleBlur}
                             // onChange={formik.handleChange}
                             // onBlur={formik.handleBlur}
-                            // isInvalid={phone == nul}
+                            isInvalid={
+                              formik.errors.cageId && formik.touched.cageId
+                            }
                           />
                           <Form.Control.Feedback type="invalid">
-                            Haha
+                            {formik.errors.cageId}
                           </Form.Control.Feedback>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
@@ -271,13 +275,13 @@ function AddAnimal(pros) {
                             value={formik.values.userId}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.email && formik.touched.email
-                            // }
+                            isInvalid={
+                              formik.errors.userId && formik.touched.userId
+                            }
                           />
-                          {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.email}
-                          </Form.Control.Feedback> */}
+                          <Form.Control.Feedback type="invalid">
+                            {formik.errors.userId}
+                          </Form.Control.Feedback>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
                           <div>
@@ -342,13 +346,14 @@ function AddAnimal(pros) {
                           onBlur={formik.handleBlur}
                           // onChange={formik.handleChange}
                           // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.address && formik.touched.address
-                          // }
+                          isInvalid={
+                            formik.errors.healthCheck &&
+                            formik.touched.healthCheck
+                          }
                         />
-                        {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.address}
-                        </Form.Control.Feedback> */}
+                        <Form.Control.Feedback type="invalid">
+                          {formik.errors.healthCheck}
+                        </Form.Control.Feedback>
                       </div>
                       <div className="mb-3">
                         <label className="form-label">Enter Description</label>
@@ -364,13 +369,14 @@ function AddAnimal(pros) {
                           onBlur={formik.handleBlur}
                           // onChange={formik.handleChange}
                           // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.address && formik.touched.address
-                          // }
+                          isInvalid={
+                            formik.errors.description &&
+                            formik.touched.description
+                          }
                         />
-                        {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.address}
-                        </Form.Control.Feedback> */}
+                        <Form.Control.Feedback type="invalid">
+                          {formik.errors.description}
+                        </Form.Control.Feedback>
                       </div>
 
                       <div className="row mb-5 mt-4">
@@ -379,11 +385,7 @@ function AddAnimal(pros) {
                             Choose Start Train
                           </label>
                           <br />
-                          <Space
-                            direction="vertical"
-                            size={20}
-                            style={{ width: "90%" }}
-                          >
+                          
                             <Form.Control
                               type="date"
                               id="startTrainDate"
@@ -393,9 +395,14 @@ function AddAnimal(pros) {
                               value={formik.values.startTrainDate}
                               onChange={formik.handleChange}
                               onBlur={formik.handleBlur}
-                              // onBlur={formik.handleBlur}
+                              isInvalid={
+                                formik.errors.startTrainDate &&
+                                formik.touched.startTrainDate
+                              }
                             />
-                          </Space>
+                            <Form.Control.Feedback type="invalid">
+                              {formik.errors.startTrainDate}
+                            </Form.Control.Feedback>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
                           <div>
@@ -403,38 +410,64 @@ function AddAnimal(pros) {
                               Choose Entry Cage
                             </label>
                             <br />
-                            <Space
-                              direction="vertical"
-                              size={20}
-                              style={{ width: "90%" }}
-                            >
+                            
                               <Form.Control
                                 type="date"
                                 name="entryCageDate"
                                 value={formik.values.entryCageDate}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
+                                isInvalid={
+                                  formik.errors.entryCageDate &&
+                                  formik.touched.entryCageDate
+                                }
                               />
-                            </Space>
+                              <Form.Control.Feedback type="invalid">
+                                {formik.errors.entryCageDate}
+                              </Form.Control.Feedback>
                           </div>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
                           <label className="form-label">Choose birthday</label>
                           <br />
-                          <Space
-                            direction="vertical"
-                            size={20}
-                            style={{ width: "90%" }}
-                          >
+                          
                             <Form.Control
                               type="date"
                               name="birthday"
                               value={formik.values.birthday}
                               onChange={formik.handleChange}
                               onBlur={formik.handleBlur}
+                              isInvalid={
+                                formik.errors.birthday &&
+                                formik.touched.birthday
+                              }
                             />
-                          </Space>
+                            <Form.Control.Feedback type="invalid">
+                              {formik.errors.birthday} 
+                            </Form.Control.Feedback>
                         </div>
+                        <div className="mb-3">
+                        <label className="form-label">Enter Description</label>
+                        <Form.Control
+                          type="file"
+                          id="image"
+                          placeholder="image"
+                          aria-describedby="inputGroupPrepend"
+                          name="image"
+                          value={formik.values.image} 
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          isInvalid={
+                            formik.errors.image &&
+                            formik.touched.image
+                          }
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {formik.errors.image}
+                        </Form.Control.Feedback>
+                      </div>
                       </div>
                       <div className="btn-footer">
                         <div

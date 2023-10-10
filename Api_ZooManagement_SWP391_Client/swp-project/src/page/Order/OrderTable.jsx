@@ -77,11 +77,6 @@ function OrderTable() {
                 <SearchIcon />
               </Button>
             </div>
-            <div>
-              <Button variant="contained">
-                <PlusOutlined />
-              </Button>
-            </div>
           </div>
         </div>
         <div className="table-content">
@@ -92,7 +87,6 @@ function OrderTable() {
                 <th>Full Name</th>
                 <th>Phone Number</th>
                 <th>Total Price</th>
-                <th style={{ textAlign: "center" }}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -103,28 +97,8 @@ function OrderTable() {
                     <tr key={`food-${index}`}>
                       <td>{items.email}</td>
                       <td>{items.fullName}</td>
-                      <td>{items.fullName}</td>
+                      <td>{items.phoneNumber}</td>
                       <td>{items.totalPrice}</td>
-                      <td style={{ width: "208px" }}>
-                        <Button
-                          variant="text"
-                          style={{ padding: 0 }}
-                        //   onClick={() => {
-                        //     handleViewFood(items);
-                        //   }}
-                        >
-                          <VisibilityIcon />
-                        </Button>
-                        <Button
-                          variant="text"
-                          style={{ padding: 0 }}
-                        >
-                          <EditIcon />
-                        </Button>
-                        <Button variant="text" style={{ padding: 0 }}>
-                          <DeleteIcon />
-                        </Button>
-                      </td>
                     </tr>
                   );
                 })}

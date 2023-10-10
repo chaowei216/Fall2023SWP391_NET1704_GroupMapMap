@@ -15,6 +15,9 @@ import TableAnimal from "./page/Animal/TableAnimal";
 import AddFood from "./page/Food/AddFood";
 import TableFood from "./page/Food/TableFood";
 import OrderTable from "./page/Order/OrderTable";
+import YourComponent from "./page/Animal/AnimalFoodTest";
+import SliderHero from "./page/sliderHero";
+import Forget from "./page/Authen/forgotPassword/fogotPassword";
 
 // const HeaderLayout = () => (
 
@@ -38,9 +41,17 @@ const router = createBrowserRouter([
     element: <Checkout />,
   },
   {
+    path: "reset",
+    element: <Forget/>,
+  },
+  {
     path: "/staff",
     element: <HeaderLayout />,
     children: [
+      {
+        path: "",
+        element: <SliderHero></SliderHero>,
+      },
       {
         path: "1",
         element: <TableUser />,
@@ -59,7 +70,11 @@ const router = createBrowserRouter([
       },
       {
         path: "4",
-        element: <OrderTable></OrderTable>
+        element: <OrderTable></OrderTable>,
+      },
+      {
+        path: "5",
+        element: <YourComponent></YourComponent>,
       },
     ],
   },

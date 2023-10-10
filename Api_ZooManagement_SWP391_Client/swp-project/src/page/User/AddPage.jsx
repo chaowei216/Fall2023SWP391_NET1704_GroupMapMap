@@ -3,7 +3,7 @@ import "../../assets/css/dashboard.css";
 import Password from "antd/es/input/Password";
 import { DatePicker, Radio, Select, Space } from "antd";
 const { RangePicker } = DatePicker;
-import { Formik, useFormik } from "formik";
+import { Formik, useFormik, Field } from "formik";
 import FormList from "antd/es/form/FormList";
 import { basicSchema } from "./validateForm";
 import Form from "react-bootstrap/Form";
@@ -30,7 +30,7 @@ function AddPage() {
   const navigate = useNavigate();
   const handleSave = () => {
     console.log("Submit");
-    // console.log(formik.values);
+    console.log(formik.values);
     // console.log(formik.errors);
   };
   const [Role, setRole] = useState("");
@@ -48,7 +48,7 @@ function AddPage() {
     formik.values.wID = value;
   };
 
-  const [Show, setShow] = useState(false);
+  const [Show, setShow] = useState(true);
   // const [validated, setValidated] = useState(false);
   const toggleShow = () => setShow(!Show);
   const formik = useFormik({
@@ -61,9 +61,9 @@ function AddPage() {
       phone: "",
       address: "",
       company: "",
-      role: "",
-      sex: "Other",
-      wID: "",
+      role: "2",
+      sex: true,
+      wID: "2",
     },
     validationSchema: basicSchema,
     onSubmit: (values) => {
@@ -206,17 +206,15 @@ function AddPage() {
                 <label className="form-label">Choose Role</label>
                 <br />
                 <Radio.Group
-                  id="sex"
-                  name="sex"
-                  onChange={(e) => {
-                    handleRoleChange(e);
-                  }}
-                  defaultValue="other"
+                  id="role"
+                  name="role"
+                  defaultValue={formik.values.role}
+                  value={formik.values.role}
+                  onChange={formik.handleChange}
                   buttonStyle="solid"
                 >
                   <Radio.Button value="2">Staff</Radio.Button>
                   <Radio.Button value="3">ZooTrainer</Radio.Button>
-                  <Radio.Button value="other">Other</Radio.Button>
                 </Radio.Group>
               </div>
             </div>
@@ -244,15 +242,13 @@ function AddPage() {
                 <Radio.Group
                   id="sex"
                   name="sex"
-                  onChange={(e) => {
-                    handleRadioChange(e);
-                  }}
-                  defaultValue="other"
+                  onChange={formik.handleChange}
+                  defaultValue={formik.values.sex}
+                  value={formik.values.sex}
                   buttonStyle="solid"
                 >
-                  <Radio.Button value="true">Male</Radio.Button>
-                  <Radio.Button value="false">Female</Radio.Button>
-                  <Radio.Button value="other">Other</Radio.Button>
+                  <Radio.Button value={true}>Male</Radio.Button>
+                  <Radio.Button value={false}>Female</Radio.Button>
                 </Radio.Group>
               </div>
             </div>
@@ -286,81 +282,54 @@ function AddPage() {
             </div>
             <div className="mb-3">
               <label className="form-label">Enter EndDate</label>
-              <br />
-              <Space direction="vertical" size={20}>
-                {/* <RangePicker
-                  format="YYYY-MM-DD"
-                  onChange={onChange1}
-                  onOk={onOk}
-                /> */}
-                <Form.Control
-                  type="date"
-                  id="endDate"
-                  placeholder="address"
-                  aria-describedby="inputGroupPrepend"
-                  name="endDate"
-                  value={formik.values.endDate}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  isInvalid={formik.errors.endDate && formik.touched.endDate}
-                />
-              </Space>
+              <Form.Control
+                type="date"
+                id="endDate"
+                placeholder="address"
+                aria-describedby="inputGroupPrepend"
+                name="endDate"
+                value={formik.values.endDate}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                isInvalid={formik.errors.endDate && formik.touched.endDate}
+              />
             </div>
             <div className="mb-3">
-              {/* <Button
-                style={{ background: "blue" }}
-                variant="contained"
-                tag="a"
-                onClick={toggleShow}
+              <label className="form-label">Choose Sex</label>
+              <br />
+              <Radio.Group
+                id="wID"
+                name="wID"
+                onChange={formik.handleChange}
+                defaultValue={formik.values.wID}
+                value={formik.values.wID}
+                buttonStyle="solid"
               >
-                <MDBIcon fas icon="plus" />
-              </Button> */}
-              <Space wrap>
-                <Select
-                  //   defaultValue="None"
-                  style={{ width: 120 }}
-                  id="wID"
-                  name="wID"
-                  aria-required
-                  defaultValue="0"
-                  onChange={(e) => {
-                    handleChange1(e);
-                    toggleShow();
-                  }}
-                  options={[
-                    { value: "0", label: "None" },
-                    { value: "2", label: "Staff" },
-                    { value: "3", label: "ZooTrainer" },
-                  ]}
-                ></Select>
-
-                {/* <Form.Control.Feedback type="invalid">
-                  {formik.errors.sex}
-                </Form.Control.Feedback> */}
-              </Space>
-              <MDBCollapse show={Show}>
-                <div className="row mb-3 mt-3">
-                  <div className="mb-3 row-content">
-                    <label className="form-label">Enter Company</label>
-                    <Form.Control
-                      type="text"
-                      id="company"
-                      placeholder="company"
-                      aria-describedby="inputGroupPrepend"
-                      name="company"
-                      value={formik.values.company}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      isInvalid={
-                        formik.errors.company && formik.touched.company
-                      }
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {formik.errors.company}
-                    </Form.Control.Feedback>
-                  </div>
+                <Radio.Button value="2">Staff</Radio.Button>
+                <Radio.Button value="3">ZooTrainer</Radio.Button>
+                <Radio.Button value={null}>None</Radio.Button>
+              </Radio.Group>
+              {/* <MDBCollapse show={Show}> */}
+              <div className="row mb-3 mt-3">
+                <div className="mb-3 row-content">
+                  <label className="form-label">Enter Company</label>
+                  <Form.Control
+                    type="text"
+                    id="company"
+                    placeholder="company"
+                    aria-describedby="inputGroupPrepend"
+                    name="company"
+                    value={formik.values.company}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    isInvalid={formik.errors.company && formik.touched.company}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.company}
+                  </Form.Control.Feedback>
                 </div>
-              </MDBCollapse>
+              </div>
+              {/* </MDBCollapse> */}
             </div>
             <div className="btn-footer">
               <Button
