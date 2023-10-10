@@ -33,20 +33,20 @@ namespace Api_ZooManagement_SWP391.Controllers
             return null;
         }
 
-        private string GenerateToken(User user)
+        private string GenerateToken(TokenDto userToken)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
+                new Claim(ClaimTypes.Email, userToken.Email),
+                new Claim(ClaimTypes.Name, userToken.FullName),
+                new Claim(ClaimTypes.Role, userToken.Role.ToString())
             };
             var securityKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                 _configuration["Jwt:Issuer"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(5),
+                expires: DateTime.Now.AddMinutes(15),
                 signingCredentials: credentials
             );
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -55,14 +55,37 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost("login")]
         public IActionResult Login(LoginDto user)
         {
-            var user_ = Authentication(user);
-            if (user_ == null)
+            
+            var adminUser = _configuration.GetValue<string>("AdminAccount:Email");
+            var adminName = _configuration.GetValue<string>("AdminAccount:Name");
+            var adminPassword = _configuration.GetValue<string>("AdminAccount:Password");
+            TokenDto token = null;
+            if (user.Email == adminUser && user.Password == adminPassword)
             {
-                return BadRequest("User not found.");
+                token = new TokenDto
+                {
+                    Email = adminUser,
+                    FullName = adminName,
+                    Role = Role.ADMIN
+                };
             }
-            //user.Role = user_.Role;
-            string token = GenerateToken(user_);
-            return Ok(token);
+            else
+            {
+                var user_ = Authentication(user);
+                if (user_ == null)
+                {
+                    return BadRequest("User not found.");
+                }
+                token = new TokenDto
+                {
+                    Email = user_.Email,
+                    FullName = user_.Firstname + " " + user_.Lastname,
+                    Role = user_.Role
+                };
+            }
+
+            string _token = GenerateToken(token);
+            return Ok(_token);
         }
 
         [HttpPost("forgot-password")]

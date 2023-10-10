@@ -37,8 +37,7 @@ function LoginForm() {
 
     try {
       setLoadingApi(true);
-      const url = "https://reqres.in/api/login";
-      const urlTest = "https://localhost:44352/api/Login/login";
+      const url = "https://localhost:44352/api/Login/login";
       const res = await axios.post(url, {
         email,
         password,
