@@ -9,7 +9,7 @@ function SectionDiscover() {
         <section className="section-discover-menu">
    <div className="container">
       <div className="heading-two">
-         <h2>Discover Menu</h2>
+         <h2>Discover Species</h2>
          <div className="line"></div>
       </div>
       <div className="nav nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
