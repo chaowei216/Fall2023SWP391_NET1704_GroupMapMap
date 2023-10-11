@@ -8,7 +8,7 @@ namespace DTO.Dtos
 {
     public class FoodAmountDto
     {
-        public string FName { get; set; }
-        public float Amount { get; set; }
+        public string id { get; set; }
+        public float quantity { get; set; }
     }
 }

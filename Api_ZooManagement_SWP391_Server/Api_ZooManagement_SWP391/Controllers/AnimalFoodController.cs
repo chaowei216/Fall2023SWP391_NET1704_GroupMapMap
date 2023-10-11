@@ -39,14 +39,14 @@ namespace Api_ZooManagement_SWP391.Controllers
             var foodAmount = animalFoodDto.Foods;
             foreach (var food in foodAmount)
             {
-                var food1 = _foodService.GetByFoodName(food.FName);
+                var food1 = _foodService.GetByFoodId(food.id);
                 if(food1 == null) return BadRequest("Food not found!!!");
-                if (food.Amount == 0) continue;
+                if (food.quantity == 0) continue;
                 animalFoods.Add(new AnimalFood()
                 {
                     AnimalId = animal.AnimalId, 
                     Food = food1,
-                    Amount = food.Amount,
+                    Amount = food.quantity,
                 });
             }
             if (!ModelState.IsValid)
@@ -56,7 +56,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             {
                 ModelState.AddModelError("", "Something went wrong while saving");
                 return StatusCode(500, ModelState);
-            }
+            }   
 
             return Ok("Successful Created");
         }
