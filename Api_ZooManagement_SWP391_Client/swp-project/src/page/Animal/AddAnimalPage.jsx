@@ -27,7 +27,10 @@ import { MDBCollapse } from "mdb-react-ui-kit";
 import { schemaAnimal } from "./validationAnimal";
 function AddAnimal(pros) {
   const { show, handleClose } = pros;
+  const navigator = useNavigate();
   const submitForm = async (values) => {
+    console.log(values);
+    console.log(formik.errors)
     const animal = {
       name: values.name,
       description: values.description,
@@ -60,7 +63,8 @@ function AddAnimal(pros) {
     const response = await fetch(url, request);
     if (response.ok) {
       console.log("Success");
-      window.location.href('/staff/1')
+      navigator('/staff/2')
+      window.location.reload();
     }
   };
   const a = "huhu";
@@ -79,7 +83,7 @@ function AddAnimal(pros) {
       species: "",
       rarity: true,
       entryDate: "",
-      image: null,
+      // image: "",
     },
     validationSchema: schemaAnimal,
     onSubmit: (values) => {
@@ -446,7 +450,7 @@ function AddAnimal(pros) {
                               {formik.errors.birthday} 
                             </Form.Control.Feedback>
                         </div>
-                        <div className="mb-3">
+                        {/* <div className="mb-3">
                         <label className="form-label">Enter Description</label>
                         <Form.Control
                           type="file"
@@ -467,7 +471,7 @@ function AddAnimal(pros) {
                         <Form.Control.Feedback type="invalid">
                           {formik.errors.image}
                         </Form.Control.Feedback>
-                      </div>
+                      </div> */}
                       </div>
                       <div className="btn-footer">
                         <div
@@ -490,6 +494,7 @@ function AddAnimal(pros) {
                             style={{ background: "gainsboro" }}
                             variant="primary"
                             type="submit"
+                            onClick={submitForm}
                             active
                           >
                             Create animal

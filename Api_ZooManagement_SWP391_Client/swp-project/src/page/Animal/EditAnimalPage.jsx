@@ -18,6 +18,7 @@ import { ToastContainer } from "react-toastify";
 export default function EditAnimal(pros) {
   const { show, handleClose, dataAnimalEdit } = pros;
   const [region, setRegion] = useState("");
+  const [animalId, setAnimalId] = useState("");
   const [name, setName] = useState("");
   const [cageID, setCageID] = useState("");
   const [userID, setUserID] = useState("");
@@ -36,6 +37,7 @@ export default function EditAnimal(pros) {
     if (show) {
       setRegion(dataAnimalEdit.region),
         setName(dataAnimalEdit.name),
+        setAnimalId(dataAnimalEdit.animalId),
         setCageID(dataAnimalEdit.cageID),
         setUserID(dataAnimalEdit.userID),
         setGender(dataAnimalEdit.sex === true ? "male" : "female"),
@@ -50,9 +52,36 @@ export default function EditAnimal(pros) {
     }
   }, [dataAnimalEdit]);
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
     console.log(dataAnimalEdit);
+    const animalEdit = {
+      animalId: animalId,
+      userId: userID,
+      cageId: cageID,
+      description: description,
+      healthCheck: healthCheck,
+      status: true,
+      rarity: rarity,
+      endTrainDate: endTraining,
+      outCageDate: outCage,
+    };
+    console.log("OK");
+    const response = await fetch(`https://localhost:44352/api/Animal/${animalId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(animalEdit),
+    });
+    if (response.ok) {
+      console.log("Success");
+      // localStorage.setItem("isAdded", true);
+      // handleClose()
+      // window.location.href = "/staff/2";
+      navigate("/staff/2")
+      window.location.reload();
+    }
   };
 
   return (
@@ -411,11 +440,11 @@ export default function EditAnimal(pros) {
                             Choose End Training
                           </label>
                           <Form.Control
-                            id="name"
+                            id="endTraining"
                             type="date"
                             aria-describedby="inputGroupPrepend"
-                            name="name"
-                            value={name}
+                            name="endTraining"
+                            value={endTraining}
                             onChange={(event) => setName(event.target.value)}
                             // isInvalid={
                             //   formik.errors.first_name &&
@@ -430,10 +459,10 @@ export default function EditAnimal(pros) {
                           <label className="form-label">Choose Out Cage</label>
                           <Form.Control
                             type="date"
-                            id="region"
+                            id="outCage"
                             aria-describedby="inputGroupPrepend"
-                            name="region"
-                            value={region}
+                            name="outCage"
+                            value={outCage}
                             onChange={(event) => setRegion(event.target.value)}
                             // isInvalid={
                             //   formik.errors.last_name &&

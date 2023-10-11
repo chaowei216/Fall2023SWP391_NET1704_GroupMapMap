@@ -48,7 +48,8 @@ export default function AddFood(pros) {
     const response = await fetch(url, request);
     if (response.ok) {
       console.log("Success");
-      navigate('/staff/2');
+      navigate("/staff/3");
+      window.location.reload();
     }
   };
   const formik = useFormik({

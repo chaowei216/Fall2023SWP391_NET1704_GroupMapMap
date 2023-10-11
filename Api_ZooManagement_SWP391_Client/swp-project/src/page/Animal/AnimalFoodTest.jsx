@@ -13,8 +13,10 @@ import {
   MDBModalFooter,
 } from "mdb-react-ui-kit";
 import "../../assets/css/dashboard.css";
+import { useNavigate } from "react-router-dom";
 function YourComponent(pros) {
   const { show, handleClose } = pros;
+  const navigate = useNavigate()
   const [options, setOptions] = useState([]);
   const [fields, setFields] = useState([
     {
@@ -70,15 +72,9 @@ function YourComponent(pros) {
 
     const animalFood = {
       animalId: values.animalId,
-      foods: [
-        {
-        fName: "Orange",
-        amount: Number(5)
-        }
-      ]
+      foods: values.fields
     }
     console.log(animalFood);
-    console.log(values)
     const url = "https://localhost:44352/api/AnimalFood";
     const request = {
       method: "POST",
@@ -91,7 +87,10 @@ function YourComponent(pros) {
     const response = await fetch(url, request);
     if (response.ok) {
       console.log("Success");
+      navigate("/staff/2")
+      window.location.reload();
       // window.location.href("/staff/1");
+      
     }
   };
   return (

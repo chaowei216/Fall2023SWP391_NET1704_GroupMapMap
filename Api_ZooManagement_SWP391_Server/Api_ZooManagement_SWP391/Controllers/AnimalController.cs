@@ -77,7 +77,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost]
         [HttpPost]
         public IActionResult CreateAnimal([FromQuery] string? userId, [FromQuery] string? cageId,
-                                          [FromBody] AnimalDto animalDto)
+                                          [FromBody] AnimalCreateDto animalDto)
         {
             if (animalDto == null)
             {

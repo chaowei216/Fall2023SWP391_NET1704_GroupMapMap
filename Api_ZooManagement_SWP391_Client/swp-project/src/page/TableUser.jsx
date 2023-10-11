@@ -137,7 +137,7 @@ function TableUser() {
                     <tr key={`user-${index}`}>
                       <td>{item.userId}</td>
                       <td>{item.email}</td>
-                      <td>{item.role}</td>
+                      <td>{item.role === 2 ? 'Staff' : 'ZooTrainer'}</td>
                       <td>{item.firstname}</td>
                       <td>{item.lastname}</td>
                       <td style={{ width: "13rem" }}>

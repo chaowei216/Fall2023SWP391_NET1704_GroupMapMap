@@ -121,7 +121,7 @@ export default function EditAnimal(pros) {
                       <div className="row mb-3">
                         <div className="mb-3" style={{ width: "33%" }}>
                           <label className="form-label">
-                            Enter Species Animal
+                             Species Animal
                           </label>
                           <Form.Control
                             type="string"
@@ -142,7 +142,7 @@ export default function EditAnimal(pros) {
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
                           <label className="form-label">
-                            Choose Animal EntryDate
+                             Animal EntryDate
                           </label>
                           <Form.Control
                             type="date"
@@ -215,7 +215,7 @@ export default function EditAnimal(pros) {
                       </div>
                       <div className="row mb-3">
                         <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Enter cageID</label>
+                          <label className="form-label">CageID</label>
                           <Form.Control
                             type="string"
                             id="cageId"
@@ -234,7 +234,7 @@ export default function EditAnimal(pros) {
                           </Form.Control.Feedback>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Enter User Id</label>
+                          <label className="form-label">User Id</label>
                           <Form.Control
                             type="text"
                             id="userID"
@@ -254,7 +254,7 @@ export default function EditAnimal(pros) {
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
                           <div>
-                            <label className="form-label">Choose Gender</label>
+                            <label className="form-label">Gender</label>
                             <br />
                             <Radio.Group
                               id="gender"
@@ -296,7 +296,7 @@ export default function EditAnimal(pros) {
                         </div>
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Enter healChech</label>
+                        <label className="form-label">HealChech</label>
                         <Form.Control
                           type="text"
                           style={{ height: "56px" }}
@@ -320,7 +320,7 @@ export default function EditAnimal(pros) {
                         </Form.Control.Feedback> */}
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Enter Description</label>
+                        <label className="form-label">Description</label>
                         <Form.Control
                           type="text"
                           id="description"
@@ -347,7 +347,7 @@ export default function EditAnimal(pros) {
                       <div className="row mt-4">
                         <div className="mb-3" style={{ width: "33%" }}>
                           <label className="form-label">
-                            Choose Start Train
+                             Start Train
                           </label>
                           <br />
                           <Space
@@ -373,7 +373,7 @@ export default function EditAnimal(pros) {
                         <div className="mb-3" style={{ width: "33%" }}>
                           <div>
                             <label className="form-label">
-                              Choose Entry Cage
+                               Entry Cage
                             </label>
                             <br />
                             <Space
@@ -416,7 +416,7 @@ export default function EditAnimal(pros) {
                       <div className="row mb-3">
                         <div className="mb-3 row-content">
                           <label className="form-label">
-                            Choose End Training
+                             End Training
                           </label>
                           <Form.Control
                             id="name"
@@ -436,7 +436,7 @@ export default function EditAnimal(pros) {
                           </Form.Control.Feedback> */}
                         </div>
                         <div className="mb-3 row-content">
-                          <label className="form-label">Choose Out Cage</label>
+                          <label className="form-label">Out Cage</label>
                           <Form.Control
                             type="date"
                             id="region"

@@ -1,8 +1,10 @@
 import React,{useState} from 'react'
 import Footer from '../footer'
 import Header from '../header'
+import { useNavigate } from 'react-router-dom';
 
 function Checkout() {
+    const navigate = useNavigate();
 const cartDataJSON = localStorage.getItem('shoppingCart');
 const shoppingCart = JSON.parse(cartDataJSON);
 const totalPrice = shoppingCart.reduce((total, product) => {
@@ -40,6 +42,7 @@ const totalPrice = shoppingCart.reduce((total, product) => {
       const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Form submitted');
+        navigate('/');
         // Here, you can make an HTTP request to send the formData to your API
         try {
           const response = await fetch('https://localhost:44352/api/Order', {

@@ -141,7 +141,7 @@ function TableAnimal() {
                 <th>Description</th>
                 <th>Gender</th>
                 <th>Region</th>
-                <th>Status</th>
+                <th>Rarity</th>
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
             </thead>
@@ -155,7 +155,7 @@ function TableAnimal() {
                       <td>{items.description}</td>
                       <td>{items.sex === true ? "Male" : "Female"}</td>
                       <td>{items.region}</td>
-                      <td>{items.status === true ? "Actice" : "Inactive"}</td>
+                      <td>{items.rarity === true ? "Rarity" : "None"}</td>
                       <td style={{ width: "208px" }}>
                         <Button
                           variant="text"

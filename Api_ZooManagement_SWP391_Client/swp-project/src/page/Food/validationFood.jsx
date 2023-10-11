@@ -43,5 +43,5 @@ export const schema = yup.object().shape({
     .string()
     .required()
     .matches(dateRegex)
-    .max(yup.ref('importDate'), 'exportDate must be after importDate'),
+    // .max(yup.ref('importDate'), 'exportDate must be after importDate'),
 });

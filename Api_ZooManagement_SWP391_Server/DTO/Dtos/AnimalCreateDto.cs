@@ -1,8 +1,13 @@
-﻿namespace DTO.Dtos
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DTO.Dtos
 {
-    public class AnimalDto
+    public class AnimalCreateDto
     {
-        public string animalId {  get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public bool Sex { get; set; }
