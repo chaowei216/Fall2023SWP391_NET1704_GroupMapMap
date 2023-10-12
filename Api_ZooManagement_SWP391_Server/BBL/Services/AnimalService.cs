@@ -149,5 +149,12 @@ namespace BBL.Services
             animal.Status = false;
             return _animalRepo.Update(animal);
         }
+
+        public ICollection<AnimalTrainer> GetAnimalByTrainerId(string trainerId)
+        {
+            var animals = _animalTrainerRepo.GetAll().Where(at => at.UserId == trainerId).ToList();
+            if(animals == null) return null;
+            return animals;
+        }
     }
 }

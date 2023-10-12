@@ -16,47 +16,32 @@ namespace Api_ZooManagement_SWP391.Controllers
     {
         private readonly IAnimalService _animalService;
         private readonly IMapper _mapper;
+        private readonly ICageService _cageService;
+        private readonly IUserService _userService;
         public Regex animalRegex = new Regex(@"^A\d{4}");
-        public Regex userRegex = new Regex(@"^U\d{4}");
+        public Regex userRegex = new Regex(@"^Z\d{4}");
 
-        public AnimalController(IMapper mapper, IAnimalService animalService)
+        public AnimalController(IMapper mapper, IAnimalService animalService, ICageService cageService, IUserService userService)
         {
             _animalService = animalService;
             _mapper = mapper;
+            _cageService = cageService;
+            _userService = userService;
         }
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Animal>))]
         public IActionResult GetAllAnimal()
         {
-            var animal = _mapper.Map<List<AnimalDto>>(_animalService.GetAll());
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            return Ok(animal);
-        }
-        /*[HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Animal>))]
-        public IActionResult GetAllAnimal()
-        {
             var animal = _mapper.Map<List<GetAnimalDto>>(_animalService.GetAll());
-            var trainer = _mapper.Map<List<GetAnimalDto>>(_animalService.GetAnimalTrainers());
-            var cage = _mapper.Map<List<GetAnimalDto>>(_animalService.GetAnimalCages());
-            var getAnimal = new GetAnimalDto()
-            {
-                Animal = animal,
-                AnimalTrainerDto = trainer,
-
-            };
+            animal = _mapper.Map<List<GetAnimalDto>>(_cageService.GetAll());
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
             return Ok(animal);
-        } */
+        }    
 
         [HttpGet("{animalId}")]
         [ProducesResponseType(200, Type = typeof(Animal))]
@@ -96,10 +81,28 @@ namespace Api_ZooManagement_SWP391.Controllers
             var userMap = _mapper.Map<AnimalTrainer>(animalDto);
             var cageMap = _mapper.Map<AnimalCage>(animalDto);
             animalMap.AnimalId = animalId;
-            cageMap.EntryCageDate = animalDto.EntryCageDate;
+            cageMap.EntryCageDate = animalDto.EntryCageDate;    
             userMap.StartTrainDate = animalDto.StartTrainDate;
             animalMap.Status = true;
 
+            int isCageFull = _cageService.GetByCageId(cageId).AnimalQuantity;
+            int fullCage = _cageService.GetByCageId(cageId).MaxCapacity;
+            int isTrainerFull = _animalService.GetAnimalByTrainerId(userId).Count();
+
+            isCageFull += 1;
+            if (isCageFull > fullCage)
+            {
+                return BadRequest("This cage is full");
+            }
+            if (isTrainerFull > 10)
+            {
+                return BadRequest("Zoo trainer have trained 10 animals");
+            }
+            if(!userRegex.IsMatch(userId)) {
+                return BadRequest("This is not a zoo trainer!!!");
+            }
+
+            
             if (!_animalService.AddAnimal(userId, cageId, animalMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving!!!");

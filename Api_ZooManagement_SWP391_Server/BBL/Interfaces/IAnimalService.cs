@@ -21,5 +21,6 @@ namespace BBL.Interfaces
         ICollection<AnimalCage> GetCageByAnimalId(string animalId);
         ICollection<AnimalCage> GetAnimalCages();
         ICollection<AnimalTrainer> GetAnimalTrainers();
+        ICollection<AnimalTrainer> GetAnimalByTrainerId(string trainerId);
     }
 }
