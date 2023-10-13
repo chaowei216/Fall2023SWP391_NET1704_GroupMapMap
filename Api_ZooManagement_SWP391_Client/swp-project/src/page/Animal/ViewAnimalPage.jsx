@@ -9,6 +9,7 @@ import {
   MDBModalBody,
   MDBModalFooter,
 } from "mdb-react-ui-kit";
+import Table from 'react-bootstrap/Table';
 import { DatePicker, Radio, Select, Space } from "antd";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -20,7 +21,7 @@ export default function EditAnimal(pros) {
   const [region, setRegion] = useState("");
   const [name, setName] = useState("");
   const [cageID, setCageID] = useState("");
-  const [userID, setUserID] = useState("");
+  const [userID, setUserID] = useState([]);
   const [gender, setGender] = useState("");
   const [healthCheck, setHealthCheck] = useState("");
   const [description, setDescription] = useState("");
@@ -33,6 +34,7 @@ export default function EditAnimal(pros) {
   const [endTraining, setEndTraining] = useState("");
   const [outCage, setOutCage] = useState("");
   const [listCage, setListCage] = useState([]);
+  const [listZooTrainer, setListZooTrainer] = useState([]);
 
   useEffect(() => {
     if (show) {
@@ -41,7 +43,7 @@ export default function EditAnimal(pros) {
       setRegion(dataAnimalView.region),
         setName(dataAnimalView.name),
         setCageID(dataAnimalView.cageID),
-        setUserID(dataAnimalView.userID),
+        setUserID(dataAnimalView.animalTrainers),
         setGender(dataAnimalView.sex === true ? "male" : "female"),
         setHealthCheck(dataAnimalView.healthCheck),
         setDescription(dataAnimalView.description),
@@ -55,13 +57,43 @@ export default function EditAnimal(pros) {
         setOutCage(date),
         setSpecies(dataAnimalView.species),
         setRarity(dataAnimalView.rarity);
-      console.log(dataAnimalView.cageID)
-
     }
   }, [dataAnimalView]);
+  console.log(dataAnimalView)
+  const date = new Date();
+  useEffect(() => {
+    const getCageList = () => {
+      return fetch(`https://localhost:44352/api/User/users`).then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getCageList().then((items) => {
+      if (mounted) {
+        setListZooTrainer(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
 
+  // Danh sách users
+  const users = listZooTrainer;
 
-  // useEffect(() => {
+  // Danh sách userId trong animalTrainers 
+  const animalTrainers = userID
+
+  // Lọc ra các user có id trùng với animalTrainers
+  const trainers = users.filter(user => {
+    return animalTrainers.some(trainer => {
+      return trainer.userId === user.userId;
+    })
+  });
+
+  console.log(trainers);
+  console.log(listZooTrainer)
+  console.log(animalTrainers);
+  console.log(userID)
+  //   useEffect(() => {
   //   const getCageList = () => {
   //     return fetch(`https://localhost:44352/api/Cage/CageId?${cageID}`).then((data) =>
   //       data.json()
@@ -341,7 +373,7 @@ export default function EditAnimal(pros) {
                           <label className="form-label">
                             Cage for Animal
                           </label>
-                          <ListGroup style={{width: "95%"}}>
+                          <ListGroup style={{ width: "95%" }}>
                             <ListGroup.Item>Cras justo odio</ListGroup.Item>
                           </ListGroup>
                         </div>
@@ -368,8 +400,35 @@ export default function EditAnimal(pros) {
                           <label className="form-label">
                             ZooTrainer for Animal
                           </label>
-                          <ListGroup style={{width: "95%"}}>
-                            <ListGroup.Item>Cras justo odio</ListGroup.Item>
+                          <Table striped bordered hover>
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {trainers && trainers.length > 0 && trainers.map((value) => {
+                                return (
+                                  <tr>
+                                    <td>{value.userId}</td>
+                                    <td>{value.firstname}</td>
+                                    <td>{value.lastname}</td>
+                                    <td>{value.phone}</td>
+                                    <td>{value.email}</td>
+                                    <td>{value.status === true ? <div style={{ background: '#008800', borderRadius: "50px", textAlign: "center", color: "white",fontWeight: "bold" }}>Working</div>
+                                    : <div style={{ background: 'gray', borderRadius: "50px", textAlign: "center", color: "white",fontWeight: "bold" }}>huuh</div>}</td>
+                                  </tr>
+                                )
+                              })}
+                            </tbody>
+                          </Table>
+                          <ListGroup style={{ width: "95%" }}>
+
                           </ListGroup>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
