@@ -64,10 +64,10 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<AnimalCreateDto, Animal>();
             CreateMap<AnimalFood, UpdateAnimalDto>();
             CreateMap<UpdateAnimalDto, AnimalFood>();
-            CreateMap<AnimalCage, GetCageDto>();
-            CreateMap<AnimalTrainer, GetTrainersDto>();
-            CreateMap<GetCageDto, AnimalCage>();
-            CreateMap<GetTrainersDto, AnimalTrainer>();
+           /* CreateMap<AnimalCage, GetCageDto>();
+            CreateMap<AnimalTrainer, GetTrainersDto>();*/
+           /* CreateMap<GetCageDto, AnimalCage>();
+            CreateMap<GetTrainersDto, AnimalTrainer>();*/
         }
 
     }

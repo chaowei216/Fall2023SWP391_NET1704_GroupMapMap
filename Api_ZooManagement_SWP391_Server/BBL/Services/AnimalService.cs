@@ -73,9 +73,27 @@ namespace BBL.Services
             return _animalRepo.GetById(id) != null ? true : false;
         }
 
-        public ICollection<Animal> GetAll()
+        public ICollection<GetAnimalDto> GetAll()
         {
-            var getAnimal = _context.Animals.Include(animal => animal.AnimalCages).Include(animal => animal.AnimalTrainers).ToList();
+            //var getAnimal = _context.Animals.Include(animal => animal.AnimalCages).Include(animal => animal.AnimalTrainers).ToList();
+            var getAnimal = (from a in _context.Animals
+                             join ac in _context.AnimalCages on a.AnimalId equals ac.AnimalId
+                             join at in _context.AnimalTrainers on a.AnimalId equals at.AnimalId
+                             select new GetAnimalDto
+                             {
+                                 AnimalId = a.AnimalId,
+                                 Name = a.Name,
+                                 Description = a.Description,
+                                 Sex = a.Sex,
+                                 Region = a.Region,
+                                 HealthCheck = a.HealthCheck,
+                                 Birthday = a.Birthday,
+                                 Species = a.Species,
+                                 Rarity = a.Rarity,
+                                 CId = ac.CageId,
+                                 UserId = at.UserId,
+                                 AnimalImage = a.AnimalImage
+                             }).ToList();
             return getAnimal;
         }
 
