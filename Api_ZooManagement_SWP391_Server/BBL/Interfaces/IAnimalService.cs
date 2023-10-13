@@ -1,4 +1,5 @@
 ﻿using DAL.Entities;
+using DTO.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace BBL.Interfaces
 {
     public interface IAnimalService
     {
-        bool AddAnimal(string? userId, string? cageId, Animal animal);
+        bool AddAnimal(string? userId, string? cageId, List<AnimalFood> animalFood, Animal animal);
         bool UpdateAnimal(Animal animal, Animal? animalMap);
         bool AddAnimalTrainer(string userId, string animalId, AnimalTrainer animalTrainer);
         bool AddAnimalCage(string cageId, string animalId, AnimalCage animalCage);
@@ -17,9 +18,11 @@ namespace BBL.Interfaces
         Animal GetByAnimalId(string id);
         bool AnimalExists(string id);
         bool DeleteAnimal(string id);
+        ICollection<AnimalTrainer> GetTrainersCanTrain();
         ICollection<AnimalTrainer> GetTrainerByAnimalId(string animalId);
         ICollection<AnimalCage> GetCageByAnimalId(string animalId);
         ICollection<AnimalCage> GetAnimalCages();
         ICollection<AnimalTrainer> GetAnimalTrainers();
+        ICollection<AnimalTrainer> GetAnimalByTrainerId(string trainerId);
     }
 }

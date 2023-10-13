@@ -77,5 +77,12 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             return Ok("Successfully");
         }
+
+        [HttpPut]
+        public IActionResult UpdateCage()
+        {
+
+            return Ok();
+        }
     }
 }

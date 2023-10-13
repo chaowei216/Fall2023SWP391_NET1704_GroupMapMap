@@ -47,6 +47,7 @@ namespace DAL.Data
             modelBuilder.Entity<Cage>(entity =>
             {
                 entity.HasKey(cage => cage.CId);
+                entity.Property(cage => cage.Name).HasMaxLength(20).IsRequired();
                 entity.Property(cage => cage.CId).HasMaxLength(5);
                 entity.Property(e => e.MaxCapacity).IsRequired();
                 entity.Property(e => e.AnimalQuantity).IsRequired();
@@ -85,13 +86,13 @@ namespace DAL.Data
                 entity.Property(e => e.Name).HasMaxLength(50).IsRequired();
                 entity.Property(e => e.Description).IsRequired();
                 entity.Property(e => e.Sex).IsRequired();
-                entity.Property(e => e.EntryDate).IsRequired();
                 entity.Property(e => e.Region).HasMaxLength(30).IsRequired();
                 entity.Property(e => e.HealthCheck).IsRequired();
                 entity.Property(e => e.Birthday).IsRequired();
                 entity.Property(e => e.Status).IsRequired();
                 entity.Property(e => e.Species).IsRequired();
                 entity.Property(e => e.Rarity).IsRequired();
+                entity.Property(e => e.AnimalImage);
             });
 
                 modelBuilder.Entity<Food>(entity =>
@@ -138,6 +139,7 @@ namespace DAL.Data
                     entity.Property(u => u.StartDate).IsRequired();
                     entity.Property(u => u.Role).IsRequired();
                     entity.Property(u => u.Status).IsRequired();
+                    entity.Property(u => u.UserImage);
                 });
 
                 modelBuilder.Entity<Schedule>(entity =>
