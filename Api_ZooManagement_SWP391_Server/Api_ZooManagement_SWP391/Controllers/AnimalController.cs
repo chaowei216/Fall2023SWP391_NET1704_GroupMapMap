@@ -35,12 +35,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Animal>))]
         public IActionResult GetAllAnimal()
         {
-            var animal = _mapper.Map<List<GetAnimalDto>>(_animalService.GetAll());
-            var animalCage = _mapper.Map<List<GetAnimalDto>>(_cageService.GetAll());
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+            var animal = _mapper.Map<List<GetAnimalDto>>(_animalService.GetAll());   
 
             return Ok(animal);
         }    
@@ -174,13 +169,17 @@ namespace Api_ZooManagement_SWP391.Controllers
             }
 
             var animalCage = _animalService.GetCageByAnimalId(animalId).Where(c => c.OutCageDate == null).FirstOrDefault();
+            if(animalCage == null)
+            {
+                return BadRequest("Something wrong!!!");
+            }
             if (animalCage.CageId != updateAnimalDto.CageId)
             {
                 animalCage.OutCageDate = DateTime.Now;
                 _animalService.AddAnimalCage(updateAnimalDto.CageId, animalId, cageMap);
             }
 
-
+            
 
             if (!_animalService.UpdateAnimal(animal, animalMap))
             {
