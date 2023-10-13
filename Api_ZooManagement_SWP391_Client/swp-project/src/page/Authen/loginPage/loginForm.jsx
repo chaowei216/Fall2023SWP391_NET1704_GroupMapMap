@@ -4,8 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate,useLocation, Navigate } from 'react-router-dom';
 import useShopping from '../../../hooks/useShopping';
-
-
+import jwt_decode from 'jwt-decode'; 
 
 function LoginForm() {
   
@@ -15,7 +14,17 @@ function LoginForm() {
   const [loadingApi, setLoadingApi] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-// useEffect(()=>{
+  const [userObject, setUserObject] = useState(null);
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   if (token) {
+  //     const decoded = jwt_decode(token);
+  //     setUserObject(decoded);
+  //   }
+  // }, []);
+//   console.log(userObject);
+// // useEffect(()=>{
 //   let token =localStorage.getItem("token");
 //   if (token) {
 
@@ -38,24 +47,25 @@ function setItemToLocalStorage(key, value) {
 
     try {
       setLoadingApi(true);
-      const url = "https://localhost:44352/api/Login/login";
-      const res = await axios.post(url, {
+      const res = await axios.post('https://localhost:44352/api/Login/login', {
         email,
         password,
       });
-
+console.log(res)
       if (res && res.status === 200) {
-        const tokens = res.data;
-        await setItemToLocalStorage('token', tokens.token)
-        const userResponse = await axios.get('https://reqres.in/api/users/2', {
-          headers: {
-            Authorization: `Bearer ${tokens.token}`,
-          },
-        });
+        const token = res.data;
+        console.log(res);
+        const decoded = jwt_decode(token);
+        console.log(decoded);
+        setUserObject(decoded);
+        const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+        localStorage.setItem("role",role);
+        console.log(role);
+     
 
         // Xử lý dữ liệu người dùng ở đây (userResponse.data).
-        console.log('Thông tin người dùng:', userResponse.data);
-        await setItemToLocalStorage("dataUser", JSON.stringify(userResponse.data));
+        // console.log('Thông tin người dùng:', userResponse.data);
+        // await setItemToLocalStorage("dataUser", JSON.stringify(userResponse.data));
         setTimeout(() => {
           navigate('/staff');
         }, 2000);
@@ -63,8 +73,8 @@ function setItemToLocalStorage(key, value) {
         setError(res.data.error);
       }
     } catch (error) {
-      toast.error(error.response.data.error);
-      console.log(error.respons.e);
+      // toast.error(error.response.data.error);
+      console.log(error);
     } finally {
       setLoadingApi(false);
     }
@@ -76,8 +86,10 @@ function setItemToLocalStorage(key, value) {
       
       try {
         setLoadingApi(true);
-        const response = await axios.post(`https://localhost:44352/api/Login/forgot-password?email=${email}`);
-        console.log(response);
+        const response = await axios.post('', {
+          email: email,
+        });
+        
         if (response.status === 200) {
           localStorage.setItem("tokenEmail",response.data.token);
           setTimeout(() => {

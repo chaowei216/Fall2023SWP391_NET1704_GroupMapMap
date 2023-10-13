@@ -25,7 +25,7 @@ function TableAnimal() {
   const [dataAnimalEdit, setDataAnimalEdit] = useState({});
   const [dataAnimalView, setDataAnimalView] = useState({});
 
-  const getList = () => {
+const getList = () => {
     return fetch("https://localhost:44352/api/Animal").then((data) =>
       data.json()
     );

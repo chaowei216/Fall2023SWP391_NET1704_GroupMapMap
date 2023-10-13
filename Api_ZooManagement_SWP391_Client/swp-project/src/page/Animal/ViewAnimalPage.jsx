@@ -394,7 +394,7 @@ export default function EditAnimal(pros) {
                           </div>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Choose birthday</label>
+                          <label className="form-label">Birthday</label>
                           <br />
                           <Space
                             direction="vertical"

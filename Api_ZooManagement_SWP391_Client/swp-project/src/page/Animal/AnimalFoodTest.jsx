@@ -39,18 +39,9 @@ function YourComponent(pros) {
     return () => (mounted = false);
   }, []);
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
-
-  //   useEffect(() => {
-  //     // API call to fetch options
-
-  //     fetch("https://localhost:44352/api/Food")
-  //       .then(data => setOptions(data))
-  //   }, [])
-
   const addField = () => {
     setFields([...fields, { id: "", quantity: "" }]);
   };
-
   const removeField = (index) => {
     setFields(fields.filter((_, i) => i !== index));
   };
@@ -87,8 +78,8 @@ function YourComponent(pros) {
     const response = await fetch(url, request);
     if (response.ok) {
       console.log("Success");
-      navigate("/staff/2")
-      window.location.reload();
+      // navigate("/staff/2")
+      // window.location.reload();
       // window.location.href("/staff/1");
       
     }

@@ -269,6 +269,410 @@ export default function AddAnimalFood(pros) {
                     </div>
                   </div>
                 </Form>
+                <Form noValidate onSubmit={formik.handleSubmit}>
+                  <div className="form-content">
+                    <div className="form">
+                      <div className="row mb-3">
+                        <div className="mb-3 row-content">
+                          <label className="form-label">
+                            Enter Name Animal
+                          </label>
+                          <Form.Control
+                            id="name"
+                            type="text"
+                            placeholder="name of the animal"
+                            aria-describedby="inputGroupPrepend"
+                            name="name"
+                            value={formik.values.name}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isInvalid={
+                              formik.errors.name && formik.touched.name
+                            }
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {formik.errors.name}
+                          </Form.Control.Feedback>
+                        </div>
+                        <div className="mb-3 row-content">
+                          <label className="form-label">Enter Country</label>
+                          <Form.Control
+                            type="text"
+                            id="region"
+                            placeholder="Country"
+                            aria-describedby="inputGroupPrepend"
+                            name="region"
+                            value={formik.values.region}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isInvalid={
+                              formik.errors.region && formik.touched.region
+                            }
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {formik.errors.region}
+                          </Form.Control.Feedback>
+                        </div>
+                      </div>
+                      <div className="row mb-3">
+                        <div className="mb-3" style={{ width: "33%" }}>
+                          <div>
+                            <label
+                              className="form-label"
+                              style={{ verticalAlign: "middle" }}
+                            >
+                              Choose Gender
+                            </label>
+                            <br />
+                            <Radio.Group
+                              id="gender"
+                              name="gender"
+                              style={{ height: "33%", width: "100%" }}
+                              // onChange={(e) => {
+                              //   handleRoleChange(e);
+                              // }}
+                              value={formik.values.gender}
+                              buttonStyle="solid"
+                              defaultValue={formik.values.gender}
+                              onChange={formik.handleChange}
+                            >
+                              <Radio.Button
+                                style={{
+                                  width: "34%",
+                                  textAlign: "center",
+                                  height: "37px",
+                                }}
+                                value={true}
+                              >
+                                <span style={{ verticalAlign: "middle" }}>
+                                  Male
+                                </span>
+                              </Radio.Button>
+                              <Radio.Button
+                                style={{
+                                  width: "34%",
+                                  textAlign: "center ",
+                                  height: "37px",
+                                }}
+                                value={false}
+                              >
+                                <span style={{ verticalAlign: "middle" }}>
+                                  FeMale
+                                </span>
+                              </Radio.Button>
+                            </Radio.Group>
+                          </div>
+                        </div>
+                        <div className="mb-3" style={{ width: "33%" }}>
+                          <div>
+                            <label
+                              className="form-label"
+                              style={{ verticalAlign: "middle" }}
+                            >
+                              Is Animal Rarity
+                            </label>
+                            <br />
+                            <Radio.Group
+                              id="rarity"
+                              name="rarity"
+                              style={{ height: "33%", width: "100%" }}
+                              // onChange={(e) => {
+                              //   handleRoleChange(e);
+                              // }}
+                              buttonStyle="solid"
+                              value={formik.values.rarity}
+                              defaultValue={formik.values.rarity}
+                              onChange={formik.handleChange}
+                            >
+                              <Radio.Button
+                                style={{
+                                  width: "34%",
+                                  textAlign: "center",
+                                  height: "37px",
+                                }}
+                                value={true}
+                              >
+                                <span style={{ verticalAlign: "middle" }}>
+                                  Danger
+                                </span>
+                              </Radio.Button>
+                              <Radio.Button
+                                style={{
+                                  width: "34%",
+                                  textAlign: "center ",
+                                  height: "37px",
+                                }}
+                                value={false}
+                              >
+                                <span style={{ verticalAlign: "middle" }}>
+                                  Normal
+                                </span>
+                              </Radio.Button>
+                            </Radio.Group>
+                          </div>
+                        </div>
+                        <div className="mb-3" style={{ width: "33%" }}>
+                          <label className="form-label">
+                            Choose Animal Birthday
+                          </label>
+                          <Form.Control
+                            type="date"
+                            id="entryDate"
+                            aria-describedby="inputGroupPrepend"
+                            name="entryDate"
+                            value={formik.values.entryDate}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isInvalid={
+                              formik.errors.entryDate &&
+                              formik.touched.entryDate
+                            }
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {a}
+                          </Form.Control.Feedback>
+                        </div>
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Enter healthCheck</label>
+                        <Form.Control
+                          as="textarea"
+                          style={{ height: "100px" }}
+                          id="healthCheck"
+                          placeholder="healthCheck"
+                          aria-describedby="inputGroupPrepend"
+                          name="healthCheck"
+                          value={formik.values.healthCheck}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          isInvalid={
+                            formik.errors.healthCheck &&
+                            formik.touched.healthCheck
+                          }
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {formik.errors.healthCheck}
+                        </Form.Control.Feedback>
+                      </div>
+                      <div className="mb-4">
+                        <label className="form-label">Enter Description</label>
+                        <Form.Control
+                          as="textarea"
+                          id="description"
+                          placeholder="description"
+                          aria-describedby="inputGroupPrepend"
+                          name="description"
+                          style={{ height: "100px" }}
+                          value={formik.values.description}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          isInvalid={
+                            formik.errors.description &&
+                            formik.touched.description
+                          }
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {formik.errors.description}
+                        </Form.Control.Feedback>
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">
+                          Choose Cage for Animal
+                        </label>
+                        <Form.Select
+                          size="lg"
+                          placeholder="Chọn món ăn"
+                          // style={{ width: "45%" }}
+                          onChange={(event) => handleCageSelect(event)}
+                        >
+                          <option value="">Choose Cage</option>
+                          {/* Render các option từ API */}
+                          {listCage.map((option) => (
+                            <option key={option.cId} value={option.cId}>
+                              {option.cId} - MaxCapacity : {option.maxCapacity}{" "}
+                              - AnimalQuantity : {option.animalQuantity}
+                            </option>
+                          ))}
+                        </Form.Select>
+                      </div>
+                      <div className="mb-3" style={{ width: "33%" }}>
+                        <div>
+                          <label className="form-label">
+                            Choose Entry Cage
+                          </label>
+                          <br />
+
+                          <Form.Control
+                            type="date"
+                            name="entryCageDate"
+                            value={formik.values.entryCageDate}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isInvalid={
+                              formik.errors.entryCageDate &&
+                              formik.touched.entryCageDate
+                            }
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {formik.errors.entryCageDate}
+                          </Form.Control.Feedback>
+                        </div>
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">
+                          Choose ZooTrainer for Animal
+                        </label>
+                        <Form.Select
+                          size="lg"
+                          placeholder="Chọn món ăn"
+                          style={{ width: "85%" }}
+                          onChange={(event) => handleTrainerSelect(event)}
+                        >
+                          <option value="">Choose ZooTrainer</option>
+                          {/* Render các option từ API */}
+                          {ZooTrainerList.map((option) => (
+                            <option key={option.userId} value={option.userId}>
+                              <div style={{ height: "50px" }}>
+                                {option.email} - MaxCapacity :{" "}
+                                {option.firstname} - AnimalQuantity :{" "}
+                                {option.lastname}
+                              </div>
+                            </option>
+                          ))}
+                        </Form.Select>
+                      </div>
+                      <div className="row mb-5 mt-4">
+                        <div className="mb-3" style={{ width: "33%" }}>
+                          <label className="form-label">
+                            Choose Start Train
+                          </label>
+                          <br />
+
+                          <Form.Control
+                            type="date"
+                            id="startTrainDate"
+                            placeholder="address"
+                            aria-describedby="inputGroupPrepend"
+                            name="startTrainDate"
+                            value={formik.values.startTrainDate}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isInvalid={
+                              formik.errors.startTrainDate &&
+                              formik.touched.startTrainDate
+                            }
+                          />
+                          <Form.Control.Feedback type="invalid">
+                            {formik.errors.startTrainDate}
+                          </Form.Control.Feedback>
+                        </div>
+                      </div>
+                      <div className="mb-5" style={{ textAlign: "center" }}>
+                        <Form.Label>Enter Animal ID</Form.Label>
+                        <Form.Control
+                          type="text"
+                          id="animalId"
+                          name="animalId"
+                          // value={values.animalId}
+                          // onChange={handleChange}
+                          // onBlur={handleBlur}
+                        />
+                      </div>
+                      {formik.values.fields.map((field, index) => (
+                        <div
+                          key={index}
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                          className="mb-3"
+                        >
+                          <Field
+                            name={`fields[${index}].id`}
+                            // as="select"
+                            // onChange={(e) => handleChange(e.target.value)}
+                          >
+                            {({ field, form }) => (
+                              <Form.Control
+                                as="select"
+                                {...field}
+                                placeholder="Chọn món ăn"
+                                style={{ width: "45%" }}
+                                onChange={(event) =>
+                                  handleFoodSelect(event, field, form)
+                                }
+                              >
+                                <option value="">Chọn món ăn</option>
+                                {/* Render các option từ API */}
+                                {options.map((option) => (
+                                  <option
+                                    key={option.foodId}
+                                    value={option.foodId}
+                                    disabled={selectedFoodIds.includes(
+                                      option.foodId
+                                    )}
+                                  >
+                                    {option.fName}
+                                  </option>
+                                ))}
+                              </Form.Control>
+                            )}
+                          </Field>
+                          <Field
+                            name={`fields[${index}].quantity`}
+                            component={Form.Control}
+                            style={{ width: "45%" }}
+                            className="control-field"
+                          />
+                          {/* <button onClick={() => removeField(index)}>
+        Remove
+      </button> */}
+                        </div>
+                      ))}
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Button onClick={addField}>Add</Button>
+                        <Button type="submit">Submit</Button>
+                      </div>
+                      <div className="btn-footer">
+                        <div
+                          style={{
+                            marginRight: "20px",
+                            background: "gainsboro",
+                          }}
+                        >
+                          <Button
+                            variant="secondary"
+                            onClick={handleClose}
+                            active
+                            style={{ width: "80px" }}
+                          >
+                            Close
+                          </Button>
+                        </div>
+                        <div>
+                          <Button
+                            style={{ background: "gainsboro" }}
+                            variant="primary"
+                            type="submit"
+                            onClick={submitForm}
+                            active
+                          >
+                            Create animal
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Form>
                 <ToastContainer
                   position="top-right"
                   autoClose={5000}
