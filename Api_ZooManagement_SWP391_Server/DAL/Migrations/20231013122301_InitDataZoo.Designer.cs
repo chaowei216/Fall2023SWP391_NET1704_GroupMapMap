@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231011045239_Data")]
-    partial class Data
+    [Migration("20231013122301_InitDataZoo")]
+    partial class InitDataZoo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
