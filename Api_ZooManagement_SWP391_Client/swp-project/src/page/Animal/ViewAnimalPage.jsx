@@ -21,7 +21,8 @@ export default function EditAnimal(pros) {
   const [region, setRegion] = useState("");
   const [name, setName] = useState("");
   const [cageID, setCageID] = useState("");
-  const [userID, setUserID] = useState([]);
+  // const [userID, setUserID] = useState([]);
+  const [userID, setUserID] = useState("");
   const [gender, setGender] = useState("");
   const [healthCheck, setHealthCheck] = useState("");
   const [description, setDescription] = useState("");
@@ -42,8 +43,8 @@ export default function EditAnimal(pros) {
       var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
       setRegion(dataAnimalView.region),
         setName(dataAnimalView.name),
-        setCageID(dataAnimalView.cageID),
-        setUserID(dataAnimalView.animalTrainers),
+        setCageID(dataAnimalView.cId),
+        setUserID(dataAnimalView.userId),
         setGender(dataAnimalView.sex === true ? "male" : "female"),
         setHealthCheck(dataAnimalView.healthCheck),
         setDescription(dataAnimalView.description),
@@ -51,9 +52,9 @@ export default function EditAnimal(pros) {
         console.log(date);
       console.log(dataAnimalView.birthday.slice(0, 10));
       // setEntryAnimal();
-      // setEntryCage(dataAnimalView.entryDate === null ? null : dataAnimalView.entryDate.slice(0, 10)),
-      // setStartTrain(dataAnimalView.startTrainDate === null ? null : dataAnimalView.startTrainDate.slice(0, 10)),
-      setEndTraining(date),
+      setEntryCage(dataAnimalView.entryCageDate === null ? null : dataAnimalView.entryCageDate.slice(0, 10)),
+        setStartTrain(dataAnimalView.startTrainDate === null ? null : dataAnimalView.startTrainDate.slice(0, 10)),
+        setEndTraining(date),
         setOutCage(date),
         setSpecies(dataAnimalView.species),
         setRarity(dataAnimalView.rarity);
@@ -62,37 +63,46 @@ export default function EditAnimal(pros) {
   console.log(dataAnimalView)
   const date = new Date();
   useEffect(() => {
-    const getCageList = () => {
+    const getZooTrainerList = () => {
       return fetch(`https://localhost:44352/api/User/users`).then((data) =>
         data.json()
       );
     };
     let mounted = true;
-    getCageList().then((items) => {
+    getZooTrainerList().then((items) => {
       if (mounted) {
         setListZooTrainer(items);
       }
     });
     return () => (mounted = false);
   }, []);
-
+  
+  useEffect(() => {
+    const getCageList = () => {
+      return fetch("https://localhost:44352/api/Cage").then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getCageList().then((items) => {
+      if (mounted) {
+        setListCage(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
   // Danh sách users
   const users = listZooTrainer;
-
   // Danh sách userId trong animalTrainers 
   const animalTrainers = userID
-
   // Lọc ra các user có id trùng với animalTrainers
-  const trainers = users.filter(user => {
-    return animalTrainers.some(trainer => {
-      return trainer.userId === user.userId;
-    })
-  });
-
-  console.log(trainers);
-  console.log(listZooTrainer)
-  console.log(animalTrainers);
-  console.log(userID)
+  // const trainers = users.filter(user => {
+  //   return animalTrainers.some(trainer => {
+  //     return trainer.userId === user.userId;
+  //   })
+  // });
+  const trainers = users.filter(user => user.userId === userID);
+  const cages = listCage.filter(cage => cage.cId === cageID);
   //   useEffect(() => {
   //   const getCageList = () => {
   //     return fetch(`https://localhost:44352/api/Cage/CageId?${cageID}`).then((data) =>
@@ -368,35 +378,76 @@ export default function EditAnimal(pros) {
                       <div className="label-info">
                         <label>Cage Information</label>
                       </div>
-                      <div className="mb-3 Cage_Infomation">
+                      <div className="mb-3 Cage_Infomation" style={{ paddingRight: "25px" }}>
                         <div className="mb-3">
                           <label className="form-label">
                             Cage for Animal
                           </label>
-                          <ListGroup style={{ width: "95%" }}>
-                            <ListGroup.Item>Cras justo odio</ListGroup.Item>
-                          </ListGroup>
+                          <Table striped bordered hover>
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>Cage Name</th>
+                                <th>Max Capacity</th>
+                                <th>Quantity</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {cages && cages.length > 0 && cages.map((value) => {
+                                return (
+                                  <tr>
+                                    <td>{value.cId}</td>
+                                    <td>{value.name}</td>
+                                    <td>{value.maxCapacity}</td>
+                                    <td>{value.animalQuantity}</td>
+                                  </tr>
+                                )
+                              })}
+                            </tbody>
+                          </Table>
                         </div>
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <div>
-                            <label className="form-label">
-                              Choose Entry Cage
-                            </label>
-                            <br />
+                        <div className="row" style={{ justifyContent: "space-between" }}>
+
+                          <div className="mb-3" style={{ width: "40%" }}>
+                            <div>
+                              <label className="form-label">
+                                Entry Cage Date
+                              </label>
+                              <br />
+                              <Form.Control
+                                type="date"
+                                name="entryCageDate"
+                                disabled
+                                value={entryCage}
+                              />
+                            </div>
+                          </div>
+                          <div className="mb-3" style={{ width: "40%" }}>
+                            <label className="form-label">Out Cage</label>
                             <Form.Control
                               type="date"
-                              name="entryCageDate"
+                              id="outCage"
+                              aria-describedby="inputGroupPrepend"
+                              name="outCage"
                               disabled
-                            // value={values.entryCageDate}
+                              value={outCage}
+                              onChange={(event) => setRegion(event.target.value)}
+                            // isInvalid={
+                            //   formik.errors.last_name &&
+                            //   formik.touched.last_name
+                            // }
                             />
+                            {/* <Form.Control.Feedback type="invalid">
+                            {formik.errors.last_name}
+                          </Form.Control.Feedback> */}
                           </div>
                         </div>
                       </div>
                       <div className="label-info">
                         <label>ZooTrainer Information</label>
                       </div>
-                      <div className="ZooTrainer-Information">
-                        <div className="mb-3">
+                      <div className="ZooTrainer-Information" style={{ paddingRight: "25px" }}>
+                        <div className="mb-2">
                           <label className="form-label">
                             ZooTrainer for Animal
                           </label>
@@ -420,126 +471,95 @@ export default function EditAnimal(pros) {
                                     <td>{value.lastname}</td>
                                     <td>{value.phone}</td>
                                     <td>{value.email}</td>
-                                    <td>{value.status === true ? <div style={{ background: '#008800', borderRadius: "50px", textAlign: "center", color: "white",fontWeight: "bold" }}>Working</div>
-                                    : <div style={{ background: 'gray', borderRadius: "50px", textAlign: "center", color: "white",fontWeight: "bold" }}>huuh</div>}</td>
+                                    <td>{value.status === true ? <div style={{ background: '#008800', borderRadius: "50px", textAlign: "center", color: "white", fontWeight: "bold" }}>Working</div>
+                                      : <div style={{ background: 'gray', borderRadius: "50px", textAlign: "center", color: "white", fontWeight: "bold" }}>huuh</div>}</td>
                                   </tr>
                                 )
                               })}
                             </tbody>
                           </Table>
-                          <ListGroup style={{ width: "95%" }}>
-
-                          </ListGroup>
                         </div>
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <div>
-                            <label className="form-label">
-                              Choose Entry Cage
-                            </label>
-                            <br />
-                            <Form.Control
-                              type="date"
-                              name="entryCageDate"
-                              disabled
-                            // value={values.entryCageDate}
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="row mt-4">
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">
-                            Start Train
-                          </label>
-                          <br />
-                          <Space
-                            direction="vertical"
-                            size={20}
-                            style={{ width: "90%" }}
-                          >
-                            <Form.Control
-                              type="date"
-                              id="startTrainDate"
-                              placeholder="address"
-                              aria-describedby="inputGroupPrepend"
-                              disabled
-                              name="startTrainDate"
-                              value={startTrain}
-                              onChange={(event) =>
-                                setStartTrain(event.target.value)
-                              }
-                            // onBlur={formik.handleBlur}
-                            />
-                          </Space>
-                        </div>
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <div>
-                            <label className="form-label">
-                              Entry Cage
-                            </label>
-                            <br />
-                            <Space
-                              direction="vertical"
-                              size={20}
-                              style={{ width: "90%" }}
-                            >
+                        <div className="row" style={{ justifyContent: "space-between" }}>
+                          <div className="mb-3" style={{ width: "40%" }}>
+                            <div>
+                              <label className="form-label">
+                                StartTraining Date
+                              </label>
+                              <br />
                               <Form.Control
                                 type="date"
                                 name="entryCageDate"
-                                value={entryCage}
                                 disabled
-                                onChange={(event) =>
-                                  setEntryCage(event.target.value)
-                                }
+                                value={startTrain}
                               />
-                            </Space>
+                            </div>
                           </div>
-                        </div>
-
-                      </div>
-                      <div className="row mb-3">
-                        <div className="mb-3 row-content">
-                          <label className="form-label">
-                            End Training
-                          </label>
-                          <Form.Control
-                            id="endTraining"
-                            type="date"
-                            aria-describedby="inputGroupPrepend"
-                            name="endTraining"
-                            disabled
-                            value={endTraining}
-                            onChange={(event) => setName(event.target.value)}
-                          // isInvalid={
-                          //   formik.errors.first_name &&
-                          //   formik.touched.first_name
-                          // }
-                          />
-                          {/* <Form.Control.Feedback type="invalid">
+                          <div className="mb-3" style={{ width: "40%" }}>
+                            <label className="form-label">
+                              End Training
+                            </label>
+                            <Form.Control
+                              id="endTraining"
+                              type="date"
+                              aria-describedby="inputGroupPrepend"
+                              name="endTraining"
+                              disabled
+                              value={endTraining}
+                              onChange={(event) => setName(event.target.value)}
+                            // isInvalid={
+                            //   formik.errors.first_name &&
+                            //   formik.touched.first_name
+                            // }
+                            />
+                            {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
                           </Form.Control.Feedback> */}
-                        </div>
-                        <div className="mb-3 row-content">
-                          <label className="form-label">Out Cage</label>
-                          <Form.Control
-                            type="date"
-                            id="outCage"
-                            aria-describedby="inputGroupPrepend"
-                            name="outCage"
-                            disabled
-                            value={outCage}
-                            onChange={(event) => setRegion(event.target.value)}
-                          // isInvalid={
-                          //   formik.errors.last_name &&
-                          //   formik.touched.last_name
-                          // }
-                          />
-                          {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.last_name}
-                          </Form.Control.Feedback> */}
+                          </div>
                         </div>
                       </div>
+                      <div className="label-info">
+                        <label>Food Information</label>
+                      </div>
+                      <div className="Food-Information">
+                        <div className="mb-3">
+                          <label className="form-label">
+                             Food For Animal
+                          </label>
+                          <Table striped bordered hover>
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Phone</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {/* {trainers && trainers.length > 0 && trainers.map((value) => {
+                                return (
+                                  <tr>
+                                    <td>{value.userId}</td>
+                                    <td>{value.firstname}</td>
+                                    <td>{value.lastname}</td>
+                                    <td>{value.phone}</td>
+                                    <td>{value.email}</td>
+                                    <td>{value.status === true ? <div style={{ background: '#008800', borderRadius: "50px", textAlign: "center", color: "white", fontWeight: "bold" }}>Working</div>
+                                      : <div style={{ background: 'gray', borderRadius: "50px", textAlign: "center", color: "white", fontWeight: "bold" }}>huuh</div>}</td>
+                                  </tr>
+                                )
+                              })} */}
+                              <tr>
+                                <td>a</td>
+                                <td>a</td>
+                                <td>a</td>
+                                <td>a</td>
+                              </tr>
+                            </tbody>
+                          </Table>
+
+                        </div>
+                      </div>
+
                       <div className="btn-footer">
                         <div
                           style={{

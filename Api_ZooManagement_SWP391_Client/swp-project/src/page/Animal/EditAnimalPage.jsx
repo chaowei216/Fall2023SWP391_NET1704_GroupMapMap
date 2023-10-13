@@ -33,6 +33,66 @@ export default function EditAnimal(pros) {
   const [entryAnimal, setEntryAnimal] = useState("");
   const [endTraining, setEndTraining] = useState("");
   const [outCage, setOutCage] = useState("");
+
+  const [listCage, setListCage] = useState([]);
+  const [listZooTrainer, setListZooTrainer] = useState([]);
+
+  const [options, setOptions] = useState([]);
+  const [fields, setFields] = useState([
+    {
+      id: "",
+      quantity: "",
+    },
+  ]);
+  const getList = () => {
+    return fetch("https://localhost:44352/api/Food").then((data) =>
+      data.json()
+    );
+  };
+  useEffect(() => {
+    let mounted = true;
+    getList().then((items) => {
+      if (mounted) {
+        setOptions(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
+  const [selectedFoodIds, setSelectedFoodIds] = useState([]);
+  const addField = () => {
+    setFields([...fields, { id: "", quantity: "" }]);
+  };
+  const handleFoodSelect = (event, field, form) => {
+    // Lấy ra field hiện tại đang chọn
+    const currentField = fields[field.name];
+
+    // Thiết lập lại giá trị id
+    currentField.id = event.target.value;
+
+    // Cập nhật lại fields
+    const newFields = [...fields];
+    newFields[field.name] = currentField;
+
+    setFields(newFields);
+  }
+  const handleQuantityChange = (event, field) => {
+
+    // Lấy ra field đang chọn
+    const currentField = fields[field];
+
+    // Cập nhật lại giá trị quantity mới
+    currentField.quantity = event.target.value;
+
+    // Copy mới mảng field 
+    const newFields = [...fields];
+
+    // Cập nhật lại field trong mảng mới
+    newFields[field] = currentField;
+
+    // Set lại state
+    setFields(newFields);
+
+  }
   useEffect(() => {
     if (show) {
       setRegion(dataAnimalEdit.region),
@@ -44,13 +104,41 @@ export default function EditAnimal(pros) {
         setHealthCheck(dataAnimalEdit.healthCheck),
         setDescription(dataAnimalEdit.description),
         setBirthday(dataAnimalEdit.birthday.slice(0, 10)),
-        setEntryAnimal(dataAnimalEdit.entryDate.slice(0, 10));
-      setEntryCage(dataAnimalEdit.entryDate.slice(0, 10)),
+        setEntryCage(dataAnimalEdit.entryCageDate.slice(0, 10)),
         setStartTrain(dataAnimalEdit.startTrainDate.slice(0, 10)),
         setSpecies(dataAnimalEdit.species),
         setRarity(dataAnimalEdit.rarity);
     }
   }, [dataAnimalEdit]);
+  const getCageList = () => {
+    return fetch("https://localhost:44352/api/Cage").then((data) =>
+      data.json()
+    );
+  };
+  useEffect(() => {
+    let mounted = true;
+    getCageList().then((items) => {
+      if (mounted) {
+        setListCage(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
+  const getZooTrainerList = () => {
+    return fetch("https://localhost:44352/api/User/users").then((data) =>
+      data.json()
+    );
+  };
+  useEffect(() => {
+    let mounted = true;
+    getZooTrainerList().then((items) => {
+      if (mounted) {
+        setListZooTrainer(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
+  const ZooTrainerList = listZooTrainer.filter((user) => user.role === 3);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -105,375 +193,422 @@ export default function EditAnimal(pros) {
                 <Form noValidate onSubmit={handleFormSubmit}>
                   <div className="form-content">
                     <div className="form">
-                      <div className="row mb-3">
-                        <div className="mb-3 row-content">
-                          <label className="form-label">Name Animal</label>
-                          <Form.Control
-                            id="name"
-                            type="text"
-                            placeholder="name of the animal"
-                            disabled
-                            aria-describedby="inputGroupPrepend"
-                            name="name"
-                            value={name}
-                            onChange={(event) => setName(event.target.value)}
+                      <div className="label-info">
+                        <label>Animal Information Basic</label>
+                      </div>
+                      <div className="mb-3 Animal_Infomation">
+                        <div className="row mb-3">
+                          <div className="mb-3" style={{ width: "33%" }}>
+                            <label className="form-label">Name Animal</label>
+                            <Form.Control
+                              id="name"
+                              type="text"
+                              placeholder="name of the animal"
+                              disabled
+                              aria-describedby="inputGroupPrepend"
+                              name="name"
+                              value={name}
+                              onChange={(event) => setName(event.target.value)}
                             // isInvalid={
                             //   formik.errors.first_name &&
                             //   formik.touched.first_name
                             // }
-                          />
-                          {/* <Form.Control.Feedback type="invalid">
+                            />
+                            {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
                           </Form.Control.Feedback> */}
-                        </div>
-                        <div className="mb-3 row-content">
-                          <label className="form-label">Region</label>
-                          <Form.Control
-                            type="text"
-                            id="region"
-                            placeholder="region"
-                            aria-describedby="inputGroupPrepend"
-                            disabled
-                            name="region"
-                            value={region}
-                            onChange={(event) => setRegion(event.target.value)}
+                          </div>
+                          <div className="mb-3" style={{ width: "33%" }}>
+                            <label className="form-label">Region</label>
+                            <Form.Control
+                              type="text"
+                              id="region"
+                              placeholder="region"
+                              aria-describedby="inputGroupPrepend"
+                              disabled
+                              name="region"
+                              value={region}
+                              onChange={(event) => setRegion(event.target.value)}
                             // isInvalid={
                             //   formik.errors.last_name &&
                             //   formik.touched.last_name
                             // }
-                          />
-                          {/* <Form.Control.Feedback type="invalid">
+                            />
+                            {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
                           </Form.Control.Feedback> */}
-                        </div>
-                      </div>
-                      <div className="row mb-3">
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">
-                            Enter Species Animal
-                          </label>
-                          <Form.Control
-                            type="string"
-                            id="species"
-                            disabled
-                            placeholder="Species Animal"
-                            aria-describedby="inputGroupPrepend"
-                            name="species"
-                            value={species}
+                          </div>
+                          <div className="mb-3" style={{ width: "33%" }}>
+                            <label className="form-label">
+                              Species Animal
+                            </label>
+                            <Form.Control
+                              type="string"
+                              id="species"
+                              disabled
+                              placeholder="Species Animal"
+                              aria-describedby="inputGroupPrepend"
+                              name="species"
+                              value={species}
                             // value={formik.values.species}
                             // onChange={formik.handleChange}
                             // onBlur={formik.handleBlur}
                             // isInvalid={phone == nul}
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            Haha
-                          </Form.Control.Feedback>
-                        </div>
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">
-                            Choose Animal EntryDate
-                          </label>
-                          <Form.Control
-                            type="date"
-                            id="entryDate"
-                            aria-describedby="inputGroupPrepend"
-                            name="entryDate"
-                            disabled
-                            value={entryAnimal}
-                            // value={formik.values.entryDate}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.email && formik.touched.email
-                            // }
-                          />
-                          {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.email}
-                          </Form.Control.Feedback> */}
-                        </div>
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <div>
-                            <label
-                              className="form-label"
-                              style={{ verticalAlign: "middle" }}
-                            >
-                              Is Animal Rarity
-                            </label>
-                            <br />
-                            <Radio.Group
-                              id="rarity"
-                              name="rarity"
-                              style={{ height: "33%", width: "100%" }}
-                              // onChange={(e) => {
-                              //   handleRoleChange(e);
-                              // }}
-                              value={rarity}
-                              buttonStyle="solid"
-                              onChange={(event) =>
-                                setRarity(event.target.value)
-                              }
-                            >
-                              <Radio.Button
-                                style={{
-                                  width: "40%",
-                                  textAlign: "center",
-                                  height: "37px",
-                                }}
-                                value={true}
-                              >
-                                <span style={{ verticalAlign: "middle" }}>
-                                  Rarity
-                                </span>
-                              </Radio.Button>
-                              <Radio.Button
-                                style={{
-                                  width: "40%",
-                                  textAlign: "center ",
-                                  height: "37px",
-                                }}
-                                value={false}
-                              >
-                                <span style={{ verticalAlign: "middle" }}>
-                                  None
-                                </span>
-                              </Radio.Button>
-                            </Radio.Group>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row mb-3">
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Enter cageID</label>
-                          <Form.Control
-                            type="string"
-                            id="cageId"
-                            placeholder="phone"
-                            aria-describedby="inputGroupPrepend"
-                            name="cageId"
-                            value={cageID}
-                            onChange={(event) => setCageID(event.target.value)}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={phone == nul}
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            Haha
-                          </Form.Control.Feedback>
-                        </div>
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Enter User Id</label>
-                          <Form.Control
-                            type="text"
-                            id="userID"
-                            placeholder="userID"
-                            aria-describedby="inputGroupPrepend"
-                            name="userID"
-                            value={userID}
-                            onChange={(event) => setUserID(event.target.value)}
-                            // isInvalid={
-                            //   formik.errors.email && formik.touched.email
-                            // }
-                          />
-                          {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.email}
-                          </Form.Control.Feedback> */}
-                        </div>
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <div>
-                            <label className="form-label">Choose Gender</label>
-                            <br />
-                            <Radio.Group
-                              id="gender"
-                              name="gender"
-                              style={{ height: "33%", width: "100%" }}
-                              // onChange={(e) => {
-                              //   handleRoleChange(e);
-                              // }}
-                              value={gender}
-                              buttonStyle="solid"
-                              disabled
-                            >
-                              <Radio.Button
-                                style={{
-                                  width: "40%",
-                                  textAlign: "center",
-                                  height: "37px",
-                                }}
-                                value="male"
-                              >
-                                <span style={{ verticalAlign: "middle" }}>
-                                  Male
-                                </span>
-                              </Radio.Button>
-                              <Radio.Button
-                                style={{
-                                  width: "40%",
-                                  textAlign: "center ",
-                                  height: "37px",
-                                }}
-                                value="female"
-                              >
-                                <span style={{ verticalAlign: "middle" }}>
-                                  Female
-                                </span>
-                              </Radio.Button>
-                            </Radio.Group>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mb-3">
-                        <label className="form-label">Enter healChech</label>
-                        <Form.Control
-                          type="text"
-                          style={{ height: "56px" }}
-                          id="healthCheck"
-                          placeholder="healthCheck"
-                          aria-describedby="inputGroupPrepend"
-                          name="healthCheck"
-                          value={healthCheck}
-                          onChange={(event) =>
-                            setHealthCheck(event.target.value)
-                          }
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.address && formik.touched.address
-                          // }
-                        />
-                        {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.address}
-                        </Form.Control.Feedback> */}
-                      </div>
-                      <div className="mb-3">
-                        <label className="form-label">Enter Description</label>
-                        <Form.Control
-                          type="text"
-                          id="description"
-                          placeholder="description"
-                          aria-describedby="inputGroupPrepend"
-                          name="description"
-                          style={{ height: "56px" }}
-                          value={description}
-                          onChange={(event) =>
-                            setDescription(event.target.value)
-                          }
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.address && formik.touched.address
-                          // }
-                        />
-                        {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.address}
-                        </Form.Control.Feedback> */}
-                      </div>
-
-                      <div className="row mt-4">
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">
-                            Choose Start Train
-                          </label>
-                          <br />
-                          <Space
-                            direction="vertical"
-                            size={20}
-                            style={{ width: "90%" }}
-                          >
-                            <Form.Control
-                              type="date"
-                              id="startTrainDate"
-                              placeholder="address"
-                              aria-describedby="inputGroupPrepend"
-                              name="startTrainDate"
-                              value={startTrain}
-                              onChange={(event) =>
-                                setStartTrain(event.target.value)
-                              }
-                              // onBlur={formik.handleBlur}
                             />
-                          </Space>
+                            <Form.Control.Feedback type="invalid">
+                              Haha
+                            </Form.Control.Feedback>
+                          </div>
                         </div>
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <div>
-                            <label className="form-label">
-                              Choose Entry Cage
-                            </label>
+                        <div className="row mb-3">
+
+                          <div className="mb-3" style={{ width: "33%" }}>
+                            <div>
+                              <label className="form-label">Gender</label>
+                              <br />
+                              <Radio.Group
+                                id="gender"
+                                name="gender"
+                                style={{ height: "33%", width: "100%" }}
+                                // onChange={(e) => {
+                                //   handleRoleChange(e);
+                                // }}
+                                value={gender}
+                                buttonStyle="solid"
+                                disabled
+                              >
+                                <Radio.Button
+                                  style={{
+                                    width: "40%",
+                                    textAlign: "center",
+                                    height: "37px",
+                                  }}
+                                  value="male"
+                                >
+                                  <span style={{ verticalAlign: "middle" }}>
+                                    Male
+                                  </span>
+                                </Radio.Button>
+                                <Radio.Button
+                                  style={{
+                                    width: "40%",
+                                    textAlign: "center ",
+                                    height: "37px",
+                                  }}
+                                  value="female"
+                                >
+                                  <span style={{ verticalAlign: "middle" }}>
+                                    Female
+                                  </span>
+                                </Radio.Button>
+                              </Radio.Group>
+                            </div>
+                          </div>
+                          <div className="mb-3" style={{ width: "33%" }}>
+                            <div>
+                              <label
+                                className="form-label"
+                                style={{ verticalAlign: "middle" }}
+                              >
+                                Is Animal Rarity
+                              </label>
+                              <br />
+                              <Radio.Group
+                                id="rarity"
+                                name="rarity"
+                                style={{ height: "33%", width: "100%" }}
+                                // onChange={(e) => {
+                                //   handleRoleChange(e);
+                                // }}
+                                value={rarity}
+                                buttonStyle="solid"
+                                disabled
+                                onChange={(event) =>
+                                  setRarity(event.target.value)
+                                }
+                              >
+                                <Radio.Button
+                                  style={{
+                                    width: "40%",
+                                    textAlign: "center",
+                                    height: "37px",
+                                  }}
+                                  value={true}
+                                >
+                                  <span style={{ verticalAlign: "middle" }}>
+                                    Rarity
+                                  </span>
+                                </Radio.Button>
+                                <Radio.Button
+                                  style={{
+                                    width: "40%",
+                                    textAlign: "center ",
+                                    height: "37px",
+                                  }}
+                                  value={false}
+                                >
+                                  <span style={{ verticalAlign: "middle" }}>
+                                    None
+                                  </span>
+                                </Radio.Button>
+                              </Radio.Group>
+                            </div>
+                          </div>
+                          <div className="mb-3" style={{ width: "33%" }}>
+                            <label className="form-label">Birthday</label>
                             <br />
                             <Space
                               direction="vertical"
                               size={20}
-                              style={{ width: "90%" }}
+                              style={{ width: "100%" }}
                             >
                               <Form.Control
                                 type="date"
-                                name="entryCageDate"
-                                value={entryCage}
+                                name="birthDay"
+                                value={birthday}
+                                disabled
                                 onChange={(event) =>
-                                  setEntryCage(event.target.value)
+                                  setBirthday(event.target.value)
                                 }
                               />
                             </Space>
                           </div>
                         </div>
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Choose birthday</label>
-                          <br />
-                          <Space
-                            direction="vertical"
-                            size={20}
-                            style={{ width: "90%" }}
-                          >
-                            <Form.Control
-                              type="date"
-                              name="birthDay"
-                              value={birthday}
-                              onChange={(event) =>
-                                setBirthday(event.target.value)
-                              }
-                            />
-                          </Space>
-                        </div>
-                      </div>
-                      <div className="row mb-3">
-                        <div className="mb-3 row-content">
-                          <label className="form-label">
-                            Choose End Training
-                          </label>
+                        <div className="mb-3">
+                          <label className="form-label">HealChech</label>
                           <Form.Control
-                            id="endTraining"
-                            type="date"
+                            type="textarea"
+                            style={{ height: "56px" }}
+                            id="healthCheck"
+                            placeholder="healthCheck"
+                            disabled
                             aria-describedby="inputGroupPrepend"
-                            name="endTraining"
-                            value={endTraining}
-                            onChange={(event) => setName(event.target.value)}
-                            // isInvalid={
-                            //   formik.errors.first_name &&
-                            //   formik.touched.first_name
-                            // }
+                            name="healthCheck"
+                            value={healthCheck}
+                            onChange={(event) =>
+                              setHealthCheck(event.target.value)
+                            }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.address && formik.touched.address
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.first_name}
-                          </Form.Control.Feedback> */}
+                          {formik.errors.address}
+                        </Form.Control.Feedback> */}
                         </div>
-                        <div className="mb-3 row-content">
-                          <label className="form-label">Choose Out Cage</label>
+                        <div className="mb-3">
+                          <label className="form-label">Description</label>
                           <Form.Control
-                            type="date"
-                            id="outCage"
+                            type="text"
+                            id="description"
+                            placeholder="description"
                             aria-describedby="inputGroupPrepend"
-                            name="outCage"
-                            value={outCage}
-                            onChange={(event) => setRegion(event.target.value)}
+                            disabled
+                            name="description"
+                            style={{ height: "56px" }}
+                            value={description}
+                            onChange={(event) =>
+                              setDescription(event.target.value)
+                            }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.address && formik.touched.address
+                          // }
+                          />
+                          {/* <Form.Control.Feedback type="invalid">
+                          {formik.errors.address}
+                        </Form.Control.Feedback> */}
+                        </div>
+                      </div>
+
+                      <div className="label-info">
+                        <label>Cage Information</label>
+                      </div>
+                      <div className="mb-3 Cage_Infomation">
+                        <div className="mb-3">
+                          <label className="form-label">
+                            Choose Cage for Animal
+                          </label>
+                          <Form.Select
+                            size="lg"
+                            placeholder="Chọn món ăn"
+                            id="cageId"
+                            name="cageId"
+                            style={{ width: "85%" }}
+                            onChange={(event) => setCageID(event.target.value)}
+                          // onChange={handleChange}
+                          >
+                            <option value="">Choose Cage</option>
+                            {/* Render các option từ API */}
+                            {listCage.map((option) => (
+                              <option key={option.cId} value={option.cId}>
+                                {option.cId} - MaxCapacity :{" "}
+                                {option.maxCapacity} - AnimalQuantity :{" "}
+                                {option.animalQuantity}
+                              </option>
+                            ))}
+                          </Form.Select>
+                        </div>
+                        <div className="mb-3" style={{ display: "flex", justifyContent: "space-between" }}>
+                          <div style={{ width: "40%" }}>
+                            <label className="form-label">
+                              Choose Entry Cage
+                            </label>
+                            <br />
+                            <Form.Control
+                              type="date"
+                              name="entryCageDate"
+                              value={entryCage}
+                              disabled
+                              onChange={(event) => setEntryCage(event.target.value)}
+                            // isInvalid={
+                            //   formik.errors.entryCageDate &&
+                            //   formik.touched.entryCageDate
+                            // }
+                            />
+                            {/* <Form.Control.Feedback type="invalid">
+                                {formik.errors.entryCageDate}
+                              </Form.Control.Feedback> */}
+                          </div>
+                          <div className="mb-3" style={{ width: "40%" }}>
+                            <label className="form-label">Choose Out Cage</label>
+                            <Form.Control
+                              type="date"
+                              id="outCage"
+                              aria-describedby="inputGroupPrepend"
+                              name="outCage"
+                              value={outCage}
+                              onChange={(event) => setOutCage(event.target.value)}
                             // isInvalid={
                             //   formik.errors.last_name &&
                             //   formik.touched.last_name
                             // }
-                          />
-                          {/* <Form.Control.Feedback type="invalid">
+                            />
+                            {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
                           </Form.Control.Feedback> */}
+                          </div>
                         </div>
                       </div>
+                      <div className="label-info">
+                        <label>ZooTrainer Information</label>
+                      </div>
+                      <div className="mb-3 ZooTrainer-Information">
+                        <div className="mb-3">
+                          <label className="form-label">
+                            Choose ZooTrainer for Animal
+                          </label>
+                          <Form.Select
+                            size="lg"
+                            id="userId"
+                            name="userId"
+                            placeholder="Chọn món ăn"
+                            style={{ width: "85%" }}
+                            onChange={(evnet) => setListZooTrainer(evnet.target.value)}
+                          >
+                            <option value="">Choose ZooTrainer</option>
+                            {/* Render các option từ API */}
+                            {ZooTrainerList.map((option) => (
+                              <option
+                                key={option.userId}
+                                value={option.userId}
+                              >
+                                <div style={{ height: "50px" }}>
+                                  {option.email} - MaxCapacity :{" "}
+                                  {option.firstname} - AnimalQuantity :{" "}
+                                  {option.lastname}
+                                </div>
+                              </option>
+                            ))}
+                          </Form.Select>
+                        </div>
+                        <div className="row mb-3 mt-4">
+                          <div className="mb-3" style={{ display: "flex", justifyContent: "space-between" }}>
+                            <div style={{ width: "40%" }}>
+                              <label className="form-label">
+                                Choose Start Train
+                              </label>
+                              <br />
+                              <Form.Control
+                                type="date"
+                                id="startTrainDate"
+                                placeholder="address"
+                                aria-describedby="inputGroupPrepend"
+                                name="startTrainDate"
+                                value={startTrain}
+                                onChange={(event) => setStartTrain(event.target.value)}
+                              // isInvalid={
+                              //   formik.errors.startTrainDate &&
+                              //   formik.touched.startTrainDate
+                              // }
+                              />
+                            </div>
+                            {/* <Form.Control.Feedback type="invalid">
+                                {formik.errors.startTrainDate}
+                              </Form.Control.Feedback> */}
+                            <div style={{ width: "40%" }}>
+                              <label className="form-label">
+                                Choose End Training
+                              </label>
+                              <Form.Control
+                                id="endTraining"
+                                type="date"
+                                aria-describedby="inputGroupPrepend"
+                                name="endTraining"
+                                value={endTraining}
+                                onChange={(event) => setName(event.target.value)}
+                              // isInvalid={
+                              //   formik.errors.first_name &&
+                              //   formik.touched.first_name
+                              // }
+                              />
+                              {/* <Form.Control.Feedback type="invalid">
+                            {formik.errors.first_name}
+                          </Form.Control.Feedback> */}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="label-info">
+                        <label>Food Information</label>
+                      </div>
+                      <div className="Food-Information">
+                        <div className="mb-3">
+                          <label className="form-label">
+                            Choose Food For Animal
+                          </label>
+
+                          {fields.map((field, index) => (
+                            <div key={index}>
+
+                              <select
+                                value={field.id}
+                                onChange={handleFoodSelect}
+                              >
+                                {options.fName}
+                              </select>
+
+                              <input
+                                value={field.quantity}
+                                onChange={(e) => handleQuantityChange(e, index)}
+                              />
+
+                            </div>
+                          ))}
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Button onClick={addField}>More Food</Button>
+                        </div>
+                      </div>
+
                       <div className="btn-footer">
                         <div
                           style={{
