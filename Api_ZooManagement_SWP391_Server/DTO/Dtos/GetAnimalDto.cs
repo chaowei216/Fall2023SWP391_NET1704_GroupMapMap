@@ -22,6 +22,8 @@ namespace DTO.Dtos
          public ICollection<GetTrainersDto> AnimalTrainers { get; set; }*/
         public string CId { get; set; }
         public string UserId { get; set; }
+        public DateTime EntryCageDate { get; set; }
+        public DateTime StartTrainDate { get; set; }
         public string AnimalImage { get; set; }
     }
 }

@@ -92,6 +92,8 @@ namespace BBL.Services
                                  Rarity = a.Rarity,
                                  CId = ac.CageId,
                                  UserId = at.UserId,
+                                 EntryCageDate = ac.EntryCageDate,
+                                 StartTrainDate = at.StartTrainDate,
                                  AnimalImage = a.AnimalImage
                              }).ToList();
             return getAnimal;
