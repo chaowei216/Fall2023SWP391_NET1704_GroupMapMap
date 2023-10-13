@@ -52,7 +52,7 @@ function AddAnimal(pros) {
     return () => (mounted = false);
   }, []);
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
-  const [selectedSpecies, setSelectedSpecies] = useState("");
+  const [selectedSpecies, setSelectedSpecies] = useState("Pig");
   const [selectedCage, setSelectedCage] = useState();
 
   const addField = () => {
@@ -120,7 +120,7 @@ function AddAnimal(pros) {
 
   const ZooTrainerList = listZooTrainer.filter((user) => user.role === 3);
   const CageListFilter = listCage.filter(
-    (cage) => cage.maxCapacity === Number(selectedSpecies)
+    (cage) => cage.name === selectedSpecies
   );
   const handleClick = () => {
     setShowmodalAdd(true);
@@ -152,7 +152,8 @@ function AddAnimal(pros) {
       rarity: values.rarity,
       entryCageDate: values.entryCageDate,
       startTrainDate: values.startTrainDate,
-      foods: values.fields
+      foods: values.fields,
+      entryDate: "2023-10-13T12:31:11.085Z"
     };
     console.log(animal)
     const params = {
@@ -160,23 +161,23 @@ function AddAnimal(pros) {
       cageId: values.cageId,
     };
 
-    //   const url = `https://localhost:44352/api/Animal?${new URLSearchParams(
-    //     params
-    //   )}`;
-    //   const request = {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(animal),
-    //   };
-    //   // request.body = JSON.stringify(animal)
-    //   const response = await fetch(url, request);
-    //   if (response.ok) {
-    //     console.log("Success");
-    //     // navigator("/staff/2");
-    //     // window.location.reload();
-    //   }
+    const url = `https://localhost:44352/api/Animal?${new URLSearchParams(
+      params
+    )}`;
+    const request = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(animal),
+    };
+    // request.body = JSON.stringify(animal)
+    const response = await fetch(url, request);
+    if (response.ok) {
+      console.log("Success");
+      navigator("/staff/2");
+      window.location.reload();
+    }
   };
   const a = "huhu";
 
@@ -232,7 +233,7 @@ function AddAnimal(pros) {
                     birthday: "",
                     startTrainDate: "",
                     cageId: "",
-                    species: "",
+                    species: "Pig",
                     entryCageDate: "",
                     rarity: true,
                     fields,
@@ -249,414 +250,431 @@ function AddAnimal(pros) {
                     setFieldValue,
                   }) => (
                     <Form onSubmit={handleSubmit}>
-                      <div className="form-content">
+                      <div className="form-content mb-3">
                         <div className="form">
-                          <div className="row mb-3">
-                            <div className="mb-3" style={{ width: "33%" }}>
-                              <label className="form-label">
-                                Enter Name Animal
-                              </label>
-                              <Form.Control
-                                id="name"
-                                type="text"
-                                placeholder="name of the animal"
-                                aria-describedby="inputGroupPrepend"
-                                name="name"
-                                value={values.name}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
+                          <div className="label-info">
+                            <label>Animal Information Basic</label>
+                          </div>
+                          <div className="mb-3 Animal_Infomation">
+                            <div className="row mb-3">
+                              <div className="mb-3" style={{ width: "33%" }}>
+                                <label className="form-label">
+                                  Enter Name Animal
+                                </label>
+                                <Form.Control
+                                  id="name"
+                                  type="text"
+                                  placeholder="name of the animal"
+                                  aria-describedby="inputGroupPrepend"
+                                  name="name"
+                                  value={values.name}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
                                 // isInvalid={
                                 //   formik.errors.name && formik.touched.name
                                 // }
-                              />
-                              {/* <Form.Control.Feedback type="invalid">
+                                />
+                                {/* <Form.Control.Feedback type="invalid">
                                 {formik.errors.name}
                               </Form.Control.Feedback> */}
-                            </div>
-                            <div className="mb-3" style={{ width: "33%" }}>
-                              <label className="form-label">
-                                Enter Country
-                              </label>
-                              <Form.Control
-                                type="text"
-                                id="region"
-                                placeholder="Country"
-                                aria-describedby="inputGroupPrepend"
-                                name="region"
-                                value={values.region}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
+                              </div>
+                              <div className="mb-3" style={{ width: "33%" }}>
+                                <label className="form-label">
+                                  Enter Country
+                                </label>
+                                <Form.Control
+                                  type="text"
+                                  id="region"
+                                  placeholder="Country"
+                                  aria-describedby="inputGroupPrepend"
+                                  name="region"
+                                  value={values.region}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
                                 // isInvalid={
                                 //   formik.errors.region && formik.touched.region
                                 // }
-                              />
-                              {/* <Form.Control.Feedback type="invalid">
+                                />
+                                {/* <Form.Control.Feedback type="invalid">
                                 {formik.errors.region}
                               </Form.Control.Feedback> */}
-                            </div>
-                            <div className="mb-3" style={{ width: "33%" }}>
-                              <label className="form-label">
-                                Enter species
-                              </label>
-                              <Field name="species">
-                                {() => (
-                                  <Form.Control
-                                    as="select"
-                                    value={values.species}
-                                    onChange={(e) => {
-                                      setFieldValue("species", e.target.value);
-                                      setSelectedSpecies(e.target.value);
-                                    }}
-                                  >
-                                    <option value="5">Lion</option>
-                                    <option value="9">Tiger</option>
-                                    <option value="10">Dog</option>
-                                    <option value="Tiger">Cat</option>
-                                    <option value="Kaka">Kaka</option>
-                                  </Form.Control>
-                                )}
-                              </Field>
-                            </div>
-                          </div>
-                          <div className="row mb-2">
-                            <div className="mb-3" style={{ width: "33%" }}>
-                              <div>
-                                <label
-                                  className="form-label"
-                                  style={{ verticalAlign: "middle" }}
-                                >
-                                  Choose Gender
+                              </div>
+                              <div className="mb-3" style={{ width: "33%" }}>
+                                <label className="form-label">
+                                  Enter species
                                 </label>
-                                <br />
-                                <Radio.Group
-                                  id="gender"
-                                  name="gender"
-                                  style={{ height: "33%", width: "100%" }}
-                                  // onChange={(e) => {
-                                  //   handleRoleChange(e);
-                                  // }}
-                                  value={values.gender}
-                                  buttonStyle="solid"
-                                  defaultValue={values.gender}
-                                  onChange={handleChange}
-                                >
-                                  <Radio.Button
-                                    style={{
-                                      width: "34%",
-                                      textAlign: "center",
-                                      height: "37px",
-                                    }}
-                                    value={true}
-                                  >
-                                    <span style={{ verticalAlign: "middle" }}>
-                                      Male
-                                    </span>
-                                  </Radio.Button>
-                                  <Radio.Button
-                                    style={{
-                                      width: "34%",
-                                      textAlign: "center ",
-                                      height: "37px",
-                                    }}
-                                    value={false}
-                                  >
-                                    <span style={{ verticalAlign: "middle" }}>
-                                      FeMale
-                                    </span>
-                                  </Radio.Button>
-                                </Radio.Group>
+                                <Field name="species">
+                                  {() => (
+                                    <Form.Control
+                                      as="select"
+                                      value={values.species}
+                                      onChange={(e) => {
+                                        setFieldValue("species", e.target.value);
+                                        setSelectedSpecies(e.target.value);
+                                      }}
+                                    >
+                                      <option value="Pig">Pig</option>
+                                      <option value="Cow">Cow</option>
+                                      <option value="Dog">Dog</option>
+                                      <option value="Cat">Cat</option>
+                                      <option value="Monkey">Monkey</option>
+                                    </Form.Control>
+                                  )}
+                                </Field>
                               </div>
                             </div>
-                            <div className="mb-3" style={{ width: "33%" }}>
-                              <div>
-                                <label
-                                  className="form-label"
-                                  style={{ verticalAlign: "middle" }}
-                                >
-                                  Is Animal Rarity
-                                </label>
-                                <br />
-                                <Radio.Group
-                                  id="rarity"
-                                  name="rarity"
-                                  style={{ height: "33%", width: "100%" }}
-                                  // onChange={(e) => {
-                                  //   handleRoleChange(e);
-                                  // }}
-                                  buttonStyle="solid"
-                                  value={values.rarity}
-                                  defaultValue={values.rarity}
-                                  onChange={handleChange}
-                                >
-                                  <Radio.Button
-                                    style={{
-                                      width: "34%",
-                                      textAlign: "center",
-                                      height: "37px",
-                                    }}
-                                    value={true}
+                            <div className="row mb-2">
+                              <div className="mb-3" style={{ width: "33%" }}>
+                                <div>
+                                  <label
+                                    className="form-label"
+                                    style={{ verticalAlign: "middle" }}
                                   >
-                                    <span style={{ verticalAlign: "middle" }}>
-                                      Danger
-                                    </span>
-                                  </Radio.Button>
-                                  <Radio.Button
-                                    style={{
-                                      width: "34%",
-                                      textAlign: "center ",
-                                      height: "37px",
-                                    }}
-                                    value={false}
+                                    Choose Gender
+                                  </label>
+                                  <br />
+                                  <Radio.Group
+                                    id="gender"
+                                    name="gender"
+                                    style={{ height: "33%", width: "100%" }}
+                                    // onChange={(e) => {
+                                    //   handleRoleChange(e);
+                                    // }}
+                                    value={values.gender}
+                                    buttonStyle="solid"
+                                    defaultValue={values.gender}
+                                    onChange={handleChange}
                                   >
-                                    <span style={{ verticalAlign: "middle" }}>
-                                      Normal
-                                    </span>
-                                  </Radio.Button>
-                                </Radio.Group>
+                                    <Radio.Button
+                                      style={{
+                                        width: "34%",
+                                        textAlign: "center",
+                                        height: "37px",
+                                      }}
+                                      value={true}
+                                    >
+                                      <span style={{ verticalAlign: "middle" }}>
+                                        Male
+                                      </span>
+                                    </Radio.Button>
+                                    <Radio.Button
+                                      style={{
+                                        width: "34%",
+                                        textAlign: "center ",
+                                        height: "37px",
+                                      }}
+                                      value={false}
+                                    >
+                                      <span style={{ verticalAlign: "middle" }}>
+                                        FeMale
+                                      </span>
+                                    </Radio.Button>
+                                  </Radio.Group>
+                                </div>
                               </div>
-                            </div>
-                            <div className="mb-3" style={{ width: "33%" }}>
-                              <label className="form-label">
-                                Choose Animal Birthday
-                              </label>
-                              <Form.Control
-                                type="date"
-                                id="birthday"
-                                aria-describedby="inputGroupPrepend"
-                                name="birthday"
-                                value={values.birthday}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
+                              <div className="mb-3" style={{ width: "33%" }}>
+                                <div>
+                                  <label
+                                    className="form-label"
+                                    style={{ verticalAlign: "middle" }}
+                                  >
+                                    Is Animal Rarity
+                                  </label>
+                                  <br />
+                                  <Radio.Group
+                                    id="rarity"
+                                    name="rarity"
+                                    style={{ height: "33%", width: "100%" }}
+                                    // onChange={(e) => {
+                                    //   handleRoleChange(e);
+                                    // }}
+                                    buttonStyle="solid"
+                                    value={values.rarity}
+                                    defaultValue={values.rarity}
+                                    onChange={handleChange}
+                                  >
+                                    <Radio.Button
+                                      style={{
+                                        width: "34%",
+                                        textAlign: "center",
+                                        height: "37px",
+                                      }}
+                                      value={true}
+                                    >
+                                      <span style={{ verticalAlign: "middle" }}>
+                                        Danger
+                                      </span>
+                                    </Radio.Button>
+                                    <Radio.Button
+                                      style={{
+                                        width: "34%",
+                                        textAlign: "center ",
+                                        height: "37px",
+                                      }}
+                                      value={false}
+                                    >
+                                      <span style={{ verticalAlign: "middle" }}>
+                                        Normal
+                                      </span>
+                                    </Radio.Button>
+                                  </Radio.Group>
+                                </div>
+                              </div>
+                              <div className="mb-3" style={{ width: "33%" }}>
+                                <label className="form-label">
+                                  Choose Animal Birthday
+                                </label>
+                                <Form.Control
+                                  type="date"
+                                  id="birthday"
+                                  aria-describedby="inputGroupPrepend"
+                                  name="birthday"
+                                  value={values.birthday}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
                                 // isInvalid={
                                 //   formik.errors.entryDate &&
                                 //   formik.touched.entryDate
                                 // }
-                              />
-                              {/* <Form.Control.Feedback type="invalid">
+                                />
+                                {/* <Form.Control.Feedback type="invalid">
                                 {a}
                               </Form.Control.Feedback> */}
+                              </div>
                             </div>
-                          </div>
-                          <div className="mb-3">
-                            <label className="form-label">
-                              Enter healthCheck
-                            </label>
-                            <Form.Control
-                              as="textarea"
-                              style={{ height: "100px" }}
-                              id="healthCheck"
-                              placeholder="healthCheck"
-                              aria-describedby="inputGroupPrepend"
-                              name="healthCheck"
-                              value={values.healthCheck}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
+                            <div className="mb-3">
+                              <label className="form-label">
+                                Enter healthCheck
+                              </label>
+                              <Form.Control
+                                as="textarea"
+                                style={{ height: "100px" }}
+                                id="healthCheck"
+                                placeholder="healthCheck"
+                                aria-describedby="inputGroupPrepend"
+                                name="healthCheck"
+                                value={values.healthCheck}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
                               // onChange={formik.handleChange}
                               // onBlur={formik.handleBlur}
                               // isInvalid={
                               //   formik.errors.healthCheck &&
                               //   formik.touched.healthCheck
                               // }
-                            />
-                            {/* <Form.Control.Feedback type="invalid">
+                              />
+                              {/* <Form.Control.Feedback type="invalid">
                               {formik.errors.healthCheck}
                             </Form.Control.Feedback> */}
-                          </div>
-                          <div className="mb-4">
-                            <label className="form-label">
-                              Enter Description
-                            </label>
-                            <Form.Control
-                              as="textarea"
-                              id="description"
-                              placeholder="description"
-                              aria-describedby="inputGroupPrepend"
-                              name="description"
-                              style={{ height: "100px" }}
-                              value={values.description}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
+                            </div>
+                            <div className="mb-2">
+                              <label className="form-label">
+                                Enter Description
+                              </label>
+                              <Form.Control
+                                as="textarea"
+                                id="description"
+                                placeholder="description"
+                                aria-describedby="inputGroupPrepend"
+                                name="description"
+                                style={{ height: "100px" }}
+                                value={values.description}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
                               // onChange={formik.handleChange}
                               // onBlur={formik.handleBlur}
                               // isInvalid={
                               //   formik.errors.description &&
                               //   formik.touched.description
                               // }
-                            />
-                            {/* <Form.Control.Feedback type="invalid">
+                              />
+                              {/* <Form.Control.Feedback type="invalid">
                               {formik.errors.description}
                             </Form.Control.Feedback> */}
+                            </div>
                           </div>
-                          <div className="mb-3">
-                            <label className="form-label">
-                              Choose Cage for Animal
-                            </label>
-                            <Form.Select
-                              size="lg"
-                              placeholder="Chọn món ăn"
-                              id="cageId"
-                              name="cageId"
-                              style={{ width: "85%" }}
-                              // onChange={(event) => handleCageSelect(event)}
-                              onChange={handleChange}
-                            >
-                              <option value="">Choose Cage</option>
-                              {/* Render các option từ API */}
-                              {CageListFilter.map((option) => (
-                                <option key={option.cId} value={option.cId}>
-                                  {option.cId} - MaxCapacity :{" "}
-                                  {option.maxCapacity} - AnimalQuantity :{" "}
-                                  {option.animalQuantity}
-                                </option>
-                              ))}
-                            </Form.Select>
+                          <div className="label-info">
+                            <label>Cage Information</label>
                           </div>
-                          <div className="mb-3" style={{ width: "33%" }}>
-                            <div>
+                          <div className="mb-3 Cage_Infomation">
+                            <div className="mb-3">
                               <label className="form-label">
-                                Choose Entry Cage
+                                Choose Cage for Animal
                               </label>
-                              <br />
-
-                              <Form.Control
-                                type="date"
-                                name="entryCageDate"
-                                value={values.entryCageDate}
+                              <Form.Select
+                                size="lg"
+                                placeholder="Chọn món ăn"
+                                id="cageId"
+                                name="cageId"
+                                style={{ width: "85%" }}
+                                // onChange={(event) => handleCageSelect(event)}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              >
+                                <option value="">Choose Cage</option>
+                                {/* Render các option từ API */}
+                                {CageListFilter.map((option) => (
+                                  <option key={option.cId} value={option.cId}>
+                                    {option.cId} - MaxCapacity :{" "}
+                                    {option.maxCapacity} - AnimalQuantity :{" "}
+                                    {option.animalQuantity}
+                                  </option>
+                                ))}
+                              </Form.Select>
+                            </div>
+                            <div className="mb-3" style={{ width: "33%" }}>
+                              <div>
+                                <label className="form-label">
+                                  Choose Entry Cage
+                                </label>
+                                <br />
+                                <Form.Control
+                                  type="date"
+                                  name="entryCageDate"
+                                  value={values.entryCageDate}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
                                 // isInvalid={
                                 //   formik.errors.entryCageDate &&
                                 //   formik.touched.entryCageDate
                                 // }
-                              />
-                              {/* <Form.Control.Feedback type="invalid">
+                                />
+                                {/* <Form.Control.Feedback type="invalid">
                                 {formik.errors.entryCageDate}
                               </Form.Control.Feedback> */}
+                              </div>
                             </div>
                           </div>
-                          <div className="mb-3">
-                            <label className="form-label">
-                              Choose ZooTrainer for Animal
-                            </label>
-                            <Form.Select
-                              size="lg"
-                              id="userId"
-                              name="userId"
-                              placeholder="Chọn món ăn"
-                              style={{ width: "85%" }}
-                              onChange={handleChange}
-                            >
-                              <option value="">Choose ZooTrainer</option>
-                              {/* Render các option từ API */}
-                              {ZooTrainerList.map((option) => (
-                                <option
-                                  key={option.userId}
-                                  value={option.userId}
-                                >
-                                  <div style={{ height: "50px" }}>
-                                    {option.email} - MaxCapacity :{" "}
-                                    {option.firstname} - AnimalQuantity :{" "}
-                                    {option.lastname}
-                                  </div>
-                                </option>
-                              ))}
-                            </Form.Select>
+                          <div className="label-info">
+                            <label>ZooTrainer Information</label>
                           </div>
-                          <div className="row mb-3 mt-4">
-                            <div className="mb-3" style={{ width: "33%" }}>
+                          <div className="mb-3 ZooTrainer-Information">
+                            <div className="mb-3">
                               <label className="form-label">
-                                Choose Start Train
+                                Choose ZooTrainer for Animal
                               </label>
-                              <br />
-
-                              <Form.Control
-                                type="date"
-                                id="startTrainDate"
-                                placeholder="address"
-                                aria-describedby="inputGroupPrepend"
-                                name="startTrainDate"
-                                value={values.startTrainDate}
+                              <Form.Select
+                                size="lg"
+                                id="userId"
+                                name="userId"
+                                placeholder="Chọn món ăn"
+                                style={{ width: "85%" }}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
+                              >
+                                <option value="">Choose ZooTrainer</option>
+                                {/* Render các option từ API */}
+                                {ZooTrainerList.map((option) => (
+                                  <option
+                                    key={option.userId}
+                                    value={option.userId}
+                                  >
+                                    <div style={{ height: "50px" }}>
+                                      {option.email} - MaxCapacity :{" "}
+                                      {option.firstname} - AnimalQuantity :{" "}
+                                      {option.lastname}
+                                    </div>
+                                  </option>
+                                ))}
+                              </Form.Select>
+                            </div>
+                            <div className="row mb-3 mt-4">
+                              <div className="mb-3" style={{ width: "33%" }}>
+                                <label className="form-label">
+                                  Choose Start Train
+                                </label>
+                                <br />
+                                <Form.Control
+                                  type="date"
+                                  id="startTrainDate"
+                                  placeholder="address"
+                                  aria-describedby="inputGroupPrepend"
+                                  name="startTrainDate"
+                                  value={values.startTrainDate}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
                                 // isInvalid={
                                 //   formik.errors.startTrainDate &&
                                 //   formik.touched.startTrainDate
                                 // }
-                              />
-                              {/* <Form.Control.Feedback type="invalid">
+                                />
+                                {/* <Form.Control.Feedback type="invalid">
                                 {formik.errors.startTrainDate}
                               </Form.Control.Feedback> */}
+                              </div>
                             </div>
                           </div>
+                          <div className="label-info">
+                            <label>Food Information</label>
+                          </div>
+                          <div className="Food-Information">
+                            <div className="mb-3">
+                              <label className="form-label">
+                                Choose Food For Animal
+                              </label>
 
-                          <div className="mb-3">
-                            <label className="form-label">
-                              Choose Food For Animal
-                            </label>
-
-                            {fields.map((field, index) => (
-                              <div
-                                key={index}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  width: "90%",
-                                }}
-                                className="mb-3"
-                              >
-                                <Field
-                                  name={`fields[${index}].id`}
+                              {fields.map((field, index) => (
+                                <div
+                                  key={index}
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    width: "90%",
+                                  }}
+                                  className="mb-3"
+                                >
+                                  <Field
+                                    name={`fields[${index}].id`}
                                   // as="select"
                                   // onChange={(e) => handleChange(e.target.value)}
-                                >
-                                  {({ field, form }) => (
-                                    <Form.Control
-                                      as="select"
-                                      {...field}
-                                      placeholder="Chọn món ăn"
-                                      style={{ width: "45%" }}
-                                      onChange={(event) =>
-                                        handleFoodSelect(event, field, form)
-                                      }
-                                    >
-                                      <option value="">Choose Food</option>
-                                      {/* Render các option từ API */}
-                                      {options.map((option) => (
-                                        <option
-                                          key={option.foodId}
-                                          value={option.foodId}
-                                          disabled={selectedFoodIds.includes(
-                                            option.foodId
-                                          )}
-                                        >
-                                          {option.fName}
-                                        </option>
-                                      ))}
-                                    </Form.Control>
-                                  )}
-                                </Field>
-                                <Field
-                                  placeholder="Enter Quantity"
-                                  name={`fields[${index}].quantity`}
-                                  component="input"
-                                  style={{ width: "45%" }}
-                                  className="control-field"
-                                />
-                                {/* <button onClick={() => removeField(index)}>
+                                  >
+                                    {({ field, form }) => (
+                                      <Form.Control
+                                        as="select"
+                                        {...field}
+                                        placeholder="Chọn món ăn"
+                                        style={{ width: "45%" }}
+                                        onChange={(event) =>
+                                          handleFoodSelect(event, field, form)
+                                        }
+                                      >
+                                        <option value="">Choose Food</option>
+                                        {/* Render các option từ API */}
+                                        {options.map((option) => (
+                                          <option
+                                            key={option.foodId}
+                                            value={option.foodId}
+                                            disabled={selectedFoodIds.includes(
+                                              option.foodId
+                                            )}
+                                          >
+                                            {option.fName}
+                                          </option>
+                                        ))}
+                                      </Form.Control>
+                                    )}
+                                  </Field>
+                                  <Field
+                                    placeholder="Enter Quantity"
+                                    name={`fields[${index}].quantity`}
+                                    component="input"
+                                    style={{ width: "45%" }}
+                                    className="control-field"
+                                  />
+                                  {/* <button onClick={() => removeField(index)}>
                           Remove
                         </button> */}
-                              </div>
-                            ))}
+                                </div>
+                              ))}
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                              }}
+                            >
+                              <Button onClick={addField}>More Food</Button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Button onClick={addField}>More Food</Button>
                       </div>
                       <div className="btn-footer">
                         <div

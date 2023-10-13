@@ -15,6 +15,7 @@ namespace DTO.Dtos
         public string Region { get; set; }
         public string HealthCheck { get; set; }
         public DateTime Birthday { get; set; }
+
         public string Species { get; set; }
         public bool Rarity { get; set; }
         public ICollection<AnimalCageDto> AnimalCages { get; set; }
