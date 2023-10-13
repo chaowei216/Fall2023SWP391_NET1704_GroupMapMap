@@ -75,7 +75,8 @@ namespace BBL.Services
 
         public ICollection<Animal> GetAll()
         {
-            return _animalRepo.GetAll();
+            var getAnimal = _context.Animals.Include(animal => animal.AnimalCages).Include(animal => animal.AnimalTrainers).ToList();
+            return getAnimal;
         }
 
         public Animal GetByAnimalId(string id)

@@ -11,5 +11,6 @@
         public bool Rarity { get; set; }
         public DateTime? EndTrainDate { get; set; }
         public DateTime? OutCageDate { get; set; }
+        public List<FoodAmountDto> Foods { get; set; }
     }
 }
