@@ -14,7 +14,7 @@ namespace BBL.Interfaces
         bool UpdateAnimal(Animal animal, Animal? animalMap);
         bool AddAnimalTrainer(string userId, string animalId, AnimalTrainer animalTrainer);
         bool AddAnimalCage(string cageId, string animalId, AnimalCage animalCage);
-        ICollection<Animal> GetAll();
+        ICollection<GetAnimalDto> GetAll();
         Animal GetByAnimalId(string id);
         bool AnimalExists(string id);
         bool DeleteAnimal(string id);
