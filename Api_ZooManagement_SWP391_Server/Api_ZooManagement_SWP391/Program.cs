@@ -10,6 +10,7 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using DAL.Entities;
+using DTO.Dtos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -80,6 +81,7 @@ builder.Services.AddScoped<IGenericRepository<AnimalFood>, GenericRepository<Ani
 builder.Services.AddScoped<IGenericRepository<AnimalSchedule>, GenericRepository<AnimalSchedule>>();
 builder.Services.AddScoped<IGenericRepository<AnimalTrainer>, GenericRepository<AnimalTrainer>>();
 builder.Services.AddScoped<IGenericRepository<OrderTicket>, GenericRepository<OrderTicket>>();
+builder.Services.AddScoped<IGenericRepository<GetAnimalDto>, GenericRepository<GetAnimalDto>>();
 
 
 

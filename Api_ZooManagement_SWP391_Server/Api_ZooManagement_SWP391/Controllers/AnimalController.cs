@@ -18,15 +18,17 @@ namespace Api_ZooManagement_SWP391.Controllers
         private readonly IMapper _mapper;
         private readonly ICageService _cageService;
         private readonly IUserService _userService;
+        private readonly IFoodService _foodService;
         public Regex animalRegex = new Regex(@"^A\d{4}");
         public Regex userRegex = new Regex(@"^Z\d{4}");
 
-        public AnimalController(IMapper mapper, IAnimalService animalService, ICageService cageService, IUserService userService)
+        public AnimalController(IMapper mapper, IAnimalService animalService, ICageService cageService, IUserService userService, IFoodService foodService)
         {
             _animalService = animalService;
             _mapper = mapper;
             _cageService = cageService;
             _userService = userService;
+            _foodService = foodService;
         }
 
         [HttpGet]
@@ -34,7 +36,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         public IActionResult GetAllAnimal()
         {
             var animal = _mapper.Map<List<GetAnimalDto>>(_animalService.GetAll());
-            animal = _mapper.Map<List<GetAnimalDto>>(_cageService.GetAll());
+            var animalCage = _mapper.Map<List<GetAnimalDto>>(_cageService.GetAll());
             if (!ModelState.IsValid)
             {
                 return BadRequest();
@@ -58,6 +60,14 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             return Ok(animal);
         }
+        [HttpGet("AvailableTrainers")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult GetTrainersAvailabke()
+        {
+            var user = _mapper.Map<List<AvailableTrainer>>(_animalService.GetTrainersCanTrain());
+            return Ok(user);
+        }
 
         [HttpPost]
         [HttpPost]
@@ -77,24 +87,41 @@ namespace Api_ZooManagement_SWP391.Controllers
             int count = _animalService.GetAll().Count() + 1;
             var animalId = "A" + count.ToString().PadLeft(4, '0');
 
+            List<AnimalFood> animalFoods = new List<AnimalFood>();
+
             var animalMap = _mapper.Map<Animal>(animalDto);
             var userMap = _mapper.Map<AnimalTrainer>(animalDto);
             var cageMap = _mapper.Map<AnimalCage>(animalDto);
+            var foodMap = _mapper.Map<Animal>(animalDto);
+            var foodAmount = animalDto.Foods;
+
             animalMap.AnimalId = animalId;
             cageMap.EntryCageDate = animalDto.EntryCageDate;    
             userMap.StartTrainDate = animalDto.StartTrainDate;
+
             animalMap.Status = true;
 
             int isCageFull = _cageService.GetByCageId(cageId).AnimalQuantity;
             int fullCage = _cageService.GetByCageId(cageId).MaxCapacity;
-            int isTrainerFull = _animalService.GetAnimalByTrainerId(userId).Count();
 
+            foreach (var food in foodAmount)
+            {
+                var food1 = _foodService.GetByFoodId(food.id);
+                if (food1 == null) return BadRequest("Food not found!!!");
+                if (food.quantity == 0) continue;
+                animalFoods.Add(new AnimalFood()
+                {
+                    AnimalId = animalMap.AnimalId,
+                    Food = food1,
+                    Amount = food.quantity,
+                });
+            }
             isCageFull += 1;
             if (isCageFull > fullCage)
             {
                 return BadRequest("This cage is full");
             }
-            if (isTrainerFull > 10)
+            if (_animalService.GetTrainersCanTrain().Count() >= 10)
             {
                 return BadRequest("Zoo trainer have trained 10 animals");
             }
@@ -103,7 +130,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             }
 
             
-            if (!_animalService.AddAnimal(userId, cageId, animalMap))
+            if (!_animalService.AddAnimal(userId, cageId, animalFoods, animalMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving!!!");
                 return StatusCode(500, ModelState);
@@ -111,6 +138,7 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             return Ok("Successfully");
         }
+
 
         [HttpPut("{animalId}")]
         [ProducesResponseType(400)]
@@ -134,6 +162,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             var animalMap = _mapper.Map<Animal>(updateAnimalDto);
             var trainerMap = _mapper.Map<AnimalTrainer>(updateAnimalDto);
             var cageMap = _mapper.Map<AnimalCage>(updateAnimalDto);
+            var foodMap = _mapper.Map<AnimalFood>(updateAnimalDto);
 
             var animalTrainer = _animalService.GetTrainerByAnimalId(animalId).Where(a => a.EndTrainDate == null).FirstOrDefault();
             if (animalTrainer == null)
@@ -150,6 +179,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                 animalCage.OutCageDate = DateTime.Now;
                 _animalService.AddAnimalCage(updateAnimalDto.CageId, animalId, cageMap);
             }
+
+
 
             if (!_animalService.UpdateAnimal(animal, animalMap))
             {

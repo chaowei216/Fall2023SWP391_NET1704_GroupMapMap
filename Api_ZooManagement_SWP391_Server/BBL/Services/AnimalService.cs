@@ -2,6 +2,7 @@
 using DAL.Data;
 using DAL.Entities;
 using DAL.Repositories;
+using DTO.Dtos;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace BBL.Services
         private readonly IGenericRepository<Cage> _cageRepo;
         private readonly IGenericRepository<AnimalTrainer> _animalTrainerRepo;
         private readonly IGenericRepository<AnimalCage> _animalCageRepo;
+        private readonly IGenericRepository<Food> _foodRepo;
+        private readonly IGenericRepository<AnimalFood> _animalFoodRepo;
         private readonly DataContext _context;
 
 
@@ -25,16 +28,18 @@ namespace BBL.Services
                              IGenericRepository<User> userRepo,
                              IGenericRepository<Cage> cageRepo,
                              IGenericRepository<Food> foodRepo, IGenericRepository<AnimalCage> animalCageRepo,
-                             IGenericRepository<AnimalTrainer> animalTrainerRepo, DataContext context)
+                             IGenericRepository<AnimalTrainer> animalTrainerRepo, DataContext context, IGenericRepository<AnimalFood> animalFoodRepo)
         {
             _animalRepo = animalRepo;
             _cageRepo = cageRepo;
             _userRepo = userRepo;
             _animalCageRepo = animalCageRepo;
             _animalTrainerRepo = animalTrainerRepo;
+            _foodRepo = foodRepo;
+            _animalFoodRepo = animalFoodRepo;
             _context = context;
         }
-        public bool AddAnimal(string? userId, string? cageId, Animal animal)
+        public bool AddAnimal(string? userId, string? cageId, List<AnimalFood> animalFood, Animal animal)
         {
             if (_animalRepo.Add(animal))
             {
@@ -52,6 +57,12 @@ namespace BBL.Services
                     Animal = animal,
                 };
                 _animalCageRepo.Add(newAnimalCage);
+                if (animalFood == null) return false;
+                foreach (AnimalFood food in animalFood)
+                {
+                    _animalFoodRepo.Add(food);
+                }
+
                 return true;
             }
             return false;
@@ -155,6 +166,13 @@ namespace BBL.Services
             var animals = _animalTrainerRepo.GetAll().Where(at => at.UserId == trainerId).ToList();
             if(animals == null) return null;
             return animals;
+        }
+
+        public ICollection<AnimalTrainer> GetTrainersCanTrain()
+        {
+            var user = _animalTrainerRepo.GetAll().Where(at => at.AnimalId.Count() < 10 && at.EndTrainDate == null).ToList();
+            if (user == null) return null;
+            return user;
         }
     }
 }

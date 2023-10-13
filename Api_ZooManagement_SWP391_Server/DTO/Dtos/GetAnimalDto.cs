@@ -17,8 +17,8 @@ namespace DTO.Dtos
         public DateTime Birthday { get; set; }
         public string Species { get; set; }
         public bool Rarity { get; set; }
-        public string CId { get; set; }
-        public string UserId { get; set; }
+        public ICollection<AnimalCageDto> AnimalCages { get; set; }
+        public ICollection<AnimalTrainerDto> AnimalTrainers { get; set; }
         public string AnimalImage { get; set; }
     }
 }
