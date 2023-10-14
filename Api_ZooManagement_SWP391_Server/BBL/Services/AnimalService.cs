@@ -49,12 +49,14 @@ namespace BBL.Services
                 {
                     User = trainer,
                     Animal = animal,
+                    StartTrainDate = DateTime.Now,
                 };
                 _animalTrainerRepo.Add(newAnimalTrainer);
                 AnimalCage newAnimalCage = new AnimalCage
                 {
                     Cage = cage,
                     Animal = animal,
+                    EntryCageDate = DateTime.Now,
                 };
                 _animalCageRepo.Add(newAnimalCage);
                 if (animalFood == null) return false;

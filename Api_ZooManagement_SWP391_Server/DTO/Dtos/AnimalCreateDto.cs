@@ -17,8 +17,8 @@ namespace DTO.Dtos
         public DateTime Birthday { get; set; }
         public string Species { get; set; }
         public bool Rarity { get; set; }
-        public DateTime EntryCageDate { get; set; }
-        public DateTime StartTrainDate { get; set; }
+        public DateTime? EntryCageDate { get; set; }
+        public DateTime? StartTrainDate { get; set; }
         public List<FoodAmountDto> Foods { get; set; }
     }
 }

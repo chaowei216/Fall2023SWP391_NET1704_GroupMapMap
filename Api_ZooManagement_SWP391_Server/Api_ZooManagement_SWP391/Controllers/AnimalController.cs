@@ -91,8 +91,8 @@ namespace Api_ZooManagement_SWP391.Controllers
             var foodAmount = animalDto.Foods;
 
             animalMap.AnimalId = animalId;
-            cageMap.EntryCageDate = animalDto.EntryCageDate;    
-            userMap.StartTrainDate = animalDto.StartTrainDate;
+            cageMap.EntryCageDate = DateTime.Now;    
+            userMap.StartTrainDate = DateTime.Now;
 
             animalMap.Status = true;
 
