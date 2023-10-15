@@ -60,8 +60,10 @@ console.log(res)
         setUserObject(decoded);
         const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
         const email = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
+        const name = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
         localStorage.setItem("email",email);
         localStorage.setItem("role",role);
+        localStorage.setItem("name",name);
         console.log(role);
      
 

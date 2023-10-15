@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 import "../src/assets/css/dashboard.css";
 import AddFood from "./page/Food/AddFood";
 import SliderHero from "./page/sliderHero";
+import SideMenu from "./page/rolePage/test";
 function HeaderLayout() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
   const OpenSidebar = () => {
@@ -22,7 +23,6 @@ function HeaderLayout() {
             openSidebarToggle={openSidebarToggle}
             OpenSidebar={OpenSidebar}
           ></SideMenuTest>
-         
           <Outlet></Outlet>
         </div>
         {/* <Footer

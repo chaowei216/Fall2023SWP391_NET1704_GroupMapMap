@@ -20,16 +20,20 @@ function AppHeader({ OpenSidebar }) {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const dataUser = JSON.parse(localStorage.getItem("dataUser"));
   const [showLogout, setShowLogout] = useState(false);
+  const userName = localStorage.getItem("name");
   const {
     token: { colorBgContainer },
   } = theme.useToken();
   const nativigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("dataUser");
+    localStorage.removeItem("name");
+    localStorage.removeItem("email");
+    localStorage.removeItem("role");
     nativigate('/')
   };
   const handleChange = () => {
-      nativigate('/staff')
+    nativigate('/staff')
   }
   return (
     <div className="AppHeader">
@@ -55,10 +59,10 @@ function AppHeader({ OpenSidebar }) {
             icon={<UserOutlined />}
             style={{ marginRight: "10px", color: "black" }}
           />
-          <span style={{ marginRight: "20px", cursor: "pointer" }} onClick={handleChange} 
->
-            {dataUser && dataUser.data
-              ? `${dataUser.data.first_name} ${dataUser.data.last_name}`
+          <span style={{ marginRight: "20px", cursor: "pointer" }} onClick={handleChange}
+          >
+            {userName && userName != null
+              ? `${userName}`
               : "User Name"}
           </span>
           {showLogout && (

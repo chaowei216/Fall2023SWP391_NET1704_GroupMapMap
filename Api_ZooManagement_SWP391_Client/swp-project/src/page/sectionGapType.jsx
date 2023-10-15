@@ -26,7 +26,6 @@ function SectionGapType() {
         const response = await axios.get('https://localhost:44352/api/Ticket'); // Thay 'URL_CUA_API' bằng URL thực tế của API
         const data = response.data; // Lấy danh sách dữ liệu từ phản hồi API
         setDataList(data); // Lưu danh sách dữ liệu vào state
-        console.log("api: " + response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -38,7 +37,6 @@ function SectionGapType() {
   return (
    
    <div>
-      {console.log("shoping cart",shoppingCart)}
       <section className="gap">
       <div className="heading-two">
          <h2>Ticket</h2>

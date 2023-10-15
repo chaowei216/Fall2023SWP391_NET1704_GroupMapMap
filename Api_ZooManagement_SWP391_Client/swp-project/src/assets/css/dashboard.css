@@ -67,7 +67,7 @@
 }
 
 .AppHeader {
-  height: 7%;
+  height: 8% !important;
   box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
 
@@ -90,6 +90,8 @@
   margin-right: calc(var(--mdb-gutter-x)*-0.5);
   margin-left: calc(var(--mdb-gutter-x)*-0.5);
   width: 100%;
+  justify-content: space-between;
+
 }
 
 .row-content {
@@ -116,12 +118,18 @@
 }
 
 .form {
-  width: 98%;
-  border-radius: 8px 8px 8px 8px;
+  width: 88%;
+  border-radius: 15px 15px 15px 15px;
   background: white;
   padding: 7px 17px 0px 30px;
 }
-
+.form-view{
+  width: 70%;
+  border-radius: 15px 15px 15px 15px;
+  background: white;
+  padding: 24px 15px 22px 30px;
+  border: 1px solid wheat;
+}
 .label-info {
   font-weight: bold;
   font-size: large;
@@ -193,6 +201,7 @@
   
   display: none;
 } */
+
 .Slide-Container {
   width: 18%;
   overflow-y: auto;

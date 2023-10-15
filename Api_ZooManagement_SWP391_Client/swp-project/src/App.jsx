@@ -29,6 +29,16 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HeaderLayout from './HeaderLayout';
 import Dashboard from './page/dashBoard';
 import TableUser from './page/TableUser';
+import AddPage from './page/User/AddPage';
+import TableAnimal from './page/Animal/TableAnimal';
+import TableFood from './page/Food/TableFood';
+import SideMenu from './page/rolePage/test';
+import HeaderLayoutStaff from './HeaderLayoutStaff';
+import HeaderLayOutTrainer from './HeaderLayOutTrainer';
+import TableStaff from './page/User/TableStaff';
+import AddStaff from './page/User/AddStaff';
+import OrderTable from './page/Order/OrderTable';
+import ViewStaff from './page/User/ViewStaff';
 
 const secretKey = 'your_secret_key';
 
@@ -38,11 +48,16 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/staff" element={userRole === "STAFF" ? <HeaderLayout /> : <Login />} >
+          <Route path="/staff" element={userRole === "STAFF" ? <HeaderLayoutStaff /> : <Login />} >
             <Route path="" element={<Dashboard />}></Route>
-            <Route path="1" element={<TableUser />}></Route>
+            <Route path="1" element={<TableStaff />}></Route>
+            <Route path="add" element={<AddStaff />}></Route>
+            <Route path="2" element={<TableAnimal />}></Route>
+            <Route path="4" element={<OrderTable />}></Route>
+            <Route path="profile" element={<ViewStaff/>}></Route>
+            {/* <Route path="3" element={<TableFood />}></Route> */}
           </Route>
-          <Route path="/ZooTrainer" element={userRole === "ZOOTRAINER" ? <HeaderLayout /> : <Login />} >
+          <Route path="/ZooTrainer" element={userRole === "ZOOTRAINER" ? <HeaderLayOutTrainer /> : <Login />} >
             <Route path="" element={<Dashboard />}></Route>
             <Route path="1" element={<TableUser />}></Route>
           </Route>

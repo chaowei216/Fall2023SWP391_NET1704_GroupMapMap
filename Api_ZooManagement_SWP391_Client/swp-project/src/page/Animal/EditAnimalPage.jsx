@@ -14,6 +14,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "../../assets/css/dashboard.css";
 import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function EditAnimal(pros) {
   const { show, handleClose, dataAnimalEdit } = pros;
@@ -42,11 +43,9 @@ export default function EditAnimal(pros) {
       quantity: "",
     },
   ]);
-  const [foods, setFoods] = useState([
-    { id: '1', quantity: 1 },
-    { id: '2', quantity: 2 },
-    { id: '3', quantity: 3 }
-  ])
+  const [status, setStatus] = useState(true);
+  const [foods, setFoods] = useState([]);
+  const navigate = useNavigate();
   const handleFoodChange = (id, event) => {
     const newFood = foods.map((food) => {
       if (food.id === id) {
@@ -70,48 +69,13 @@ export default function EditAnimal(pros) {
     });
     return () => (mounted = false);
   }, []);
-  const [selectedFoodIds, setSelectedFoodIds] = useState([]);
-  const addField = () => {
-    setFields([...fields, { id: "", quantity: "" }]);
-  };
-  const handleFoodSelect = (event, field, form) => {
-    // Lấy ra field hiện tại đang chọn
-    const currentField = fields[field.name];
-
-    // Thiết lập lại giá trị id
-    currentField.id = event.target.value;
-
-    // Cập nhật lại fields
-    const newFields = [...fields];
-    newFields[field.name] = currentField;
-
-    setFields(newFields);
-  }
-  const handleQuantityChange = (event, field) => {
-
-    // Lấy ra field đang chọn
-    const currentField = fields[field];
-
-    // Cập nhật lại giá trị quantity mới
-    currentField.quantity = event.target.value;
-
-    // Copy mới mảng field 
-    const newFields = [...fields];
-
-    // Cập nhật lại field trong mảng mới
-    newFields[field] = currentField;
-
-    // Set lại state
-    setFields(newFields);
-
-  }
   useEffect(() => {
     if (show) {
       setRegion(dataAnimalEdit.region),
         setName(dataAnimalEdit.name),
         setAnimalId(dataAnimalEdit.animalId),
-        setCageID(dataAnimalEdit.cageID),
-        setUserID(dataAnimalEdit.userID),
+        setCageID(dataAnimalEdit.cId),
+        setUserID(dataAnimalEdit.userId),
         setGender(dataAnimalEdit.sex === true ? "male" : "female"),
         setHealthCheck(dataAnimalEdit.healthCheck),
         setDescription(dataAnimalEdit.description),
@@ -120,6 +84,7 @@ export default function EditAnimal(pros) {
         setStartTrain(dataAnimalEdit.startTrainDate.slice(0, 10)),
         setSpecies(dataAnimalEdit.species),
         setRarity(dataAnimalEdit.rarity);
+      setFoods(dataAnimalEdit.foods);
     }
   }, [dataAnimalEdit]);
   const getCageList = () => {
@@ -161,13 +126,14 @@ export default function EditAnimal(pros) {
       cageId: cageID,
       description: description,
       healthCheck: healthCheck,
-      status: true,
+      status: status,
       rarity: rarity,
       endTrainDate: endTraining,
       outCageDate: outCage,
+      foods: foods,
     };
     console.log("OK");
-    console.log(foods);
+    console.log(animalEdit);
     const response = await fetch(`https://localhost:44352/api/Animal/${animalId}`, {
       method: "PUT",
       headers: {
@@ -275,7 +241,7 @@ export default function EditAnimal(pros) {
                         </div>
                         <div className="row mb-3">
 
-                          <div className="mb-3" style={{ width: "33%" }}>
+                          <div className="mb-3" style={{ width: "25%" }}>
                             <div>
                               <label className="form-label">Gender</label>
                               <br />
@@ -290,34 +256,67 @@ export default function EditAnimal(pros) {
                                 buttonStyle="solid"
                                 disabled
                               >
-                                <Radio.Button
+                                <Radio
                                   style={{
                                     width: "40%",
-                                    textAlign: "center",
-                                    height: "37px",
                                   }}
                                   value="male"
                                 >
                                   <span style={{ verticalAlign: "middle" }}>
                                     Male
                                   </span>
-                                </Radio.Button>
-                                <Radio.Button
+                                </Radio>
+                                <Radio
                                   style={{
                                     width: "40%",
-                                    textAlign: "center ",
-                                    height: "37px",
                                   }}
                                   value="female"
                                 >
                                   <span style={{ verticalAlign: "middle" }}>
                                     Female
                                   </span>
-                                </Radio.Button>
+                                </Radio>
                               </Radio.Group>
                             </div>
                           </div>
-                          <div className="mb-3" style={{ width: "33%" }}>
+                          <div className="mb-3" style={{ width: "25%" }}>
+                            <div>
+                              <label className="form-label">Status</label>
+                              <br />
+                              <Radio.Group
+                                id="status"
+                                name="status"
+                                style={{ height: "33%", width: "100%" }}
+                                onChange={(e) => {
+                                  setStatus(e.target.value)
+                                }}
+                                value={status}
+                                buttonStyle="solid"
+                              >
+                                <Radio
+                                  style={{
+                                    width: "40%",
+                                  }}
+                                  value={true}
+                                >
+                                  <span style={{ verticalAlign: "middle" }}>
+                                    Available
+                                  </span>
+                                </Radio>
+                                <Radio
+                                  style={{
+                                    width: "40%",
+                                  }}
+                                  value={false}
+                                >
+                                  <span style={{ verticalAlign: "middle" }}>
+                                    Deadth
+                                  </span>
+                                </Radio>
+                              </Radio.Group>
+                            </div>
+                          </div>
+                          <div className="mb-3" style={{ width: "25%" }}>
                             <div>
                               <label
                                 className="form-label"
@@ -340,34 +339,30 @@ export default function EditAnimal(pros) {
                                   setRarity(event.target.value)
                                 }
                               >
-                                <Radio.Button
+                                <Radio
                                   style={{
                                     width: "40%",
-                                    textAlign: "center",
-                                    height: "37px",
                                   }}
                                   value={true}
                                 >
                                   <span style={{ verticalAlign: "middle" }}>
                                     Rarity
                                   </span>
-                                </Radio.Button>
-                                <Radio.Button
+                                </Radio>
+                                <Radio
                                   style={{
                                     width: "40%",
-                                    textAlign: "center ",
-                                    height: "37px",
                                   }}
                                   value={false}
                                 >
                                   <span style={{ verticalAlign: "middle" }}>
                                     None
                                   </span>
-                                </Radio.Button>
+                                </Radio>
                               </Radio.Group>
                             </div>
                           </div>
-                          <div className="mb-3" style={{ width: "33%" }}>
+                          <div className="mb-3" style={{ width: "25%" }}>
                             <label className="form-label">Birthday</label>
                             <br />
                             <Space
@@ -394,7 +389,6 @@ export default function EditAnimal(pros) {
                             style={{ height: "56px" }}
                             id="healthCheck"
                             placeholder="healthCheck"
-                            disabled
                             aria-describedby="inputGroupPrepend"
                             name="healthCheck"
                             value={healthCheck}
@@ -418,7 +412,6 @@ export default function EditAnimal(pros) {
                             id="description"
                             placeholder="description"
                             aria-describedby="inputGroupPrepend"
-                            disabled
                             name="description"
                             style={{ height: "56px" }}
                             value={description}
@@ -454,10 +447,10 @@ export default function EditAnimal(pros) {
                             onChange={(event) => setCageID(event.target.value)}
                           // onChange={handleChange}
                           >
-                            <option value="">Choose Cage</option>
+                            {/* <option value="">Choose Cage</option> */}
                             {/* Render các option từ API */}
                             {listCage.map((option) => (
-                              <option key={option.cId} value={option.cId}>
+                              <option key={option.cId} value={option.cId} selected={option.cId === cageID}>
                                 {option.cId} - MaxCapacity :{" "}
                                 {option.maxCapacity} - AnimalQuantity :{" "}
                                 {option.animalQuantity}
@@ -520,20 +513,18 @@ export default function EditAnimal(pros) {
                             name="userId"
                             placeholder="Chọn món ăn"
                             style={{ width: "85%" }}
-                            onChange={(evnet) => setListZooTrainer(evnet.target.value)}
+                            onChange={(evnet) => setUserID(evnet.target.value)}
                           >
-                            <option value="">Choose ZooTrainer</option>
                             {/* Render các option từ API */}
                             {ZooTrainerList.map((option) => (
                               <option
                                 key={option.userId}
                                 value={option.userId}
+                                selected={option.userId === userID}
                               >
-                                <div style={{ height: "50px" }}>
-                                  {option.email} - MaxCapacity :{" "}
-                                  {option.firstname} - AnimalQuantity :{" "}
-                                  {option.lastname}
-                                </div>
+                                ZooTrainerID : {option.userId} - MaxCapacity :{" "}
+                                {option.firstname} - AnimalQuantity :{" "}
+                                {option.lastname}
                               </option>
                             ))}
                           </Form.Select>
@@ -572,7 +563,7 @@ export default function EditAnimal(pros) {
                                 aria-describedby="inputGroupPrepend"
                                 name="endTraining"
                                 value={endTraining}
-                                onChange={(event) => setName(event.target.value)}
+                                onChange={(event) => setEndTraining(event.target.value)}
                               // isInvalid={
                               //   formik.errors.first_name &&
                               //   formik.touched.first_name
@@ -588,29 +579,43 @@ export default function EditAnimal(pros) {
                       <div className="label-info">
                         <label>Food Information</label>
                       </div>
-                      <div className="Food-Information">
-                        <div className="mb-3">
-                          <label className="form-label">
-                            Choose Food For Animal
-                          </label>
+                      <div className="mb-3 Food-Information">
+                        <div className="mb-1">
                           {foods.map(food => (
-                            <div key={food.id}>
-                              <p>Id: {food.id}</p>
-                              <input
-                                type="number"
-                                value={food.quantity}
-                                onChange={(e) => handleFoodChange(food.id, e)}
-                              />
+                            <div key={food.id}
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                width: "95%",
+                              }}>
+                              <div style={{ width: "40%" }}>
+                                <label className="form-label">
+                                  ID Food Of Animal
+                                </label>
+                                <Form.Control
+                                  type="text"
+                                  className="mb-3"
+                                  aria-describedby="inputGroupPrepend"
+                                  disabled
+                                  style={{ width: "90%" }}
+                                  value={food.id}
+                                />
+                              </div>
+                              <div style={{ width: "40%" }}>
+                                <label className="form-label">
+                                  Choose Quantity Food For Animal
+                                </label>
+                                <Form.Control
+                                  type="number"
+                                  className="mb-3"
+                                  aria-describedby="inputGroupPrepend"
+                                  style={{ width: "90%" }}
+                                  value={food.quantity}
+                                  onChange={(e) => handleFoodChange(food.id, e)}
+                                />
+                              </div>
                             </div>
                           ))}
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Button onClick={addField}>More Food</Button>
                         </div>
                       </div>
 

@@ -42,6 +42,9 @@ export default function EditAnimal(pros) {
   const [showListTrainer, setShowListTrainer] = useState(false);
   const [showList, setShowList] = useState(false);
 
+  const [listFoods, setListFoods] = useState([]);
+  const [foodId, setFoodID] = useState("");
+  const [listFoodsFilter, setListFoodsFilter] = useState([]);
   useEffect(() => {
     if (show) {
       var today = new Date();
@@ -63,6 +66,7 @@ export default function EditAnimal(pros) {
         setOutCage(date),
         setSpecies(dataAnimalView.species),
         setRarity(dataAnimalView.rarity);
+      setFoodID(dataAnimalView.foods);
     }
   }, [dataAnimalView]);
   console.log(dataAnimalView)
@@ -81,7 +85,20 @@ export default function EditAnimal(pros) {
     });
     return () => (mounted = false);
   }, []);
-
+  useEffect(() => {
+    const getFoodList = () => {
+      return fetch(`https://localhost:44352/api/Food`).then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getFoodList().then((items) => {
+      if (mounted) {
+        setListFoods(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
   useEffect(() => {
     const getCageList = () => {
       return fetch("https://localhost:44352/api/Cage").then((data) =>
@@ -96,6 +113,49 @@ export default function EditAnimal(pros) {
     });
     return () => (mounted = false);
   }, []);
+  useEffect(() => {
+    if (foodId) {
+      // Lấy ids
+      // const fIds = foodId.map(f => f.id);
+      // // Lọc foods
+      // const filteredFoods = listFoods.filter(food => {
+      //   return fIds.includes(food.foodId);
+      // }).map(food => {
+      //   // Tìm fId object có id trùng với food.id
+      //   const fId = fIds.find(f => f.id === food.foodId);
+
+      //   // Trả về object mới có quantity là của fId
+      //   return {
+      //     ...food,
+      //     quantity: foodId.quantity
+      //   }
+      // });
+
+      const foodFilter = listFoods.filter(food => {
+        return foodId.some(fId => fId.id === food.foodId);
+      }).map(food => {
+
+        // Tìm fId object có id trùng với food.id 
+        const matchedFId = foodId.find(fId => fId.id === food.foodId);
+
+        // Nếu không tìm thấy fId thì trả về food
+        if (!matchedFId) {
+          return food;
+        }
+
+        // Trả về object mới có quantity là của fId
+        return {
+          ...food,
+          quantity: matchedFId.quantity
+        }
+
+      })
+
+      // Cập nhật state
+      setListFoodsFilter(foodFilter);
+
+    }
+  }, [listFoods, foodId]);
   // Danh sách users
   const users = listZooTrainer;
   // Danh sách userId trong animalTrainers 
@@ -606,31 +666,22 @@ export default function EditAnimal(pros) {
                             <thead>
                               <tr>
                                 <th>ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Phone</th>
+                                <th>Food Name</th>
+                                <th>Category</th>
+                                <th>Quantity</th>
                               </tr>
                             </thead>
                             <tbody>
-                              {/* {trainers && trainers.length > 0 && trainers.map((value) => {
+                              {listFoodsFilter && listFoodsFilter.length > 0 && listFoodsFilter.map((value) => {
                                 return (
                                   <tr>
-                                    <td>{value.userId}</td>
-                                    <td>{value.firstname}</td>
-                                    <td>{value.lastname}</td>
-                                    <td>{value.phone}</td>
-                                    <td>{value.email}</td>
-                                    <td>{value.status === true ? <div style={{ background: '#008800', borderRadius: "50px", textAlign: "center", color: "white", fontWeight: "bold" }}>Working</div>
-                                      : <div style={{ background: 'gray', borderRadius: "50px", textAlign: "center", color: "white", fontWeight: "bold" }}>huuh</div>}</td>
+                                    <td>{value.foodId}</td>
+                                    <td>{value.fName}</td>
+                                    <td>{value.category}</td>
+                                    <td>{value.quantity}</td>
                                   </tr>
                                 )
-                              })} */}
-                              <tr>
-                                <td>a</td>
-                                <td>a</td>
-                                <td>a</td>
-                                <td>a</td>
-                              </tr>
+                              })}
                             </tbody>
                           </Table>
                         </div>
