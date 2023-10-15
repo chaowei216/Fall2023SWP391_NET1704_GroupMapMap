@@ -61,7 +61,7 @@ namespace BBL.Services
             return _foodRepository.GetById(id);
         }
 
-        public Food GetByFoodName(string name)
+        public Food? GetByFoodName(string name)
         {
             var Foods = _foodRepository.GetAll();
             foreach (Food food in Foods)
@@ -72,6 +72,11 @@ namespace BBL.Services
                 }
             }
             return null;
+        }
+
+        public ICollection<AnimalFood> GetFoodsByAnimalId(string animalId)
+        {
+            return _animalFoodRepo.GetAll().Where(aniFood => aniFood.AnimalId == animalId).ToList();
         }
 
         public bool UpdateFood(Food foodMap)

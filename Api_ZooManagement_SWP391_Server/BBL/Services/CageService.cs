@@ -13,10 +13,15 @@ namespace BBL.Services
     {
         private readonly IGenericRepository<Cage> _cageRepository;
         private readonly IGenericRepository<Area> _areaRepository;
-        public CageService(IGenericRepository<Cage> cageRepositiry, IGenericRepository<Area> areaRepository)
+        private readonly IGenericRepository<AnimalCage> _aniCageRepository;
+
+        public CageService(IGenericRepository<Cage> cageRepositiry,
+                            IGenericRepository<Area> areaRepository,
+                            IGenericRepository<AnimalCage> aniCageRepository)
         {
             _cageRepository = cageRepositiry;
             _areaRepository = areaRepository;
+            _aniCageRepository = aniCageRepository;
         }
         public bool AddCage(Cage cage)
         {
@@ -41,6 +46,11 @@ namespace BBL.Services
         public bool CageExists(string id)
         {
             return _cageRepository.GetById(id) != null ? true : false;
+        }
+
+        public AnimalCage? GetCageByAnimalId(string animalId)
+        {
+            return _aniCageRepository.GetAll().SingleOrDefault(aniCage => aniCage.AnimalId == animalId && aniCage.OutCageDate == null);
         }
     }
 }

@@ -18,17 +18,18 @@ namespace BBL.Services
         private readonly IGenericRepository<User> _userRepository;
         private readonly IGenericRepository<WorkExperience> _workExpRepository;
         private readonly IGenericRepository<ExperienceDetail> _expDetailRepository;
-        private readonly DataContext _context;
+        private readonly IGenericRepository<AnimalTrainer> _aniTrainerRepository;
         private readonly IConfiguration _config;
 
         public UserService(DataContext context, IGenericRepository<User> userRepository,
             IGenericRepository<WorkExperience> workExpRepository,
-            IGenericRepository<ExperienceDetail> expDetailRepository, IConfiguration config)
+            IGenericRepository<ExperienceDetail> expDetailRepository, IConfiguration config,
+            IGenericRepository<AnimalTrainer> aniTrainerRepository)
         {
             _userRepository = userRepository;
             _workExpRepository = workExpRepository;
             _expDetailRepository = expDetailRepository;
-            _context = context;
+            _aniTrainerRepository = aniTrainerRepository;
             _config = config;
         }
 
@@ -93,7 +94,7 @@ namespace BBL.Services
             return false;
         }
 
-        public User GetByEmail(string email)
+        public User? GetByEmail(string email)
         {
             var users = _userRepository.GetAll();
             if (email == null)
@@ -158,7 +159,7 @@ namespace BBL.Services
             return _userRepository.GetAll().Where(x => x.Role == role).Count();
         }
 
-        public User GetUserByPhone(string phone)
+        public User? GetUserByPhone(string phone)
         {
             if(phone == null) return null;
             return _userRepository.GetAll().Where(x => x.Phone == phone).FirstOrDefault();
@@ -178,18 +179,23 @@ namespace BBL.Services
             return _userRepository.GetAll().Where(u => u.Status == true).ToList();
         }
 
-        public ICollection<Animal> GetAnimalsByUserId(string userId)
+        public ICollection<Animal>? GetAnimalsByUserId(string userId)
         {
             var user = _userRepository.GetById(userId);
             if (user == null) return null;
 
             if(UserRoleExtensions.ToIntValue(user.Role) == 3)
             {
-                var animals = _context.AnimalTrainers.Where(u => u.UserId == userId).Select(animal => animal.Animal).ToList();
+                var animals = _aniTrainerRepository.GetAll().Where(u => u.UserId == userId).Select(animal => animal.Animal).ToList();
                 if (animals == null || animals.Count() == 0) return null;
                 return animals;
             }
             return null;
+        }
+
+        public AnimalTrainer? GetUserByAnimalId(string animalId)
+        {
+            return _aniTrainerRepository.GetAll().SingleOrDefault(aniTrainer => aniTrainer.AnimalId == animalId && aniTrainer.EndTrainDate == null);
         }
     }
 }

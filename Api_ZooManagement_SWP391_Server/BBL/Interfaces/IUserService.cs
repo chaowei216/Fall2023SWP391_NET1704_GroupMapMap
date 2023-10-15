@@ -16,6 +16,7 @@ namespace BBL.Interfaces
         User GetById(string id);
         int GetTotalUserByRole(Role role);
         User GetUserByPhone(string phone);
+        AnimalTrainer GetUserByAnimalId(string animalId);
         public User CheckLogin(string username, string password);
         public User GetByEmail(string email);
         public bool ForgotPassword(User user, string token);
