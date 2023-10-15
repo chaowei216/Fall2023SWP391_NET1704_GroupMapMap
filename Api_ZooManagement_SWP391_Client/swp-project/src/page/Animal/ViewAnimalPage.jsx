@@ -16,6 +16,9 @@ import Button from "react-bootstrap/Button";
 import "../../assets/css/dashboard.css";
 import { ToastContainer } from "react-toastify";
 import ListGroup from 'react-bootstrap/ListGroup';
+import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
+
 export default function EditAnimal(pros) {
   const { show, handleClose, dataAnimalView } = pros;
   const [region, setRegion] = useState("");
@@ -36,6 +39,8 @@ export default function EditAnimal(pros) {
   const [outCage, setOutCage] = useState("");
   const [listCage, setListCage] = useState([]);
   const [listZooTrainer, setListZooTrainer] = useState([]);
+  const [showListTrainer, setShowListTrainer] = useState(false);
+  const [showList, setShowList] = useState(false);
 
   useEffect(() => {
     if (show) {
@@ -76,7 +81,7 @@ export default function EditAnimal(pros) {
     });
     return () => (mounted = false);
   }, []);
-  
+
   useEffect(() => {
     const getCageList = () => {
       return fetch("https://localhost:44352/api/Cage").then((data) =>
@@ -379,6 +384,42 @@ export default function EditAnimal(pros) {
                         <label>Cage Information</label>
                       </div>
                       <div className="mb-3 Cage_Infomation" style={{ paddingRight: "25px" }}>
+                        <div style={{ textAlign: "end", marginTop: "10px" }}>
+                          <Button
+                            variant="primary"
+                            onClick={() => setShowList(!showList)}
+                          >
+                            More Old List
+                          </Button>
+                        </div>
+                        <div>
+                          {showList && (
+                            <div className="list" style={{ marginTop: "10px" }}>
+                              <Table striped bordered hover>
+                                <thead>
+                                  <tr>
+                                    <th>ID</th>
+                                    <th>Cage Name</th>
+                                    <th>Max Capacity</th>
+                                    <th>Quantity</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {cages && cages.length > 0 && cages.map((value) => {
+                                    return (
+                                      <tr>
+                                        <td>{value.cId}</td>
+                                        <td>{value.name}</td>
+                                        <td>{value.maxCapacity}</td>
+                                        <td>{value.animalQuantity}</td>
+                                      </tr>
+                                    )
+                                  })}
+                                </tbody>
+                              </Table>
+                            </div>
+                          )}
+                        </div>
                         <div className="mb-3">
                           <label className="form-label">
                             Cage for Animal
@@ -407,8 +448,8 @@ export default function EditAnimal(pros) {
                           </Table>
                         </div>
                         <div className="row" style={{ justifyContent: "space-between" }}>
-
                           <div className="mb-3" style={{ width: "40%" }}>
+
                             <div>
                               <label className="form-label">
                                 Entry Cage Date
@@ -447,6 +488,42 @@ export default function EditAnimal(pros) {
                         <label>ZooTrainer Information</label>
                       </div>
                       <div className="ZooTrainer-Information" style={{ paddingRight: "25px" }}>
+                        <div style={{ textAlign: "end", marginTop: "10px" }}>
+                          <Button
+                            variant="primary"
+                            onClick={() => setShowListTrainer(!showListTrainer)}
+                          >
+                            More Old List
+                          </Button>
+                        </div>
+                        <div>
+                          {showListTrainer && (
+                            <div className="list" style={{ marginTop: "10px" }}>
+                              <Table striped bordered hover>
+                                <thead>
+                                  <tr>
+                                    <th>ID</th>
+                                    <th>Cage Name</th>
+                                    <th>Max Capacity</th>
+                                    <th>Quantity</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {cages && cages.length > 0 && cages.map((value) => {
+                                    return (
+                                      <tr>
+                                        <td>{value.cId}</td>
+                                        <td>{value.name}</td>
+                                        <td>{value.maxCapacity}</td>
+                                        <td>{value.animalQuantity}</td>
+                                      </tr>
+                                    )
+                                  })}
+                                </tbody>
+                              </Table>
+                            </div>
+                          )}
+                        </div>
                         <div className="mb-2">
                           <label className="form-label">
                             ZooTrainer for Animal
@@ -523,7 +600,7 @@ export default function EditAnimal(pros) {
                       <div className="Food-Information">
                         <div className="mb-3">
                           <label className="form-label">
-                             Food For Animal
+                            Food For Animal
                           </label>
                           <Table striped bordered hover>
                             <thead>
@@ -556,7 +633,6 @@ export default function EditAnimal(pros) {
                               </tr>
                             </tbody>
                           </Table>
-
                         </div>
                       </div>
 
