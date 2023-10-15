@@ -42,6 +42,19 @@ namespace Api_ZooManagement_SWP391.Controllers
                 animal.EntryCageDate = _cageService.GetCageByAnimalId(animal.AnimalId).EntryCageDate;
                 animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
+                var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
+                if(foods != null && foods.Count > 0)
+                {
+                    animal.Foods = new List<FoodAmountDto>();
+                    foreach (var food in foods)
+                    {
+                        animal.Foods.Add(new FoodAmountDto
+                        {
+                            id = food.FoodId,
+                            quantity = food.Amount
+                        });
+                    }
+                }
             }
 
             return Ok(animals);
