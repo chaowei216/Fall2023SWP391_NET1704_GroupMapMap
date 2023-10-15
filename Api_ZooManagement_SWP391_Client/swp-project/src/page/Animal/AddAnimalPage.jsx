@@ -19,7 +19,8 @@ import { DatePicker, Radio, Select, Space } from "antd";
 const { RangePicker } = DatePicker;
 import { Formik, useFormik, Field, useFormikContext } from "formik";
 import FormList from "antd/es/form/FormList";
-import { ListGroup, Form, Button } from "react-bootstrap";
+import { ListGroup, Form} from "react-bootstrap";
+import Button from '@mui/material/Button';
 import { EventNoteTwoTone, TouchAppRounded } from "@mui/icons-material";
 // import Button from "@mui/material/Button";
 import { ToastContainer } from "react-toastify";
@@ -31,6 +32,8 @@ import { MDBCollapse } from "mdb-react-ui-kit";
 import { schemaAnimal } from "./validationAnimal";
 function AddAnimal(pros) {
   const [options, setOptions] = useState([]);
+  const [errorQuantity, setErrorQuantity] = useState("");
+  const [errorFood, setErrorFood] = useState("");
   const [fields, setFields] = useState([
     {
       id: "",
@@ -126,6 +129,7 @@ function AddAnimal(pros) {
     setShowmodalAdd(true);
     setAnchorEl(null);
   };
+
   const handleClick4 = (value) => {
     console.log(value);
   };
@@ -140,6 +144,18 @@ function AddAnimal(pros) {
   const { show, handleClose } = pros;
   const navigator = useNavigate();
   const submitForm = async (values) => {
+    // values.fields.forEach(field => {
+    //   if (!field.id) {
+    //     setErrorFood('Food ID is required');
+    //   } else if (field.id) {
+    //     setErrorFood(null);
+    //   } if (!field.quantity) {
+    //     setErrorQuantity('Quantity is required');
+    //   } else if (field.quantity) {
+    //     setErrorQuantity(null);
+    //   }
+    //   return;
+    // })
     console.log(values);
     const animal = {
       name: values.name,
@@ -237,7 +253,9 @@ function AddAnimal(pros) {
                     entryCageDate: "",
                     rarity: true,
                     fields,
+                    userId: ""
                   }}
+                  validationSchema={schemaAnimal}
                   onSubmit={(values) => {
                     submitForm(values);
                   }}
@@ -248,6 +266,8 @@ function AddAnimal(pros) {
                     handleBlur,
                     handleSubmit,
                     setFieldValue,
+                    errors,
+                    touched
                   }) => (
                     <Form onSubmit={handleSubmit}>
                       <div className="form-content mb-3">
@@ -270,13 +290,13 @@ function AddAnimal(pros) {
                                   value={values.name}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                // isInvalid={
-                                //   formik.errors.name && formik.touched.name
-                                // }
+                                  isInvalid={
+                                    errors.name && touched.name
+                                  }
                                 />
-                                {/* <Form.Control.Feedback type="invalid">
-                                {formik.errors.name}
-                              </Form.Control.Feedback> */}
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.name}
+                                </Form.Control.Feedback>
                               </div>
                               <div className="mb-3" style={{ width: "33%" }}>
                                 <label className="form-label">
@@ -291,22 +311,21 @@ function AddAnimal(pros) {
                                   value={values.region}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                // isInvalid={
-                                //   formik.errors.region && formik.touched.region
-                                // }
+                                  isInvalid={
+                                    errors.region && touched.region
+                                  }
                                 />
-                                {/* <Form.Control.Feedback type="invalid">
-                                {formik.errors.region}
-                              </Form.Control.Feedback> */}
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.region}
+                                </Form.Control.Feedback>
                               </div>
                               <div className="mb-3" style={{ width: "33%" }}>
                                 <label className="form-label">
-                                  Enter species
+                                  Choose species
                                 </label>
                                 <Field name="species">
                                   {() => (
-                                    <Form.Control
-                                      as="select"
+                                    <Form.Select
                                       value={values.species}
                                       onChange={(e) => {
                                         setFieldValue("species", e.target.value);
@@ -318,7 +337,7 @@ function AddAnimal(pros) {
                                       <option value="Dog">Dog</option>
                                       <option value="Cat">Cat</option>
                                       <option value="Monkey">Monkey</option>
-                                    </Form.Control>
+                                    </Form.Select>
                                   )}
                                 </Field>
                               </div>
@@ -345,30 +364,24 @@ function AddAnimal(pros) {
                                     defaultValue={values.gender}
                                     onChange={handleChange}
                                   >
-                                    <Radio.Button
+                                    <Radio
                                       style={{
                                         width: "34%",
-                                        textAlign: "center",
-                                        height: "37px",
                                       }}
                                       value={true}
                                     >
                                       <span style={{ verticalAlign: "middle" }}>
                                         Male
                                       </span>
-                                    </Radio.Button>
-                                    <Radio.Button
+                                    </Radio>
+                                    <Radio
                                       style={{
                                         width: "34%",
-                                        textAlign: "center ",
-                                        height: "37px",
                                       }}
                                       value={false}
                                     >
-                                      <span style={{ verticalAlign: "middle" }}>
-                                        FeMale
-                                      </span>
-                                    </Radio.Button>
+                                      FeMale
+                                    </Radio>
                                   </Radio.Group>
                                 </div>
                               </div>
@@ -393,30 +406,22 @@ function AddAnimal(pros) {
                                     defaultValue={values.rarity}
                                     onChange={handleChange}
                                   >
-                                    <Radio.Button
+                                    <Radio
                                       style={{
                                         width: "34%",
-                                        textAlign: "center",
-                                        height: "37px",
                                       }}
                                       value={true}
                                     >
-                                      <span style={{ verticalAlign: "middle" }}>
-                                        Danger
-                                      </span>
-                                    </Radio.Button>
-                                    <Radio.Button
+                                      Danger
+                                    </Radio>
+                                    <Radio
                                       style={{
                                         width: "34%",
-                                        textAlign: "center ",
-                                        height: "37px",
                                       }}
                                       value={false}
                                     >
-                                      <span style={{ verticalAlign: "middle" }}>
-                                        Normal
-                                      </span>
-                                    </Radio.Button>
+                                      Normal
+                                    </Radio>
                                   </Radio.Group>
                                 </div>
                               </div>
@@ -432,14 +437,14 @@ function AddAnimal(pros) {
                                   value={values.birthday}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                // isInvalid={
-                                //   formik.errors.entryDate &&
-                                //   formik.touched.entryDate
-                                // }
+                                  isInvalid={
+                                    errors.birthday &&
+                                    touched.birthday
+                                  }
                                 />
-                                {/* <Form.Control.Feedback type="invalid">
-                                {a}
-                              </Form.Control.Feedback> */}
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.birthday}
+                                </Form.Control.Feedback>
                               </div>
                             </div>
                             <div className="mb-3">
@@ -456,16 +461,14 @@ function AddAnimal(pros) {
                                 value={values.healthCheck}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                              // onChange={formik.handleChange}
-                              // onBlur={formik.handleBlur}
-                              // isInvalid={
-                              //   formik.errors.healthCheck &&
-                              //   formik.touched.healthCheck
-                              // }
+                                isInvalid={
+                                  errors.healthCheck &&
+                                  touched.healthCheck
+                                }
                               />
-                              {/* <Form.Control.Feedback type="invalid">
-                              {formik.errors.healthCheck}
-                            </Form.Control.Feedback> */}
+                              <Form.Control.Feedback type="invalid">
+                                {errors.healthCheck}
+                              </Form.Control.Feedback>
                             </div>
                             <div className="mb-2">
                               <label className="form-label">
@@ -481,16 +484,14 @@ function AddAnimal(pros) {
                                 value={values.description}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                              // onChange={formik.handleChange}
-                              // onBlur={formik.handleBlur}
-                              // isInvalid={
-                              //   formik.errors.description &&
-                              //   formik.touched.description
-                              // }
+                                isInvalid={
+                                  errors.description &&
+                                  touched.description
+                                }
                               />
-                              {/* <Form.Control.Feedback type="invalid">
-                              {formik.errors.description}
-                            </Form.Control.Feedback> */}
+                              <Form.Control.Feedback type="invalid">
+                                {errors.description}
+                              </Form.Control.Feedback>
                             </div>
                           </div>
                           <div className="label-info">
@@ -509,8 +510,13 @@ function AddAnimal(pros) {
                                 style={{ width: "85%" }}
                                 // onChange={(event) => handleCageSelect(event)}
                                 onChange={handleChange}
+                                onBlur={handleBlur}
+                                isInvalid={
+                                  errors.cageId &&
+                                  touched.cageId
+                                }
                               >
-                                <option value="">Choose Cage</option>
+                                <option>Choose Cage</option>
                                 {/* Render các option từ API */}
                                 {CageListFilter.map((option) => (
                                   <option key={option.cId} value={option.cId}>
@@ -520,6 +526,9 @@ function AddAnimal(pros) {
                                   </option>
                                 ))}
                               </Form.Select>
+                              <Form.Control.Feedback type="invalid">
+                                {errors.cageId}
+                              </Form.Control.Feedback>
                             </div>
                             <div className="mb-3" style={{ width: "33%" }}>
                               <div>
@@ -533,14 +542,14 @@ function AddAnimal(pros) {
                                   value={values.entryCageDate}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                // isInvalid={
-                                //   formik.errors.entryCageDate &&
-                                //   formik.touched.entryCageDate
-                                // }
+                                  isInvalid={
+                                    errors.entryCageDate &&
+                                    touched.entryCageDate
+                                  }
                                 />
-                                {/* <Form.Control.Feedback type="invalid">
-                                {formik.errors.entryCageDate}
-                              </Form.Control.Feedback> */}
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.entryCageDate}
+                                </Form.Control.Feedback>
                               </div>
                             </div>
                           </div>
@@ -559,8 +568,13 @@ function AddAnimal(pros) {
                                 placeholder="Chọn món ăn"
                                 style={{ width: "85%" }}
                                 onChange={handleChange}
+                                onBlur={handleBlur}
+                                isInvalid={
+                                  errors.userId &&
+                                  touched.userId
+                                }
                               >
-                                <option value="">Choose ZooTrainer</option>
+                                <option>Choose ZooTrainer</option>
                                 {/* Render các option từ API */}
                                 {ZooTrainerList.map((option) => (
                                   <option
@@ -575,6 +589,9 @@ function AddAnimal(pros) {
                                   </option>
                                 ))}
                               </Form.Select>
+                              <Form.Control.Feedback type="invalid">
+                                {errors.userId}
+                              </Form.Control.Feedback>
                             </div>
                             <div className="row mb-3 mt-4">
                               <div className="mb-3" style={{ width: "33%" }}>
@@ -591,14 +608,14 @@ function AddAnimal(pros) {
                                   value={values.startTrainDate}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                // isInvalid={
-                                //   formik.errors.startTrainDate &&
-                                //   formik.touched.startTrainDate
-                                // }
+                                  isInvalid={
+                                    errors.startTrainDate &&
+                                    touched.startTrainDate
+                                  }
                                 />
-                                {/* <Form.Control.Feedback type="invalid">
-                                {formik.errors.startTrainDate}
-                              </Form.Control.Feedback> */}
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.startTrainDate}
+                                </Form.Control.Feedback>
                               </div>
                             </div>
                           </div>
@@ -610,7 +627,11 @@ function AddAnimal(pros) {
                               <label className="form-label">
                                 Choose Food For Animal
                               </label>
-
+                              {errorQuantity && errorQuantity != null &&
+                                <div style={{ color: "red" }}>
+                                  {errorFood}
+                                </div>
+                              }
                               {fields.map((field, index) => (
                                 <div
                                   key={index}
@@ -627,8 +648,7 @@ function AddAnimal(pros) {
                                   // onChange={(e) => handleChange(e.target.value)}
                                   >
                                     {({ field, form }) => (
-                                      <Form.Control
-                                        as="select"
+                                      <Form.Select
                                         {...field}
                                         placeholder="Chọn món ăn"
                                         style={{ width: "45%" }}
@@ -649,7 +669,7 @@ function AddAnimal(pros) {
                                             {option.fName}
                                           </option>
                                         ))}
-                                      </Form.Control>
+                                      </Form.Select>
                                     )}
                                   </Field>
                                   <Field
@@ -659,11 +679,15 @@ function AddAnimal(pros) {
                                     style={{ width: "45%" }}
                                     className="control-field"
                                   />
+
                                   {/* <button onClick={() => removeField(index)}>
                           Remove
                         </button> */}
                                 </div>
                               ))}
+                              {errors.fields &&
+                                <div style={{ color: "red" }}>Choose Food and Quantity</div>
+                              }
                             </div>
                             <div
                               style={{

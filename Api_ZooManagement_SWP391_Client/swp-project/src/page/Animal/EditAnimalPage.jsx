@@ -33,10 +33,8 @@ export default function EditAnimal(pros) {
   const [entryAnimal, setEntryAnimal] = useState("");
   const [endTraining, setEndTraining] = useState("");
   const [outCage, setOutCage] = useState("");
-
   const [listCage, setListCage] = useState([]);
   const [listZooTrainer, setListZooTrainer] = useState([]);
-
   const [options, setOptions] = useState([]);
   const [fields, setFields] = useState([
     {
@@ -44,6 +42,20 @@ export default function EditAnimal(pros) {
       quantity: "",
     },
   ]);
+  const [foods, setFoods] = useState([
+    { id: '1', quantity: 1 },
+    { id: '2', quantity: 2 },
+    { id: '3', quantity: 3 }
+  ])
+  const handleFoodChange = (id, event) => {
+    const newFood = foods.map((food) => {
+      if (food.id === id) {
+        food.quantity = Number(event.target.value);
+      }
+      return food;
+    })
+    setFoods(newFood);
+  }
   const getList = () => {
     return fetch("https://localhost:44352/api/Food").then((data) =>
       data.json()
@@ -155,6 +167,7 @@ export default function EditAnimal(pros) {
       outCageDate: outCage,
     };
     console.log("OK");
+    console.log(foods);
     const response = await fetch(`https://localhost:44352/api/Animal/${animalId}`, {
       method: "PUT",
       headers: {
@@ -580,22 +593,14 @@ export default function EditAnimal(pros) {
                           <label className="form-label">
                             Choose Food For Animal
                           </label>
-
-                          {fields.map((field, index) => (
-                            <div key={index}>
-
-                              <select
-                                value={field.id}
-                                onChange={handleFoodSelect}
-                              >
-                                {options.fName}
-                              </select>
-
+                          {foods.map(food => (
+                            <div key={food.id}>
+                              <p>Id: {food.id}</p>
                               <input
-                                value={field.quantity}
-                                onChange={(e) => handleQuantityChange(e, index)}
+                                type="number"
+                                value={food.quantity}
+                                onChange={(e) => handleFoodChange(food.id, e)}
                               />
-
                             </div>
                           ))}
                         </div>
