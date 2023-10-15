@@ -9,6 +9,7 @@ namespace BBL.Interfaces
         bool UpdateCage(Cage cage);
         ICollection<Cage> GetAll();
         Cage GetByCageId(string id);
+        AnimalCage GetCageByAnimalId(string animalId);
 
         bool CageExists(string id);
 

@@ -32,12 +32,19 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Animal>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAnimalDto>))]
         public IActionResult GetAllAnimal()
         {
-            var animal = _mapper.Map<List<GetAnimalDto>>(_animalService.GetAll());   
+            var animals = _animalService.GetAll();
+            foreach (var animal in animals)
+            {
+                animal.CId = _cageService.GetCageByAnimalId(animal.AnimalId).CageId;
+                animal.EntryCageDate = _cageService.GetCageByAnimalId(animal.AnimalId).EntryCageDate;
+                animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
+                animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
+            }
 
-            return Ok(animal);
+            return Ok(animals);
         }    
 
         [HttpGet("{animalId}")]
@@ -64,7 +71,6 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
         [HttpPost]
         public IActionResult CreateAnimal([FromQuery] string? userId, [FromQuery] string? cageId,
                                           [FromBody] AnimalCreateDto animalDto)

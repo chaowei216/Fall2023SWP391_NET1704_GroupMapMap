@@ -83,7 +83,6 @@ builder.Services.AddScoped<IGenericRepository<OrderTicket>, GenericRepository<Or
 builder.Services.AddScoped<IGenericRepository<GetAnimalDto>, GenericRepository<GetAnimalDto>>();
 
 
-
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(

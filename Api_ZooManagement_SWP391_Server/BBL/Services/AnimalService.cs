@@ -77,28 +77,29 @@ namespace BBL.Services
 
         public ICollection<GetAnimalDto> GetAll()
         {
-            //var getAnimal = _context.Animals.Include(animal => animal.AnimalCages).Include(animal => animal.AnimalTrainers).ToList();
-            var getAnimal = (from a in _context.Animals
-                             join ac in _context.AnimalCages on a.AnimalId equals ac.AnimalId
-                             join at in _context.AnimalTrainers on a.AnimalId equals at.AnimalId
-                             select new GetAnimalDto
-                             {
-                                 AnimalId = a.AnimalId,
-                                 Name = a.Name,
-                                 Description = a.Description,
-                                 Sex = a.Sex,
-                                 Region = a.Region,
-                                 HealthCheck = a.HealthCheck,
-                                 Birthday = a.Birthday,
-                                 Species = a.Species,
-                                 Rarity = a.Rarity,
-                                 CId = ac.CageId,
-                                 UserId = at.UserId,
-                                 EntryCageDate = ac.EntryCageDate,
-                                 StartTrainDate = at.StartTrainDate,
-                                 AnimalImage = a.AnimalImage
-                             }).ToList();
-            return getAnimal;
+            var allAnimals = new List<GetAnimalDto>();
+            var animals = _animalRepo.GetAll();
+            if (animals != null && animals.Count > 0)
+            {
+                foreach (var animal in animals)
+                {
+                    var a = new GetAnimalDto();
+                    a.AnimalId = animal.AnimalId;
+                    a.AnimalImage = animal.AnimalImage;
+                    a.Birthday = animal.Birthday;
+                    a.Description = animal.Description;
+                    a.Name = animal.Name;
+                    a.Rarity = animal.Rarity;
+                    a.Region = animal.Region;
+                    a.Sex = animal.Sex;
+                    a.Species = animal.Species;
+                    a.HealthCheck = animal.HealthCheck;
+
+                    allAnimals.Add(a);
+                }
+            }
+
+            return allAnimals;
         }
 
         public Animal GetByAnimalId(string id)
@@ -187,7 +188,7 @@ namespace BBL.Services
         public ICollection<AnimalTrainer> GetAnimalByTrainerId(string trainerId)
         {
             var animals = _animalTrainerRepo.GetAll().Where(at => at.UserId == trainerId).ToList();
-            if(animals == null) return null;
+            if (animals == null) return null;
             return animals;
         }
 
