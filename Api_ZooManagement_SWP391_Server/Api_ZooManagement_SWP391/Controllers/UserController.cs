@@ -17,11 +17,14 @@ namespace Api_ZooManagement_SWP391.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
+        private readonly IAnimalService _animalService;
 
-        public UserController(IMapper mapper, IUserService userService)
+        public UserController(IMapper mapper, IUserService userService,
+                                IAnimalService animalService)
         {
             _mapper = mapper;
             _userService = userService;
+            _animalService = animalService;
         }
 
         [HttpGet("users")]
