@@ -58,10 +58,42 @@ namespace Api_ZooManagement_SWP391.Controllers
             }
 
             return Ok(animals);
-        }    
+        }
+
+        [HttpGet("{animalId}/oldtrainers")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<UserDto>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetTrainersByAnimalId(string animalId)
+        {
+            if (!_animalService.AnimalExists(animalId))
+                return NotFound();
+
+            var trainers = _mapper.Map<List<UserDto>>(_animalService.GetOldTrainersOfAnimal(animalId));
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(trainers);
+        }
+
+        [HttpGet("{animalId}/oldcages")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<CageDto>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetOldCagesOfAnimal(string animalId)
+        {
+            if (!_animalService.AnimalExists(animalId))
+                return NotFound();
+
+            var cages = _mapper.Map<List<CageDto>>(_animalService.GetOldCagesOfAnimal(animalId));
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(cages);
+        }
 
         [HttpGet("{animalId}")]
-        [ProducesResponseType(200, Type = typeof(Animal))]
+        [ProducesResponseType(200, Type = typeof(AnimalDto))]
         [ProducesResponseType(400)]
         public IActionResult GetAnimalById(string animalId)
         {
@@ -75,10 +107,11 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             return Ok(animal);
         }
+
         [HttpGet("AvailableTrainers")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult GetTrainersAvailabke()
+        public IActionResult GetTrainersAvailable()
         {
             var user = _mapper.Map<List<AvailableTrainer>>(_animalService.GetTrainersCanTrain());
             return Ok(user);
@@ -178,7 +211,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             var cageMap = _mapper.Map<AnimalCage>(updateAnimalDto);
             var foodMap = _mapper.Map<AnimalFood>(updateAnimalDto);
 
-            var animalTrainer = _animalService.GetTrainerByAnimalId(animalId).Where(a => a.EndTrainDate == null).FirstOrDefault();
+            var animalTrainer = _userService.GetUserByAnimalId(animal.AnimalId);
             if (animalTrainer == null)
                 return BadRequest("Something wrong!!!");
             if (animalTrainer.UserId != updateAnimalDto.UserId)

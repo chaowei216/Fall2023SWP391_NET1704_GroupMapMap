@@ -21,7 +21,6 @@ namespace BBL.Services
         private readonly IGenericRepository<AnimalCage> _animalCageRepo;
         private readonly IGenericRepository<Food> _foodRepo;
         private readonly IGenericRepository<AnimalFood> _animalFoodRepo;
-        private readonly DataContext _context;
 
 
         public AnimalService(IGenericRepository<Animal> animalRepo,
@@ -37,7 +36,6 @@ namespace BBL.Services
             _animalTrainerRepo = animalTrainerRepo;
             _foodRepo = foodRepo;
             _animalFoodRepo = animalFoodRepo;
-            _context = context;
         }
         public bool AddAnimal(string? userId, string? cageId, List<AnimalFood> animalFood, Animal animal)
         {
@@ -117,17 +115,9 @@ namespace BBL.Services
             return _animalCageRepo.GetAll();
         }
 
-        public ICollection<AnimalTrainer> GetTrainerByAnimalId(string animalId)
+        public ICollection<AnimalCage>? GetCageByAnimalId(string animalId)
         {
-            var user = _context.AnimalTrainers.Where(a => a.AnimalId == animalId).ToList();
-            if (user == null) return null;
-            return user;
-        }
-
-        public ICollection<AnimalCage> GetCageByAnimalId(string animalId)
-        {
-            var cage = _context.AnimalCages.Where(a => a.AnimalId == animalId).ToList();
-            if (cage == null) return null;
+            var cage = _animalCageRepo.GetAll().Where(a => a.AnimalId == animalId).ToList();
             return cage;
         }
 
@@ -197,6 +187,37 @@ namespace BBL.Services
             var user = _animalTrainerRepo.GetAll().Where(at => at.AnimalId.Count() < 10 && at.EndTrainDate == null).ToList();
             if (user == null) return null;
             return user;
+        }
+
+        public ICollection<User>? GetOldTrainersOfAnimal(string animalId)
+        {
+            var aniTrainers = _animalTrainerRepo.GetAll().Where(a => a.AnimalId == animalId && a.EndTrainDate != null).ToList();
+            if (aniTrainers != null)
+            {
+                var trainers = new List<User>();
+                foreach (var aniTrainer in aniTrainers)
+                {
+                    trainers.Add(_userRepo.GetById(aniTrainer.UserId));
+                }
+                return trainers;
+            }
+
+            return null;
+        }
+
+        public ICollection<Cage>? GetOldCagesOfAnimal(string animalId)
+        {
+            var aniCages = _animalCageRepo.GetAll().Where(aniCage => aniCage.AnimalId == animalId && aniCage.OutCageDate != null).ToList();
+            if(aniCages != null)
+            {
+                var cages = new List<Cage>();
+                foreach(var aniCage in aniCages)
+                {
+                    cages.Add(_cageRepo.GetById(aniCage.CageId));
+                }
+                return cages;
+            }
+            return null;
         }
     }
 }
