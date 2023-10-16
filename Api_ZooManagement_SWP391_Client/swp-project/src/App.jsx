@@ -43,12 +43,13 @@ import ViewStaff from './page/User/ViewStaff';
 const secretKey = 'your_secret_key';
 
 function App() {
-  const userRole = localStorage.getItem("role");
+  // const userRole = localStorage.getItem("role");
+  // console.log(userRole);
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/staff" element={userRole === "STAFF" ? <HeaderLayoutStaff /> : <Login />} >
+          <Route path="/staff" element={<HeaderLayoutStaff />} >
             <Route path="" element={<Dashboard />}></Route>
             <Route path="1" element={<TableStaff />}></Route>
             <Route path="add" element={<AddStaff />}></Route>
@@ -57,9 +58,10 @@ function App() {
             <Route path="profile" element={<ViewStaff />}></Route>
             {/* <Route path="3" element={<TableFood />}></Route> */}
           </Route>
-          <Route path="/ZooTrainer" element={userRole === "ZOOTRAINER" ? <HeaderLayOutTrainer /> : <Login />} >
+          <Route path="/ZooTrainer" element={<HeaderLayOutTrainer /> }>
             <Route path="" element={<Dashboard />}></Route>
-            <Route path="1" element={<TableUser />}></Route>
+            <Route path="1" element={<ViewStaff />}></Route>
+            <Route path="3" element={<TableFood />}></Route>
           </Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/cart" element={<Cart />}></Route>

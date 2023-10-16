@@ -72,7 +72,6 @@ function ViewStaff() {
     }, [])
 
     console.log(Profile);
-
     // useEffect(() => {
     //     setUserId(Profile[0].userId);
     //     setEmail(Profile[0].email);
@@ -183,31 +182,35 @@ function ViewStaff() {
                                         // onChange={(e) => {
                                         //   handleRoleChange(e);
                                         // }}
-                                        value={staffProfile[0].status}
+                                        // value={staffProfile[0].role}
                                         buttonStyle="solid"
                                         disabled
                                     >
-                                        <Radio.Button
-                                            style={{
-                                                width: "44%",
-                                                textAlign: "center",
-                                                color: "blue",
-                                                background: "#FFAAA5"
-                                            }}
-                                            value={true}
-                                        >
-                                            Staff
-                                        </Radio.Button>
-                                        <Radio.Button
-                                            style={{
-                                                width: "44%",
-                                                textAlign: "center",
-                                                color: "red"
-                                            }}
-                                            value={false}
-                                        >
-                                            ZooTrainer
-                                        </Radio.Button>
+                                        {staffProfile[0].role === 2 &&
+                                            < Radio.Button
+                                                style={{
+                                                    width: "44%",
+                                                    textAlign: "center",
+                                                    color: "blue",
+                                                    background: "#FFAAA5"
+                                                }}
+                                                value={2}
+                                            >
+                                                Staff
+                                            </Radio.Button>
+                                        }
+                                        {staffProfile[0].role === 3 &&
+                                            <Radio.Button
+                                                style={{
+                                                    width: "44%",
+                                                    textAlign: "center",
+                                                    color: "red"
+                                                }}
+                                                value={3}
+                                            >
+                                                ZooTrainer
+                                            </Radio.Button>
+                                        }
                                     </Radio.Group>
                                 </div>
                                 <div className="mb-3" style={{ width: "33%" }}>
@@ -223,24 +226,28 @@ function ViewStaff() {
                                         buttonStyle="solid"
                                         disabled
                                     >
-                                        <Radio
-                                            style={{
-                                                width: "52%",
-                                                color: "green",
-                                            }}
-                                            value={true}
-                                        >
-                                            OnWorking
-                                        </Radio>
-                                        <Radio
-                                            style={{
-                                                width: "40%",
-                                                color: "red"
-                                            }}
-                                            value={false}
-                                        >
-                                            Out Job
-                                        </Radio>
+                                        {staffProfile[0].status === true &&
+                                            <Radio
+                                                style={{
+                                                    width: "52%",
+                                                    color: "green",
+                                                }}
+                                                value={true}
+                                            >
+                                                OnWorking
+                                            </Radio>
+                                        }
+                                        {staffProfile[0].status === false &&
+                                            <Radio
+                                                style={{
+                                                    width: "40%",
+                                                    color: "red"
+                                                }}
+                                                value={false}
+                                            >
+                                                Out Job
+                                            </Radio>
+                                        }
                                     </Radio.Group>
                                 </div>
                                 <div className="mb-3" style={{ width: "33%" }}>
@@ -255,24 +262,28 @@ function ViewStaff() {
                                             buttonStyle="solid"
                                             disabled
                                         >
-                                            <Radio
-                                                style={{
-                                                    width: "40%",
-                                                    color: "#2196F3",
-                                                }}
-                                                value={true}
-                                            >
-                                                Male
-                                            </Radio>
-                                            <Radio
-                                                style={{
-                                                    width: "40%",
-                                                    color: "#FF1744",
-                                                }}
-                                                value={false}
-                                            >
-                                                Female
-                                            </Radio>
+                                            {staffProfile[0].sex === true &&
+                                                <Radio
+                                                    style={{
+                                                        width: "40%",
+                                                        color: "#2196F3",
+                                                    }}
+                                                    value={true}
+                                                >
+                                                    Male
+                                                </Radio>
+                                            }
+                                            {staffProfile[0].sex === false &&
+                                                <Radio
+                                                    style={{
+                                                        width: "40%",
+                                                        color: "#FF1744",
+                                                    }}
+                                                    value={false}
+                                                >
+                                                    Female
+                                                </Radio>
+                                            }
                                         </Radio.Group>
                                     </div>
                                 </div>
@@ -288,7 +299,7 @@ function ViewStaff() {
                                         aria-describedby="inputGroupPrepend"
                                         disabled
                                         name="startTrainDate"
-                                        value={staffProfile[0].startDate.slice(0,10)}
+                                        value={staffProfile[0].startDate.slice(0, 10)}
                                     // onBlur={formik.handleBlur}
                                     />
                                 </div>
@@ -332,7 +343,7 @@ function ViewStaff() {
                     </div>
                 </Form>
             }
-        </div>
+        </div >
     );
 }
 

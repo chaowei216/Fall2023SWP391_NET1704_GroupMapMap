@@ -51,7 +51,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                         animal.Foods.Add(new FoodAmountDto
                         {
                             id = food.FoodId,
-                            quantity = food.Amount
+                            quantity = food.Amount,
+                            Description = food.Description
                         });
                     }
                 }
@@ -230,6 +231,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                     AnimalId = animalMap.AnimalId,
                     Food = food1,
                     Amount = food.quantity,
+                    Description = food.Description
                 });
             }
             isCageFull += 1;
@@ -244,8 +246,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             if(!userRegex.IsMatch(userId)) {
                 return BadRequest("This is not a zoo trainer!!!");
             }
-
-            
+    
             if (!_animalService.AddAnimal(userId, cageId, animalFoods, animalMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving!!!");
