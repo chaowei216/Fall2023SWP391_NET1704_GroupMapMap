@@ -131,15 +131,15 @@ export default function EditAnimal(pros) {
     console.log(dataAnimalEdit);
     const animalEdit = {
       animalId: animalId,
-      userID: userID,
-      cageID: cageID,
+      userId: userID,
+      cageId: cageID,
       description: description,
       healthCheck: healthCheck,
       status: status,
       rarity: rarity,
-      endTraining: endTraining,
-      outCage: outCage,
-      foods: foods,
+      endTrainDate: endTraining,
+      outCageDate: outCage,
+      animalFoods: foods,
     };
     console.log("OK");
     console.log(animalEdit);

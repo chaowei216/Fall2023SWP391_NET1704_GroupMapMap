@@ -39,6 +39,7 @@ import TableStaff from './page/User/TableStaff';
 import AddStaff from './page/User/AddStaff';
 import OrderTable from './page/Order/OrderTable';
 import ViewStaff from './page/User/ViewStaff';
+import TableAnimalDetail from './page/Animal/TableAnimalDetail';
 
 const secretKey = 'your_secret_key';
 
@@ -70,6 +71,7 @@ function App() {
             <Route path="" element={<Dashboard />}></Route>
             <Route path="1" element={<ViewStaff />}></Route>
             <Route path="3" element={<TableFood />}></Route>
+            <Route path="2" element={<TableAnimalDetail />}></Route>
           </Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/cart" element={<Cart />}></Route>

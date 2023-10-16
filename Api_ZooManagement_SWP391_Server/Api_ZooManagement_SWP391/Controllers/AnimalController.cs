@@ -36,9 +36,6 @@ namespace Api_ZooManagement_SWP391.Controllers
         public IActionResult GetAllAnimal()
         {
             var animals = _animalService.GetAll();
-            if(animals == null)
-                return NotFound("Have any animals");
-
             foreach (var animal in animals)
             {
                 animal.CId = _cageService.GetCageByAnimalId(animal.AnimalId).CageId;
@@ -55,7 +52,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                         {
                             id = food.FoodId,
                             quantity = food.Amount,
-                            Description = food.Description
+                            description = food.Description
                         });
                     }
                 }
@@ -90,7 +87,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                         animal.Foods.Add(new FoodAmountDto
                         {
                             id = food.FoodId,
-                            quantity = food.Amount
+                            quantity = food.Amount,
+                            description = food.Description
                         });
                     }
                 }
@@ -169,7 +167,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                         animal.Foods.Add(new FoodAmountDto
                         {
                             id = food.FoodId,
-                            quantity = food.Amount
+                            quantity = food.Amount,
+                            description = food.Description  
                         });
                     }
                 }
@@ -237,7 +236,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                     AnimalId = animalMap.AnimalId,
                     Food = food1,
                     Amount = food.quantity,
-                    Description = food.Description
+                    Description = food.description
                 });
             }
             isCageFull += 1;
@@ -312,13 +311,13 @@ namespace Api_ZooManagement_SWP391.Controllers
             var foodAmount = updateAnimalDto.AnimalFoods;
             foreach (var food in foodAmount)
             {
-                var food1 = _foodService.GetByFoodId(food.FoodId);
+                var food1 = _foodService.GetByFoodId(food.id);
                 if (food1 == null) return BadRequest("Food not found!!!");
                 animalFoods.Add(new UpdateAnimalFoodDto()
                 {
-                    FoodId = food.FoodId,
-                    Amount = food.Amount,
-                    Description = food.Description,
+                    id = food.id,
+                    quantity = food.quantity,
+                    description = food.description,
                 });
             }
 
