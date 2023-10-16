@@ -28,14 +28,15 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpGet("users")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<UserDto>))]
         public IActionResult GetUsers()
         {
-            var u = _mapper.Map<List<UserDto>>(_userService.GetUsers());
+            var users = _userService.GetAllUsers();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            return Ok(u);
+            return Ok(users);
         }
 
         [HttpGet("users/active")]
@@ -54,7 +55,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateUser([FromQuery] string? expId, [FromQuery] string? company, [FromBody] UserCreateDto userCreate)
+        public IActionResult CreateUser([FromBody] UserCreateDto userCreate)
         {
             if (userCreate == null)
                 return BadRequest();
@@ -96,7 +97,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             user.StartDate = DateTime.Now;
             user.Status = true;
 
-            if (!_userService.Add(expId, company, user))
+            if (!_userService.Add(userCreate.Experiences, user))
             {
                 ModelState.AddModelError("", "Something went wrong while saving");
                 return StatusCode(500, ModelState);
@@ -118,12 +119,12 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest(ModelState);
 
             if (!_userService.UserExists(userId))
-                return NotFound();
-
-            if (!ModelState.IsValid)
-                return BadRequest();
+                return NotFound("User does not exist");
 
             var user = _userService.GetById(userId);
+            if (updateUser.EndDate <= user.StartDate)
+                return BadRequest("End date must be greater than start date");
+
             var userMap = _mapper.Map<User>(updateUser);
 
             if (user.Phone != userMap.Phone &&
@@ -131,6 +132,9 @@ namespace Api_ZooManagement_SWP391.Controllers
             {
                 return BadRequest("Phone Existed!!");
             }
+
+            if (!ModelState.IsValid)
+                return BadRequest();
 
             if (!_userService.Update(user, userMap))
             {

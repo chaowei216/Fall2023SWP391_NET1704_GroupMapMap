@@ -9,6 +9,5 @@
         public string Phone { get; set; }
         public Role Role { get; set; }
         public DateTime? EndDate { get; set; }
-        public bool Status { get; set; }
     }
 }

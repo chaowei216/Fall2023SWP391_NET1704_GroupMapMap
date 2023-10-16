@@ -9,5 +9,7 @@
         public string Phone { get; set; }
         public bool Sex { get; set; }
         public Role Role { get; set; }
+        public string UserImage { get; set; }
+        public List<ExperienceDetailDto> Experiences { get; set; }
     }
 }
