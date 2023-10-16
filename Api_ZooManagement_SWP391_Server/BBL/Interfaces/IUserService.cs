@@ -6,12 +6,13 @@ namespace BBL.Interfaces
 {
     public interface IUserService
     {
-        bool Add(string? expId, string? company, User user);
+        bool Add(List<ExperienceDetailDto> experiences, User user);
         bool Update(User user, User? userMap);
         bool UserExists(string id);
         bool DeleteUser(string id);
+        ICollection<UserDto> GetAllUsers();
         ICollection<User> GetUsers();
-        ICollection<User> GetActiveUsers();
+        ICollection<UserDto> GetActiveUsers();
         ICollection<Animal> GetAnimalsByUserId(string userId);
         User GetById(string id);
         int GetTotalUserByRole(Role role);

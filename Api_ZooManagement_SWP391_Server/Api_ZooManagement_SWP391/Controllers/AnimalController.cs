@@ -36,8 +36,6 @@ namespace Api_ZooManagement_SWP391.Controllers
         public IActionResult GetAllAnimal()
         {
             var animals = _animalService.GetAll();
-            if (animals == null)
-                return NotFound("Have any animals");
             foreach (var animal in animals)
             {
                 animal.CId = _cageService.GetCageByAnimalId(animal.AnimalId).CageId;
