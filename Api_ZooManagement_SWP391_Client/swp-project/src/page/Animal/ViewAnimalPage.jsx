@@ -41,7 +41,9 @@ export default function EditAnimal(pros) {
   const [listZooTrainer, setListZooTrainer] = useState([]);
   const [showListTrainer, setShowListTrainer] = useState(false);
   const [showList, setShowList] = useState(false);
-
+  const [listCageOld, setListCageOld] = useState([]);
+  const [listTrainerOld, setListTrainerOld] = useState([]);
+  const [animalID, setAnimalID] = useState("");
   const [listFoods, setListFoods] = useState([]);
   const [foodId, setFoodID] = useState("");
   const [listFoodsFilter, setListFoodsFilter] = useState([]);
@@ -49,7 +51,8 @@ export default function EditAnimal(pros) {
     if (show) {
       var today = new Date();
       var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
-      setRegion(dataAnimalView.region),
+      setAnimalID(dataAnimalView.animalId),
+        setRegion(dataAnimalView.region),
         setName(dataAnimalView.name),
         setCageID(dataAnimalView.cId),
         setUserID(dataAnimalView.userId),
@@ -67,9 +70,12 @@ export default function EditAnimal(pros) {
         setSpecies(dataAnimalView.species),
         setRarity(dataAnimalView.rarity);
       setFoodID(dataAnimalView.foods);
+
     }
   }, [dataAnimalView]);
   console.log(dataAnimalView)
+  console.log(dataAnimalView.animalId);
+  console.log(animalID);
   const date = new Date();
   useEffect(() => {
     const getZooTrainerList = () => {
@@ -114,6 +120,51 @@ export default function EditAnimal(pros) {
     return () => (mounted = false);
   }, []);
   useEffect(() => {
+    const getTrainerOld = () => {
+      return fetch(`https://localhost:44352/api/Animal/${animalID}/oldcages`).then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getTrainerOld().then((items) => {
+      if (mounted) {
+        setListCageOld(items);
+      }
+    });
+    return () => (mounted = false);
+  }, [animalID]);
+
+  // useEffect(() => {
+  //   if (show) {
+  //     const getTrainerOld = () => {
+  //       return fetch(`https://localhost:44352/api/Animal/${animalID}/oldtrainers`).then((data) =>
+  //         data.json()
+  //       );
+  //     };
+  //     let mounted = true;
+  //     getTrainerOld().then((items) => {
+  //       if (mounted) {
+  //         setListTrainerOld(items);
+  //       }
+  //     });
+  //     return () => (mounted = false);
+  //   }
+  // }, [dataAnimalView]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(`https://localhost:44352/api/Animal/${animalID}/oldtrainers`);
+      const data = await response.json();
+      setListTrainerOld(data); 
+    };
+  
+    if(animalID) {
+      fetchData();
+    }
+  }, [animalID]);
+
+  console.log(listTrainerOld)
+  useEffect(() => {
     if (foodId) {
       // Lấy ids
       // const fIds = foodId.map(f => f.id);
@@ -130,7 +181,6 @@ export default function EditAnimal(pros) {
       //     quantity: foodId.quantity
       //   }
       // });
-
       const foodFilter = listFoods.filter(food => {
         return foodId.some(fId => fId.id === food.foodId);
       }).map(food => {
@@ -150,12 +200,13 @@ export default function EditAnimal(pros) {
         }
 
       })
-
       // Cập nhật state
       setListFoodsFilter(foodFilter);
-
     }
   }, [listFoods, foodId]);
+  const handleButton = () => {
+    setShowList(!showList);
+  }
   // Danh sách users
   const users = listZooTrainer;
   // Danh sách userId trong animalTrainers 
@@ -447,31 +498,30 @@ export default function EditAnimal(pros) {
                         <div style={{ textAlign: "end", marginTop: "10px" }}>
                           <Button
                             variant="primary"
-                            onClick={() => setShowList(!showList)}
+                            onClick={handleButton}
                           >
                             More Old List
                           </Button>
                         </div>
                         <div>
+                          {/* here */}
                           {showList && (
                             <div className="list" style={{ marginTop: "10px" }}>
                               <Table striped bordered hover>
                                 <thead>
                                   <tr>
-                                    <th>ID</th>
                                     <th>Cage Name</th>
-                                    <th>Max Capacity</th>
                                     <th>Quantity</th>
+                                    <th>Max Capacity</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {cages && cages.length > 0 && cages.map((value) => {
+                                  {listCageOld && listCageOld.length > 0 && listCageOld.map((value) => {
                                     return (
                                       <tr>
-                                        <td>{value.cId}</td>
                                         <td>{value.name}</td>
-                                        <td>{value.maxCapacity}</td>
                                         <td>{value.animalQuantity}</td>
+                                        <td>{value.maxCapacity}</td>
                                       </tr>
                                     )
                                   })}
@@ -569,13 +619,15 @@ export default function EditAnimal(pros) {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {cages && cages.length > 0 && cages.map((value) => {
+                                  {listTrainerOld && listTrainerOld.length > 0 && listTrainerOld.map((value) => {
                                     return (
                                       <tr>
-                                        <td>{value.cId}</td>
-                                        <td>{value.name}</td>
-                                        <td>{value.maxCapacity}</td>
-                                        <td>{value.animalQuantity}</td>
+                                        <td>{value.userId}</td>
+                                        <td>{value.firstname}</td>
+                                        <td>{value.lastname}</td>
+                                        <td>{value.phone}</td>
+                                        <td>{value.startDate}</td>
+                                        <td>{value.endDate}</td>
                                       </tr>
                                     )
                                   })}
