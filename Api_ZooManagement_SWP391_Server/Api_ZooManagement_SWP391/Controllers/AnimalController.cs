@@ -36,6 +36,9 @@ namespace Api_ZooManagement_SWP391.Controllers
         public IActionResult GetAllAnimal()
         {
             var animals = _animalService.GetAll();
+            if(animals == null)
+                return NotFound("Have any animals");
+
             foreach (var animal in animals)
             {
                 animal.CId = _cageService.GetCageByAnimalId(animal.AnimalId).CageId;
@@ -201,7 +204,10 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest(ModelState);
             }
 
-            int count = _animalService.GetAll().Count() + 1;
+            int count = 0;
+            var animals = _animalService.GetAll();
+            if (animals == null) count = 1;
+            else count = animals.Count() + 1;
             var animalId = "A" + count.ToString().PadLeft(4, '0');
 
             List<AnimalFood> animalFoods = new List<AnimalFood>();
