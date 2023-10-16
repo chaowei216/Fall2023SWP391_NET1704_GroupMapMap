@@ -23,14 +23,14 @@ const items = [
       "Manage",
       "g1",
       null,
-      [getItem("User", "/staff/1"), getItem("Animal", "2")],
+      [getItem("User", "1"), getItem("Animal", "2")],
       "group"
     ),
     getItem(
-      "Item 2",
+      "Service",
       "g2",
       null,
-      [getItem("Food", "3"), getItem("Order", "4")],
+      [getItem("Order", "3"), getItem("Food", "4")],
       "group"
     ),
     

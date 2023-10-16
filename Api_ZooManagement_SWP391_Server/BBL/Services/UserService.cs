@@ -10,6 +10,8 @@ using MimeKit;
 using MailKit.Security;
 using MimeKit.Text;
 using MailKit.Net.Smtp;
+using AutoMapper;
+
 namespace BBL.Services
 {
 
@@ -20,36 +22,44 @@ namespace BBL.Services
         private readonly IGenericRepository<ExperienceDetail> _expDetailRepository;
         private readonly IGenericRepository<AnimalTrainer> _aniTrainerRepository;
         private readonly IConfiguration _config;
+        private readonly IMapper _mapper;
 
-        public UserService(DataContext context, IGenericRepository<User> userRepository,
-            IGenericRepository<WorkExperience> workExpRepository,
-            IGenericRepository<ExperienceDetail> expDetailRepository, IConfiguration config,
-            IGenericRepository<AnimalTrainer> aniTrainerRepository)
+        public UserService(IGenericRepository<User> userRepository,
+                           IGenericRepository<WorkExperience> workExpRepository,
+                           IGenericRepository<ExperienceDetail> expDetailRepository,
+                           IConfiguration config,
+                           IGenericRepository<AnimalTrainer> aniTrainerRepository,
+                           IMapper mapper)
         {
             _userRepository = userRepository;
             _workExpRepository = workExpRepository;
             _expDetailRepository = expDetailRepository;
             _aniTrainerRepository = aniTrainerRepository;
             _config = config;
+            _mapper = mapper;
         }
 
-        public bool Add(string? expId, string? company, User user)
+        public bool Add(List<ExperienceDetailDto> experiences, User user)
         {
             if(_userRepository.Add(user))
             {
-                if (expId != null && company != null)
+                if (experiences != null && experiences.Count() > 0)
                 {
-                    var workExp = _workExpRepository.GetById(expId);
-                    if (workExp == null) return false;
-                    var expDetail = new ExperienceDetail()
+                    foreach(var experience in experiences)
                     {
-                        User = user,
-                        WorkExperience = workExp,
-                        Company = company,
-                    };
-                    _expDetailRepository.Add(expDetail);
+                        var workExp = _workExpRepository.GetById(experience.ExperienceId);
+                        if (workExp == null) return false;
+                        var expDetail = new ExperienceDetail()
+                        {
+                            User = user,
+                            WorkExperience = workExp,
+                            Company = experience.Company,
+                        };
+
+                        _expDetailRepository.Add(expDetail);
+                    }
+                    return true;
                 }
-                return true;
             }
             return false;
         }
@@ -109,9 +119,29 @@ namespace BBL.Services
             return _userRepository.GetById(id);
         }
 
-        public ICollection<User> GetUsers()
+        public ICollection<UserDto> GetAllUsers()
         {
-            return _userRepository.GetAll();
+            var users = _userRepository.GetAll();
+            if(users != null && users.Count > 0)
+            {
+                var allUsers = new List<UserDto>();
+                foreach (var user in users)
+                {
+                    var userDto = _mapper.Map<UserDto>(user);
+                    var exps = _expDetailRepository.GetAll().Where(ex => ex.UserId == user.UserId).ToList();
+                    if(exps != null && exps.Count > 0)
+                    {
+                        foreach (var exp in exps)
+                        {
+                            var expDetail = _mapper.Map<ExperienceDetailDto>(exp);
+                            userDto.Experiences.Add(expDetail);
+                        }
+                    }
+                    allUsers.Add(userDto);
+                }
+                return allUsers;
+            }
+            return null;
         }
 
         public bool ResetPassword(User user, byte[] passwordHash, byte[] passwordSalt)
@@ -139,7 +169,10 @@ namespace BBL.Services
                     user.Phone = userMap.Phone;
                 }
                 user.EndDate = userMap.EndDate;
-                user.Status = userMap.Status;
+                if(userMap.EndDate <= DateTime.Now)
+                {
+                    user.Status = false;
+                }
             }
             return _userRepository.Update(user);
         }
@@ -174,9 +207,29 @@ namespace BBL.Services
             return _userRepository.Update(user);
         }
 
-        public ICollection<User> GetActiveUsers()
+        public ICollection<UserDto> GetActiveUsers()
         {
-            return _userRepository.GetAll().Where(u => u.Status == true).ToList();
+            var users = _userRepository.GetAll().Where(u => u.Status == true).ToList();
+            if (users != null && users.Count > 0)
+            {
+                var allUsers = new List<UserDto>();
+                foreach (var user in users)
+                {
+                    var userDto = _mapper.Map<UserDto>(user);
+                    var exps = _expDetailRepository.GetAll().Where(ex => ex.UserId == user.UserId).ToList();
+                    if (exps != null && exps.Count > 0)
+                    {
+                        foreach (var exp in exps)
+                        {
+                            var expDetail = _mapper.Map<ExperienceDetailDto>(exp);
+                            userDto.Experiences.Add(expDetail);
+                        }
+                    }
+                    allUsers.Add(userDto);
+                }
+                return allUsers;
+            }
+            return null;
         }
 
         public ICollection<Animal>? GetAnimalsByUserId(string userId)
@@ -196,6 +249,11 @@ namespace BBL.Services
         public AnimalTrainer? GetUserByAnimalId(string animalId)
         {
             return _aniTrainerRepository.GetAll().SingleOrDefault(aniTrainer => aniTrainer.AnimalId == animalId && aniTrainer.EndTrainDate == null);
+        }
+
+        public ICollection<User> GetUsers()
+        {
+            return _userRepository.GetAll();
         }
     }
 }

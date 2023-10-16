@@ -19,7 +19,7 @@ import { DatePicker, Radio, Select, Space } from "antd";
 const { RangePicker } = DatePicker;
 import { Formik, useFormik, Field, useFormikContext } from "formik";
 import FormList from "antd/es/form/FormList";
-import { ListGroup, Form} from "react-bootstrap";
+import { ListGroup, Form } from "react-bootstrap";
 import Button from '@mui/material/Button';
 import { EventNoteTwoTone, TouchAppRounded } from "@mui/icons-material";
 // import Button from "@mui/material/Button";
@@ -38,6 +38,7 @@ function AddAnimal(pros) {
     {
       id: "",
       quantity: "",
+      description: "",
     },
   ]);
   const getList = () => {
@@ -653,7 +654,7 @@ function AddAnimal(pros) {
                                       <Form.Select
                                         {...field}
                                         placeholder="Chọn món ăn"
-                                        style={{ width: "45%" }}
+                                        style={{ width: "35%", marginRight: "20px" }}
                                         onChange={(event) =>
                                           handleFoodSelect(event, field, form)
                                         }
@@ -678,10 +679,17 @@ function AddAnimal(pros) {
                                     placeholder="Enter Quantity"
                                     name={`fields[${index}].quantity`}
                                     component="input"
-                                    style={{ width: "45%" }}
+                                    style={{ width: "35%", marginRight: "20px" }}
                                     className="control-field"
                                   />
 
+                                  <Field
+                                    name={`fields[${index}].description`}
+                                    component="input"
+                                    placeholder="Enter description"
+                                    className="control-field"
+                                    style={{ width: "35%" }}
+                                  />
                                   {/* <button onClick={() => removeField(index)}>
                           Remove
                         </button> */}

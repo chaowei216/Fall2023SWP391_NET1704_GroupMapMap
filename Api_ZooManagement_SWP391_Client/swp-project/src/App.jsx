@@ -49,6 +49,14 @@ function App() {
     <>
       <Router>
         <Routes>
+          <Route path="/admin" element={<HeaderLayout />} >
+            <Route path="" element={<Dashboard />}></Route>
+            <Route path="1" element={<TableUser />}></Route>
+            <Route path="add" element={<AddPage />}></Route>
+            <Route path="2" element={<TableAnimal />}></Route>
+            <Route path="3" element={<OrderTable />}></Route>
+            {/* <Route path="3" element={<TableFood />}></Route> */}
+          </Route>
           <Route path="/staff" element={<HeaderLayoutStaff />} >
             <Route path="" element={<Dashboard />}></Route>
             <Route path="1" element={<TableStaff />}></Route>
@@ -58,7 +66,7 @@ function App() {
             <Route path="profile" element={<ViewStaff />}></Route>
             {/* <Route path="3" element={<TableFood />}></Route> */}
           </Route>
-          <Route path="/ZooTrainer" element={<HeaderLayOutTrainer /> }>
+          <Route path="/ZooTrainer" element={<HeaderLayOutTrainer />}>
             <Route path="" element={<Dashboard />}></Route>
             <Route path="1" element={<ViewStaff />}></Route>
             <Route path="3" element={<TableFood />}></Route>
