@@ -19,7 +19,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 
-export default function EditAnimal(pros) {
+export default function ViewAnimal(pros) {
   const { show, handleClose, dataAnimalView } = pros;
   const [region, setRegion] = useState("");
   const [name, setName] = useState("");
@@ -47,6 +47,7 @@ export default function EditAnimal(pros) {
   const [listFoods, setListFoods] = useState([]);
   const [foodId, setFoodID] = useState("");
   const [listFoodsFilter, setListFoodsFilter] = useState([]);
+  
   useEffect(() => {
     if (show) {
       var today = new Date();
