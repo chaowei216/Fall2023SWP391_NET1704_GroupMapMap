@@ -192,7 +192,7 @@ function ViewStaff() {
                                                 width: "44%",
                                                 textAlign: "center",
                                                 color: "blue",
-                                                background: "wheat"
+                                                background: "#FFAAA5"
                                             }}
                                             value={true}
                                         >
