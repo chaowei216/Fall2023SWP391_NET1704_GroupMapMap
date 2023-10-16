@@ -87,7 +87,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                         animal.Foods.Add(new FoodAmountDto
                         {
                             id = food.FoodId,
-                            quantity = food.Amount
+                            quantity = food.Amount,
+                            description = food.Description
                         });
                     }
                 }
@@ -166,7 +167,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                         animal.Foods.Add(new FoodAmountDto
                         {
                             id = food.FoodId,
-                            quantity = food.Amount
+                            quantity = food.Amount,
+                            description = food.Description  
                         });
                     }
                 }
