@@ -85,7 +85,7 @@ const SideMenuZooTrainer = ({ openSidebarToggle, OpenSidebar }) => {
       <Menu
         // theme="blue"
         style={{
-          height: 890,
+          "height": "88vh",
           "backgroundColor": "wheat",
           "borderRadius": "10px 10px 10px 10px",
         }}

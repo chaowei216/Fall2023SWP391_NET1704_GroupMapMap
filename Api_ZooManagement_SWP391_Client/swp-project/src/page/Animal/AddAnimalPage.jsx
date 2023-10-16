@@ -337,6 +337,8 @@ function AddAnimal(pros) {
                                       <option value="Dog">Dog</option>
                                       <option value="Cat">Cat</option>
                                       <option value="Monkey">Monkey</option>
+                                      <option value="Shark">Shark</option>
+                                      <option value="Lion">Lion</option>
                                     </Form.Select>
                                   )}
                                 </Field>

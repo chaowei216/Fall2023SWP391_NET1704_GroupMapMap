@@ -54,7 +54,7 @@ function App() {
             <Route path="add" element={<AddStaff />}></Route>
             <Route path="2" element={<TableAnimal />}></Route>
             <Route path="4" element={<OrderTable />}></Route>
-            <Route path="profile" element={<ViewStaff/>}></Route>
+            <Route path="profile" element={<ViewStaff />}></Route>
             {/* <Route path="3" element={<TableFood />}></Route> */}
           </Route>
           <Route path="/ZooTrainer" element={userRole === "ZOOTRAINER" ? <HeaderLayOutTrainer /> : <Login />} >
