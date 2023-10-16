@@ -43,7 +43,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                 var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
-                if(foods != null && foods.Count > 0)
+                if (foods != null && foods.Count > 0)
                 {
                     animal.Foods = new List<FoodAmountDto>();
                     foreach (var food in foods)
@@ -58,6 +58,55 @@ namespace Api_ZooManagement_SWP391.Controllers
             }
 
             return Ok(animals);
+        }
+
+        [HttpGet("page/{page}")]
+        [ProducesResponseType(200, Type = typeof(AnimalResponseDto))]
+        public IActionResult GetAnimals(int page)
+        {
+            var animals = _animalService.GetAll();
+            if (animals == null || animals.Count() == 0)
+                return NotFound();
+
+            var pageResults = 1f;
+            var pageCount = Math.Ceiling(animals.Count() / pageResults);
+
+            foreach (var animal in animals)
+            {
+                animal.CId = _cageService.GetCageByAnimalId(animal.AnimalId).CageId;
+                animal.EntryCageDate = _cageService.GetCageByAnimalId(animal.AnimalId).EntryCageDate;
+                animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
+                animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
+                var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
+                if (foods != null && foods.Count > 0)
+                {
+                    animal.Foods = new List<FoodAmountDto>();
+                    foreach (var food in foods)
+                    {
+                        animal.Foods.Add(new FoodAmountDto
+                        {
+                            id = food.FoodId,
+                            quantity = food.Amount
+                        });
+                    }
+                }
+            }
+
+            var result = animals
+                        .Skip((page - 1) * (int)pageResults)
+                        .Take((int)pageResults).ToList();
+
+            var response = new AnimalResponseDto
+            {
+                Animals = result,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(response);
         }
 
         [HttpGet("{animalId}/oldtrainers")]
@@ -93,14 +142,34 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpGet("{animalId}")]
-        [ProducesResponseType(200, Type = typeof(AnimalDto))]
+        [ProducesResponseType(200, Type = typeof(GetAnimalDto))]
         [ProducesResponseType(400)]
         public IActionResult GetAnimalById(string animalId)
         {
             if (!_animalService.AnimalExists(animalId))
                 return NotFound();
 
-            var animal = _mapper.Map<AnimalDto>(_animalService.GetByAnimalId(animalId));
+            var animal = _animalService.GetById(animalId);
+            if(animal != null)
+            {
+                animal.CId = _cageService.GetCageByAnimalId(animal.AnimalId).CageId;
+                animal.EntryCageDate = _cageService.GetCageByAnimalId(animal.AnimalId).EntryCageDate;
+                animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
+                animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
+                var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
+                if (foods != null && foods.Count > 0)
+                {
+                    animal.Foods = new List<FoodAmountDto>();
+                    foreach (var food in foods)
+                    {
+                        animal.Foods.Add(new FoodAmountDto
+                        {
+                            id = food.FoodId,
+                            quantity = food.Amount
+                        });
+                    }
+                }
+            }
 
             if (!ModelState.IsValid)
                 return BadRequest();
