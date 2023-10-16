@@ -300,7 +300,20 @@ namespace Api_ZooManagement_SWP391.Controllers
                 _animalService.AddAnimalCage(updateAnimalDto.CageId, animalId, cageMap);
             }
 
-            
+            List<UpdateAnimalFoodDto> animalFoods = new List<UpdateAnimalFoodDto>();
+            var foods = _foodService.GetFoodsByAnimalId(updateAnimalDto.AnimalId);
+            var foodAmount = updateAnimalDto.AnimalFoods;
+            foreach (var food in foodAmount)
+            {
+                var food1 = _foodService.GetByFoodId(food.FoodId);
+                if (food1 == null) return BadRequest("Food not found!!!");
+                animalFoods.Add(new UpdateAnimalFoodDto()
+                {
+                    FoodId = food.FoodId,
+                    Amount = food.Amount,
+                    Description = food.Description,
+                });
+            }
 
             if (!_animalService.UpdateAnimal(animal, animalMap))
             {

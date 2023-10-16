@@ -130,6 +130,7 @@ namespace BBL.Services
                 animal.HealthCheck = animalMap.HealthCheck;
                 animal.Status = animalMap.Status;
                 animal.Rarity = animalMap.Rarity;
+                animal.AnimalFoods = animalMap.AnimalFoods;
             }
             return _animalRepo.Update(animal);
         }
