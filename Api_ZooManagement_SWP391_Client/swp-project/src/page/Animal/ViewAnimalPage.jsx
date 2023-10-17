@@ -9,13 +9,13 @@ import {
   MDBModalBody,
   MDBModalFooter,
 } from "mdb-react-ui-kit";
-import Table from 'react-bootstrap/Table';
+import Table from "react-bootstrap/Table";
 import { DatePicker, Radio, Select, Space } from "antd";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "../../assets/css/dashboard.css";
 import { ToastContainer } from "react-toastify";
-import ListGroup from 'react-bootstrap/ListGroup';
+import ListGroup from "react-bootstrap/ListGroup";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 
@@ -51,7 +51,12 @@ export default function ViewAnimal(pros) {
   useEffect(() => {
     if (show) {
       var today = new Date();
-      var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+      var date =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getDate();
       setAnimalID(dataAnimalView.animalId),
         setRegion(dataAnimalView.region),
         setName(dataAnimalView.name),
@@ -60,23 +65,31 @@ export default function ViewAnimal(pros) {
         setGender(dataAnimalView.sex === true ? "male" : "female"),
         setHealthCheck(dataAnimalView.healthCheck),
         setDescription(dataAnimalView.description),
-        setBirthday(dataAnimalView.birthday === null ? null : dataAnimalView.birthday.slice(0, 10)),
+        setBirthday(
+          dataAnimalView.birthday === null
+            ? null
+            : dataAnimalView.birthday.slice(0, 10)
+        ),
         console.log(date);
       console.log(dataAnimalView.birthday.slice(0, 10));
       // setEntryAnimal();
-      setEntryCage(dataAnimalView.entryCageDate === null ? null : dataAnimalView.entryCageDate.slice(0, 10)),
-        setStartTrain(dataAnimalView.startTrainDate === null ? null : dataAnimalView.startTrainDate.slice(0, 10)),
+      setEntryCage(
+        dataAnimalView.entryCageDate === null
+          ? null
+          : dataAnimalView.entryCageDate.slice(0, 10)
+      ),
+        setStartTrain(
+          dataAnimalView.startTrainDate === null
+            ? null
+            : dataAnimalView.startTrainDate.slice(0, 10)
+        ),
         setEndTraining(date),
         setOutCage(date),
         setSpecies(dataAnimalView.species),
         setRarity(dataAnimalView.rarity);
       setFoodID(dataAnimalView.foods);
-
     }
   }, [dataAnimalView]);
-  console.log(dataAnimalView)
-  console.log(dataAnimalView.animalId);
-  console.log(animalID);
   const date = new Date();
   useEffect(() => {
     const getZooTrainerList = () => {
@@ -122,9 +135,9 @@ export default function ViewAnimal(pros) {
   }, []);
   useEffect(() => {
     const getTrainerOld = () => {
-      return fetch(`https://localhost:44352/api/Animal/${animalID}/oldcages`).then((data) =>
-        data.json()
-      );
+      return fetch(
+        `https://localhost:44352/api/Animal/${animalID}/oldcages`
+      ).then((data) => data.json());
     };
     let mounted = true;
     getTrainerOld().then((items) => {
@@ -134,27 +147,11 @@ export default function ViewAnimal(pros) {
     });
     return () => (mounted = false);
   }, [animalID]);
-
-  // useEffect(() => {
-  //   if (show) {
-  //     const getTrainerOld = () => {
-  //       return fetch(`https://localhost:44352/api/Animal/${animalID}/oldtrainers`).then((data) =>
-  //         data.json()
-  //       );
-  //     };
-  //     let mounted = true;
-  //     getTrainerOld().then((items) => {
-  //       if (mounted) {
-  //         setListTrainerOld(items);
-  //       }
-  //     });
-  //     return () => (mounted = false);
-  //   }
-  // }, [dataAnimalView]);
-
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`https://localhost:44352/api/Animal/${animalID}/oldtrainers`);
+      const response = await fetch(
+        `https://localhost:44352/api/Animal/${animalID}/oldtrainers`
+      );
       const data = await response.json();
       setListTrainerOld(data);
     };
@@ -163,8 +160,6 @@ export default function ViewAnimal(pros) {
       fetchData();
     }
   }, [animalID]);
-
-  console.log(listTrainerOld)
   useEffect(() => {
     if (foodId) {
       // Lấy ids
@@ -182,44 +177,45 @@ export default function ViewAnimal(pros) {
       //     quantity: foodId.quantity
       //   }
       // });
-      const foodFilter = listFoods.filter(food => {
-        return foodId.some(fId => fId.id === food.foodId);
-      }).map(food => {
+      const foodFilter = listFoods
+        .filter((food) => {
+          return foodId.some((fId) => fId.foodId === food.foodId);
+        })
+        .map((food) => {
+          // Tìm fId object có id trùng với food.id
+          const matchedFId = foodId.find((fId) => fId.foodId === food.foodId);
 
-        // Tìm fId object có id trùng với food.id 
-        const matchedFId = foodId.find(fId => fId.id === food.foodId);
+          // Nếu không tìm thấy fId thì trả về food
+          if (!matchedFId) {
+            return food;
+          }
 
-        // Nếu không tìm thấy fId thì trả về food
-        if (!matchedFId) {
-          return food;
-        }
-
-        // Trả về object mới có quantity là của fId
-        return {
-          ...food,
-          quantity: matchedFId.quantity
-        }
-
-      })
+          // Trả về object mới có quantity là của fId
+          return {
+            ...food,
+            amount: matchedFId.amount,
+            description: matchedFId.description,
+          };
+        });
       // Cập nhật state
       setListFoodsFilter(foodFilter);
     }
   }, [listFoods, foodId]);
   const handleButton = () => {
     setShowList(!showList);
-  }
+  };
   // Danh sách users
   const users = listZooTrainer;
-  // Danh sách userId trong animalTrainers 
-  const animalTrainers = userID
+  // Danh sách userId trong animalTrainers
+  const animalTrainers = userID;
   // Lọc ra các user có id trùng với animalTrainers
   // const trainers = users.filter(user => {
   //   return animalTrainers.some(trainer => {
   //     return trainer.userId === user.userId;
   //   })
   // });
-  const trainers = users.filter(user => user.userId === userID);
-  const cages = listCage.filter(cage => cage.cId === cageID);
+  const trainers = users.filter((user) => user.userId === userID);
+  const cages = listCage.filter((cage) => cage.cId === cageID);
   //   useEffect(() => {
   //   const getCageList = () => {
   //     return fetch(`https://localhost:44352/api/Cage/CageId?${cageID}`).then((data) =>
@@ -278,10 +274,10 @@ export default function ViewAnimal(pros) {
                               name="name"
                               value={name}
                               onChange={(event) => setName(event.target.value)}
-                            // isInvalid={
-                            //   formik.errors.first_name &&
-                            //   formik.touched.first_name
-                            // }
+                              // isInvalid={
+                              //   formik.errors.first_name &&
+                              //   formik.touched.first_name
+                              // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
@@ -297,20 +293,20 @@ export default function ViewAnimal(pros) {
                               disabled
                               name="region"
                               value={region}
-                              onChange={(event) => setRegion(event.target.value)}
-                            // isInvalid={
-                            //   formik.errors.last_name &&
-                            //   formik.touched.last_name
-                            // }
+                              onChange={(event) =>
+                                setRegion(event.target.value)
+                              }
+                              // isInvalid={
+                              //   formik.errors.last_name &&
+                              //   formik.touched.last_name
+                              // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
                           </Form.Control.Feedback> */}
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label">
-                              Species Animal
-                            </label>
+                            <label className="form-label">Species Animal</label>
                             <Form.Control
                               type="string"
                               id="species"
@@ -319,10 +315,10 @@ export default function ViewAnimal(pros) {
                               aria-describedby="inputGroupPrepend"
                               name="species"
                               value={species}
-                            // value={formik.values.species}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={phone == nul}
+                              // value={formik.values.species}
+                              // onChange={formik.handleChange}
+                              // onBlur={formik.handleBlur}
+                              // isInvalid={phone == nul}
                             />
                             <Form.Control.Feedback type="invalid">
                               Haha
@@ -330,7 +326,6 @@ export default function ViewAnimal(pros) {
                           </div>
                         </div>
                         <div className="row mb-3">
-
                           <div className="mb-3" style={{ width: "33%" }}>
                             <div>
                               <label className="form-label">Gender</label>
@@ -443,8 +438,8 @@ export default function ViewAnimal(pros) {
                             </Space>
                           </div>
                         </div>
-                        <div className="mb-3">
-                          <label className="form-label">HealChech</label>
+                        <div className="row mb-3">
+                          <label className="form-label">Health Check</label>
                           <Form.Control
                             type="textarea"
                             style={{ height: "56px" }}
@@ -457,17 +452,17 @@ export default function ViewAnimal(pros) {
                             onChange={(event) =>
                               setHealthCheck(event.target.value)
                             }
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.address && formik.touched.address
-                          // }
+                            // onChange={formik.handleChange}
+                            // onBlur={formik.handleBlur}
+                            // isInvalid={
+                            //   formik.errors.address && formik.touched.address
+                            // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
                         </Form.Control.Feedback> */}
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3 row">
                           <label className="form-label">Description</label>
                           <Form.Control
                             type="text"
@@ -481,11 +476,11 @@ export default function ViewAnimal(pros) {
                             onChange={(event) =>
                               setDescription(event.target.value)
                             }
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.address && formik.touched.address
-                          // }
+                            // onChange={formik.handleChange}
+                            // onBlur={formik.handleBlur}
+                            // isInvalid={
+                            //   formik.errors.address && formik.touched.address
+                            // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
@@ -495,12 +490,12 @@ export default function ViewAnimal(pros) {
                       <div className="label-info">
                         <label>Cage Information</label>
                       </div>
-                      <div className="mb-3 Cage_Infomation" style={{ paddingRight: "25px" }}>
+                      <div
+                        className="mb-3 Cage_Infomation"
+                        style={{ paddingRight: "25px" }}
+                      >
                         <div style={{ textAlign: "end", marginTop: "10px" }}>
-                          <Button
-                            variant="primary"
-                            onClick={handleButton}
-                          >
+                          <Button variant="primary" onClick={handleButton}>
                             More Old List
                           </Button>
                         </div>
@@ -517,29 +512,29 @@ export default function ViewAnimal(pros) {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {listCageOld && listCageOld.length > 0 && listCageOld.map((value) => {
-                                    return (
-                                      <tr>
-                                        <td>{value.name}</td>
-                                        <td>{value.animalQuantity}</td>
-                                        <td>{value.maxCapacity}</td>
-                                      </tr>
-                                    )
-                                  })}
-                                  {listCageOld.length === 0 &&
+                                  {listCageOld &&
+                                    listCageOld.length > 0 &&
+                                    listCageOld.map((value) => {
+                                      return (
+                                        <tr>
+                                          <td>{value.name}</td>
+                                          <td>{value.animalQuantity}</td>
+                                          <td>{value.maxCapacity}</td>
+                                        </tr>
+                                      );
+                                    })}
+                                  {listCageOld.length === 0 && (
                                     <tr>
                                       <td colSpan={3}>Empty List</td>
                                     </tr>
-                                  }
+                                  )}
                                 </tbody>
                               </Table>
                             </div>
                           )}
                         </div>
                         <div className="mb-3">
-                          <label className="form-label">
-                            Cage for Animal
-                          </label>
+                          <label className="form-label">Cage for Animal</label>
                           <Table striped bordered hover>
                             <thead>
                               <tr>
@@ -550,22 +545,26 @@ export default function ViewAnimal(pros) {
                               </tr>
                             </thead>
                             <tbody>
-                              {cages && cages.length > 0 && cages.map((value) => {
-                                return (
-                                  <tr>
-                                    <td>{value.cId}</td>
-                                    <td>{value.name}</td>
-                                    <td>{value.maxCapacity}</td>
-                                    <td>{value.animalQuantity}</td>
-                                  </tr>
-                                )
-                              })}
+                              {cages &&
+                                cages.length > 0 &&
+                                cages.map((value) => {
+                                  return (
+                                    <tr>
+                                      <td>{value.cId}</td>
+                                      <td>{value.name}</td>
+                                      <td>{value.maxCapacity}</td>
+                                      <td>{value.animalQuantity}</td>
+                                    </tr>
+                                  );
+                                })}
                             </tbody>
                           </Table>
                         </div>
-                        <div className="row" style={{ justifyContent: "space-between" }}>
+                        <div
+                          className="row"
+                          style={{ justifyContent: "space-between" }}
+                        >
                           <div className="mb-3" style={{ width: "40%" }}>
-
                             <div>
                               <label className="form-label">
                                 Entry Cage Date
@@ -588,11 +587,13 @@ export default function ViewAnimal(pros) {
                               name="outCage"
                               disabled
                               value={outCage}
-                              onChange={(event) => setRegion(event.target.value)}
-                            // isInvalid={
-                            //   formik.errors.last_name &&
-                            //   formik.touched.last_name
-                            // }
+                              onChange={(event) =>
+                                setRegion(event.target.value)
+                              }
+                              // isInvalid={
+                              //   formik.errors.last_name &&
+                              //   formik.touched.last_name
+                              // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
@@ -603,7 +604,10 @@ export default function ViewAnimal(pros) {
                       <div className="label-info">
                         <label>ZooTrainer Information</label>
                       </div>
-                      <div className="ZooTrainer-Information" style={{ paddingRight: "25px" }}>
+                      <div
+                        className="ZooTrainer-Information"
+                        style={{ paddingRight: "25px" }}
+                      >
                         <div style={{ textAlign: "end", marginTop: "10px" }}>
                           <Button
                             variant="primary"
@@ -627,23 +631,25 @@ export default function ViewAnimal(pros) {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {listTrainerOld && listTrainerOld.length > 0 && listTrainerOld.map((value) => {
-                                    return (
-                                      <tr>
-                                        <td>{value.userId}</td>
-                                        <td>{value.firstname}</td>
-                                        <td>{value.lastname}</td>
-                                        <td>{value.phone}</td>
-                                        <td>{value.startDate}</td>
-                                        <td>{value.endDate}</td>
-                                      </tr>
-                                    )
-                                  })}
-                                  {listTrainerOld.length === 0 &&
+                                  {listTrainerOld &&
+                                    listTrainerOld.length > 0 &&
+                                    listTrainerOld.map((value) => {
+                                      return (
+                                        <tr>
+                                          <td>{value.userId}</td>
+                                          <td>{value.firstname}</td>
+                                          <td>{value.lastname}</td>
+                                          <td>{value.phone}</td>
+                                          <td>{value.startDate}</td>
+                                          <td>{value.endDate}</td>
+                                        </tr>
+                                      );
+                                    })}
+                                  {listTrainerOld.length === 0 && (
                                     <tr>
                                       <td colSpan={6}>Empty List</td>
                                     </tr>
-                                  }
+                                  )}
                                 </tbody>
                               </Table>
                             </div>
@@ -665,23 +671,53 @@ export default function ViewAnimal(pros) {
                               </tr>
                             </thead>
                             <tbody>
-                              {trainers && trainers.length > 0 && trainers.map((value) => {
-                                return (
-                                  <tr>
-                                    <td>{value.userId}</td>
-                                    <td>{value.firstname}</td>
-                                    <td>{value.lastname}</td>
-                                    <td>{value.phone}</td>
-                                    <td>{value.email}</td>
-                                    <td>{value.status === true ? <div style={{ background: '#008800', borderRadius: "50px", textAlign: "center", color: "white", fontWeight: "bold" }}>Working</div>
-                                      : <div style={{ background: 'gray', borderRadius: "50px", textAlign: "center", color: "white", fontWeight: "bold" }}>huuh</div>}</td>
-                                  </tr>
-                                )
-                              })}
+                              {trainers &&
+                                trainers.length > 0 &&
+                                trainers.map((value) => {
+                                  return (
+                                    <tr>
+                                      <td>{value.userId}</td>
+                                      <td>{value.firstname}</td>
+                                      <td>{value.lastname}</td>
+                                      <td>{value.phone}</td>
+                                      <td>{value.email}</td>
+                                      <td>
+                                        {value.status === true ? (
+                                          <div
+                                            style={{
+                                              background: "#008800",
+                                              borderRadius: "50px",
+                                              textAlign: "center",
+                                              color: "white",
+                                              fontWeight: "bold",
+                                            }}
+                                          >
+                                            Working
+                                          </div>
+                                        ) : (
+                                          <div
+                                            style={{
+                                              background: "gray",
+                                              borderRadius: "50px",
+                                              textAlign: "center",
+                                              color: "white",
+                                              fontWeight: "bold",
+                                            }}
+                                          >
+                                            huuh
+                                          </div>
+                                        )}
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
                             </tbody>
                           </Table>
                         </div>
-                        <div className="row" style={{ justifyContent: "space-between" }}>
+                        <div
+                          className="row"
+                          style={{ justifyContent: "space-between" }}
+                        >
                           <div className="mb-3" style={{ width: "40%" }}>
                             <div>
                               <label className="form-label">
@@ -697,9 +733,7 @@ export default function ViewAnimal(pros) {
                             </div>
                           </div>
                           <div className="mb-3" style={{ width: "40%" }}>
-                            <label className="form-label">
-                              End Training
-                            </label>
+                            <label className="form-label">End Training</label>
                             <Form.Control
                               id="endTraining"
                               type="date"
@@ -708,10 +742,10 @@ export default function ViewAnimal(pros) {
                               disabled
                               value={endTraining}
                               onChange={(event) => setName(event.target.value)}
-                            // isInvalid={
-                            //   formik.errors.first_name &&
-                            //   formik.touched.first_name
-                            // }
+                              // isInvalid={
+                              //   formik.errors.first_name &&
+                              //   formik.touched.first_name
+                              // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
@@ -723,30 +757,32 @@ export default function ViewAnimal(pros) {
                         <label>Food Information</label>
                       </div>
                       <div className="Food-Information">
-                        <div className="mb-3">
-                          <label className="form-label">
-                            Food For Animal
-                          </label>
+                        <div className="mb-3" style={{ paddingRight: "25px" }}>
+                          <label className="form-label">Food For Animal</label>
                           <Table striped bordered hover>
                             <thead>
                               <tr>
                                 <th>ID</th>
                                 <th>Food Name</th>
                                 <th>Category</th>
-                                <th>Quantity</th>
+                                <th>Amount</th>
+                                <th>Description</th>
                               </tr>
                             </thead>
                             <tbody>
-                              {listFoodsFilter && listFoodsFilter.length > 0 && listFoodsFilter.map((value) => {
-                                return (
-                                  <tr>
-                                    <td>{value.foodId}</td>
-                                    <td>{value.fName}</td>
-                                    <td>{value.category}</td>
-                                    <td>{value.quantity}</td>
-                                  </tr>
-                                )
-                              })}
+                              {listFoodsFilter &&
+                                listFoodsFilter.length > 0 &&
+                                listFoodsFilter.map((value) => {
+                                  return (
+                                    <tr>
+                                      <td>{value.foodId}</td>
+                                      <td>{value.fName}</td>
+                                      <td>{value.category}</td>
+                                      <td>{value.amount}</td>
+                                      <td>{value.description}</td>
+                                    </tr>
+                                  );
+                                })}
                             </tbody>
                           </Table>
                         </div>

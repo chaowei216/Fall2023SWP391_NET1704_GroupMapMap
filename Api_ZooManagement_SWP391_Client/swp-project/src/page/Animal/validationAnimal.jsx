@@ -21,10 +21,12 @@ export const schemaAnimal = yup.object().shape({
   //   .matches(/^[a-zA-Z]\d{4}$/, "Need format form"),
   cageId: yup
     .string()
-    .required("CageID is required"),
+    .required("CageID is required")
+    .notOneOf(["Choose Cage"], "CageID cannot be Choose Cage"),
   userId: yup
     .string()
-    .required("UserID is required"),
+    .required("UserID is required")
+    .notOneOf(["Choose ZooTrainer"], "ZooTrainerID cannot be Choose Cage"),
   description: yup
     .string()
     .required("Description is required")
@@ -49,8 +51,9 @@ export const schemaAnimal = yup.object().shape({
     .min(2, "Description must be at least 2 characters"),
   fields: yup.array().of(
     yup.object({
-      id: yup.string().required(),
-      quantity: yup.string().required()
+      foodId: yup.string().required(),
+      description: yup.string().required(),
+      amount: yup.string().required(),
     })
   ),
   // .matches(
@@ -66,13 +69,47 @@ export const schemaAnimal = yup.object().shape({
   //     /^[a-zA-Z-.']+$/,
   //     "Species can only contain letters, dashes, periods, and apostrophes"
   //   ),
+  // birthday: yup
+  //   .string()
+  //   .required(),
   birthday: yup
     .string()
-    .required(),
+    .required("Vui lòng nhập ngày")
+    .test({
+      name: "start-date-valid",
+      message: "Ngày phải trước ngày hiện tại",
+      test: function (value) {
+        const currentDate = new Date();
+        const entryCageDate = new Date(this.parent.entryCageDate);
+        const selectedDate = new Date(value);
+
+        return selectedDate <= currentDate && selectedDate <= entryCageDate;
+      },
+    }),
+  // entryCageDate: yup.string().required("Choose cage date"),
+  entryCageDate: yup
+    .string()
+    .required("Vui lòng nhập ngày")
+    .test({
+      name: "start-date-valid",
+      message: "Ngày phải trước ngày hiện tại",
+      test: function (value) {
+        const date = new Date(value);
+        return date <= new Date();
+      },
+    }),
+  // startTrainDate: yup.string().required("Choose date to train animal"),
   startTrainDate: yup
     .string()
-    .required("Choose date to train animal"),
-  entryCageDate: yup.string().required("Choose cage date"),
+    .required("Vui lòng nhập ngày")
+    .test({
+      name: "start-date-valid",
+      message: "Ngày phải trước ngày hiện tại",
+      test: function (value) {
+        const date = new Date(value);
+        return date <= new Date();
+      },
+    }),
   // entryDate: yup.string().required(),
   // image: yup.mixed().required('Please choose the image')
 });

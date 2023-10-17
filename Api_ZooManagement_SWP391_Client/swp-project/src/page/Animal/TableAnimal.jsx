@@ -15,6 +15,7 @@ import AddAnimalFood from "./AnimalFoodPage";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import YourComponent from "./AnimalFoodTest";
+import { Pagination } from "antd";
 function TableAnimal() {
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
@@ -24,21 +25,27 @@ function TableAnimal() {
   const [listAnimal, setListAnimal] = useState([]);
   const [dataAnimalEdit, setDataAnimalEdit] = useState({});
   const [dataAnimalView, setDataAnimalView] = useState({});
-
-const getList = () => {
-    return fetch("https://localhost:44352/api/Animal").then((data) =>
-      data.json()
-    );
-  };
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
+    const getList = () => {
+      return fetch(`https://localhost:44352/api/Animal/page/${currentPage}`).then(
+        (data) => data.json()
+      );
+    };
     let mounted = true;
     getList().then((items) => {
       if (mounted) {
-        setListAnimal(items);
+        setListAnimal(items.animals);
+        setTotalPages(items.pages);
       }
     });
     return () => (mounted = false);
-  }, []);
+  }, [currentPage]);
+  const onShowSizeChange = (current) => {
+    console.log(current);
+    setCurrentPage(current);
+  };
   const handleClick = () => {
     setShowmodalAdd(true);
     setAnchorEl(null);
@@ -184,6 +191,14 @@ const getList = () => {
                 })}
             </tbody>
           </Table>
+          <div className="pagination-container">
+            <Pagination
+              onChange={onShowSizeChange}
+              defaultCurrent={currentPage}
+              defaultPageSize={7}
+              total={totalPages * 7}
+            />
+          </div>
         </div>
       </div>
       <AddAnimal show={showModalAdd} handleClose={handleClose} />
