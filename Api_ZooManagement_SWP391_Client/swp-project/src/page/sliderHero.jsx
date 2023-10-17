@@ -1,11 +1,22 @@
 import React from 'react'
+import Slider from "react-slick";
+
 
 function SliderHero() {
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1
+      };
     return (
         <div>
             <section className="slider-hero">
-                <div className="slider-home-1 owl-carousel owl-theme">
+                <div className="slider-home-1 owl-theme">
+                    <Slider {...settings}>
                     <div className="hero-section item" >
+                        
                         <div className="container">
                             <div className="row align-items-end">
                                 <div className="col-xl-6">
@@ -27,7 +38,7 @@ function SliderHero() {
                             </div>
                         </div>
                     </div>
-                    <div className="hero-section item" >
+                    <div className="hero-section item"  >
                         <div className="container">
                             <div className="row align-items-end">
                                 <div className="col-xl-6">
@@ -44,7 +55,7 @@ function SliderHero() {
                         </div>
                     </div>
                     <div className="hero-section item" >
-                        <div className="container">
+                        <div className="container" >
                             <div className="row align-items-end">
                                 <div className="col-xl-6">
                                     <div className="featured-area">
@@ -60,7 +71,7 @@ function SliderHero() {
                         </div>
                     </div>
                     <div className="hero-section item">
-                        <div className="container">
+                        <div className="container" >
                             <div className="row align-items-end">
                                 <div className="col-xl-6">
                                     <div className="featured-area">
@@ -75,6 +86,7 @@ function SliderHero() {
                             </div>
                         </div>
                     </div>
+                    </Slider>
                 </div>
             </section>
         </div>

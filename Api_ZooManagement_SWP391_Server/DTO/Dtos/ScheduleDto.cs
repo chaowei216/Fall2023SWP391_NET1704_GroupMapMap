@@ -2,7 +2,9 @@
 {
     public class ScheduleDto
     {
-        public string MealType { get; set; }
+        public string ScheduleId { get; set; }
+        public string ScheduleName { get; set; }
+        public bool Status { get; set; }
 
     }
 }

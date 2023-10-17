@@ -331,7 +331,14 @@ namespace DAL.Migrations
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
+                    b.Property<string>("TransactionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("OrderId");
+
+                    b.HasIndex("TransactionId")
+                        .IsUnique();
 
                     b.ToTable("Orders");
                 });
@@ -389,6 +396,9 @@ namespace DAL.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.HasKey("ScheduleId");
 
                     b.ToTable("Schedules");
@@ -411,6 +421,32 @@ namespace DAL.Migrations
                     b.HasKey("TicketId");
 
                     b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Transaction", b =>
+                {
+                    b.Property<string>("TransactionId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TransactionInfo")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("TransactionId");
+
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
@@ -621,6 +657,17 @@ namespace DAL.Migrations
                     b.Navigation("NewsCategory");
                 });
 
+            modelBuilder.Entity("DAL.Entities.Order", b =>
+                {
+                    b.HasOne("DAL.Entities.Transaction", "Transaction")
+                        .WithOne("Order")
+                        .HasForeignKey("DAL.Entities.Order", "TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Transaction");
+                });
+
             modelBuilder.Entity("DAL.Entities.OrderTicket", b =>
                 {
                     b.HasOne("DAL.Entities.Order", "Order")
@@ -684,6 +731,12 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Ticket", b =>
                 {
                     b.Navigation("OrderTickets");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Transaction", b =>
+                {
+                    b.Navigation("Order")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>

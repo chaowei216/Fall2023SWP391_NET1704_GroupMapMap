@@ -30,6 +30,7 @@ namespace DAL.Data
         public DbSet<Food> Foods { get; set; }
         public DbSet<AnimalCage> AnimalCages { get; set; }
         public DbSet<AnimalTrainer> AnimalTrainers { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -106,6 +107,15 @@ namespace DAL.Data
                 entity.Property(f => f.Category).IsRequired();
             });
 
+            modelBuilder.Entity<Transaction>(entity =>
+            {
+                entity.HasKey(t => t.TransactionId);
+                entity.Property(t => t.PaymentMethod).HasMaxLength(20).IsRequired();
+                entity.Property(t => t.Status).IsRequired();
+                entity.Property(t => t.TransactionInfo).HasMaxLength(50).IsRequired();
+                entity.Property(t => t.TransactionDate).IsRequired();
+            });
+
             modelBuilder.Entity<Review>(entity =>
             {
                 entity.HasKey(e => e.ReviewId);
@@ -147,6 +157,7 @@ namespace DAL.Data
                 entity.HasKey(s => s.ScheduleId);
                 entity.Property(s => s.ScheduleId).HasMaxLength(5);
                 entity.Property(s => s.ScheduleName).HasMaxLength(30).IsRequired();
+                entity.Property(s => s.Status).IsRequired();
             });
 
             modelBuilder.Entity<NewsCategory>(entity =>

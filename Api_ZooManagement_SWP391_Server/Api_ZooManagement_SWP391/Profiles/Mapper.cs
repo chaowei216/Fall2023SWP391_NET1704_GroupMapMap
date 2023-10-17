@@ -71,6 +71,11 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<AnimalFood, UpdateAnimalFoodDto>();
             CreateMap<AnimalFood, FoodAmountDto>();
             CreateMap<FoodAmountDto, AnimalFood>();
+            CreateMap<ScheduleDto, Schedule>();
+            CreateMap<Schedule, ScheduleDto>();
+            CreateMap<ScheduleCreateDto, Schedule>();
+            CreateMap<Schedule, ScheduleCreateDto>();
+            CreateMap<PaymentResponseDto, Transaction>();
         }
 
     }
