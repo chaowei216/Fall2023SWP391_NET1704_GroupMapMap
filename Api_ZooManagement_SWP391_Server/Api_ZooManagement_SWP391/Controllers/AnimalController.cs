@@ -22,7 +22,11 @@ namespace Api_ZooManagement_SWP391.Controllers
         public Regex animalRegex = new Regex(@"^A\d{4}");
         public Regex userRegex = new Regex(@"^Z\d{4}");
 
-        public AnimalController(IMapper mapper, IAnimalService animalService, ICageService cageService, IUserService userService, IFoodService foodService)
+        public AnimalController(IMapper mapper, 
+                                IAnimalService animalService,
+                                ICageService cageService,
+                                IUserService userService,
+                                IFoodService foodService)
         {
             _animalService = animalService;
             _mapper = mapper;
@@ -72,7 +76,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             if (animals == null || animals.Count() == 0)
                 return NotFound();
 
-            var pageResults = 1f;
+            var pageResults = 7f;
             var pageCount = Math.Ceiling(animals.Count() / pageResults);
 
             foreach (var animal in animals)

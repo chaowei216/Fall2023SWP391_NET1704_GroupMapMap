@@ -19,22 +19,21 @@ namespace BBL.Services
         private readonly IGenericRepository<Cage> _cageRepo;
         private readonly IGenericRepository<AnimalTrainer> _animalTrainerRepo;
         private readonly IGenericRepository<AnimalCage> _animalCageRepo;
-        private readonly IGenericRepository<Food> _foodRepo;
         private readonly IGenericRepository<AnimalFood> _animalFoodRepo;
 
 
         public AnimalService(IGenericRepository<Animal> animalRepo,
                              IGenericRepository<User> userRepo,
-                             IGenericRepository<Cage> cageRepo,
-                             IGenericRepository<Food> foodRepo, IGenericRepository<AnimalCage> animalCageRepo,
-                             IGenericRepository<AnimalTrainer> animalTrainerRepo, DataContext context, IGenericRepository<AnimalFood> animalFoodRepo)
+                             IGenericRepository<Cage> cageRepo, 
+                             IGenericRepository<AnimalCage> animalCageRepo,
+                             IGenericRepository<AnimalTrainer> animalTrainerRepo, 
+                             IGenericRepository<AnimalFood> animalFoodRepo)
         {
             _animalRepo = animalRepo;
             _cageRepo = cageRepo;
             _userRepo = userRepo;
             _animalCageRepo = animalCageRepo;
             _animalTrainerRepo = animalTrainerRepo;
-            _foodRepo = foodRepo;
             _animalFoodRepo = animalFoodRepo;
         }
         public bool AddAnimal(string? userId, string? cageId, List<AnimalFood> animalFood, Animal animal)
@@ -76,9 +75,9 @@ namespace BBL.Services
         public ICollection<GetAnimalDto> GetAll()
         {
             var animals = _animalRepo.GetAll();
+            var allAnimals = new List<GetAnimalDto>();
             if (animals != null && animals.Count > 0)
             {
-                var allAnimals = new List<GetAnimalDto>();
                 foreach (var animal in animals)
                 {
                     var a = new GetAnimalDto();
@@ -95,10 +94,8 @@ namespace BBL.Services
 
                     allAnimals.Add(a);
                 }
-                return allAnimals;
             }
-
-            return null;
+            return allAnimals;
         }
 
         public Animal? GetByAnimalId(string id)
@@ -180,14 +177,12 @@ namespace BBL.Services
         public ICollection<AnimalTrainer> GetAnimalByTrainerId(string trainerId)
         {
             var animals = _animalTrainerRepo.GetAll().Where(at => at.UserId == trainerId).ToList();
-            if (animals == null) return null;
             return animals;
         }
 
         public ICollection<AnimalTrainer> GetTrainersCanTrain()
         {
             var user = _animalTrainerRepo.GetAll().Where(at => at.AnimalId.Count() < 10 && at.EndTrainDate == null).ToList();
-            if (user == null) return null;
             return user;
         }
 
@@ -210,16 +205,15 @@ namespace BBL.Services
         public ICollection<Cage>? GetOldCagesOfAnimal(string animalId)
         {
             var aniCages = _animalCageRepo.GetAll().Where(aniCage => aniCage.AnimalId == animalId && aniCage.OutCageDate != null).ToList();
-            if(aniCages != null)
+            var cages = new List<Cage>();
+            if (aniCages != null)
             {
-                var cages = new List<Cage>();
                 foreach(var aniCage in aniCages)
                 {
                     cages.Add(_cageRepo.GetById(aniCage.CageId));
                 }
-                return cages;
             }
-            return null;
+            return cages;
         }
 
         public GetAnimalDto? GetById(string id)

@@ -19,8 +19,9 @@ namespace Api_ZooManagement_SWP391.Controllers
         private readonly IUserService _userService;
         private readonly IAnimalService _animalService;
 
-        public UserController(IMapper mapper, IUserService userService,
-                                IAnimalService animalService)
+        public UserController(IMapper mapper, 
+                              IUserService userService,
+                              IAnimalService animalService)
         {
             _mapper = mapper;
             _userService = userService;
@@ -50,6 +51,34 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest(ModelState);
             }
             return Ok(users);
+        }
+
+        [HttpGet("page/{page}")]
+        [ProducesResponseType(200, Type = typeof(UserResponseDto))]
+        public IActionResult GetUsers(int page)
+        {
+            var users = _userService.GetAllUsers();
+            if (users == null || users.Count() == 0)
+                return NotFound();
+
+            var pageResults = 1f;
+            var pageCount = Math.Ceiling(users.Count() / pageResults);
+
+            var result = users
+                        .Skip((page - 1) * (int)pageResults)
+                        .Take((int)pageResults).ToList();
+
+            var response = new UserResponseDto
+            {
+                Users = result,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(response);
         }
 
         [HttpPost]

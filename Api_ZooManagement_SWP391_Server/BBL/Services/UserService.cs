@@ -122,9 +122,9 @@ namespace BBL.Services
         public ICollection<UserDto> GetAllUsers()
         {
             var users = _userRepository.GetAll();
-            if(users != null && users.Count > 0)
+            var allUsers = new List<UserDto>();
+            if (users != null && users.Count > 0)
             {
-                var allUsers = new List<UserDto>();
                 foreach (var user in users)
                 {
                     var userDto = _mapper.Map<UserDto>(user);
@@ -139,9 +139,8 @@ namespace BBL.Services
                     }
                     allUsers.Add(userDto);
                 }
-                return allUsers;
             }
-            return null;
+            return allUsers;
         }
 
         public bool ResetPassword(User user, byte[] passwordHash, byte[] passwordSalt)
@@ -210,9 +209,9 @@ namespace BBL.Services
         public ICollection<UserDto> GetActiveUsers()
         {
             var users = _userRepository.GetAll().Where(u => u.Status == true).ToList();
+            var allUsers = new List<UserDto>();
             if (users != null && users.Count > 0)
             {
-                var allUsers = new List<UserDto>();
                 foreach (var user in users)
                 {
                     var userDto = _mapper.Map<UserDto>(user);
@@ -227,9 +226,8 @@ namespace BBL.Services
                     }
                     allUsers.Add(userDto);
                 }
-                return allUsers;
             }
-            return null;
+            return allUsers;
         }
 
         public ICollection<Animal>? GetAnimalsByUserId(string userId)
