@@ -13,7 +13,10 @@ import Typography from "@mui/material/Typography";
 import AddFood from "./AddFood";
 import EditFood from "./EditFood";
 import ViewFood from "./ViewFood";
-function TableFood() {
+import ViewNews from "./ViewNews";
+import EditNews from "./EditNews";
+import AddNews from "./AddNews";
+function TableNews() {
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
   const [showModalView, setShowmodalView] = useState(false);
@@ -22,8 +25,8 @@ function TableFood() {
   const [listFood, setListFood] = useState([]);
   const [dataAnimalEdit, setDataAnimalEdit] = useState({});
   const [dataAnimalView, setDataAnimalView] = useState({});
-  const [dataFoodEdit, setDataFoodEdit] = useState({});
-  const [dataFoodView, setDataFoodView] = useState({});
+  const [dataNewsEdit, setDataNewsEdit] = useState({});
+  const [dataNewsView, setDataNewsView] = useState({});
 
   const getList = () => {
     return fetch("https://localhost:44352/api/Food").then((data) =>
@@ -65,13 +68,13 @@ function TableFood() {
   const handleEditFood = (item) => {
     // setDataUserEdit(item);
     const food = item;
-    setDataFoodEdit(food);
+    setDataNewsEdit(food);
     setShowmodalEdit(true);
   };
   const handleViewFood = (item) => {
-    const food = item;
-    setDataFoodView(food);
-    setShowmodalView(true);
+        const food = item;
+        setDataNewsView(food);
+        setShowmodalView(true);
   };
   //   const handleViewUser = (item) => {
   //     // setDataUserEdit(item);
@@ -161,30 +164,18 @@ function TableFood() {
           </Table>
         </div>
       </div>
-      <AddFood show={showModalAdd} handleClose={handleClose} />
-      <EditFood
+      <AddNews show={showModalAdd} handleClose={handleClose} />
+      <EditNews
         show={showModalEdit}
         handleClose={handleClose}
-        dataFoodEdit={dataFoodEdit}
+        dataNewsEdit={dataNewsEdit}
       />
-      <ViewFood
+      <ViewNews
         show={showModalView}
         handleClose={handleClose}
-        dataFoodView={dataFoodView}
+        dataNewsView={dataNewsView}
       />
-      {/* <AddAnimal show={showModalAdd} handleClose={handleClose} />
-      <EditAnimal
-        show={showModalEdit}
-        handleClose={handleClose}
-        dataAnimalEdit={dataAnimalEdit}
-      />
-      <ViewAnimal
-        show={showModalView}
-        handleClose={handleClose}
-        dataAnimalView={dataAnimalView}
-      />
-      <AddAnimalFood show={showModalFoodAnimal} handleClose={handleClose} /> */}
     </div>
   );
 }
-export default TableFood;
+export default TableNews;
