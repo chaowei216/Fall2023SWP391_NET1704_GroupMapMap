@@ -31,6 +31,7 @@ const menuItems = [
   // },
   {
     text: 'News',
+    link:"/new",
     subMenuItems: [
       { text: 'Our Blog', link: 'our-blog.html' },
       { text: 'Blog Details', link: 'blog-details.html' },

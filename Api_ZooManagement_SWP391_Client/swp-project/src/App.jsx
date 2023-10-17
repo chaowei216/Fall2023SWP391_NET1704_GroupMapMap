@@ -16,6 +16,9 @@
 // export default App;
 
 import React, { useState, useEffect } from 'react';
+// import "slick-carousel/slick/slick.css"; 
+// import "slick-carousel/slick/slick-theme.css";
+  // import '../node_modules/font-awesome/css/font-awesome.min.css'; 
 import './App.css';
 import Index from './page';
 import Forget from './page/Authen/forgotPassword/fogotPassword';
@@ -40,6 +43,8 @@ import AddStaff from './page/User/AddStaff';
 import OrderTable from './page/Order/OrderTable';
 import ViewStaff from './page/User/ViewStaff';
 import TableAnimalDetail from './page/Animal/TableAnimalDetail';
+import LoadingPage from './page/Authen/loginPage/loadingPage';
+import New from './page/New/New';
 
 const secretKey = 'your_secret_key';
 
@@ -78,6 +83,8 @@ function App() {
           <Route path="/checkout" element={<Checkout />}></Route>
           <Route path="/reset" element={<Forget />}></Route>
           <Route path="/" element={<Index />}></Route>
+          <Route path="/loading" element={<LoadingPage/>}/>
+          <Route path="/new" element={<New/>}/>
         </Routes>
       </Router>
     </>
