@@ -146,7 +146,7 @@ namespace DAL.Data
             {
                 entity.HasKey(s => s.ScheduleId);
                 entity.Property(s => s.ScheduleId).HasMaxLength(5);
-                entity.Property(s => s.MealType).HasMaxLength(10).IsRequired();
+                entity.Property(s => s.ScheduleName).HasMaxLength(30).IsRequired();
             });
 
             modelBuilder.Entity<NewsCategory>(entity =>
