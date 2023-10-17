@@ -194,6 +194,8 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
         public IActionResult CreateAnimal([FromQuery] string? userId, [FromQuery] string? cageId,
                                           [FromBody] AnimalCreateDto animalDto)
         {
