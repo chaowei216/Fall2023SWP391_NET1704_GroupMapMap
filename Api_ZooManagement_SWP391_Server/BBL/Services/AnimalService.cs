@@ -56,11 +56,11 @@ namespace BBL.Services
                     EntryCageDate = DateTime.Now,
                 };
                 _animalCageRepo.Add(newAnimalCage);
-                if (animalFood == null) return false;
+                /*if (animalFood == null) return false;
                 foreach (AnimalFood food in animalFood)
                 {
                     _animalFoodRepo.Add(food);
-                }
+                }*/
 
                 return true;
             }

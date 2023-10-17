@@ -56,7 +56,7 @@ function AddAnimal(pros) {
     return () => (mounted = false);
   }, []);
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
-  const [selectedSpecies, setSelectedSpecies] = useState("Pig");
+  const [selectedSpecies, setSelectedSpecies] = useState("A");
   const [selectedCage, setSelectedCage] = useState();
 
   const addField = () => {
@@ -197,6 +197,7 @@ function AddAnimal(pros) {
   };
   const a = "huhu";
 
+  console.log(listCage);
   // const formik = useFormik({
   //   initialValues: {
   //     name: "",
@@ -249,7 +250,7 @@ function AddAnimal(pros) {
                     birthday: "",
                     startTrainDate: "",
                     cageId: "",
-                    species: "Pig",
+                    species: "A",
                     entryCageDate: "",
                     rarity: true,
                     fields,
@@ -331,7 +332,7 @@ function AddAnimal(pros) {
                                         setSelectedSpecies(e.target.value);
                                       }}
                                     >
-                                      <option value="Pig">Pig</option>
+                                      <option value="A">Pig</option>
                                       <option value="Cow">Cow</option>
                                       <option value="Dog">Dog</option>
                                       <option value="Cat">Cat</option>
