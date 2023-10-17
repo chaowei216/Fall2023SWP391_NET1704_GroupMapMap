@@ -218,7 +218,6 @@ namespace Api_ZooManagement_SWP391.Controllers
             var animalMap = _mapper.Map<Animal>(animalDto);
             var userMap = _mapper.Map<AnimalTrainer>(animalDto);
             var cageMap = _mapper.Map<AnimalCage>(animalDto);
-            var foodMap = _mapper.Map<Animal>(animalDto);
             var foodAmount = animalDto.AnimalFoods;
 
             animalMap.AnimalId = animalId;

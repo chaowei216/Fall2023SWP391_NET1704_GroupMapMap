@@ -169,7 +169,7 @@ function AddAnimal(pros) {
       rarity: values.rarity,
       entryCageDate: values.entryCageDate,
       startTrainDate: values.startTrainDate,
-      foods: values.fields,
+      animalFoods: values.fields,
     };
     console.log(animal);
     const params = {
@@ -255,7 +255,7 @@ function AddAnimal(pros) {
                     fields,
                     userId: "",
                   }}
-                  validationSchema={schemaAnimal}
+                  // validationSchema={schemaAnimal}
                   onSubmit={(values) => {
                     submitForm(values);
                   }}
