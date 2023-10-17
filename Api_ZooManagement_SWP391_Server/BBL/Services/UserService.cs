@@ -58,8 +58,8 @@ namespace BBL.Services
 
                         _expDetailRepository.Add(expDetail);
                     }
-                    return true;
                 }
+                return true;
             }
             return false;
         }
