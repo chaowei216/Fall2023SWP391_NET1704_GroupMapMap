@@ -20,7 +20,7 @@ const { RangePicker } = DatePicker;
 import { Formik, useFormik, Field, useFormikContext } from "formik";
 import FormList from "antd/es/form/FormList";
 import { ListGroup, Form } from "react-bootstrap";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import { EventNoteTwoTone, TouchAppRounded } from "@mui/icons-material";
 // import Button from "@mui/material/Button";
 import { ToastContainer } from "react-toastify";
@@ -36,9 +36,9 @@ function AddAnimal(pros) {
   const [errorFood, setErrorFood] = useState("");
   const [fields, setFields] = useState([
     {
-      id: "",
-      quantity: "",
+      foodId: "",
       description: "",
+      amount: "",
     },
   ]);
   const getList = () => {
@@ -60,7 +60,7 @@ function AddAnimal(pros) {
   const [selectedCage, setSelectedCage] = useState();
 
   const addField = () => {
-    setFields([...fields, { id: "", quantity: "" }]);
+    setFields([...fields, { foodId: "", description: "", amount: "" }]);
   };
   const removeField = (index) => {
     setFields(fields.filter((_, i) => i !== index));
@@ -170,9 +170,8 @@ function AddAnimal(pros) {
       entryCageDate: values.entryCageDate,
       startTrainDate: values.startTrainDate,
       foods: values.fields,
-      entryDate: "2023-10-13T12:31:11.085Z"
     };
-    console.log(animal)
+    console.log(animal);
     const params = {
       userId: values.userId,
       cageId: values.cageId,
@@ -254,7 +253,7 @@ function AddAnimal(pros) {
                     entryCageDate: "",
                     rarity: true,
                     fields,
-                    userId: ""
+                    userId: "",
                   }}
                   validationSchema={schemaAnimal}
                   onSubmit={(values) => {
@@ -268,7 +267,7 @@ function AddAnimal(pros) {
                     handleSubmit,
                     setFieldValue,
                     errors,
-                    touched
+                    touched,
                   }) => (
                     <Form onSubmit={handleSubmit}>
                       <div className="form-content mb-3">
@@ -291,9 +290,7 @@ function AddAnimal(pros) {
                                   value={values.name}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                  isInvalid={
-                                    errors.name && touched.name
-                                  }
+                                  isInvalid={errors.name && touched.name}
                                 />
                                 <Form.Control.Feedback type="invalid">
                                   {errors.name}
@@ -312,9 +309,7 @@ function AddAnimal(pros) {
                                   value={values.region}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                  isInvalid={
-                                    errors.region && touched.region
-                                  }
+                                  isInvalid={errors.region && touched.region}
                                 />
                                 <Form.Control.Feedback type="invalid">
                                   {errors.region}
@@ -329,7 +324,10 @@ function AddAnimal(pros) {
                                     <Form.Select
                                       value={values.species}
                                       onChange={(e) => {
-                                        setFieldValue("species", e.target.value);
+                                        setFieldValue(
+                                          "species",
+                                          e.target.value
+                                        );
                                         setSelectedSpecies(e.target.value);
                                       }}
                                     >
@@ -441,8 +439,7 @@ function AddAnimal(pros) {
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   isInvalid={
-                                    errors.birthday &&
-                                    touched.birthday
+                                    errors.birthday && touched.birthday
                                   }
                                 />
                                 <Form.Control.Feedback type="invalid">
@@ -465,8 +462,7 @@ function AddAnimal(pros) {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 isInvalid={
-                                  errors.healthCheck &&
-                                  touched.healthCheck
+                                  errors.healthCheck && touched.healthCheck
                                 }
                               />
                               <Form.Control.Feedback type="invalid">
@@ -488,8 +484,7 @@ function AddAnimal(pros) {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 isInvalid={
-                                  errors.description &&
-                                  touched.description
+                                  errors.description && touched.description
                                 }
                               />
                               <Form.Control.Feedback type="invalid">
@@ -514,10 +509,7 @@ function AddAnimal(pros) {
                                 // onChange={(event) => handleCageSelect(event)}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                isInvalid={
-                                  errors.cageId &&
-                                  touched.cageId
-                                }
+                                isInvalid={errors.cageId && touched.cageId}
                               >
                                 <option>Choose Cage</option>
                                 {/* Render các option từ API */}
@@ -572,10 +564,7 @@ function AddAnimal(pros) {
                                 style={{ width: "85%" }}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                isInvalid={
-                                  errors.userId &&
-                                  touched.userId
-                                }
+                                isInvalid={errors.userId && touched.userId}
                               >
                                 <option>Choose ZooTrainer</option>
                                 {/* Render các option từ API */}
@@ -630,11 +619,9 @@ function AddAnimal(pros) {
                               <label className="form-label">
                                 Choose Food For Animal
                               </label>
-                              {errorQuantity && errorQuantity != null &&
-                                <div style={{ color: "red" }}>
-                                  {errorFood}
-                                </div>
-                              }
+                              {errorQuantity && errorQuantity != null && (
+                                <div style={{ color: "red" }}>{errorFood}</div>
+                              )}
                               {fields.map((field, index) => (
                                 <div
                                   key={index}
@@ -646,15 +633,18 @@ function AddAnimal(pros) {
                                   className="mb-3"
                                 >
                                   <Field
-                                    name={`fields[${index}].id`}
-                                  // as="select"
-                                  // onChange={(e) => handleChange(e.target.value)}
+                                    name={`fields[${index}].foodId`}
+                                    // as="select"
+                                    // onChange={(e) => handleChange(e.target.value)}
                                   >
                                     {({ field, form }) => (
                                       <Form.Select
                                         {...field}
                                         placeholder="Chọn món ăn"
-                                        style={{ width: "35%", marginRight: "20px" }}
+                                        style={{
+                                          width: "35%",
+                                          marginRight: "20px",
+                                        }}
                                         onChange={(event) =>
                                           handleFoodSelect(event, field, form)
                                         }
@@ -677,9 +667,12 @@ function AddAnimal(pros) {
                                   </Field>
                                   <Field
                                     placeholder="Enter Quantity"
-                                    name={`fields[${index}].quantity`}
+                                    name={`fields[${index}].amount`}
                                     component="input"
-                                    style={{ width: "35%", marginRight: "20px" }}
+                                    style={{
+                                      width: "35%",
+                                      marginRight: "20px",
+                                    }}
                                     className="control-field"
                                   />
 
@@ -695,9 +688,11 @@ function AddAnimal(pros) {
                         </button> */}
                                 </div>
                               ))}
-                              {errors.fields &&
-                                <div style={{ color: "red" }}>Choose Food and Quantity</div>
-                              }
+                              {errors.fields && (
+                                <div style={{ color: "red" }}>
+                                  Choose Food and Quantity
+                                </div>
+                              )}
                             </div>
                             <div
                               style={{
