@@ -41,20 +41,20 @@ function TableUser() {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    // Gọi API
-    fetchUsers();
-  }, [currentPage]);
-
-  const fetchUsers = async () => {
-    const response = await api.get("https://localhost:44352/api/User/page/", {
-      params: {
-        page: currentPage,
-      },
+    const getUsers = () => {
+      return fetch(`https://localhost:44352/api/User/page/${currentPage}`).then(
+        (data) => data.json()
+      );
+    };
+    let mounted = true;
+    getUsers().then((items) => {
+      if (mounted) {
+        setUsers(items.users);
+        setTotalPages(items.pages);
+      }
     });
-    const data = response.json();
-    setUsers(data.users);
-    setTotalPages(data.pages);
-  };
+    return () => (mounted = false);
+  }, [currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -118,7 +118,7 @@ function TableUser() {
   };
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("/staff/add");
+    navigate("/admin/add");
   };
   return (
     <div className="table-container">
@@ -215,8 +215,8 @@ function TableUser() {
             <Pagination
               onChange={onShowSizeChange}
               defaultCurrent={currentPage}
-              defaultPageSize={5}
-              total={totalPages}
+              defaultPageSize={7}
+              total={totalPages * 7}
             />
           </div>
         </div>

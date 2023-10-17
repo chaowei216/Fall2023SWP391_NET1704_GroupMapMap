@@ -341,30 +341,28 @@ export default function ViewAnimal(pros) {
                                 buttonStyle="solid"
                                 disabled
                               >
-                                <Radio.Button
+                                <Radio
                                   style={{
                                     width: "40%",
-                                    textAlign: "center",
-                                    height: "37px",
+                                    color: "blue"
                                   }}
                                   value="male"
                                 >
                                   <span style={{ verticalAlign: "middle" }}>
                                     Male
                                   </span>
-                                </Radio.Button>
-                                <Radio.Button
+                                </Radio>
+                                <Radio
                                   style={{
                                     width: "40%",
-                                    textAlign: "center ",
-                                    height: "37px",
+                                    color: "pink"
                                   }}
                                   value="female"
                                 >
                                   <span style={{ verticalAlign: "middle" }}>
                                     Female
                                   </span>
-                                </Radio.Button>
+                                </Radio>
                               </Radio.Group>
                             </div>
                           </div>
@@ -391,30 +389,26 @@ export default function ViewAnimal(pros) {
                                   setRarity(event.target.value)
                                 }
                               >
-                                <Radio.Button
+                                <Radio
                                   style={{
                                     width: "40%",
-                                    textAlign: "center",
-                                    height: "37px",
                                   }}
                                   value={true}
                                 >
                                   <span style={{ verticalAlign: "middle" }}>
                                     Rarity
                                   </span>
-                                </Radio.Button>
-                                <Radio.Button
+                                </Radio>
+                                <Radio
                                   style={{
                                     width: "40%",
-                                    textAlign: "center ",
-                                    height: "37px",
                                   }}
                                   value={false}
                                 >
                                   <span style={{ verticalAlign: "middle" }}>
                                     None
                                   </span>
-                                </Radio.Button>
+                                </Radio>
                               </Radio.Group>
                             </div>
                           </div>

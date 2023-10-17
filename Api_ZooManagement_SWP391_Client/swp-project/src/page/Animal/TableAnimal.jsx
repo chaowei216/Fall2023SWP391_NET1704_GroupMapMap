@@ -16,6 +16,7 @@ import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import YourComponent from "./AnimalFoodTest";
 import { Pagination } from "antd";
+import axios from "axios";
 function TableAnimal() {
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
@@ -74,6 +75,18 @@ function TableAnimal() {
     setDataAnimalEdit(animal);
     setShowmodalEdit(true);
   };
+
+  const handleDeleteAnimal = async (item) => {
+    try {
+      console.log(item.animalId);
+      await axios.delete(`https://localhost:44352/api/Animal/${item.animalId}`);
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
   const handleViewUser = (item) => {
     // setDataUserEdit(item);
     const animal = item;
@@ -104,7 +117,8 @@ function TableAnimal() {
                 variant="contained"
                 onClick={handleClickPop}
               >
-                Open Popover
+                <PlusOutlined /> {" "}
+                Create Animal
               </Button>
               <Popover
                 id={id}
@@ -124,14 +138,6 @@ function TableAnimal() {
                     >
                       <Button variant="outlined" onClick={handleClick}>
                         Add New Animal
-                      </Button>
-                    </div>
-                    <div
-                      className="mb-2 mt-1"
-                      style={{ background: "aliceblue" }}
-                    >
-                      <Button variant="outlined" onClick={handleClick2}>
-                        Add Food Animal
                       </Button>
                     </div>
                   </div>
@@ -182,7 +188,10 @@ function TableAnimal() {
                         >
                           <EditIcon />
                         </Button>
-                        <Button variant="text" style={{ padding: 0 }}>
+                        <Button variant="text" style={{ padding: 0 }}
+                          onClick={() => {
+                            handleDeleteAnimal(items);
+                          }}>
                           <DeleteIcon />
                         </Button>
                       </td>

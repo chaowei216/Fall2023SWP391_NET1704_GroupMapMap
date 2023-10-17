@@ -114,6 +114,8 @@ function AddPage() {
       phone: values.phone,
       sex: Boolean(values.sex),
       role: Number(values.role),
+      userImage: "string",
+      experiences: []
     };
     const response = await fetch("https://localhost:44352/api/User", {
       method: "POST",
@@ -247,8 +249,8 @@ function AddPage() {
                   value={formik.values.sex}
                   buttonStyle="solid"
                 >
-                  <Radio.Button value={true}>Male</Radio.Button>
-                  <Radio.Button value={false}>Female</Radio.Button>
+                  <Radio value={true}>Male</Radio>
+                  <Radio value={false}>Female</Radio>
                 </Radio.Group>
               </div>
             </div>
@@ -305,9 +307,9 @@ function AddPage() {
                 value={formik.values.wID}
                 buttonStyle="solid"
               >
-                <Radio.Button value="2">Staff</Radio.Button>
-                <Radio.Button value="3">ZooTrainer</Radio.Button>
-                <Radio.Button value={null}>None</Radio.Button>
+                <Radio value="2">Staff</Radio>
+                <Radio value="3">ZooTrainer</Radio>
+                <Radio value={null}>None</Radio>
               </Radio.Group>
               {/* <MDBCollapse show={Show}> */}
               <div className="row mb-3 mt-3">
