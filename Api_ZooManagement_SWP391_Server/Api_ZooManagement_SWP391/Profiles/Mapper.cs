@@ -67,6 +67,8 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<AnimalTrainer, GetAnimalDto>();
             CreateMap<AnimalCage, GetAnimalDto>();
             CreateMap<ExperienceDetail, ExperienceDetailDto>();
+            CreateMap<UpdateAnimalFoodDto, AnimalFood>();
+            CreateMap<AnimalFood, UpdateAnimalFoodDto>();
         }
 
     }
