@@ -75,6 +75,7 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<Schedule, ScheduleDto>();
             CreateMap<ScheduleCreateDto, Schedule>();
             CreateMap<Schedule, ScheduleCreateDto>();
+            CreateMap<PaymentResponseDto, Transaction>();
         }
 
     }

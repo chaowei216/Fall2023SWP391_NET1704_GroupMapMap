@@ -43,8 +43,8 @@ import AddStaff from './page/User/AddStaff';
 import OrderTable from './page/Order/OrderTable';
 import ViewStaff from './page/User/ViewStaff';
 import TableAnimalDetail from './page/Animal/TableAnimalDetail';
-import LoadingPage from './page/Authen/loginPage/loadingPage';
 import New from './page/New/New';
+import Loading from './page/cart-checkout/loadingPage';
 
 const secretKey = 'your_secret_key';
 
@@ -78,12 +78,12 @@ function App() {
             <Route path="3" element={<TableFood />}></Route>
             <Route path="2" element={<TableAnimalDetail />}></Route>
           </Route>
+          <Route path="/loading" element={<Loading></Loading>}/>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/cart" element={<Cart />}></Route>
           <Route path="/checkout" element={<Checkout />}></Route>
           <Route path="/reset" element={<Forget />}></Route>
           <Route path="/" element={<Index />}></Route>
-          <Route path="/loading" element={<LoadingPage/>}/>
           <Route path="/new" element={<New/>}/>
         </Routes>
       </Router>

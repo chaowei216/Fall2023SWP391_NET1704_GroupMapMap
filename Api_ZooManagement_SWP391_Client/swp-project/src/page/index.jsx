@@ -14,7 +14,7 @@ function Index() {
     <div>
          <Header/>
     <SliderHero/>
-    {/* <SectionGapType/> */}
+    <SectionGapType/>
     <SectionGap/>
     <SectionDiscover/>
     <SectionNoTop/>
