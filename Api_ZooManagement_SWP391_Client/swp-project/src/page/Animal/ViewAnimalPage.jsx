@@ -47,7 +47,7 @@ export default function ViewAnimal(pros) {
   const [listFoods, setListFoods] = useState([]);
   const [foodId, setFoodID] = useState("");
   const [listFoodsFilter, setListFoodsFilter] = useState([]);
-  
+
   useEffect(() => {
     if (show) {
       var today = new Date();
@@ -156,10 +156,10 @@ export default function ViewAnimal(pros) {
     const fetchData = async () => {
       const response = await fetch(`https://localhost:44352/api/Animal/${animalID}/oldtrainers`);
       const data = await response.json();
-      setListTrainerOld(data); 
+      setListTrainerOld(data);
     };
-  
-    if(animalID) {
+
+    if (animalID) {
       fetchData();
     }
   }, [animalID]);
@@ -526,6 +526,11 @@ export default function ViewAnimal(pros) {
                                       </tr>
                                     )
                                   })}
+                                  {listCageOld.length === 0 &&
+                                    <tr>
+                                      <td colSpan={3}>Empty List</td>
+                                    </tr>
+                                  }
                                 </tbody>
                               </Table>
                             </div>
@@ -614,9 +619,11 @@ export default function ViewAnimal(pros) {
                                 <thead>
                                   <tr>
                                     <th>ID</th>
-                                    <th>Cage Name</th>
-                                    <th>Max Capacity</th>
-                                    <th>Quantity</th>
+                                    <th>First Name</th>
+                                    <th>Last Capacity</th>
+                                    <th>Phone</th>
+                                    <th>StartDate</th>
+                                    <th>EndDate</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -632,6 +639,11 @@ export default function ViewAnimal(pros) {
                                       </tr>
                                     )
                                   })}
+                                  {listTrainerOld.length === 0 &&
+                                    <tr>
+                                      <td colSpan={6}>Empty List</td>
+                                    </tr>
+                                  }
                                 </tbody>
                               </Table>
                             </div>

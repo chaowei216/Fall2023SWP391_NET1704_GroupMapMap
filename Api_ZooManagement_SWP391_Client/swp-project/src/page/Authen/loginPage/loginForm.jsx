@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate,useLocation, Navigate } from 'react-router-dom';
+import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import useShopping from '../../../hooks/useShopping';
-import jwt_decode from 'jwt-decode'; 
+import jwt_decode from 'jwt-decode';
 
 function LoginForm() {
-  
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
@@ -23,25 +23,25 @@ function LoginForm() {
   //     setUserObject(decoded);
   //   }
   // }, []);
-//   console.log(userObject);
-// // useEffect(()=>{
-//   let token =localStorage.getItem("token");
-//   if (token) {
+  //   console.log(userObject);
+  // // useEffect(()=>{
+  //   let token =localStorage.getItem("token");
+  //   if (token) {
 
-//   }
-// })
-const {shoppingCart}=useShopping();
-   {console.log("discover",shoppingCart)}
-function setItemToLocalStorage(key, value) {
-  return new Promise((resolve, reject) => {
-    try {
-      localStorage.setItem(key, value);
-      resolve();
-    } catch (error) {
-      reject(error);
-    }
-  });
-}
+  //   }
+  // })
+  const { shoppingCart } = useShopping();
+  { console.log("discover", shoppingCart) }
+  function setItemToLocalStorage(key, value) {
+    return new Promise((resolve, reject) => {
+      try {
+        localStorage.setItem(key, value);
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -51,7 +51,7 @@ function setItemToLocalStorage(key, value) {
         email,
         password,
       });
-console.log(res)
+      console.log(res)
       if (res && res.status === 200) {
         const token = res.data;
         console.log(res);
@@ -61,18 +61,22 @@ console.log(res)
         const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
         const email = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
         const name = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
-        localStorage.setItem("email",email);
-        localStorage.setItem("role",role);
-        localStorage.setItem("name",name);
+        localStorage.setItem("email", email);
+        localStorage.setItem("role", role);
+        localStorage.setItem("name", name);
+        if (role === "STAFF") {
+          setTimeout(() => {
+            navigate('/staff');
+          }, 1000);
+        } else if (role === "ZOOTRAINER") {
+          setTimeout(() => {
+            navigate('/ZooTrainer');
+          }, 1000);
+        }
         console.log(role);
-     
-
         // Xử lý dữ liệu người dùng ở đây (userResponse.data).
         // console.log('Thông tin người dùng:', userResponse.data);
         // await setItemToLocalStorage("dataUser", JSON.stringify(userResponse.data));
-        setTimeout(() => {
-          navigate('/staff');
-        }, 2000);
       } else if (res && res.status === 400) {
         setError(res.data.error);
       }
@@ -85,21 +89,21 @@ console.log(res)
   };
   const handleForgotPassword = async () => {
     console.log(email);
-   
+
     if (email) {
-      
+
       try {
         setLoadingApi(true);
         const response = await axios.post('', {
           email: email,
         });
-        
+
         if (response.status === 200) {
-          localStorage.setItem("tokenEmail",response.data.token);
+          localStorage.setItem("tokenEmail", response.data.token);
           setTimeout(() => {
             navigate('/reset');
           }, 2000);
-        
+
         } else {
           toast.error('Failed to send password reset email.');
         }
@@ -138,8 +142,8 @@ console.log(res)
                       <input type="checkbox" name="checkbox" id="checkbox" />
                       <label htmlFor="checkbox">Remember me</label>
                     </div>
-                    <div style={{cursor:"pointer"}} className="second">
-                    <a  onClick={handleForgotPassword}>Forget a Password?</a>
+                    <div style={{ cursor: "pointer" }} className="second">
+                      <a onClick={handleForgotPassword}>Forget a Password?</a>
                     </div>
                   </div>
                   <button type="submit" className="button">
@@ -148,7 +152,7 @@ console.log(res)
                     Login
                   </button>
                 </form>
-              
+
               </div>
             </div>
           </div>

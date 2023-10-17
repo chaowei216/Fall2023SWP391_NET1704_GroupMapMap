@@ -8,8 +8,8 @@ namespace DTO.Dtos
 {
     public class UpdateAnimalFoodDto
     {
-        public string FoodId { get; set; }
-        public string Description { get; set; }
-        public float Amount { get; set; }
+        public string id { get; set; }
+        public string description { get; set; }
+        public float quantity { get; set; }
     }
 }

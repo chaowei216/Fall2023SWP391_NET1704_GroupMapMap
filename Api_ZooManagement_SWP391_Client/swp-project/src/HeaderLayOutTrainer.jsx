@@ -7,6 +7,7 @@ import AddFood from "./page/Food/AddFood";
 import SliderHero from "./page/sliderHero";
 import SideMenu from "./page/rolePage/test";
 import SideMenuStaff from "./page/rolePage/SideMenuStaff";
+import SideMenuZooTrainer from "./page/rolePage/SideMenuZooTrainer";
 function HeaderLayOutTrainer() {
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
     const OpenSidebar = () => {
@@ -20,7 +21,7 @@ function HeaderLayOutTrainer() {
                     className="SideMenuAndPageContent"
                     style={{ "background-color": 'ghostwhite' }}
                 >
-                    <SideMenuStaff
+                    <SideMenuZooTrainer
                         openSidebarToggle={openSidebarToggle}
                         OpenSidebar={OpenSidebar} />
                     <Outlet></Outlet>

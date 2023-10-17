@@ -23,7 +23,7 @@ const items = [
       "Manage",
       "g1",
       null,
-      [getItem("Profile", "/staff/1"), getItem("Animal", "2")],
+      [getItem("Profile", "1"), getItem("Animal", "2")],
       "group"
     ),
     getItem(
@@ -85,7 +85,7 @@ const SideMenuZooTrainer = ({ openSidebarToggle, OpenSidebar }) => {
       <Menu
         // theme="blue"
         style={{
-          height: 890,
+          "height": "88vh",
           "backgroundColor": "wheat",
           "borderRadius": "10px 10px 10px 10px",
         }}

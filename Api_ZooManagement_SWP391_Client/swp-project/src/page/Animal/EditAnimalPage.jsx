@@ -55,6 +55,15 @@ export default function EditAnimal(pros) {
     })
     setFoods(newFood);
   }
+  const handleDescriptionFoodChange = (id, event) => {
+    const newFood = foods.map((food) => {
+      if (food.id === id) {
+        food.description = event.target.value;
+      }
+      return food;
+    })
+    setFoods(newFood);
+  }
   const getList = () => {
     return fetch("https://localhost:44352/api/Food").then((data) =>
       data.json()
@@ -130,7 +139,7 @@ export default function EditAnimal(pros) {
       rarity: rarity,
       endTrainDate: endTraining,
       outCageDate: outCage,
-      foods: foods,
+      animalFoods: foods,
     };
     console.log("OK");
     console.log(animalEdit);
@@ -588,7 +597,7 @@ export default function EditAnimal(pros) {
                                 justifyContent: "space-between",
                                 width: "95%",
                               }}>
-                              <div style={{ width: "40%" }}>
+                              <div style={{ width: "30%" }}>
                                 <label className="form-label">
                                   ID Food Of Animal
                                 </label>
@@ -601,7 +610,7 @@ export default function EditAnimal(pros) {
                                   value={food.id}
                                 />
                               </div>
-                              <div style={{ width: "40%" }}>
+                              <div style={{ width: "30%" }}>
                                 <label className="form-label">
                                   Choose Quantity Food For Animal
                                 </label>
@@ -612,6 +621,19 @@ export default function EditAnimal(pros) {
                                   style={{ width: "90%" }}
                                   value={food.quantity}
                                   onChange={(e) => handleFoodChange(food.id, e)}
+                                />
+                              </div>
+                              <div style={{ width: "30%" }}>
+                                <label className="form-label">
+                                  Edit Description Food For Animal
+                                </label>
+                                <Form.Control
+                                  type="text"
+                                  className="mb-3"
+                                  aria-describedby="inputGroupPrepend"
+                                  style={{ width: "90%" }}
+                                  value={food.description}
+                                  onChange={(e) => handleDescriptionFoodChange(food.id, e)}
                                 />
                               </div>
                             </div>

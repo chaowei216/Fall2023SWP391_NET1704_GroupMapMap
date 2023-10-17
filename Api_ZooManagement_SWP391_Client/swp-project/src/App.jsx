@@ -39,27 +39,39 @@ import TableStaff from './page/User/TableStaff';
 import AddStaff from './page/User/AddStaff';
 import OrderTable from './page/Order/OrderTable';
 import ViewStaff from './page/User/ViewStaff';
+import TableAnimalDetail from './page/Animal/TableAnimalDetail';
 
 const secretKey = 'your_secret_key';
 
 function App() {
-  const userRole = localStorage.getItem("role");
+  // const userRole = localStorage.getItem("role");
+  // console.log(userRole);
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/staff" element={userRole === "STAFF" ? <HeaderLayoutStaff /> : <Login />} >
+          <Route path="/admin" element={<HeaderLayout />} >
+            <Route path="" element={<Dashboard />}></Route>
+            <Route path="1" element={<TableUser />}></Route>
+            <Route path="add" element={<AddPage />}></Route>
+            <Route path="2" element={<TableAnimal />}></Route>
+            <Route path="3" element={<OrderTable />}></Route>
+            {/* <Route path="3" element={<TableFood />}></Route> */}
+          </Route>
+          <Route path="/staff" element={<HeaderLayoutStaff />} >
             <Route path="" element={<Dashboard />}></Route>
             <Route path="1" element={<TableStaff />}></Route>
             <Route path="add" element={<AddStaff />}></Route>
             <Route path="2" element={<TableAnimal />}></Route>
             <Route path="4" element={<OrderTable />}></Route>
-            <Route path="profile" element={<ViewStaff/>}></Route>
+            <Route path="profile" element={<ViewStaff />}></Route>
             {/* <Route path="3" element={<TableFood />}></Route> */}
           </Route>
-          <Route path="/ZooTrainer" element={userRole === "ZOOTRAINER" ? <HeaderLayOutTrainer /> : <Login />} >
+          <Route path="/ZooTrainer" element={<HeaderLayOutTrainer />}>
             <Route path="" element={<Dashboard />}></Route>
-            <Route path="1" element={<TableUser />}></Route>
+            <Route path="1" element={<ViewStaff />}></Route>
+            <Route path="3" element={<TableFood />}></Route>
+            <Route path="2" element={<TableAnimalDetail />}></Route>
           </Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/cart" element={<Cart />}></Route>
