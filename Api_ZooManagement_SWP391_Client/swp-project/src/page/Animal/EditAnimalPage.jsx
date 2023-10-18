@@ -17,6 +17,7 @@ import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export default function EditAnimal(pros) {
+  const role = localStorage.getItem("role");
   const { show, handleClose, dataAnimalEdit } = pros;
   const [region, setRegion] = useState("");
   const [animalId, setAnimalId] = useState("");
@@ -46,11 +47,8 @@ export default function EditAnimal(pros) {
   const [status, setStatus] = useState(true);
   const [foods, setFoods] = useState([]);
   const [error, setErros] = useState("");
-  const [error1, setErros1] = useState("");
-  const [error2, setErros2] = useState("");
-  const [error3, setErros3] = useState("");
-  const [isValidOutCage, setIsValidOutCage] = useState(false);
-  const [isValidTrainerDate, setIsValidTrainerDate] = useState(false);
+  const [isValidOutCage, setIsValidOutCage] = useState(true);
+  const [isValidTrainerDate, setIsValidTrainerDate] = useState(true);
 
   const validateOutCageDate = (dateString) => {
     const selectedDate = new Date(dateString);
@@ -140,6 +138,8 @@ export default function EditAnimal(pros) {
         setBirthday(dataAnimalEdit.birthday.slice(0, 10)),
         setEntryCage(dataAnimalEdit.entryCageDate.slice(0, 10)),
         setStartTrain(dataAnimalEdit.startTrainDate.slice(0, 10)),
+        setEndTraining(dataAnimalEdit.endTrainDate === null ? null :dataAnimalEdit.endTrainDate.slice(0, 10)),
+        setOutCage(dataAnimalEdit.outCageDate === null ? null : dataAnimalEdit.outCageDate.slice(0, 10)),
         setSpecies(dataAnimalEdit.species),
         setRarity(dataAnimalEdit.rarity);
       setFoods(dataAnimalEdit.foods);
@@ -174,12 +174,14 @@ export default function EditAnimal(pros) {
     return () => (mounted = false);
   }, []);
   const ZooTrainerList = listZooTrainer.filter((user) => user.role === 3);
-
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    if (healthCheck === dataAnimalEdit.healthCheck && description === dataAnimalEdit.description){
+    if (healthCheck === dataAnimalEdit.healthCheck && description === dataAnimalEdit.description && outCage === null && endTraining === null){
       setErros("Data Dupplicated");
+      if (role === "ZOOTRAINER"){
+      window.location.href("/ZooTrainer/2")
       return;
+    }
     } else if (healthCheck == null) {
       setErros("Data null");
       return;
@@ -205,8 +207,8 @@ export default function EditAnimal(pros) {
       healthCheck: healthCheck,
       status: status,
       rarity: rarity,
-      endTrainDate: endTraining,
-      outCageDate: outCage,
+      endTrainDate: null,
+      outCageDate: null,
       animalFoods: foods,
     };
     console.log("OK");
@@ -226,7 +228,11 @@ export default function EditAnimal(pros) {
       // localStorage.setItem("isAdded", true);
       // handleClose()
       // window.location.href = "/staff/2";
+      if(role === "ZOOTRAINER"){
+      navigate("/ZooTrainer/2");
+      }else{
       navigate("/staff/2");
+      }
       window.location.reload();
     }
   };
@@ -463,7 +469,7 @@ export default function EditAnimal(pros) {
                           </div>
                         </div>
                         <div className="mb-3">
-                          <label className="form-label">HealChech</label>
+                          <label className="form-label">HealthCheck</label>
                           <Form.Control
                             type="textarea"
                             style={{ height: "56px" }}
@@ -623,8 +629,8 @@ export default function EditAnimal(pros) {
                                 value={option.userId}
                                 selected={option.userId === userID}
                               >
-                                ZooTrainerID : {option.userId} - MaxCapacity :{" "}
-                                {option.firstname} - AnimalQuantity :{" "}
+                                ZooTrainerID : {option.userId} - FirstName :{" "}
+                                {option.firstname} - LastName :{" "}
                                 {option.lastname}
                               </option>
                             ))}

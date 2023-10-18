@@ -30,7 +30,7 @@ const items = [
       "Service",
       "g2",
       null,
-      [getItem("Order", "3"), getItem("Food", "4")],
+      [getItem("Order", "3")],
       "group"
     ),
     

@@ -15,7 +15,7 @@ function OurLog() {
       <div className="row">
          <div className="col-xl-8">
             <div className="recent-news-two">
-               <img alt="recent-news-img" src="https://via.placeholder.com/850x530"/>
+               <img alt="recent-news-img" src="../../src/assets/img/kahchdulich850.jpeg"/>
                <div className="recent-news mt-3">
                   <div>
                      <a href="#"><span>29 December, 2023</span></a>
@@ -26,7 +26,7 @@ function OurLog() {
                </div>
             </div>
             <div className="recent-news-two">
-               <img alt="recent-news-img" src="https://via.placeholder.com/850x530"/>
+               <img alt="recent-news-img" src="../../src/assets/img/hotrang850.jpeg"/>
                <div className="recent-news mt-3">
                   <div>
                      <a href="#"><span>29 December, 2023</span></a>
@@ -37,7 +37,7 @@ function OurLog() {
                </div>
             </div>
             <div className="recent-news-two">
-               <img alt="recent-news-img" src="https://via.placeholder.com/850x530"/>
+               <img alt="recent-news-img" src="../../src/assets/img/nguavan850.jpeg"/>
                <div className="recent-news mt-3">
                   <div>
                      <a href="#"><span>29 December, 2023</span></a>
@@ -48,7 +48,7 @@ function OurLog() {
                </div>
             </div>
             <div className="recent-news-two">
-               <img alt="recent-news-img" src="https://via.placeholder.com/850x530"/>
+               <img alt="recent-news-img" src="../../src/assets/img/gautruc850.jpeg"/>
                <div className="recent-news mt-3">
                   <div>
                      <a href="#"><span>29 December, 2023</span></a>
@@ -59,7 +59,7 @@ function OurLog() {
                </div>
             </div>
             <div className="recent-news-two">
-               <img alt="recent-news-img" src="https://via.placeholder.com/850x530"/>
+               <img alt="recent-news-img" src="../../src/assets/img/2anhfooter.jpeg"/>
                <div className="recent-news mt-3">
                   <div>
                      <a href="#"><span>29 December, 2023</span></a>
@@ -188,17 +188,7 @@ function OurLog() {
                   </li>
                </ul>
             </div>
-            <div className="posts">
-               <h3>Quick Links</h3>
-               <ul className="higher-reach">
-                  <li><div className="bol"></div><a href="#"> Recent News.</a></li>
-                  <li><div className="bol"></div><a href="#"> Articles For Food.</a></li>
-                  <li><div className="bol"></div><a href="#"> Food Menu</a></li>
-                  <li><div className="bol"></div><a href="#"> Site Map</a></li>
-                  <li><div className="bol"></div><a href="#"> Contact us</a></li>
-                  <li><div className="bol"></div><a href="#"> About Us</a></li>
-               </ul>
-            </div>
+           
          </div>
       </div>
    </div>

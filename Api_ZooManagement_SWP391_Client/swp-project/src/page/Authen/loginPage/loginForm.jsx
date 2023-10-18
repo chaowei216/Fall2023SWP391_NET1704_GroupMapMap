@@ -72,6 +72,10 @@ function LoginForm() {
           setTimeout(() => {
             navigate('/ZooTrainer');
           }, 1000);
+        } else if (role === "ADMIN") {
+          setTimeout(() => {
+            navigate('/admin');
+          }, 1000);
         }
         console.log(role);
         // Xử lý dữ liệu người dùng ở đây (userResponse.data).
@@ -94,7 +98,7 @@ function LoginForm() {
 
       try {
         setLoadingApi(true);
-        const response = await axios.post('', {
+        const response = await axios.post('https://localhost:44352/api/Login/forgot-password', {
           email: email,
         });
 

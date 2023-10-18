@@ -4,7 +4,7 @@ import axios from 'axios';
 
 function Loading() {
   const navigate = useNavigate();
-  const [countdown, setCountdown] = useState(1000);
+  const [countdown, setCountdown] = useState(10);
   const apiUrl1 = "https://localhost:44352/api/Order";
   let status = "fail"; 
 
@@ -65,6 +65,7 @@ console.log("vnp_SecureHash: " + vnp_SecureHash)
     try {
         const postMethod = await axios.post(apiUrl1, data)
         console.log(postMethod.data);
+        navigate("/");
     } catch(error) {
         console.error(error);
     }

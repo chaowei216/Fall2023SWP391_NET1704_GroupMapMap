@@ -18,6 +18,7 @@ import YourComponent from "./AnimalFoodTest";
 import { Pagination } from "antd";
 import axios from "axios";
 function TableAnimal() {
+  const role = localStorage.getItem("role");
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
   const [showModalView, setShowmodalView] = useState(false);
@@ -117,8 +118,12 @@ function TableAnimal() {
                 variant="contained"
                 onClick={handleClickPop}
               >
+<<<<<<< HEAD
                 <PlusOutlined /> {" "}
                 Create Animal
+=======
+                <PlusOutlined></PlusOutlined> Create Animal
+>>>>>>> 17bab2ccb61658bea34cf1358028b906b6f50a90
               </Button>
               <Popover
                 id={id}

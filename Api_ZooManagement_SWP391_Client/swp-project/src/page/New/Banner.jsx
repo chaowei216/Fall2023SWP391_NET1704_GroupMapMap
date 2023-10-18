@@ -8,8 +8,8 @@ function Banner() {
       <div className="row align-items-center">
          <div className="col-lg-7">
             <div className="title-area-data">
-               <h2>Our Blog</h2>
-               <p>A magical combination that sent aromas to the taste buds</p>
+               <h2>New</h2>
+               <p>Celebrating daily updates on Our News Page.</p>
             </div>
             <ol className="breadcrumb">
                <li className="breadcrumb-item">

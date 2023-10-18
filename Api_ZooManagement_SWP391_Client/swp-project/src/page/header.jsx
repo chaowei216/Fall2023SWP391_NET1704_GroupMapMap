@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { Link } from 'react-router-dom';
 import useShopping from '../hooks/useShopping';
 
@@ -6,60 +6,36 @@ const menuItems = [
   {
     text: 'Home',
     link:"/",
-    subMenuItems: [
-      { text: 'Home 1', link: 'index.html' },
-      { text: 'Home 2', link: 'index-2.html' },
-      { text: 'Home 3', link: 'index-3.html' },
-    ],
+    // subMenuItems: [
+    //   { text: 'Home 1', link: 'index.html' },
+    //   { text: 'Home 2', link: 'index-2.html' },
+    //   { text: 'Home 3', link: 'index-3.html' },
+    // ],
   },
-  // {
-  //   text: 'Menus',
-  //   subMenuItems: [
-  //     { text: 'Menu 1', link: 'menu-1.html' },
-  //     { text: 'Menu 2', link: 'menu-2.html' },
-  //     { text: 'Menu 3', link: 'menu-3.html' },
-  //   ],
-  // },
-  // {
-  //   text: 'Shop',
-  //   subMenuItems: [
-  //     { text: 'Our Product', link: 'shop.html' },
-  //     { text: 'Product Details', link: 'product-details.html' },
-  //     { text: 'Shop Cart', link: 'shop-cart.html' },
-  //     { text: 'Cart Checkout', link: 'cart-checkout.html' },
-  //   ],
-  // },
   {
     text: 'News',
     link:"/new",
-    subMenuItems: [
-      { text: 'Our Blog', link: 'our-blog.html' },
-      { text: 'Blog Details', link: 'blog-details.html' },
-    ],
+    // subMenuItems: [
+    //   { text: 'Our Blog', link: 'our-blog.html' },
+    //   { text: 'Blog Details', link: 'blog-details.html' },
+    // ],
   },
   {
     text: 'Pages',
-    subMenuItems: [
-      { text: 'About', link: 'about.html' },
-      { text: 'Our Services', link: 'our-services.html' },
-      { text: 'Chef Details', link: 'chef-details.html' },
-      { text: 'Login', link: 'login.html' },
-    ],
+    // subMenuItems: [
+    //   { text: 'About', link: 'about.html' },
+    //   { text: 'Our Services', link: 'our-services.html' },
+    //   { text: 'Chef Details', link: 'chef-details.html' },
+    //   { text: 'Login', link: 'login.html' },
+    // ],
   },
   { text: 'Contact', link: 'contact.html' },
 ];
 
 
-// const renderSocialMediaLinks = () => {
-//   return socialMediaLinks.map((link, index) => (
-//     <a style ={ {textDecoration:"none"} } key={index} href={link.url}>
-//       {link.text}
-//     </a>
-//   ));
-// };
 const renderSubMenuItems = (subMenuItems) => {
   if (!subMenuItems) {
-    return null; // Xử lý trường hợp không có subMenuItems
+    return null; 
   }
   return subMenuItems.map((item, index) => (
     <a key={index} href={item.link}>
@@ -79,10 +55,27 @@ const renderMenuItems = () => {
 
 
 function Header() {
-  const {shoppingCart} =useShopping();
+  const {shoppingCart,countTotal} =useShopping();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  console.log(countTotal);
+  useEffect(() => {
+    const handleScroll = () => {
+      const header = document.querySelector('.one .bottom-bar');
+   console.log(header);
+      if (window.scrollY > 100) {
+        header.classList.add('sticky-header');
+      } else {
+        header.classList.remove('sticky-header');
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isPopupVisible]);
  
   return (
+    
     <div>
       <header className="one">
         {/* <div className="top-header">
@@ -123,9 +116,7 @@ function Header() {
               <div className="col-xl-3">
                 <div className="d-flex align-items-center justify-content-between">
                   <div className="logo">
-                    <a href="index.html">
-                      <img alt="logo" src="../../src/assets/img/logo.png"  width="160px" height="160px" />
-                    </a>
+                    <Link to="/"><img alt="logo" src="../../src/assets/img/logo.png"  width="160px" height="160px" /></Link>
                   </div>
                   <div className="d-flex cart-checkout">
                     <a href="cart-checkout.html">
@@ -142,14 +133,14 @@ function Header() {
               </div>
               <div className="col-xl-6">
                 <nav className="navbar">
-                  <ul className="navbar-links">
+                  <ul className="navbar-links" style={{cursor:"pointer"}}>
                     {renderMenuItems()}
                   </ul>
                 </nav>
               </div>
               <div className="col-lg-3">
                 <div className="hamburger-icon">
-                  <div className="donation">
+                  <div className="donation" style={{content:`${countTotal}`}}>
                     <span  onMouseEnter={() => setIsPopupVisible(true)} onMouseLeave={() => setIsPopupVisible(false)}>
                       <Link to="/cart" className="pr-cart">
                       <svg id="Shoping-bags"  enableBackground="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><g><path d="m452 120h-60.946c-7.945-67.478-65.477-120-135.054-120s-127.109 52.522-135.054 120h-60.946c-11.046 0-20 8.954-20 20v352c0 11.046 8.954 20 20 20h392c11.046 0 20-8.954 20-20v-352c0-11.046-8.954-20-20-20zm-196-80c47.484 0 87.019 34.655 94.659 80h-189.318c7.64-45.345 47.175-80 94.659-80zm176 432h-352v-312h40v60c0 11.046 8.954 20 20 20s20-8.954 20-20v-60h192v60c0 11.046 8.954 20 20 20s20-8.954 20-20v-60h40z"></path>

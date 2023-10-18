@@ -56,7 +56,7 @@ function AddAnimal(pros) {
     return () => (mounted = false);
   }, []);
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
-  const [selectedSpecies, setSelectedSpecies] = useState("Pig");
+  const [selectedSpecies, setSelectedSpecies] = useState("Lion");
   const [selectedCage, setSelectedCage] = useState();
 
   const addField = () => {
@@ -226,7 +226,7 @@ function AddAnimal(pros) {
                     birthday: "",
                     startTrainDate: "",
                     cageId: "",
-                    species: "Pig",
+                    species: "Lion",
                     entryCageDate: "",
                     rarity: true,
                     fields,
@@ -308,8 +308,8 @@ function AddAnimal(pros) {
                                         setSelectedSpecies(e.target.value);
                                       }}
                                     >
-                                      <option value="Pig">Pig</option>
-                                      <option value="Cow">Cow</option>
+                                      <option value="Lion">Lion</option>
+                                      <option value="Rabbit">Rabbit</option>
                                       <option value="Dog">Dog</option>
                                       <option value="Cat">Cat</option>
                                       <option value="Monkey">Monkey</option>
@@ -551,8 +551,8 @@ function AddAnimal(pros) {
                                     value={option.userId}
                                   >
                                     <div style={{ height: "50px" }}>
-                                      {option.email} - MaxCapacity :{" "}
-                                      {option.firstname} - AnimalQuantity :{" "}
+                                      {option.email} - FirstName :{" "}
+                                      {option.firstname} - LastName :{" "}
                                       {option.lastname}
                                     </div>
                                   </option>

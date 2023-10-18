@@ -83,8 +83,8 @@ export default function ViewAnimal(pros) {
             ? null
             : dataAnimalView.startTrainDate.slice(0, 10)
         ),
-        setEndTraining(date),
-        setOutCage(date),
+        setEndTraining(dataAnimalView.endTrainDate === null ? date : dataAnimalView.endTrainDate.slice(0,10)),
+        setOutCage(dataAnimalView.outCageDate === null ? date : dataAnimalView.outCageDate.slice(0,10) ),
         setSpecies(dataAnimalView.species),
         setRarity(dataAnimalView.rarity);
       setFoodID(dataAnimalView.foods);
@@ -635,7 +635,7 @@ export default function ViewAnimal(pros) {
                                           <td>{value.lastname}</td>
                                           <td>{value.phone}</td>
                                           <td>{value.startDate}</td>
-                                          <td>{value.endDate}</td>
+                                          <td>{value.endDate === null ? "Empty" : value.endDate}</td>
                                         </tr>
                                       );
                                     })}
@@ -691,14 +691,14 @@ export default function ViewAnimal(pros) {
                                         ) : (
                                           <div
                                             style={{
-                                              background: "gray",
+                                              background: "red",
                                               borderRadius: "50px",
                                               textAlign: "center",
                                               color: "white",
                                               fontWeight: "bold",
                                             }}
                                           >
-                                            huuh
+                                            End Work
                                           </div>
                                         )}
                                       </td>
