@@ -83,8 +83,8 @@ export default function ViewAnimal(pros) {
             ? null
             : dataAnimalView.startTrainDate.slice(0, 10)
         ),
-        setEndTraining(date),
-        setOutCage(date),
+        setEndTraining(dataAnimalView.endTrainDate === null ? date : dataAnimalView.endTrainDate.slice(0,10)),
+        setOutCage(dataAnimalView.outCageDate === null ? date : dataAnimalView.outCageDate.slice(0,10) ),
         setSpecies(dataAnimalView.species),
         setRarity(dataAnimalView.rarity);
       setFoodID(dataAnimalView.foods);

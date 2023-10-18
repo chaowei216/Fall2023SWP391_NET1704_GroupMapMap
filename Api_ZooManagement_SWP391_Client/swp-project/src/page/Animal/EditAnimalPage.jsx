@@ -138,6 +138,8 @@ export default function EditAnimal(pros) {
         setBirthday(dataAnimalEdit.birthday.slice(0, 10)),
         setEntryCage(dataAnimalEdit.entryCageDate.slice(0, 10)),
         setStartTrain(dataAnimalEdit.startTrainDate.slice(0, 10)),
+        setEndTraining(dataAnimalEdit.endTrainDate === null ? null :dataAnimalEdit.endTrainDate.slice(0, 10)),
+        setOutCage(dataAnimalEdit.outCageDate === null ? null : dataAnimalEdit.outCageDate.slice(0, 10)),
         setSpecies(dataAnimalEdit.species),
         setRarity(dataAnimalEdit.rarity);
       setFoods(dataAnimalEdit.foods);

@@ -65,6 +65,7 @@ console.log("vnp_SecureHash: " + vnp_SecureHash)
     try {
         const postMethod = await axios.post(apiUrl1, data)
         console.log(postMethod.data);
+        navigate("/");
     } catch(error) {
         console.error(error);
     }

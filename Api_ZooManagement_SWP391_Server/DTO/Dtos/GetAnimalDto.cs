@@ -21,6 +21,8 @@ namespace DTO.Dtos
         public string? UserId { get; set; }
         public DateTime? EntryCageDate { get; set; }
         public DateTime? StartTrainDate { get; set; }
+        public DateTime? OutCageDate { get; set; }
+        public DateTime? EndTrainDate { get; set; }
         public string? AnimalImage { get; set; }
         public List<FoodAmountDto>? Foods { get; set; }
     }
