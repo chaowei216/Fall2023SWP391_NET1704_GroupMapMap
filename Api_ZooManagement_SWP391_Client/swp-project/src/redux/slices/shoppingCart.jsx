@@ -13,7 +13,6 @@ const shoppingSlice = createSlice({
 
       console.log(action.payload);
       if (existingItemIndex !== -1) {
-        // Nếu sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng lên 1
         state[existingItemIndex].quantity += 1;
       } else {
         state.push({
@@ -34,12 +33,17 @@ const shoppingSlice = createSlice({
 
       if (productToUpdate) {
         productToUpdate.quantity = newQuantity;
-
-        // Cập nhật giá tiền cho sản phẩm khi số lượng thay đổi
         productToUpdate.totalPrice = productToUpdate.price * newQuantity;
       }
     },
     editItem() {},
+    countTotal(state) {
+      let totalQuantity = 0;
+      state.forEach((product) => {
+        totalQuantity += product.quantity;
+      });
+      return totalQuantity;
+    },
   },
 });
 
