@@ -113,10 +113,18 @@ namespace BBL.Services
             return _animalCageRepo.GetAll();
         }
 
-        public ICollection<AnimalCage>? GetCageByAnimalId(string animalId)
+        public ICollection<Cage>? GetCageByAnimalId(string animalId)
         {
-            var cage = _animalCageRepo.GetAll().Where(a => a.AnimalId == animalId).ToList();
-            return cage;
+            var animalCages = _animalCageRepo.GetAll().Where(a => a.AnimalId == animalId).ToList();
+            var cages = new List<Cage>();
+            if (animalCages != null)
+            {
+                foreach (var animalCage in animalCages)
+                {
+                    cages.Add(_cageRepo.GetById(animalCage.CageId));
+                }
+            }
+            return cages;
         }
 
         public bool UpdateAnimal(Animal animal, Animal? animalMap)
@@ -174,16 +182,32 @@ namespace BBL.Services
             return _animalRepo.Update(animal);
         }
 
-        public ICollection<AnimalTrainer> GetAnimalByTrainerId(string trainerId)
+        public ICollection<Animal> GetAnimalByTrainerId(string trainerId)
         {
-            var animals = _animalTrainerRepo.GetAll().Where(at => at.UserId == trainerId).ToList();
+            var animalTrainers = _animalTrainerRepo.GetAll().Where(at => at.UserId == trainerId).ToList();
+            var animals = new List<Animal>();
+            if (animalTrainers != null)
+            {
+                foreach (var animalTrainer in animalTrainers)
+                {
+                    animals.Add(_animalRepo.GetById(animalTrainer.AnimalId));
+                }
+            }
             return animals;
         }
 
-        public ICollection<AnimalTrainer> GetTrainersCanTrain()
+        public ICollection<User> GetTrainersCanTrain()
         {
-            var user = _animalTrainerRepo.GetAll().Where(at => at.AnimalId.Count() < 10 && at.EndTrainDate == null).ToList();
-            return user;
+            var userAvailables = _animalTrainerRepo.GetAll().Where(at => at.AnimalId.Count() < 10 && at.EndTrainDate == null).ToList();
+            var users = new List<User>();
+            if (userAvailables != null)
+            {
+                foreach (var userAvailable in userAvailables)
+                {
+                    users.Add(_userRepo.GetById(userAvailable.UserId));
+                }
+            }
+            return users;
         }
 
         public ICollection<User>? GetOldTrainersOfAnimal(string animalId)
