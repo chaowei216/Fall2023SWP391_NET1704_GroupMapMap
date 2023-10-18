@@ -173,25 +173,7 @@ function Checkout() {
                                             <li>
                                                 <input type="radio" id="Bank_Payment" name="Bank_Payment" value="Bank_Payment" />
                                                 <label htmlFor="Bank_Payment">
-                                                    Bank Payment
-                                                </label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="Check_Payment" name="Bank_Payment" value="Check_Payment" />
-                                                <label htmlFor="Check_Payment">
-                                                    Check Payment
-                                                </label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="PayPal" name="Bank_Payment" value="Check_Payment" />
-                                                <label htmlFor="PayPal">
-                                                    PayPal
-                                                </label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="Cash on Delivery" name="Bank_Payment" value="Check_Payment" />
-                                                <label htmlFor="Cash on Delivery">
-                                                    Cash on Delivery
+                                                    Vnpay
                                                 </label>
                                             </li>
                                         </ul>

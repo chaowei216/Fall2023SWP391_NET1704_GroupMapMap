@@ -44,8 +44,10 @@ namespace Api_ZooManagement_SWP391.Controllers
             {
                 animal.CId = _cageService.GetCageByAnimalId(animal.AnimalId).CageId;
                 animal.EntryCageDate = _cageService.GetCageByAnimalId(animal.AnimalId).EntryCageDate;
+                animal.OutCageDate = _cageService.GetCageByAnimalId(animal.AnimalId).OutCageDate;
                 animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
+                animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
                 var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
                 if (foods != null && foods.Count > 0)
                 {
@@ -80,8 +82,10 @@ namespace Api_ZooManagement_SWP391.Controllers
             {
                 animal.CId = _cageService.GetCageByAnimalId(animal.AnimalId).CageId;
                 animal.EntryCageDate = _cageService.GetCageByAnimalId(animal.AnimalId).EntryCageDate;
+                animal.OutCageDate = _cageService.GetCageByAnimalId(animal.AnimalId).OutCageDate;
                 animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
+                animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
                 var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
                 if (foods != null && foods.Count > 0)
                 {
