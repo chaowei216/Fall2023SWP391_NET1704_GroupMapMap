@@ -39,8 +39,8 @@ export default function EditPage(pros) {
   const handleSave = () => {
     console.log("Submit");
   };
-  const [first_name, setFirst_name] = useState("");
-  const [last_name, setLast_name] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,34 +55,32 @@ export default function EditPage(pros) {
   useEffect(() => {
     if (show) {
       setUID(dataUserEdit.userId);
-      setFirst_name(dataUserEdit.firstname),
-        setLast_name(dataUserEdit.lastname),
+      setFirstName(dataUserEdit.firstname),
+        setLastName(dataUserEdit.lastname),
         setPhone(dataUserEdit.phone),
         setEmail(dataUserEdit.email),
         setPassword(dataUserEdit.password),
         setAddress(dataUserEdit.address),
         setRole(dataUserEdit.role);
-      setSex(String(dataUserEdit.sex) === "true" ? "2" : "3"),
-        setCompany(dataUserEdit.company),
+      setSex(dataUserEdit.sex),
         setEndDate(dataUserEdit.endDate),
         setStatus(dataUserEdit.status),
-        setWID(dataUserEdit.wID === null ? '2' : `${wID}`)
+        setWID(dataUserEdit.wID === null ? "2" : `${wID}`);
     }
   }, [dataUserEdit]);
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     const formData = {
-      userId: event.target.elements.first_name.value,
+      userId: event.target.elements.firstname.value,
     };
     const user = {
       userId: uID,
-      firstname: first_name,
-      lastname: last_name,
+      firstname: firstname,
+      lastname: lastname,
       address: address,
       phone: phone,
       role: Role,
       endDate: endDate,
-      status: status,
     };
     console.log(user.firstname === dataUserEdit.firstname);
     if (user.firstname === dataUserEdit.firstname) {
@@ -114,18 +112,6 @@ export default function EditPage(pros) {
   const handleRoleChange = (value) => {
     // console.log(`selected ${value}`);
     setRole(value.target.value);
-  };
-
-  // const [validated, setValidated] = useState(false);
-  const onChange = (value, dateString) => {
-    const date = Array.of(dateString);
-    setStarDate(date[0][0]);
-    setEndDate(date[0][1]);
-  };
-  const onChange1 = (value, dateString) => {
-    const date1 = Array.of(dateString);
-    setStarDate1(date1[0][0]);
-    setEndDate1(date1[0][1]);
   };
   const handleChange1 = (value) => {
     // console.log(`selected ${value}`);
@@ -175,21 +161,29 @@ export default function EditPage(pros) {
                     <div className="form">
                       <div className="row mb-3">
                         {error && (
-                          <div className="mb-3" style={{"textAlign": "center", "fontWeight": "bolder", "color": "red", "fontSize": "30px"}}>
+                          <div
+                            className="mb-3"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: "bolder",
+                              color: "red",
+                              fontSize: "30px",
+                            }}
+                          >
                             {error}
                           </div>
                         )}
-                       
+
                         <div className="mb-3 row-content">
                           <label className="form-label">Enter FirstName</label>
                           <Form.Control
-                            id="first_name"
+                            id="firstname"
                             type="text"
-                            placeholder="first_name"
+                            placeholder="firstname"
                             aria-describedby="inputGroupPrepend"
-                            name="first_name"
-                            value={first_name}
-                            onChange={(e) => setFirst_name(e.target.value)}
+                            name="firstname"
+                            value={firstname}
+                            onChange={(e) => setFirstName(e.target.value)}
                             // onBlur={formik.handleBlur}
                             // isInvalid={
                             //   formik.errors.first_name &&
@@ -204,12 +198,12 @@ export default function EditPage(pros) {
                           <label className="form-label">Enter LastName</label>
                           <Form.Control
                             type="text"
-                            id="last_name"
-                            placeholder="last_name"
+                            id="lastname"
+                            placeholder="lastname"
                             aria-describedby="inputGroupPrepend"
-                            name="last_name"
-                            value={last_name}
-                            onChange={(e) => setLast_name(e.target.value)}
+                            name="lastname"
+                            value={lastname}
+                            onChange={(e) => setLastName(e.target.value)}
                             // onChange={formik.handleChange}
                             // onBlur={formik.handleBlur}
                             // isInvalid={
@@ -257,28 +251,26 @@ export default function EditPage(pros) {
                             defaultValue={Role}
                             buttonStyle="solid"
                           >
-                            <Radio.Button
+                            <Radio
                               style={{
                                 textAlign: "center",
-                                height: "37px",
                               }}
                               value={2}
                             >
                               <span style={{ verticalAlign: "middle" }}>
                                 Staff
                               </span>
-                            </Radio.Button>
-                            <Radio.Button
+                            </Radio>
+                            <Radio
                               style={{
                                 textAlign: "center ",
-                                height: "37px",
                               }}
                               value={3}
                             >
                               <span style={{ verticalAlign: "middle" }}>
                                 ZooTrainer
                               </span>
-                            </Radio.Button>
+                            </Radio>
                           </Radio.Group>
                         </div>
                       </div>
@@ -312,8 +304,8 @@ export default function EditPage(pros) {
                             disabled
                             buttonStyle="solid"
                           >
-                            <Radio.Button value="2">Male</Radio.Button>
-                            <Radio.Button value="3">Female</Radio.Button>
+                            <Radio value={true}>Male</Radio>
+                            <Radio value={false}>Female</Radio>
                           </Radio.Group>
                         </div>
                       </div>
@@ -352,68 +344,17 @@ export default function EditPage(pros) {
                         <div className="mb-3" style={{ width: "33%" }}>
                           <label className="form-label">Enter EndDate</label>
                           <br />
-                            <Form.Control
-                              type="date"
-                              id="endDate"
-                              placeholder="address"
-                              aria-describedby="inputGroupPrepend"
-                              name="endDate"
-                              value={endDate}
-                              onChange={(event) =>
-                                setEndDate(event.target.value)
-                              }
-                              // onBlur={formik.handleBlur}
-                            />
-                        </div>
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Company</label>
                           <Form.Control
-                            type="text"
-                            id="company"
-                            placeholder="company"
+                            type="date"
+                            id="endDate"
+                            placeholder="address"
                             aria-describedby="inputGroupPrepend"
-                            name="company"
-                            value={company}
-                            disabled
+                            name="endDate"
+                            value={endDate}
+                            onChange={(event) => setEndDate(event.target.value)}
                             // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   // formik.errors.company && formik.touched.company
-                            //   !Role.includes("None") && test == null
-                            // }
                           />
-                          {/* <Form.Control.Feedback type="invalid"> */}
-                          {/* {formik.errors.company} */}
-                          {/* Please enter value */}
-                          {/* </Form.Control.Feedback> */}
                         </div>
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Choose wID</label>
-                          <br />
-                          <Radio.Group
-                            id="wID"
-                            name="wID"
-                            onChange={handleChange1}
-                            value={wID}
-                            buttonStyle="solid"
-                          >
-                            <Radio.Button value="2">Staff</Radio.Button>
-                            <Radio.Button value="3">ZooTrainer</Radio.Button>
-                          </Radio.Group>
-                        </div>
-                      </div>
-                      <div className="mb-3 row-content">
-                        <label className="form-label">Set Status</label>
-                        <br />
-                        <Radio.Group
-                          id="status"
-                          name="status"
-                          onChange={handleRadioChange2}
-                          value={status}
-                          buttonStyle="solid"
-                        >
-                          <Radio.Button value={true}>Active</Radio.Button>
-                          <Radio.Button value={false}>Inactive</Radio.Button>
-                        </Radio.Group>
                       </div>
                       <div className="btn-footer">
                         <div style={{ marginRight: "20px" }}>

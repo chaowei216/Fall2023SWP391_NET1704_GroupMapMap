@@ -49,17 +49,28 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateOrder([FromBody] OrderCreateDto orderCreate)
+        public IActionResult CreateOrder([FromBody] PaymentResponseDto response)
         {
-            if (orderCreate == null)
-                return BadRequest();
+            if (response == null)
+                return BadRequest("response fail");
 
-            var orderMap = _mapper.Map<Order>(orderCreate);
+            var orderMap = _mapper.Map<Order>(response.OrderCreate);
+            var trans = _mapper.Map<Transaction>(response);
+            if (orderMap == null || trans == null)
+                return BadRequest();
+            if (response.Success.Equals("success"))
+            {
+                trans.Status = true;
+            }
+            else trans.Status = false;
+
+            trans.TransactionDate = DateTime.Now;
+
             int count = _orderService.GetAllOrders().Count() + 1;
             orderMap.OrderId = "O" + count.ToString().PadLeft(4, '0');
+            orderMap.Transaction = trans;
 
-
-            var TicketQuantities = orderCreate.Tickets;
+            var TicketQuantities = response.OrderCreate.Tickets;
             List<OrderTicket> orderTickets = new List<OrderTicket>();
             if (TicketQuantities == null || TicketQuantities.Count() == 0)
             {

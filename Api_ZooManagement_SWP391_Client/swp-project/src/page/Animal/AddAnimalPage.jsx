@@ -15,7 +15,7 @@ import {
 import React, { useState, useEffect } from "react";
 import "../../assets/css/dashboard.css";
 import Password from "antd/es/input/Password";
-import { DatePicker, Radio, Select, Space } from "antd";
+import { DatePicker, Empty, Radio, Select, Space } from "antd";
 const { RangePicker } = DatePicker;
 import { Formik, useFormik, Field, useFormikContext } from "formik";
 import FormList from "antd/es/form/FormList";
@@ -56,7 +56,7 @@ function AddAnimal(pros) {
     return () => (mounted = false);
   }, []);
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
-  const [selectedSpecies, setSelectedSpecies] = useState("A");
+  const [selectedSpecies, setSelectedSpecies] = useState("Lion");
   const [selectedCage, setSelectedCage] = useState();
 
   const addField = () => {
@@ -197,30 +197,6 @@ function AddAnimal(pros) {
   };
   const a = "huhu";
 
-  console.log(listCage);
-  // const formik = useFormik({
-  //   initialValues: {
-  //     name: "",
-  //     userId: "",
-  //     description: "",
-  //     gender: true,
-  //     region: "",
-  //     healthCheck: "",
-  //     birthday: "",
-  //     startTrainDate: "",
-  //     entryCageDate: "",
-  //     cageId: "",
-  //     species: "",
-  //     rarity: true,
-  //     entryDate: "",
-  //     fields: fields,
-  //     // image: "",
-  //   },
-  //   validationSchema: schemaAnimal,
-  //   onSubmit: (values) => {
-  //     submitForm(values);
-  //   },
-  // });
   return (
     <>
       <MDBModal staticBackdrop tabIndex="-1" show={show} onHide={handleClose}>
@@ -250,13 +226,13 @@ function AddAnimal(pros) {
                     birthday: "",
                     startTrainDate: "",
                     cageId: "",
-                    species: "A",
+                    species: "Lion",
                     entryCageDate: "",
                     rarity: true,
                     fields,
                     userId: "",
                   }}
-                  // validationSchema={schemaAnimal}
+                  validationSchema={schemaAnimal}
                   onSubmit={(values) => {
                     submitForm(values);
                   }}
@@ -332,8 +308,8 @@ function AddAnimal(pros) {
                                         setSelectedSpecies(e.target.value);
                                       }}
                                     >
-                                      <option value="A">Pig</option>
-                                      <option value="Cow">Cow</option>
+                                      <option value="Lion">Lion</option>
+                                      <option value="Rabbit">Rabbit</option>
                                       <option value="Dog">Dog</option>
                                       <option value="Cat">Cat</option>
                                       <option value="Monkey">Monkey</option>
@@ -448,7 +424,7 @@ function AddAnimal(pros) {
                                 </Form.Control.Feedback>
                               </div>
                             </div>
-                            <div className="mb-3">
+                            <div className="mb-3" style={{marginRight: "20px"}}>
                               <label className="form-label">
                                 Enter healthCheck
                               </label>
@@ -470,7 +446,7 @@ function AddAnimal(pros) {
                                 {errors.healthCheck}
                               </Form.Control.Feedback>
                             </div>
-                            <div className="mb-2">
+                            <div className="mb-2" style={{marginRight: "20px"}}>
                               <label className="form-label">
                                 Enter Description
                               </label>
@@ -512,7 +488,7 @@ function AddAnimal(pros) {
                                 onBlur={handleBlur}
                                 isInvalid={errors.cageId && touched.cageId}
                               >
-                                <option>Choose Cage</option>
+                                <option value={null}>Choose Cage</option>
                                 {/* Render các option từ API */}
                                 {CageListFilter.map((option) => (
                                   <option key={option.cId} value={option.cId}>
@@ -567,7 +543,7 @@ function AddAnimal(pros) {
                                 onBlur={handleBlur}
                                 isInvalid={errors.userId && touched.userId}
                               >
-                                <option>Choose ZooTrainer</option>
+                                <option value={null}>Choose ZooTrainer</option>
                                 {/* Render các option từ API */}
                                 {ZooTrainerList.map((option) => (
                                   <option
@@ -575,8 +551,8 @@ function AddAnimal(pros) {
                                     value={option.userId}
                                   >
                                     <div style={{ height: "50px" }}>
-                                      {option.email} - MaxCapacity :{" "}
-                                      {option.firstname} - AnimalQuantity :{" "}
+                                      {option.email} - FirstName :{" "}
+                                      {option.firstname} - LastName :{" "}
                                       {option.lastname}
                                     </div>
                                   </option>
@@ -585,6 +561,7 @@ function AddAnimal(pros) {
                               <Form.Control.Feedback type="invalid">
                                 {errors.userId}
                               </Form.Control.Feedback>
+                              {values.userId && console.log(values.userId)}
                             </div>
                             <div className="row mb-3 mt-4">
                               <div className="mb-3" style={{ width: "33%" }}>
@@ -691,7 +668,7 @@ function AddAnimal(pros) {
                               ))}
                               {errors.fields && (
                                 <div style={{ color: "red" }}>
-                                  Choose Food and Quantity
+                                  Choose Food and Quantity and Description
                                 </div>
                               )}
                             </div>

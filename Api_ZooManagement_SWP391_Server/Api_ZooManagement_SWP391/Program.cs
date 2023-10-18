@@ -63,6 +63,8 @@ builder.Services.AddScoped<INewsService, NewsService>();
 builder.Services.AddScoped<IScheduleService, ScheduleService>();
 builder.Services.AddScoped<IAnimalService, AnimalService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IVnPayService, VnPayService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 // add scope for repository
 builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 builder.Services.AddScoped<IGenericRepository<Cage>, GenericRepository<Cage>>();
@@ -81,6 +83,7 @@ builder.Services.AddScoped<IGenericRepository<AnimalSchedule>, GenericRepository
 builder.Services.AddScoped<IGenericRepository<AnimalTrainer>, GenericRepository<AnimalTrainer>>();
 builder.Services.AddScoped<IGenericRepository<OrderTicket>, GenericRepository<OrderTicket>>();
 builder.Services.AddScoped<IGenericRepository<GetAnimalDto>, GenericRepository<GetAnimalDto>>();
+builder.Services.AddScoped<IGenericRepository<Transaction>, GenericRepository<Transaction>>();
 
 
 builder.Services.AddCors(options =>

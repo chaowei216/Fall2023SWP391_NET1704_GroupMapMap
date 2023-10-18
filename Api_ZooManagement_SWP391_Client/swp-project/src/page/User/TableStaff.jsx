@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
 import Avatar from "@mui/material/Avatar";
-import "../../assets/css/dashboard.css"
+import "../../assets/css/dashboard.css";
 import { Pagination } from "antd";
 import { DashOutlined, PlusOutlined } from "@ant-design/icons";
 import { MDBInputGroup, MDBInput, MDBIcon, MDBBtn } from "mdb-react-ui-kit";
@@ -18,9 +18,6 @@ import { toast, ToastContainer } from "react-toastify";
 import ViewUser from "./ViewUser";
 import EditPage from "./EditPage";
 function TableStaff() {
-  // const [isAdded, setIsAdded] = useState(
-  //   localStorage.getItem("isAdded") === "true"
-  // );
   useEffect(() => {
     if (localStorage.getItem("isAdded") === "true") {
       // show success msg
@@ -28,18 +25,29 @@ function TableStaff() {
       localStorage.removeItem("isAdded");
     }
   }, []);
-
   const [dataUserEdit, setDataUserEdit] = useState({});
   const [dataUserView, setDataUserView] = useState({});
   const [showModalEdit, setShowmodalEdit] = useState(false);
   const [showModalView, setShowmodalView] = useState(false);
-  const [listUsers, setListUsers] = useState([]);
-  // const fetchAllUser = () => {
-  //   return axios.get("https://reqres.in/api/users?page=2");
-  //   // return axios.get("https://localhost:44352/api/User/users");
-  // };
+  const [users, setUsers] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  useEffect(() => {
+    const getUsers = () => {
+      return fetch(`https://localhost:44352/api/User/page/${currentPage}`).then(
+        (data) => data.json()
+      );
+    };
+    let mounted = true;
+    getUsers().then((items) => {
+      if (mounted) {
+        setUsers(items.users);
+        setTotalPages(items.pages);
+      }
+    });
+    return () => (mounted = false);
+  }, [currentPage]);
   const handleEditUser = (item) => {
-    // setDataUserEdit(item);
     console.log(item);
     const user = item;
     setDataUserEdit(user);
@@ -52,42 +60,31 @@ function TableStaff() {
   };
   const handleClose = () => {
     setShowmodalEdit(false);
-    setShowmodalView(false)
+    setShowmodalView(false);
   };
   const email = localStorage.getItem("email");
-  const zooTrainerList = listUsers.filter(user => user.role === 3);
-  const getList = () => {
-    return fetch("https://localhost:44352/api/User/users").then((data) =>
-      data.json()
-    );
-  };
-  // dùng API real
-  useEffect(() => {
-    let mounted = true;
-    getList().then((items) => {
-      if (mounted) {
-        setListUsers(items);
-      }
-    });
-    return () => (mounted = false);
-  }, []);
-  //dùng API để Test
-  // useEffect(() => {
-  //   //call API
-  //   getUsers();
-  // }, []);
-  // const getUsers = async () => {
-  //   let res = await fetchAllUser();
-  //   if (res && res.data && res.data.data) {
-  //     setListUsers(res.data.data);
-  //   }
+  const zooTrainerList = users.filter((user) => user.role === 3);
+  // const getList = () => {
+  //   return fetch("https://localhost:44352/api/User/users").then((data) =>
+  //     data.json()
+  //   );
   // };
-
+  // // dùng API real
+  // useEffect(() => {
+  //   let mounted = true;
+  //   getList().then((items) => {
+  //     if (mounted) {
+  //       setListUsers(items);
+  //     }
+  //   });
+  //   return () => (mounted = false);
+  // }, []);
   const [optSmModal, setOptSmModal] = useState(false);
   const [showSearchAlert, setShowSearchAlert] = useState(false);
   const toggleShow = () => setOptSmModal(!optSmModal);
-  const onShowSizeChange = (current, pageSize) => {
-    console.log(current, pageSize);
+  const onShowSizeChange = (current) => {
+    console.log(current);
+    setCurrentPage(current);
   };
   const navigate = useNavigate();
   const handleClick = () => {
@@ -135,7 +132,7 @@ function TableStaff() {
                     <tr key={`user-${index}`}>
                       <td>{item.userId}</td>
                       <td>{item.email}</td>
-                      <td>{item.role === 2 ? 'Staff' : 'ZooTrainer'}</td>
+                      <td>{item.role === 2 ? "Staff" : "ZooTrainer"}</td>
                       <td>{item.firstname}</td>
                       <td>{item.lastname}</td>
                       <td style={{ width: "13rem" }}>
@@ -164,33 +161,14 @@ function TableStaff() {
                     </tr>
                   );
                 })}
-              {/* <tr>
-                <td>Leuleu</td>
-                <td>Haha</td>
-                <td>Huhu</td>
-                <td>Hihi</td>
-                <td>Leuleu</td>
-                <td style={{ width: "13rem" }}>
-                  <Button variant="text" style={{ padding: 0 }}>
-                    <VisibilityIcon />
-                  </Button>
-                  <Button variant="text" style={{ padding: 0 }}>
-                    <EditIcon />
-                  </Button>
-                  <Button variant="text" style={{ padding: 0 }}>
-                    <DeleteIcon />
-                  </Button>
-                </td>
-              </tr> */}
             </tbody>
           </Table>
           <div className="pagination-container">
             <Pagination
-              showSizeChanger
-              onShowSizeChange={onShowSizeChange}
               onChange={onShowSizeChange}
-              defaultCurrent={1}
-              total={50}
+              defaultCurrent={currentPage}
+              defaultPageSize={7}
+              total={totalPages * 7}
             />
           </div>
         </div>

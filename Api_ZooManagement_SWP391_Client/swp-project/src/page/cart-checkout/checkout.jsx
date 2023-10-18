@@ -1,68 +1,69 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import Footer from '../footer'
 import Header from '../header'
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 
 function Checkout() {
     const navigate = useNavigate();
-const cartDataJSON = localStorage.getItem('shoppingCart');
-const shoppingCart = JSON.parse(cartDataJSON);
-const totalPrice = shoppingCart.reduce((total, product) => {
-    
-    const productTotal = product.price * product.quantity;
-  
-    
-    return total + productTotal;
-  }, 0);
-  // tách object
-  const newObject = shoppingCart.map((product) => {
-      return {
-        type: product.name,
-        Amount: product.quantity,
-    }})
-  
+    const cartDataJSON = localStorage.getItem('shoppingCart');
+    const shoppingCart = JSON.parse(cartDataJSON);
+    const totalPrice = shoppingCart.reduce((total, product) => {
+
+        const productTotal = product.price * product.quantity;
+
+
+        return total + productTotal;
+    }, 0);
+    // tách object
+    const newObject = shoppingCart.map((product) => {
+        return {
+            type: product.name,
+            Amount: product.quantity,
+        }
+    })
+
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
         phoneNumber: '',
-        totalPrice:totalPrice,
+        totalPrice: totalPrice,
         tickets: newObject,
-      });
-      const handleChange = (e) => {
+    });
+    const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
-          ...prevData,
-          [name]: value,
+            ...prevData,
+            [name]: value,
         }));
-      };
-      console.log(formData);
-    //   console.log(formData.tickets);
+    };
+    console.log(formData);
 
-    
-      const handleSubmit = async (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Form submitted');
-        navigate('/');
+        localStorage.setItem("orderItem", JSON.stringify(formData));
         // Here, you can make an HTTP request to send the formData to your API
         try {
-          const response = await fetch('https://localhost:44352/api/Order', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-          });
-    
-          if (response.ok) {
-            const responseData = await response.json();
-            console.log('API Response Data:', responseData);
-          } else {
-            // Handle errors, e.g., display an error message
-          }
+            const response = await fetch('https://localhost:44352/api/Payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                const responseData = await response.json();
+                window.location.replace(responseData.url);
+                console.log('API Response Data:', responseData);
+            } else {
+                // Handle errors, e.g., display an error message
+            }
         } catch (error) {
-          // Handle network errors
+            // Handle network errors
         }
-      };
+    };
     return (
         <div>
             <Header />
@@ -107,17 +108,17 @@ const totalPrice = shoppingCart.reduce((total, product) => {
                             <div className="col-lg-8">
                                 <h3 className="pb-3">Billing details</h3>
                                 <div className="col-lg-12">
-                                    <input type="text" className="input-text " name="fullName" placeholder="Complete Name"  onChange={handleChange} />
+                                    <input type="text" className="input-text " name="fullName" placeholder="Complete Name" onChange={handleChange} />
                                     <input type="email" className="input-text " name="email" placeholder="Email address" onChange={handleChange} />
-                                    
+
                                     <div className="row">
-                                        
-                                        
+
+
                                         <div className="col-lg-6">
-                                            <input type="tel" className="input-text " name="phoneNumber" placeholder="Phone"  onChange={handleChange} />
+                                            <input type="tel" className="input-text " name="phoneNumber" placeholder="Phone" onChange={handleChange} />
                                         </div>
                                     </div>
-                                    
+
                                     {/* <div className="ship-address">
                                         <div className="d-flex">
                                             <input type="radio" id="Create" name="Create" value="Create" />
@@ -202,7 +203,7 @@ const totalPrice = shoppingCart.reduce((total, product) => {
                     </form>
                 </div>
             </section>
-            <Footer/>
+            <Footer />
         </div>
     )
 }

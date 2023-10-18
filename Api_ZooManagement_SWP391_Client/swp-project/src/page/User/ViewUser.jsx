@@ -43,7 +43,9 @@ export default function ViewUser(pros) {
       setSex(dataUserView.sex === true ? "male" : "female");
       setRole(dataUserView.role === 2 ? "Staff" : "ZooTrainer");
       setStartDate(dataUserView.startDate.slice(0, 10));
-      setEndDate(dataUserView.endDate === null ? null : dataUserView.endDate.slice(0, 10));
+      setEndDate(
+        dataUserView.endDate === null ? null : dataUserView.endDate.slice(0, 10)
+      );
       setStatus(dataUserView.status);
     }
   }, [dataUserView]);
@@ -208,36 +210,37 @@ export default function ViewUser(pros) {
                             buttonStyle="solid"
                             disabled
                           >
-                            <Radio.Button
-                              style={{
-                                width: "40%",
-                                textAlign: "center",
-                                height: "37px",
-                              }}
-                              value="Staff"
-                            >
-                              <span style={{ verticalAlign: "middle" }}>
-                                Staff
-                              </span>
-                            </Radio.Button>
-                            <Radio.Button
-                              style={{
-                                width: "44%",
-                                textAlign: "center ",
-                                height: "37px",
-                              }}
-                              value="ZooTrainer"
-                            >
-                              <span style={{ verticalAlign: "middle" }}>
-                                ZooTrainer
-                              </span>
-                            </Radio.Button>
+                            {role === "Staff" && (
+                              <Radio
+                                style={{
+                                  width: "40%",
+                                  color: "red",
+                                }}
+                                value="Staff"
+                              >
+                                <span style={{ verticalAlign: "middle" }}>
+                                  Staff
+                                </span>
+                              </Radio>
+                            )}
+                            {role === "ZooTrainer" && (
+                              <Radio
+                                style={{
+                                  width: "40%",
+                                  color: "green",
+                                }}
+                                value="ZooTrainer"
+                              >
+                                <span style={{ verticalAlign: "middle" }}>
+                                  ZooTrainer
+                                </span>
+                              </Radio>
+                            )}
                           </Radio.Group>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
                           <div>
                             <label className="form-label">Gender</label>
-                            <br />
                             <Radio.Group
                               id="sex"
                               name="sex"
@@ -249,30 +252,32 @@ export default function ViewUser(pros) {
                               buttonStyle="solid"
                               disabled
                             >
-                              <Radio.Button
-                                style={{
-                                  width: "40%",
-                                  textAlign: "center",
-                                  height: "37px",
-                                }}
-                                value="male"
-                              >
-                                <span style={{ verticalAlign: "middle" }}>
-                                  Male
-                                </span>
-                              </Radio.Button>
-                              <Radio.Button
-                                style={{
-                                  width: "40%",
-                                  textAlign: "center ",
-                                  height: "37px",
-                                }}
-                                value="female"
-                              >
-                                <span style={{ verticalAlign: "middle" }}>
-                                  Female
-                                </span>
-                              </Radio.Button>
+                              {sex === "male" && (
+                                <Radio
+                                  style={{
+                                    width: "40%",
+                                    color: "blue",
+                                  }}
+                                  value="male"
+                                >
+                                  <span style={{ verticalAlign: "middle" }}>
+                                    Male
+                                  </span>
+                                </Radio>
+                              )}
+                              {sex === "female" && (
+                                <Radio
+                                  style={{
+                                    width: "40%",
+                                    color: "pink",
+                                  }}
+                                  value="female"
+                                >
+                                  <span style={{ verticalAlign: "middle" }}>
+                                    Female
+                                  </span>
+                                </Radio>
+                              )}
                             </Radio.Group>
                           </div>
                         </div>
@@ -329,30 +334,31 @@ export default function ViewUser(pros) {
                             buttonStyle="solid"
                             disabled
                           >
-                            <Radio.Button
-                              style={{
-                                width: "40%",
-                                textAlign: "center",
-                                height: "37px",
-                              }}
-                              value={true}
-                            >
-                              <span style={{ verticalAlign: "middle" }}>
-                                Available
-                              </span>
-                            </Radio.Button>
-                            <Radio.Button
-                              style={{
-                                width: "40%",
-                                textAlign: "center ",
-                                height: "37px",
-                              }}
-                              value={false}
-                            >
-                              <span style={{ verticalAlign: "middle" }}>
-                                None
-                              </span>
-                            </Radio.Button>
+                            {status === true && (
+                              <Radio
+                                style={{
+                                  width: "45%",
+                                  fontWeight: "bolder"
+                                }}
+                                value={true}
+                              >
+                                <span style={{ verticalAlign: "middle" }}>
+                                  Available
+                                </span>
+                              </Radio>
+                            )}
+                            {status === false && (
+                              <Radio
+                                style={{
+                                  width: "45%",
+                                }}
+                                value={false}
+                              >
+                                <span style={{ verticalAlign: "middle" }}>
+                                  None
+                                </span>
+                              </Radio>
+                            )}
                           </Radio.Group>
                         </div>
                       </div>

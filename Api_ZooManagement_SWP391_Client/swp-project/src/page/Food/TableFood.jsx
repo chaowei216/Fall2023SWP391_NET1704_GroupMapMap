@@ -14,6 +14,7 @@ import AddFood from "./AddFood";
 import EditFood from "./EditFood";
 import ViewFood from "./ViewFood";
 function TableFood() {
+  const role = localStorage.getItem("role");
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
   const [showModalView, setShowmodalView] = useState(false);
@@ -97,11 +98,13 @@ function TableFood() {
                 <SearchIcon />
               </Button>
             </div>
+            {role && role === 3 &&
             <div>
               <Button variant="contained" onClick={handleClick}>
                 <PlusOutlined />
               </Button>
             </div>
+            }
           </div>
         </div>
         <div className="table-content">
@@ -141,6 +144,7 @@ function TableFood() {
                         >
                           <VisibilityIcon />
                         </Button>
+                        {role && role === 3 &&
                         <Button
                           onClick={() => {
                             handleEditFood(items);
@@ -150,9 +154,12 @@ function TableFood() {
                         >
                           <EditIcon />
                         </Button>
+                        }
+                        {role && role ===3 && 
                         <Button variant="text" style={{ padding: 0 }}>
                           <DeleteIcon />
                         </Button>
+                        }
                       </td>
                     </tr>
                   );

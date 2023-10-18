@@ -13,12 +13,16 @@ namespace BBL.Services
     {
         private readonly IGenericRepository<Order> _orderRepo;
         private readonly IGenericRepository<OrderTicket> _ordTicketRepo;
+        private readonly IGenericRepository<Transaction> _transRepo;
 
-        public OrderService(IGenericRepository<Order> orderRepo, IGenericRepository<Ticket> ticketRepo,
-            IGenericRepository<OrderTicket> ordTicketRepo)
+        public OrderService(IGenericRepository<Order> orderRepo,
+                            IGenericRepository<Ticket> ticketRepo,
+                            IGenericRepository<OrderTicket> ordTicketRepo,
+                            IGenericRepository<Transaction> transRepo)
         {
             _orderRepo = orderRepo;
             _ordTicketRepo = ordTicketRepo;
+            _transRepo = transRepo;
         }
         public bool AddOrder(Order order)
         {

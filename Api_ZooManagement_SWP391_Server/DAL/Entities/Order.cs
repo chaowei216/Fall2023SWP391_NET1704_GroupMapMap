@@ -12,5 +12,7 @@ namespace DAL.Entities
         public string PhoneNumber { get; set; }
         public double TotalPrice {  get; set; }
         public ICollection<OrderTicket> OrderTickets { get; set; }
+        public Transaction Transaction { get; set; }
+        public string TransactionId { get; set; }
     }
 }

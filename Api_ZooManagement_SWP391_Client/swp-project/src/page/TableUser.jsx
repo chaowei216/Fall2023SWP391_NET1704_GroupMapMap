@@ -3,6 +3,7 @@ import Table from "react-bootstrap/Table";
 import Avatar from "@mui/material/Avatar";
 import "../assets/css/dashboard.css";
 import { Pagination } from "antd";
+import ReactPaginate from "react-paginate";
 import { DashOutlined, PlusOutlined } from "@ant-design/icons";
 import { MDBInputGroup, MDBInput, MDBIcon, MDBBtn } from "mdb-react-ui-kit";
 import Button from "@mui/material/Button";
@@ -10,7 +11,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ReactPaginate from "react-paginate";
 import ModalAdd from "./User/ModalAdd";
 import { useNavigate } from "react-router-dom";
 import { colors } from "@mui/material";
@@ -36,10 +36,34 @@ function TableUser() {
   const [showModalEdit, setShowmodalEdit] = useState(false);
   const [showModalView, setShowmodalView] = useState(false);
   const [listUsers, setListUsers] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    // Gọi API
+    fetchUsers();
+  }, [currentPage]);
+
+  const fetchUsers = async () => {
+    const response = await api.get("https://localhost:44352/api/User/page/", {
+      params: {
+        page: currentPage,
+      },
+    });
+    const data = response.json();
+    setUsers(data.users);
+    setTotalPages(data.pages);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
   // const fetchAllUser = () => {
   //   return axios.get("https://reqres.in/api/users?page=2");
   //   // return axios.get("https://localhost:44352/api/User/users");
   // };
+  const handlePageClick = () => {};
   const handleEditUser = (item) => {
     // setDataUserEdit(item);
     console.log(item);
@@ -54,7 +78,7 @@ function TableUser() {
   };
   const handleClose = () => {
     setShowmodalEdit(false);
-    setShowmodalView(false)
+    setShowmodalView(false);
   };
 
   const getList = () => {
@@ -90,6 +114,7 @@ function TableUser() {
   const toggleShow = () => setOptSmModal(!optSmModal);
   const onShowSizeChange = (current, pageSize) => {
     console.log(current, pageSize);
+    setCurrentPage(current);
   };
   const navigate = useNavigate();
   const handleClick = () => {
@@ -130,14 +155,14 @@ function TableUser() {
               </tr>
             </thead>
             <tbody>
-              {listUsers &&
-                listUsers.length > 0 &&
-                listUsers.map((item, index) => {
+              {users &&
+                users.length > 0 &&
+                users.map((item, index) => {
                   return (
                     <tr key={`user-${index}`}>
                       <td>{item.userId}</td>
                       <td>{item.email}</td>
-                      <td>{item.role === 2 ? 'Staff' : 'ZooTrainer'}</td>
+                      <td>{item.role === 2 ? "Staff" : "ZooTrainer"}</td>
                       <td>{item.firstname}</td>
                       <td>{item.lastname}</td>
                       <td style={{ width: "13rem" }}>
@@ -188,11 +213,10 @@ function TableUser() {
           </Table>
           <div className="pagination-container">
             <Pagination
-              showSizeChanger
-              onShowSizeChange={onShowSizeChange}
               onChange={onShowSizeChange}
-              defaultCurrent={1}
-              total={50}
+              defaultCurrent={currentPage}
+              defaultPageSize={5}
+              total={totalPages}
             />
           </div>
         </div>

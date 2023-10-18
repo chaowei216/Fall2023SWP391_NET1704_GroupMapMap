@@ -4,6 +4,7 @@ using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231017125012_add-Transaction")]
+    partial class addTransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -331,14 +333,7 @@ namespace DAL.Migrations
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
-                    b.Property<string>("TransactionId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("OrderId");
-
-                    b.HasIndex("TransactionId")
-                        .IsUnique();
 
                     b.ToTable("Orders");
                 });
@@ -426,7 +421,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Transaction", b =>
                 {
                     b.Property<string>("TransactionId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(5)");
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
@@ -438,11 +433,6 @@ namespace DAL.Migrations
 
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("TransactionInfo")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("TransactionId");
 
@@ -657,17 +647,6 @@ namespace DAL.Migrations
                     b.Navigation("NewsCategory");
                 });
 
-            modelBuilder.Entity("DAL.Entities.Order", b =>
-                {
-                    b.HasOne("DAL.Entities.Transaction", "Transaction")
-                        .WithOne("Order")
-                        .HasForeignKey("DAL.Entities.Order", "TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Transaction");
-                });
-
             modelBuilder.Entity("DAL.Entities.OrderTicket", b =>
                 {
                     b.HasOne("DAL.Entities.Order", "Order")
@@ -685,6 +664,17 @@ namespace DAL.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Ticket");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Transaction", b =>
+                {
+                    b.HasOne("DAL.Entities.Order", "Order")
+                        .WithOne("Transaction")
+                        .HasForeignKey("DAL.Entities.Transaction", "TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("DAL.Entities.Animal", b =>
@@ -721,6 +711,9 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Order", b =>
                 {
                     b.Navigation("OrderTickets");
+
+                    b.Navigation("Transaction")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DAL.Entities.Schedule", b =>
@@ -731,12 +724,6 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Ticket", b =>
                 {
                     b.Navigation("OrderTickets");
-                });
-
-            modelBuilder.Entity("DAL.Entities.Transaction", b =>
-                {
-                    b.Navigation("Order")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>

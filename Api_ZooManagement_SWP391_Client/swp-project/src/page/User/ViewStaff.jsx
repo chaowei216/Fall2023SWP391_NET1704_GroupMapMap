@@ -116,9 +116,9 @@ function ViewStaff() {
                                     <label className="form-label">First Name</label>
                                     <Form.Control
                                         type="string"
-                                        id="species"
+                                        id="firstname"
                                         disabled
-                                        placeholder="Species Animal"
+                                        placeholder="First Name"
                                         aria-describedby="inputGroupPrepend"
                                         name="species"
                                         value={staffProfile[0].firstname}
