@@ -113,18 +113,18 @@ namespace BBL.Services
             return _animalCageRepo.GetAll();
         }
 
-        public ICollection<Cage>? GetCageByAnimalId(string animalId)
+        public ICollection<AnimalCage>? GetCageByAnimalId(string animalId)
         {
             var animalCages = _animalCageRepo.GetAll().Where(a => a.AnimalId == animalId).ToList();
-            var cages = new List<Cage>();
+            /*var cages = new List<Cage>();
             if (animalCages != null)
             {
                 foreach (var animalCage in animalCages)
                 {
                     cages.Add(_cageRepo.GetById(animalCage.CageId));
                 }
-            }
-            return cages;
+            }*/
+            return animalCages;
         }
 
         public bool UpdateAnimal(Animal animal, Animal? animalMap)

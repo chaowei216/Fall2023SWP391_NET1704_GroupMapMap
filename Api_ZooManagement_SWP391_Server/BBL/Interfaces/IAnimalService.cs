@@ -22,7 +22,7 @@ namespace BBL.Interfaces
         ICollection<User> GetTrainersCanTrain();
         ICollection<User>? GetOldTrainersOfAnimal(string animalId);
         ICollection<Cage>? GetOldCagesOfAnimal(string animalId);
-        ICollection<Cage> GetCageByAnimalId(string animalId);
+        ICollection<AnimalCage> GetCageByAnimalId(string animalId);
         ICollection<AnimalCage> GetAnimalCages();
         ICollection<AnimalTrainer> GetAnimalTrainers();
         ICollection<Animal> GetAnimalByTrainerId(string trainerId);

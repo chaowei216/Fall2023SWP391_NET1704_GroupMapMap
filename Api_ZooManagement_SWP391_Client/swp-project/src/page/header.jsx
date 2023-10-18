@@ -57,6 +57,7 @@ const renderMenuItems = () => {
 function Header() {
   const {shoppingCart,countTotal} =useShopping();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  console.log(countTotal);
   useEffect(() => {
     const handleScroll = () => {
       const header = document.querySelector('.one .bottom-bar');
@@ -115,9 +116,7 @@ function Header() {
               <div className="col-xl-3">
                 <div className="d-flex align-items-center justify-content-between">
                   <div className="logo">
-                    <a href="index.html">
-                      <img alt="logo" src="../../src/assets/img/logo.png"  width="160px" height="160px" />
-                    </a>
+                    <Link to="/"><img alt="logo" src="../../src/assets/img/logo.png"  width="160px" height="160px" /></Link>
                   </div>
                   <div className="d-flex cart-checkout">
                     <a href="cart-checkout.html">

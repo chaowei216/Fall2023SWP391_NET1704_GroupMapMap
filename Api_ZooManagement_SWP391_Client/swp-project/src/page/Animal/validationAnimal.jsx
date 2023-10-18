@@ -77,7 +77,7 @@ export const schemaAnimal = yup.object().shape({
     .required("Vui lòng nhập ngày")
     .test({
       name: "start-date-valid",
-      message: "Ngày phải trước ngày hiện tại",
+      message: "Ngày phải trước ngày outCage",
       test: function (value) {
         const currentDate = new Date();
         const entryCageDate = new Date(this.parent.entryCageDate);
