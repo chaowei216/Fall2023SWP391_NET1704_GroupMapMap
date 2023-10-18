@@ -4,7 +4,7 @@ import axios from 'axios';
 
 function Loading() {
   const navigate = useNavigate();
-  const [countdown, setCountdown] = useState(1000);
+  const [countdown, setCountdown] = useState(10);
   const apiUrl1 = "https://localhost:44352/api/Order";
   let status = "fail"; 
 

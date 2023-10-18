@@ -641,7 +641,7 @@ export default function ViewAnimal(pros) {
                                           <td>{value.lastname}</td>
                                           <td>{value.phone}</td>
                                           <td>{value.startDate}</td>
-                                          <td>{value.endDate}</td>
+                                          <td>{value.endDate === null ? "Empty" : value.endDate}</td>
                                         </tr>
                                       );
                                     })}
@@ -697,14 +697,14 @@ export default function ViewAnimal(pros) {
                                         ) : (
                                           <div
                                             style={{
-                                              background: "gray",
+                                              background: "red",
                                               borderRadius: "50px",
                                               textAlign: "center",
                                               color: "white",
                                               fontWeight: "bold",
                                             }}
                                           >
-                                            huuh
+                                            End Work
                                           </div>
                                         )}
                                       </td>

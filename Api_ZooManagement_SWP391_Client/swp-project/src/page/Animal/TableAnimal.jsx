@@ -17,6 +17,7 @@ import Typography from "@mui/material/Typography";
 import YourComponent from "./AnimalFoodTest";
 import { Pagination } from "antd";
 function TableAnimal() {
+  const role = localStorage.getItem("role");
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
   const [showModalView, setShowmodalView] = useState(false);
@@ -104,7 +105,7 @@ function TableAnimal() {
                 variant="contained"
                 onClick={handleClickPop}
               >
-                Open Popover
+                <PlusOutlined></PlusOutlined> Create Animal
               </Button>
               <Popover
                 id={id}
@@ -124,14 +125,6 @@ function TableAnimal() {
                     >
                       <Button variant="outlined" onClick={handleClick}>
                         Add New Animal
-                      </Button>
-                    </div>
-                    <div
-                      className="mb-2 mt-1"
-                      style={{ background: "aliceblue" }}
-                    >
-                      <Button variant="outlined" onClick={handleClick2}>
-                        Add Food Animal
                       </Button>
                     </div>
                   </div>

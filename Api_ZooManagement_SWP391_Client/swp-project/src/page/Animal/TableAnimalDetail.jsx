@@ -115,46 +115,6 @@ function TableAnimalDetail() {
                 <SearchIcon />
               </Button>
             </div>
-            <div>
-              <Button
-                aria-describedby={id}
-                variant="contained"
-                onClick={handleClickPop}
-              >
-                Open Popover
-              </Button>
-              <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-              >
-                <Typography sx={{ p: 2 }}>
-                  <div className="btn-header">
-                    <div
-                      className="mb-3 mt-1"
-                      style={{ background: "aliceblue" }}
-                    >
-                      <Button variant="outlined" onClick={handleClick}>
-                        Add New Animal
-                      </Button>
-                    </div>
-                    <div
-                      className="mb-2 mt-1"
-                      style={{ background: "aliceblue" }}
-                    >
-                      <Button variant="outlined" onClick={handleClick2}>
-                        Add Food Animal
-                      </Button>
-                    </div>
-                  </div>
-                </Typography>
-              </Popover>
-            </div>
           </div>
         </div>
         <div className="table-content">
