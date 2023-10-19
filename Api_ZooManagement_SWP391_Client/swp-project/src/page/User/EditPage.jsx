@@ -48,10 +48,17 @@ export default function EditPage(pros) {
   const [Sex, setSex] = useState("");
   const [company, setCompany] = useState("");
   const [uID, setUID] = useState("");
-  const [endDate, setEndDate] = useState(null);
+  const [endDate, setEndDate] = useState("");
   const [status, setStatus] = useState(true);
   const [wID, setWID] = useState("2");
   const [error, setError] = useState("");
+  var today = new Date();
+  var date =
+    today.getFullYear() +
+    "-" +
+    (today.getMonth() + 1) +
+    "-" +
+    today.getDate();
   useEffect(() => {
     if (show) {
       setUID(dataUserEdit.userId);
@@ -63,13 +70,19 @@ export default function EditPage(pros) {
         setAddress(dataUserEdit.address),
         setRole(dataUserEdit.role);
       setSex(dataUserEdit.sex),
-        setEndDate(dataUserEdit.endDate),
+        setEndDate(dataUserEdit.endDate === null ? null : dataUserEdit.endDate.slice(0, 10)),
         setStatus(dataUserEdit.status),
         setWID(dataUserEdit.wID === null ? "2" : `${wID}`);
     }
   }, [dataUserEdit]);
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    let end = "";
+    if (endDate != "") {
+      end = endDate
+    } else {
+      end = date;
+    }
     const formData = {
       userId: event.target.elements.firstname.value,
     };
@@ -80,11 +93,12 @@ export default function EditPage(pros) {
       address: address,
       phone: phone,
       role: Role,
-      endDate: endDate,
+      endDate: end,
     };
     console.log(user.firstname === dataUserEdit.firstname);
     if (user.firstname === dataUserEdit.firstname) {
       console.log("Nothing changed");
+      console.log(user);
       setError("Nothing changed");
       return;
     }
@@ -101,7 +115,12 @@ export default function EditPage(pros) {
       console.log("Success");
       // localStorage.setItem("isAdded", true);
       // handleClose()
-      window.location.href = "/staff/1";
+      const role = localStorage.getItem("role");
+      if (role === "ADMIN") {
+        window.location.href = "/admin/1";
+      } else if (role === "STAFF") {
+        window.location.href = "/staff/1";
+      }
       // navigate("/staff/1")
     }
   };
@@ -184,11 +203,11 @@ export default function EditPage(pros) {
                             name="firstname"
                             value={firstname}
                             onChange={(e) => setFirstName(e.target.value)}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.first_name &&
-                            //   formik.touched.first_name
-                            // }
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.first_name &&
+                          //   formik.touched.first_name
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
@@ -204,12 +223,12 @@ export default function EditPage(pros) {
                             name="lastname"
                             value={lastname}
                             onChange={(e) => setLastName(e.target.value)}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.last_name &&
-                            //   formik.touched.last_name
-                            // }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.last_name &&
+                          //   formik.touched.last_name
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
@@ -228,11 +247,11 @@ export default function EditPage(pros) {
                             name="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.email && formik.touched.email
-                            // }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.email && formik.touched.email
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.email}
@@ -330,11 +349,11 @@ export default function EditPage(pros) {
                           name="address"
                           value={address}
                           onChange={(e) => setAddress(e.target.value)}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.address && formik.touched.address
-                          // }
+                        // onChange={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                        // isInvalid={
+                        //   formik.errors.address && formik.touched.address
+                        // }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
@@ -352,7 +371,7 @@ export default function EditPage(pros) {
                             name="endDate"
                             value={endDate}
                             onChange={(event) => setEndDate(event.target.value)}
-                            // onBlur={formik.handleBlur}
+                          // onBlur={formik.handleBlur}
                           />
                         </div>
                       </div>

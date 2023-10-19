@@ -118,12 +118,7 @@ function TableAnimal() {
                 variant="contained"
                 onClick={handleClickPop}
               >
-<<<<<<< HEAD
-                <PlusOutlined /> {" "}
-                Create Animal
-=======
                 <PlusOutlined></PlusOutlined> Create Animal
->>>>>>> 17bab2ccb61658bea34cf1358028b906b6f50a90
               </Button>
               <Popover
                 id={id}
@@ -155,6 +150,7 @@ function TableAnimal() {
           <Table size="100px" hover>
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Gender</th>
@@ -169,6 +165,7 @@ function TableAnimal() {
                 listAnimal.map((items, index) => {
                   return (
                     <tr key={`animal-${index}`}>
+                      <td>{items.animalId}</td>
                       <td>{items.name}</td>
                       <td>{items.description}</td>
                       <td>{items.sex === true ? "Male" : "Female"}</td>

@@ -3,7 +3,7 @@ import * as yup from "yup";
 const regex = /^(\d{1,5}\s)?[a-zA-Z0-9\s-]+(\.[a-zA-Z]+)?$/;
 export const basicSchema = yup.object().shape({
   email: yup.string().email("Please enter a valid email").required("Required"),
-  first_name: yup
+  firstname: yup
     .string()
     .required("Name is required")
     .min(2, "Name must be at least 2 characters")
@@ -13,7 +13,7 @@ export const basicSchema = yup.object().shape({
       "Name can only contain letters, dashes, periods, and apostrophes"
     ),
     // .matches(/\s+/, "Name cannot contain only spaces"),
-  last_name: yup
+  lastname: yup
     .string()
     .required("Name is required")
     .min(2, "Name must be at least 2 characters")
@@ -39,6 +39,4 @@ export const basicSchema = yup.object().shape({
     .required('Please enter Address'),
 //   company: yup.string().required("Company name is required").min(3),
     sex: yup.string(),
-    company: yup.string(),
-    wID: yup.string(),
 });
