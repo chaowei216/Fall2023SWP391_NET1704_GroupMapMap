@@ -45,6 +45,7 @@ import ViewStaff from './page/User/ViewStaff';
 import TableAnimalDetail from './page/Animal/TableAnimalDetail';
 import New from './page/New/New';
 import Loading from './page/cart-checkout/loadingPage';
+import Contact from './page/Contact/Contact';
 
 const secretKey = 'your_secret_key';
 
@@ -85,6 +86,7 @@ function App() {
           <Route path="/reset" element={<Forget />}></Route>
           <Route path="/" element={<Index />}></Route>
           <Route path="/new" element={<New/>}/>
+          <Route path="/contact" element={<Contact/>}/>
         </Routes>
       </Router>
     </>

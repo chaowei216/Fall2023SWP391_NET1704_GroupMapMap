@@ -37,7 +37,7 @@ function SectionGapType() {
   return (
    
    <div>
-      <section className="gap">
+      <section className="gap" id="1" >
       <div className="heading-two">
          <h2>Ticket</h2>
          <div className="line"></div>
