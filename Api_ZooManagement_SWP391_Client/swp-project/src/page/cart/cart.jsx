@@ -1,10 +1,10 @@
 import React,{useEffect} from 'react'
-import useShopping from '../../hooks/useShopping'
 import Footer from '../footer'
 import Header from '../header'
 import StaffPage from '../rolePage/staffPage'
 import Banner from './banner'
 import ListItem from './listItem'
+import useShopping from '../../hooks/useShopping'
 const menuItems = [
   {
     text: 'Home',
