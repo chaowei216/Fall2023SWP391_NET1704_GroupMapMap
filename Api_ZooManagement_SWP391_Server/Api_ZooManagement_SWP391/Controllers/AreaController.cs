@@ -53,16 +53,19 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest(ModelState);
             }
 
+            if(_areaService.GetByAreaName(areaDto.AreaName) != null) 
+                return BadRequest("Area existed");
+
+            int count = _areaService.GetAll().Count() + 1;
+            var areaId = "AE" + count.ToString().PadLeft(4, '0');
+
+            var areaMap = _mapper.Map<Area>(areaDto);
+            areaMap.AreaId = areaId;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            int count = _areaService.GetAll().Count() + 1;
-            var areaId = "AE" + count.ToString().PadLeft(3, '0');
-
-            var areaMap = _mapper.Map<Area>(areaDto);
-            areaMap.AreaId = areaId;
 
             if (!_areaService.AddArea(areaMap))
             {

@@ -3,22 +3,26 @@ import Footer from "../../footer";
 import Header from "../../header";
 import Banner from "../loginPage/banner";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 function Forget() {
   const [token, setToken] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigator = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      setErrorMessage("Mật khẩu và xác nhận mật khẩu không khớp.");
+      setErrorMessage("Confirm password doesn't match with password");
       return;
     }
 
     try {
       const response = await axios.post(`https://localhost:44352/api/Login/reset-password?Token=${token}&Password=${password}&PasswordConfirmation=${confirmPassword}`)
       console.log("Reset password success:", response.data);
+      navigator("/login");
     } catch (error) {
       console.error("Reset password failed:", error);
     }

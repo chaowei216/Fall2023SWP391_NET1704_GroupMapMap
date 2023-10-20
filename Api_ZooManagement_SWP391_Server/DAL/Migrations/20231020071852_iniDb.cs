@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DAL.Migrations
 {
-    public partial class initDB : Migration
+    public partial class iniDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,7 @@ namespace DAL.Migrations
                 name: "Animals",
                 columns: table => new
                 {
-                    AnimalId = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    AnimalId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sex = table.Column<bool>(type: "bit", nullable: false),
@@ -34,7 +34,7 @@ namespace DAL.Migrations
                 name: "Areas",
                 columns: table => new
                 {
-                    AreaId = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    AreaId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     AreaName = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
@@ -47,7 +47,7 @@ namespace DAL.Migrations
                 name: "Foods",
                 columns: table => new
                 {
-                    FoodId = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    FoodId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     FName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     ImportDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -60,37 +60,10 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "NewsCategories",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
-                    CategoryName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_NewsCategories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    OrderId = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    TotalPrice = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.OrderId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Reviews",
                 columns: table => new
                 {
-                    ReviewId = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    ReviewId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     Title = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Rating = table.Column<float>(type: "real", nullable: false)
@@ -104,8 +77,9 @@ namespace DAL.Migrations
                 name: "Schedules",
                 columns: table => new
                 {
-                    ScheduleId = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
-                    MealType = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false)
+                    ScheduleId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    ScheduleName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,7 +90,7 @@ namespace DAL.Migrations
                 name: "Tickets",
                 columns: table => new
                 {
-                    TicketId = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    TicketId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false)
                 },
@@ -126,10 +100,25 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    TransactionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PaymentMethod = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    TransactionInfo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.TransactionId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
@@ -156,7 +145,7 @@ namespace DAL.Migrations
                 name: "WorkExperiences",
                 columns: table => new
                 {
-                    ExperienceId = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    ExperienceId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     Position = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
@@ -172,7 +161,7 @@ namespace DAL.Migrations
                     Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     MaxCapacity = table.Column<int>(type: "int", nullable: false),
                     AnimalQuantity = table.Column<int>(type: "int", nullable: false),
-                    AreaId = table.Column<string>(type: "nvarchar(5)", nullable: false)
+                    AreaId = table.Column<string>(type: "nvarchar(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -189,8 +178,9 @@ namespace DAL.Migrations
                 name: "AnimalFoods",
                 columns: table => new
                 {
-                    AnimalId = table.Column<string>(type: "nvarchar(5)", nullable: false),
-                    FoodId = table.Column<string>(type: "nvarchar(5)", nullable: false),
+                    AnimalId = table.Column<string>(type: "nvarchar(6)", nullable: false),
+                    FoodId = table.Column<string>(type: "nvarchar(6)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Amount = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
@@ -211,32 +201,11 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "News",
-                columns: table => new
-                {
-                    NewsId = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
-                    AuthorName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NewsTitle = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    NewsContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NewsCategoryId = table.Column<string>(type: "nvarchar(5)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_News", x => x.NewsId);
-                    table.ForeignKey(
-                        name: "FK_News_NewsCategories_NewsCategoryId",
-                        column: x => x.NewsCategoryId,
-                        principalTable: "NewsCategories",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AnimalSchedules",
                 columns: table => new
                 {
-                    AnimalId = table.Column<string>(type: "nvarchar(5)", nullable: false),
-                    ScheduleId = table.Column<string>(type: "nvarchar(5)", nullable: false),
+                    AnimalId = table.Column<string>(type: "nvarchar(6)", nullable: false),
+                    ScheduleId = table.Column<string>(type: "nvarchar(6)", nullable: false),
                     Time = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
@@ -258,27 +227,24 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderTickets",
+                name: "Orders",
                 columns: table => new
                 {
-                    OrderId = table.Column<string>(type: "nvarchar(5)", nullable: false),
-                    TicketId = table.Column<string>(type: "nvarchar(5)", nullable: false),
-                    TicketQuantity = table.Column<int>(type: "int", nullable: false)
+                    OrderId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    TotalPrice = table.Column<double>(type: "float", nullable: false),
+                    TransactionId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderTickets", x => new { x.OrderId, x.TicketId });
+                    table.PrimaryKey("PK_Orders", x => x.OrderId);
                     table.ForeignKey(
-                        name: "FK_OrderTickets_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OrderTickets_Tickets_TicketId",
-                        column: x => x.TicketId,
-                        principalTable: "Tickets",
-                        principalColumn: "TicketId",
+                        name: "FK_Orders_Transactions_TransactionId",
+                        column: x => x.TransactionId,
+                        principalTable: "Transactions",
+                        principalColumn: "TransactionId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -286,8 +252,8 @@ namespace DAL.Migrations
                 name: "AnimalTrainers",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(5)", nullable: false),
-                    AnimalId = table.Column<string>(type: "nvarchar(5)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(6)", nullable: false),
+                    AnimalId = table.Column<string>(type: "nvarchar(6)", nullable: false),
                     StartTrainDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTrainDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -309,11 +275,33 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "News",
+                columns: table => new
+                {
+                    NewsId = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NewsTitle = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    NewsContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AuthorName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_News", x => x.NewsId);
+                    table.ForeignKey(
+                        name: "FK_News_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ExperienceDetails",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(5)", nullable: false),
-                    ExperienceId = table.Column<string>(type: "nvarchar(5)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(6)", nullable: false),
+                    ExperienceId = table.Column<string>(type: "nvarchar(6)", nullable: false),
                     Company = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
@@ -337,7 +325,7 @@ namespace DAL.Migrations
                 name: "AnimalCages",
                 columns: table => new
                 {
-                    AnimalId = table.Column<string>(type: "nvarchar(5)", nullable: false),
+                    AnimalId = table.Column<string>(type: "nvarchar(6)", nullable: false),
                     CageId = table.Column<string>(type: "nvarchar(5)", nullable: false),
                     EntryCageDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OutCageDate = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -356,6 +344,31 @@ namespace DAL.Migrations
                         column: x => x.CageId,
                         principalTable: "Cages",
                         principalColumn: "CId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderTickets",
+                columns: table => new
+                {
+                    OrderId = table.Column<string>(type: "nvarchar(6)", nullable: false),
+                    TicketId = table.Column<string>(type: "nvarchar(6)", nullable: false),
+                    TicketQuantity = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderTickets", x => new { x.OrderId, x.TicketId });
+                    table.ForeignKey(
+                        name: "FK_OrderTickets_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderTickets_Tickets_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Tickets",
+                        principalColumn: "TicketId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -396,9 +409,15 @@ namespace DAL.Migrations
                 column: "ExperienceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_News_NewsCategoryId",
+                name: "IX_News_UserId",
                 table: "News",
-                column: "NewsCategoryId");
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_TransactionId",
+                table: "Orders",
+                column: "TransactionId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderTickets_TicketId",
@@ -457,13 +476,10 @@ namespace DAL.Migrations
                 name: "Animals");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
                 name: "WorkExperiences");
 
             migrationBuilder.DropTable(
-                name: "NewsCategories");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Orders");
@@ -473,6 +489,9 @@ namespace DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Areas");
+
+            migrationBuilder.DropTable(
+                name: "Transactions");
         }
     }
 }

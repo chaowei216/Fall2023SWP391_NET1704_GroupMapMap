@@ -13,7 +13,7 @@ namespace BBL.Interfaces
         bool UpdateArea(Area area);
         ICollection<Area> GetAll();
         Area GetByAreaId(string id);
-        Area GetByAreaName(string name);
+        Area? GetByAreaName(string name);
         bool AreaExists(string id);
     }
 }

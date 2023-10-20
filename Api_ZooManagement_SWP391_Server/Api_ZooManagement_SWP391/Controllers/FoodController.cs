@@ -65,7 +65,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             if (foodMap.Quantity == 0)
                 return BadRequest("Fail to Add");
             int count = _foodService.GetAllFood().Count() + 1;
-            var foodId = "F" + count.ToString().PadLeft(4, '0');
+            var foodId = "FD" + count.ToString().PadLeft(4, '0');
             foodMap.FoodId = foodId;
 
             if (!ModelState.IsValid)

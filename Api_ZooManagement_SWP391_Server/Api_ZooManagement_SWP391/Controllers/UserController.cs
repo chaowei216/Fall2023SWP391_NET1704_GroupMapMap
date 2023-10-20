@@ -81,6 +81,62 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(response);
         }
 
+        [HttpGet("trainers/pages/{page}")]
+        [ProducesResponseType(200, Type = typeof(UserResponseDto))]
+        public IActionResult GetTrainers(int page)
+        {
+            var users = _userService.GetTrainers();
+            if (users == null || users.Count() == 0)
+                return NotFound();
+
+            var pageResults = 7f;
+            var pageCount = Math.Ceiling(users.Count() / pageResults);
+
+            var result = users
+                        .Skip((page - 1) * (int)pageResults)
+                        .Take((int)pageResults).ToList();
+
+            var response = new UserResponseDto
+            {
+                Users = result,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(response);
+        }
+
+        [HttpGet("staffs/pages/{page}")]
+        [ProducesResponseType(200, Type = typeof(UserResponseDto))]
+        public IActionResult GetStaffs(int page)
+        {
+            var users = _userService.GetStaffs();
+            if (users == null || users.Count() == 0)
+                return NotFound();
+
+            var pageResults = 7f;
+            var pageCount = Math.Ceiling(users.Count() / pageResults);
+
+            var result = users
+                        .Skip((page - 1) * (int)pageResults)
+                        .Take((int)pageResults).ToList();
+
+            var response = new UserResponseDto
+            {
+                Users = result,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(response);
+        }
+
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -116,9 +172,9 @@ namespace Api_ZooManagement_SWP391.Controllers
 
 
             if(UserRoleExtensions.ToIntValue(user.Role) == 2) 
-               userId = "S" + count.ToString().PadLeft(4, '0');
+               userId = "ST" + count.ToString().PadLeft(4, '0');
             else if(UserRoleExtensions.ToIntValue(user.Role) == 3)
-               userId = "Z" + count.ToString().PadLeft(4, '0');
+               userId = "ZT" + count.ToString().PadLeft(4, '0');
             
             user.UserId = userId; 
             user.PasswordHash = passwordHash;

@@ -45,7 +45,7 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             var exp = _mapper.Map<WorkExperience>(expCreate);
             int count = _experienceService.GetExperiences().Count() + 1;
-            var expId = "EX" + count.ToString().PadLeft(3, '0');
+            var expId = "EX" + count.ToString().PadLeft(4, '0');
             exp.ExperienceId = expId;
 
             if (!ModelState.IsValid)

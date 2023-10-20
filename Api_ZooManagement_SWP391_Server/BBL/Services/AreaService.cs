@@ -34,17 +34,9 @@ namespace BBL.Services
             return _areaRepository.GetById(id);
         }
 
-        public Area GetByAreaName(string name)
+        public Area? GetByAreaName(string name)
         {
-            var Areas = _areaRepository.GetAll();
-            foreach (Area area in Areas)
-            {
-                if (area.AreaName == name)
-                {
-                    return area;
-                }
-            }
-            return null;
+            return _areaRepository.GetAll().FirstOrDefault(a => a.AreaName == name);
         }
 
         public bool UpdateArea(Area area)

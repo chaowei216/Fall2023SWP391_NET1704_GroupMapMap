@@ -54,7 +54,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             }
 
             int count = _scheduleService.GetAllSchedule().Count() + 1;
-            var scheduleId = "SC" + count.ToString().PadLeft(3, '0');
+            var scheduleId = "SC" + count.ToString().PadLeft(4, '0');
 
             var scheduleMap = _mapper.Map<Schedule>(scheduleDto);
             scheduleMap.ScheduleId = scheduleId;

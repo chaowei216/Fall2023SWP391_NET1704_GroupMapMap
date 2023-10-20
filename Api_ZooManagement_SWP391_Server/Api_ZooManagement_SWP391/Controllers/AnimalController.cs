@@ -20,7 +20,8 @@ namespace Api_ZooManagement_SWP391.Controllers
         private readonly IUserService _userService;
         private readonly IFoodService _foodService;
         private readonly IScheduleService _scheduleService;
-        public Regex animalRegex = new Regex(@"^A\d{4}");
+        private readonly IAnimalScheduleService _animalScheduleService;
+        public Regex animalRegex = new Regex(@"^AN\d{4}");
         public Regex userRegex = new Regex(@"^Z\d{4}");
 
         public AnimalController(IMapper mapper, 
@@ -28,7 +29,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                                 ICageService cageService,
                                 IUserService userService,
                                 IFoodService foodService,
-                                IScheduleService scheduleService)
+                                IScheduleService scheduleService,
+                                IAnimalScheduleService animalScheduleService)
         {
             _animalService = animalService;
             _mapper = mapper;
@@ -36,6 +38,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             _userService = userService;
             _foodService = foodService;
             _scheduleService = scheduleService;
+            _animalScheduleService = animalScheduleService;
         }
 
         [HttpGet]
@@ -220,7 +223,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             var animals = _animalService.GetAll();
             if (animals == null) count = 1;
             else count = animals.Count() + 1;
-            var animalId = "A" + count.ToString().PadLeft(4, '0');
+            var animalId = "AN" + count.ToString().PadLeft(4, '0');
 
             List<AnimalFood> animalFoods = new List<AnimalFood>();
 
@@ -276,31 +279,41 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost("AnimalSchedule")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateAnimalSchedule([FromQuery] string animalId, [FromBody] AnimalScheduleDto animalScheduleDto)
+        public IActionResult CreateAnimalSchedule(string animalId, [FromBody] AnimalScheduleDto animalScheduleDto)
         {
             if(animalId == null)
             {
                 return BadRequest();
             }
-            var animalScheduleMap = _mapper.Map<AnimalSchedule>(animalScheduleDto);
+            if (animalId != animalScheduleDto.AnimalId)
+                return BadRequest(ModelState);
+            if (!_animalService.AnimalExists(animalId))
+                return NotFound();
+
+            var animalScheduleMap = _mapper.Map<Animal>(animalScheduleDto);
             var animal = _animalService.GetByAnimalId(animalId);
             var schedules = animalScheduleDto.AnimalSchedules;
-            List<AnimalSchedule> list = new List<AnimalSchedule>();
+
+            List<AnimalScheduleCreateDto> list = new List<AnimalScheduleCreateDto>();
 
             foreach(var schedule in schedules)
             {
                 var getSchedule = _scheduleService.GetSchedule(schedule.ScheduleId);
-                list.Add(new AnimalSchedule
+                if (getSchedule == null) return BadRequest("Food not found!!!");
+                list.Add(new AnimalScheduleCreateDto()
                 {
-                    AnimalId = animalId,
-                    Schedule = getSchedule,
+                    ScheduleId = schedule.ScheduleId,
                     Time = schedule.Time,
                     Description = schedule.Description,
-
                 });
             }
 
-            return Ok("Successfully");
+            if (!_animalScheduleService.AddAnimalSchedule(animal, animalScheduleMap))
+            {
+                ModelState.AddModelError("", "Error when updating animal!!");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
         }
 
         [HttpPut("{animalId}")]
