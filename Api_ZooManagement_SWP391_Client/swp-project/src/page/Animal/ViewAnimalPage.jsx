@@ -618,7 +618,7 @@ export default function ViewAnimal(pros) {
                                   <tr>
                                     <th>ID</th>
                                     <th>First Name</th>
-                                    <th>Last Capacity</th>
+                                    <th>Last Name</th>
                                     <th>Phone</th>
                                     <th>StartDate</th>
                                     <th>EndDate</th>
@@ -634,8 +634,8 @@ export default function ViewAnimal(pros) {
                                           <td>{value.firstname}</td>
                                           <td>{value.lastname}</td>
                                           <td>{value.phone}</td>
-                                          <td>{value.startDate}</td>
-                                          <td>{value.endDate === null ? "Empty" : value.endDate}</td>
+                                          <td>{value.startDate === null ? "Empty" : value.startDate.slice(0,10)}</td>
+                                          <td>{value.endDate === null ? "Empty" : value.endDate.slice(0,10)}</td>
                                         </tr>
                                       );
                                     })}

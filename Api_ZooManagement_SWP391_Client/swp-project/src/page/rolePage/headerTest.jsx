@@ -14,6 +14,7 @@ import {
 import "../../assets/css/dashboard.css";
 
 function AppHeader({ OpenSidebar }) {
+  const role = localStorage.getItem("role");
   const [comments, setComments] = useState([]);
   const [orders, setOrders] = useState([]);
   const [commentsOpen, setCommentsOpen] = useState(false);
@@ -33,7 +34,11 @@ function AppHeader({ OpenSidebar }) {
     nativigate('/')
   };
   const handleChange = () => {
-    nativigate('/staff')
+    if (role === "STAFF") {
+      nativigate('/staff/profile')
+    } else if (role === "ZOOTRAINER") {
+      nativigate('/ZooTrainer/profile')
+    }
   }
   return (
     <div className="AppHeader">

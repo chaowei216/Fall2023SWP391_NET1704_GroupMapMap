@@ -75,7 +75,7 @@ function App() {
           </Route>
           <Route path="/ZooTrainer" element={<HeaderLayOutTrainer />}>
             <Route path="" element={<Dashboard />}></Route>
-            <Route path="1" element={<ViewStaff />}></Route>
+            <Route path="profile" element={<ViewStaff />}></Route>
             <Route path="3" element={<TableFood />}></Route>
             <Route path="2" element={<TableAnimalDetail />}></Route>
           </Route>

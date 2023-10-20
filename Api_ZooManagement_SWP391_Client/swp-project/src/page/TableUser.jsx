@@ -42,7 +42,7 @@ function TableUser() {
 
   useEffect(() => {
     const getUsers = () => {
-      return fetch(`https://localhost:44352/api/User/page/${currentPage}`).then(
+      return fetch(`https://localhost:44352/api/User/staffs/pages/${currentPage}`).then(
         (data) => data.json()
       );
     };
@@ -81,21 +81,6 @@ function TableUser() {
     setShowmodalView(false);
   };
 
-  const getList = () => {
-    return fetch("https://localhost:44352/api/User/users").then((data) =>
-      data.json()
-    );
-  };
-  // dùng API real
-  useEffect(() => {
-    let mounted = true;
-    getList().then((items) => {
-      if (mounted) {
-        setListUsers(items);
-      }
-    });
-    return () => (mounted = false);
-  }, []);
 
   //dùng API để Test
   // useEffect(() => {

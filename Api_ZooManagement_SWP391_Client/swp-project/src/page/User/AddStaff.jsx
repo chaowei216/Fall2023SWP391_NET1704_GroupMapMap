@@ -38,7 +38,6 @@ function AddStaff() {
   const navigate = useNavigate();
   const handleSave = () => {
     console.log("Submit");
-    console.log(formik.values);
     // console.log(formik.errors);
   };
   const [Role, setRole] = useState("");
@@ -90,6 +89,10 @@ function AddStaff() {
   // const [validated, setValidated] = useState(false);
   const toggleShow = () => setShow(!Show);
   const submitForm = async (values) => {
+    let exp = [];
+    if (values.fields[0].company != "" && values.fields[0].experienceId != "") {
+      exp = values.fields
+    }
     const user = {
       email: values.email,
       firstname: values.firstname,
@@ -99,8 +102,9 @@ function AddStaff() {
       sex: Boolean(values.sex),
       role: Number(values.role),
       userImage: values.userImage,
-      experiences: values.fields,
+      experiences: exp,
     };
+    console.log(user);
     const response = await fetch("https://localhost:44352/api/User", {
       method: "POST",
       headers: {
@@ -131,7 +135,7 @@ function AddStaff() {
           userImage: "",
           fields,
         }}
-        // validationSchema={schemaAnimal}
+        validationSchema={basicSchema}
         onSubmit={(values) => {
           submitForm(values);
         }}
@@ -160,13 +164,13 @@ function AddStaff() {
                       value={values.firstname}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      // isInvalid={
-                      //   formik.errors.first_name && formik.touched.first_name
-                      // }
+                      isInvalid={
+                        errors.firstname && touched.firstname
+                      }
                     />
-                    {/* <Form.Control.Feedback type="invalid">
-                      {formik.errors.first_name}
-                    </Form.Control.Feedback> */}
+                    <Form.Control.Feedback type="invalid">
+                      {errors.firstname}
+                    </Form.Control.Feedback>
                   </div>
                   <div className="mb-3 row-content">
                     <label className="form-label">Enter LastName</label>
@@ -179,13 +183,13 @@ function AddStaff() {
                       value={values.lastname}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      // isInvalid={
-                      //   formik.errors.last_name && formik.touched.last_name
-                      // }
+                      isInvalid={
+                        errors.lastname && touched.lastname
+                      }
                     />
-                    {/* <Form.Control.Feedback type="invalid">
-                      {formik.errors.last_name}
-                    </Form.Control.Feedback> */}
+                    <Form.Control.Feedback type="invalid">
+                      {errors.lastname}
+                    </Form.Control.Feedback>
                   </div>
                 </div>
                 <div className="row mb-3">
@@ -200,11 +204,11 @@ function AddStaff() {
                       value={values.email}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      // isInvalid={formik.errors.email && formik.touched.email}
+                      isInvalid={errors.email && touched.email}
                     />
-                    {/* <Form.Control.Feedback type="invalid">
-                      {formik.errors.email}
-                    </Form.Control.Feedback> */}
+                    <Form.Control.Feedback type="invalid">
+                      {errors.email}
+                    </Form.Control.Feedback>
                   </div>
                   <div className="mb-3 row-content">
                     <label className="form-label">Choose Role</label>
@@ -233,11 +237,11 @@ function AddStaff() {
                       value={values.phone}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      // isInvalid={formik.errors.phone && formik.touched.phone}
+                      isInvalid={errors.phone && touched.phone}
                     />
-                    {/* <Form.Control.Feedback type="invalid">
-                      {formik.errors.phone}
-                    </Form.Control.Feedback> */}
+                    <Form.Control.Feedback type="invalid">
+                      {errors.phone}
+                    </Form.Control.Feedback>
                   </div>
                   <div className="mb-3 row-content">
                     <label className="form-label">Choose Sex</label>
@@ -255,17 +259,6 @@ function AddStaff() {
                     </Radio.Group>
                   </div>
                 </div>
-                {/* <div className="mb-3">
-              <label className="form-label">Enter PhoneNumber</label>
-              <input
-                type="number"
-                className="form-control"
-                value={Job}
-                onChange={(event) => {
-                  setJob(event.target.value);
-                }}
-              />
-            </div> */}
                 <div className="mb-3">
                   <label className="form-label">Enter Address</label>
                   <Form.Control
@@ -277,11 +270,11 @@ function AddStaff() {
                     value={values.address}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    // isInvalid={formik.errors.address && formik.touched.address}
+                    isInvalid={errors.address && touched.address}
                   />
-                  {/* <Form.Control.Feedback type="invalid">
-                    {formik.errors.address}
-                  </Form.Control.Feedback> */}
+                  <Form.Control.Feedback type="invalid">
+                    {errors.address}
+                  </Form.Control.Feedback>
                 </div>
                 <div className="mb-3">
                   <label className="form-label">Choose File</label>
@@ -294,11 +287,7 @@ function AddStaff() {
                     value={values.userImage}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    // isInvalid={formik.errors.address && formik.touched.address}
                   />
-                  {/* <Form.Control.Feedback type="invalid">
-                    {formik.errors.address}
-                  </Form.Control.Feedback> */}
                 </div>
                 <div className="Food-Information">
                   <div className="mb-3">
@@ -320,8 +309,8 @@ function AddStaff() {
                       >
                         <Field
                           name={`fields[${index}].experienceId`}
-                          // as="select"
-                          // onChange={(e) => handleChange(e.target.value)}
+                        // as="select"
+                        // onChange={(e) => handleChange(e.target.value)}
                         >
                           {({ field, form }) => (
                             <Form.Select

@@ -15,6 +15,7 @@ import AddAnimalFood from "./AnimalFoodPage";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import YourComponent from "./AnimalFoodTest";
+import EditAnimalByZooTrainer from "./EditAnimalByZooTrainer";
 function TableAnimalDetail() {
   const emailInfo = localStorage.getItem("email");
   const [showModalAdd, setShowmodalAdd] = useState(false);
@@ -171,7 +172,7 @@ function TableAnimalDetail() {
         </div>
       </div>
       <AddAnimal show={showModalAdd} handleClose={handleClose} />
-      <EditAnimal
+      <EditAnimalByZooTrainer
         show={showModalEdit}
         handleClose={handleClose}
         dataAnimalEdit={dataAnimalEdit}

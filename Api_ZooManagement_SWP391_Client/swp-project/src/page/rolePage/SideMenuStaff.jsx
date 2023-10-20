@@ -80,7 +80,6 @@ const SideMenuStaff = ({ openSidebarToggle, OpenSidebar }) => {
                 "backgroundColor": "wheat",
                 "borderRadius": "10px 10px 10px 10px",
             }}>
-                <div>Role</div>
                 <Menu
                     // theme="blue"
                     style={{

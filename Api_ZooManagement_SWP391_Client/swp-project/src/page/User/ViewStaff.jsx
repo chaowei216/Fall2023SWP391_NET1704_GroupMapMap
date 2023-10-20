@@ -169,7 +169,7 @@ function ViewStaff() {
                           width: "59%",
                           textAlign: "center",
                           color: "blue",
-                          background: "chartreuse",
+                          fontWeight: "bolder",
                           height: "36px",
                         }}
                         value={2}
@@ -182,7 +182,8 @@ function ViewStaff() {
                         style={{
                           width: "59%",
                           textAlign: "center",
-                          color: "red",
+                          color: "purple",
+                          fontWeight: "bolder",
                           height: "36px",
                         }}
                         value={3}
@@ -213,6 +214,7 @@ function ViewStaff() {
                           width: "59%",
                           color: "green",
                           height: "36px",
+                          fontWeight: "bolder",
                           textAlign: "center",
                         }}
                         value={true}
@@ -227,6 +229,7 @@ function ViewStaff() {
                         style={{
                           width: "59%",
                           color: "red",
+                          fontWeight: "bolder",
                           height: "36px",
                           textAlign: "center",
                         }}
@@ -244,8 +247,11 @@ function ViewStaff() {
                     <Radio.Group
                       id="sex"
                       name="sex"
-                      style={{ height: "33%", width: "100%" }}
+                      style={{
+                        height: "33%", width: "100%", fontWeight: "bolder",
+                      }}
                       value={staffProfile[0].sex}
+
                       buttonStyle="solid"
                       disabled
                     >
@@ -256,6 +262,7 @@ function ViewStaff() {
                             color: "#2196F3",
                             height: "36px",
                             textAlign: "center",
+                            fontWeight: "bolder",
                           }}
                           value={true}
                         >
@@ -293,7 +300,7 @@ function ViewStaff() {
                     disabled
                     name="startTrainDate"
                     value={staffProfile[0].startDate.slice(0, 10)}
-                    // onBlur={formik.handleBlur}
+                  // onBlur={formik.handleBlur}
                   />
                 </div>
                 <div className="mb-3" style={{ width: "45%" }}>
@@ -380,9 +387,9 @@ function ViewStaff() {
                         version="1.1"
                         id="Capa_1"
                         xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        xmlns: xlink="http://www.w3.org/1999/xlink"
                         viewBox="0 0 494.707 494.707"
-                        xml:space="preserve"
+                        xml: space="preserve"
                       >
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                         <g

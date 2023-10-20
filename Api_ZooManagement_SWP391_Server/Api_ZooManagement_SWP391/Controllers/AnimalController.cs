@@ -22,7 +22,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         private readonly IScheduleService _scheduleService;
         private readonly IAnimalScheduleService _animalScheduleService;
         public Regex animalRegex = new Regex(@"^AN\d{4}");
-        public Regex userRegex = new Regex(@"^Z\d{4}");
+        public Regex userRegex = new Regex(@"^ZT\d{4}");
 
         public AnimalController(IMapper mapper, 
                                 IAnimalService animalService,

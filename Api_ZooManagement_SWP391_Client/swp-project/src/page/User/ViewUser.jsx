@@ -75,7 +75,7 @@ export default function ViewUser(pros) {
             <MDBModalBody>
               <div className="form-container-1">
                 <div className="form-header">
-                  <p className="fw-bold fs-2">View User</p>
+                  <p className="fw-bold fs-2">View Employee</p>
                 </div>
                 <Form noValidate onSubmit={handleFormSubmit}>
                   <div className="form-content">
@@ -91,10 +91,10 @@ export default function ViewUser(pros) {
                             aria-describedby="inputGroupPrepend"
                             name="userId"
                             value={userId}
-                            // isInvalid={
-                            //   formik.errors.first_name &&
-                            //   formik.touched.first_name
-                            // }
+                          // isInvalid={
+                          //   formik.errors.first_name &&
+                          //   formik.touched.first_name
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
@@ -111,10 +111,10 @@ export default function ViewUser(pros) {
                             name="email"
                             value={email}
                             onChange={(event) => setRegion(event.target.value)}
-                            // isInvalid={
-                            //   formik.errors.last_name &&
-                            //   formik.touched.last_name
-                            // }
+                          // isInvalid={
+                          //   formik.errors.last_name &&
+                          //   formik.touched.last_name
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
@@ -132,10 +132,10 @@ export default function ViewUser(pros) {
                             aria-describedby="inputGroupPrepend"
                             name="species"
                             value={firstName}
-                            // value={formik.values.species}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={phone == nul}
+                          // value={formik.values.species}
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={phone == nul}
                           />
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
@@ -147,12 +147,12 @@ export default function ViewUser(pros) {
                             name="lastName"
                             disabled
                             value={lastName}
-                            // value={formik.values.entryDate}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.email && formik.touched.email
-                            // }
+                          // value={formik.values.entryDate}
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.email && formik.touched.email
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.email}
@@ -167,12 +167,12 @@ export default function ViewUser(pros) {
                             name="address"
                             disabled
                             value={address}
-                            // value={formik.values.entryDate}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.email && formik.touched.email
-                            // }
+                          // value={formik.values.entryDate}
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.email && formik.touched.email
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.email}
@@ -191,9 +191,9 @@ export default function ViewUser(pros) {
                             name="cageId"
                             value={phone}
                             onChange={(event) => setCageID(event.target.value)}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={phone == nul}
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={phone == nul}
                           />
                           <Form.Control.Feedback type="invalid">
                             Haha
@@ -308,7 +308,7 @@ export default function ViewUser(pros) {
                               disabled
                               name="startTrainDate"
                               value={startDate}
-                              // onBlur={formik.handleBlur}
+                            // onBlur={formik.handleBlur}
                             />
                           </Space>
                         </div>
@@ -379,7 +379,7 @@ export default function ViewUser(pros) {
                       <div className="label-info mb-2">
                         <label>Experience Information</label>
                       </div>
-                      <div className="Food-Information mb-4" style={{width: "97%"}}>
+                      <div className="Food-Information mb-4" style={{ width: "97%" }}>
                         <div className="mb-3" style={{ paddingRight: "25px" }}>
                           <Table striped bordered hover>
                             <thead>
@@ -389,7 +389,6 @@ export default function ViewUser(pros) {
                               </tr>
                             </thead>
                             <tbody>
-                           
                               {experienceOption &&
                                 experienceOption.length > 0 &&
                                 experienceOption.map((value) => {
@@ -400,6 +399,11 @@ export default function ViewUser(pros) {
                                     </tr>
                                   );
                                 })}
+                              {experienceOption.length === 0 &&
+                                <tr>
+                                  <td colSpan={2}>Empty</td>
+                                </tr>
+                              }
                             </tbody>
                           </Table>
                         </div>

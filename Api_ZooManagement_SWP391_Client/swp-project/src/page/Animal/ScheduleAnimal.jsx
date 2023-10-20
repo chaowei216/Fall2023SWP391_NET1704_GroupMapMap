@@ -15,14 +15,16 @@ import { DatePicker, Radio, Select, Space } from "antd";
 import { Formik, useFormik, Field, useFormikContext } from "formik";
 import { ListGroup, Form } from "react-bootstrap";
 import { Navigate, json, useNavigate } from "react-router-dom";
-
+import moment from 'moment';
 import { South } from "@mui/icons-material";
+import { validationSchedule } from "./validationSchedule";
 
 export default function ScheduleAnimal(pros) {
   const { show, handleClose } = pros;
   const [staticModal, setStaticModal] = useState(false);
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [animalList, setAnimalList] = useState([]);
+  const [expList, setExpList] = useState([]);
   const [fields, setFields] = useState([
     {
       scheduleId: "",
@@ -46,7 +48,6 @@ export default function ScheduleAnimal(pros) {
   };
   const navigate = useNavigate();
   const handleSave = () => {
-    console.log(formik.errors);
     console.log("haha");
   };
 
@@ -64,27 +65,45 @@ export default function ScheduleAnimal(pros) {
     });
     return () => (mounted = false);
   }, []);
+  const getExpList = () => {
+    return fetch("https://localhost:44352/api/Schedule").then((data) =>
+      data.json()
+    );
+  };
+  useEffect(() => {
+    let mounted = true;
+    getExpList().then((items) => {
+      if (mounted) {
+        setExpList(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
   const submitForm = async (values) => {
+    const date = new Date();
     console.log(values);
     const schedule = {
-      animaId: values.animaId,
+      animalId: values.animalId,
       animalSchedules: values.fields,
     };
-
-    // const url = "https://localhost:44352/api/Food";
-    // const request = {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(food),
-    // };
-    // const response = await fetch(url, request);
-    // if (response.ok) {
-    //   console.log("Success");
-    //   navigate("/staff/3");
-    //   window.location.reload();
-    // }
+    console.log(schedule);
+    // const time = '8:30';
+    // const datetime = moment(time, 'HH:mm').toISOString();
+    // console.log(datetime);
+    const url = `https://localhost:44352/api/Animal/AnimalSchedule?animalId=${values.animalId}`;
+    const request = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(schedule),
+    };
+    const response = await fetch(url, request);
+    if (response.ok) {
+      console.log("Success");
+      navigate("/staff/2");
+      window.location.reload();
+    }
   };
   return (
     <>
@@ -109,7 +128,7 @@ export default function ScheduleAnimal(pros) {
                     animalId: "",
                     fields,
                   }}
-                  //   validationSchema={schemaAnimal}
+                  validationSchema={validationSchedule}
                   onSubmit={(values) => {
                     submitForm(values);
                   }}
@@ -134,10 +153,9 @@ export default function ScheduleAnimal(pros) {
                               id="animalId"
                               name="animalId"
                               style={{ width: "85%" }}
-                              // onChange={(event) => handleCageSelect(event)}
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              //   isInvalid={errors.cageId && touched.cageId}
+                              isInvalid={errors.animalId && touched.animalId}
                             >
                               <option value={null}>Choose AnimalId</option>
                               {/* Render các option từ API */}
@@ -151,9 +169,9 @@ export default function ScheduleAnimal(pros) {
                                 </option>
                               ))}
                             </Form.Select>
-                            {/* <Form.Control.Feedback type="invalid">
-                              {errors.cageId}
-                            </Form.Control.Feedback> */}
+                            <Form.Control.Feedback type="invalid">
+                              {errors.animalId}
+                            </Form.Control.Feedback>
                           </div>
                           <div className="Food-Information">
                             <div className="mb-3">
@@ -164,7 +182,6 @@ export default function ScheduleAnimal(pros) {
                                 <div
                                   key={index}
                                   style={{
-                                    display: "flex",
                                     justifyContent: "space-between",
                                     width: "90%",
                                   }}
@@ -172,15 +189,16 @@ export default function ScheduleAnimal(pros) {
                                 >
                                   <Field
                                     name={`fields[${index}].scheduleId`}
-                                    // as="select"
-                                    // onChange={(e) => handleChange(e.target.value)}
+                                  // as="select"
+                                  // onChange={(e) => handleChange(e.target.value)}
                                   >
                                     {({ field, form }) => (
                                       <Form.Select
                                         {...field}
                                         placeholder="Chọn món ăn"
                                         style={{
-                                          width: "33%",
+                                          width: "80%",
+                                          marginBottom: "30px"
                                         }}
                                         onChange={(event) =>
                                           handleFoodSelect(event, field, form)
@@ -190,15 +208,15 @@ export default function ScheduleAnimal(pros) {
                                           Choose Schedule for animal
                                         </option>
                                         {/* Render các option từ API */}
-                                        {animalList.map((option) => (
+                                        {expList.map((option) => (
                                           <option
-                                            key={option.animalId}
-                                            value={option.animalId}
+                                            key={option.scheduleId}
+                                            value={option.scheduleId}
                                             disabled={selectedFoodIds.includes(
-                                              option.animalId
+                                              option.scheduleId
                                             )}
                                           >
-                                            {option.animalId}
+                                            {option.scheduleName}
                                           </option>
                                         ))}
                                       </Form.Select>
@@ -206,31 +224,35 @@ export default function ScheduleAnimal(pros) {
                                   </Field>
                                   <Field
                                     placeholder="Enter Time"
-                                    type="time"
+                                    type="date"
                                     name={`fields[${index}].time`}
                                     component="input"
                                     style={{
-                                      width: "33%",
+                                      width: "80%",
+                                      marginBottom: "30px"
                                     }}
                                     className="control-field"
                                   />
                                   <Field
-                                    placeholder="Enter Description"
+                                    placeholder="Enter Time To Feed"
                                     name={`fields[${index}].description`}
                                     component="input"
                                     style={{
-                                      width: "33%",
+                                      width: "80%",
+                                      marginBottom: "30px"
                                     }}
                                     className="control-field"
                                   />
-                                  <button onClick={() => removeField(index)}>
-                                    Remove
-                                  </button>
+                                  <div style={{ display: "block", width: "80%" }}>
+                                    <Button onClick={() => removeField(index)}>
+                                      Remove
+                                    </Button>
+                                  </div>
                                 </div>
                               ))}
                               {errors.fields && (
                                 <div style={{ color: "red" }}>
-                                  Choose Food and Quantity
+                                  Choose Schedule and Time
                                 </div>
                               )}
                             </div>

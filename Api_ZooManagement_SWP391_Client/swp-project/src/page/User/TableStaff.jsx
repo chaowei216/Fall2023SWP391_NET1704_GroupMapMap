@@ -34,7 +34,7 @@ function TableStaff() {
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     const getUsers = () => {
-      return fetch(`https://localhost:44352/api/User/page/${currentPage}`).then(
+      return fetch(`https://localhost:44352/api/User/trainers/pages/${currentPage}`).then(
         (data) => data.json()
       );
     };
@@ -64,6 +64,7 @@ function TableStaff() {
   };
   const email = localStorage.getItem("email");
   const zooTrainerList = users.filter((user) => user.role === 3);
+  console.log(users);
   // const getList = () => {
   //   return fetch("https://localhost:44352/api/User/users").then((data) =>
   //     data.json()
@@ -95,7 +96,7 @@ function TableStaff() {
       <div className="table-component">
         <div className="my-3 add-new">
           <span>
-            <b>View Users</b>
+            <b>View Employees</b>
           </span>
           <div className="search-container">
             {/* toggleShow */}
@@ -125,9 +126,9 @@ function TableStaff() {
               </tr>
             </thead>
             <tbody>
-              {zooTrainerList &&
-                zooTrainerList.length > 0 &&
-                zooTrainerList.map((item, index) => {
+              {users &&
+                users.length > 0 &&
+                users.map((item, index) => {
                   return (
                     <tr key={`user-${index}`}>
                       <td>{item.userId}</td>

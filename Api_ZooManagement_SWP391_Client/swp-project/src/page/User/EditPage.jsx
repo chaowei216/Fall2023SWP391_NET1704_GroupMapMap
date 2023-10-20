@@ -52,6 +52,7 @@ export default function EditPage(pros) {
   const [status, setStatus] = useState(true);
   const [wID, setWID] = useState("2");
   const [error, setError] = useState("");
+  const role = localStorage.getItem("role");
   var today = new Date();
   var date =
     today.getFullYear() +
@@ -270,16 +271,18 @@ export default function EditPage(pros) {
                             defaultValue={Role}
                             buttonStyle="solid"
                           >
-                            <Radio
-                              style={{
-                                textAlign: "center",
-                              }}
-                              value={2}
-                            >
-                              <span style={{ verticalAlign: "middle" }}>
-                                Staff
-                              </span>
-                            </Radio>
+                            {role === "ADMIN " &&
+                              <Radio
+                                style={{
+                                  textAlign: "center",
+                                }}
+                                value={2}
+                              >
+                                <span style={{ verticalAlign: "middle" }}>
+                                  Staff
+                                </span>
+                              </Radio>
+                            }
                             <Radio
                               style={{
                                 textAlign: "center ",

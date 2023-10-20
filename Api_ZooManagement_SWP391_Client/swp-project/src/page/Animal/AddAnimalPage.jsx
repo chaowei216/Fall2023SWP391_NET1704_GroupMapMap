@@ -158,6 +158,10 @@ function AddAnimal(pros) {
     //   return;
     // })
     console.log(values);
+    let img = "";
+    if (values.animalImage != "") {
+      img = values.animalImage;
+    }
     const animal = {
       name: values.name,
       description: values.description,
@@ -169,6 +173,7 @@ function AddAnimal(pros) {
       rarity: values.rarity,
       entryCageDate: values.entryCageDate,
       startTrainDate: values.startTrainDate,
+      animalImage: "",
       animalFoods: values.fields,
     };
     console.log(animal);
@@ -176,10 +181,11 @@ function AddAnimal(pros) {
       userId: values.userId,
       cageId: values.cageId,
     };
-
-    const url = `https://localhost:44352/api/Animal?${new URLSearchParams(
-      params
-    )}`;
+    console.log(params);
+    // const url = `https://localhost:44352/api/Animal?${new URLSearchParams(
+    //   params
+    // )}`;
+    const url = `https://localhost:44352/api/Animal/Animal?userId=${values.userId}&cageId=${values.cageId}`;
     const request = {
       method: "POST",
       headers: {
@@ -187,7 +193,6 @@ function AddAnimal(pros) {
       },
       body: JSON.stringify(animal),
     };
-    // request.body = JSON.stringify(animal)
     const response = await fetch(url, request);
     if (response.ok) {
       console.log("Success");
@@ -196,7 +201,6 @@ function AddAnimal(pros) {
     }
   };
   const a = "huhu";
-
   return (
     <>
       <MDBModal staticBackdrop tabIndex="-1" show={show} onHide={handleClose}>
@@ -230,6 +234,7 @@ function AddAnimal(pros) {
                     entryCageDate: "",
                     rarity: true,
                     fields,
+                    animalImage: "",
                     userId: "",
                   }}
                   validationSchema={schemaAnimal}
@@ -478,10 +483,10 @@ function AddAnimal(pros) {
                               <label className="form-label">Choose Image</label>
                               <Form.Control
                                 type="file"
-                                id="userImage"
-                                placeholder="userImage"
+                                id="animalImage"
+                                placeholder="animalImage"
                                 aria-describedby="inputGroupPrepend"
-                                name="userImage"
+                                name="animalImage"
                                 value={values.animalImage}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
@@ -631,8 +636,8 @@ function AddAnimal(pros) {
                                 >
                                   <Field
                                     name={`fields[${index}].foodId`}
-                                    // as="select"
-                                    // onChange={(e) => handleChange(e.target.value)}
+                                  // as="select"
+                                  // onChange={(e) => handleChange(e.target.value)}
                                   >
                                     {({ field, form }) => (
                                       <Form.Select
@@ -676,7 +681,7 @@ function AddAnimal(pros) {
                                   <Field
                                     name={`fields[${index}].description`}
                                     component="input"
-                                    placeholder="Enter description"
+                                    placeholder="Enter time to feed animal"
                                     className="control-field"
                                     style={{ width: "35%" }}
                                   />
@@ -687,23 +692,33 @@ function AddAnimal(pros) {
                               ))}
                               {errors.fields && (
                                 <>
-                                  {errors.fields[0].foodId && (
+                                  {/* {values.foodId && (
                                     <div style={{ color: "red" }}>
-                                      {errors.fields[0].foodId}
+                                      Please Choose food
                                     </div>
                                   )}
-                                  {errors.fields[0].amount && (
+                                  {values.amount && (
                                     <div style={{ color: "red" }}>
-                                      {errors.fields[0].amount}
+                                      {values.amount}
                                     </div>
                                   )}
-                                  {errors.fields[0].description && (
+                                  {values.description && (
                                     <div style={{ color: "red" }}>
-                                      {errors.fields[0].description}
+                                      {values.description}
                                     </div>
-                                  )}
+                                  )} */}
+                                  <div style={{ color: "red" }}>
+                                    Choose food Id
+                                  </div>
+                                  <div style={{ color: "red" }}>
+                                    Amount must be positive
+                                  </div>
+                                  <div style={{ color: "red" }}>
+                                    Enter description
+                                  </div>
                                 </>
                               )}
+                              {errors.fields && console.log(errors.fields)}
                             </div>
                             {fields.length < options.length && (
                               <div

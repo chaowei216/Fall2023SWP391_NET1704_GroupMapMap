@@ -139,6 +139,11 @@ function TableAnimal() {
                       <Button variant="outlined" onClick={handleClick}>
                         Add New Animal
                       </Button>
+
+                    </div>
+                    <div
+                      className="mb-3 mt-1"
+                      style={{ background: "aliceblue" }}>
                       <Button variant="outlined" onClick={handleClick2}>
                         Add New Schedule
                       </Button>
