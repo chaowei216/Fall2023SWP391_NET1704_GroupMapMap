@@ -10,6 +10,6 @@ namespace BBL.Interfaces
 {
     public interface IAnimalScheduleService
     {
-        bool AddAnimalSchedule(string animalId, List<AnimalSchedule> schedules);
+        bool AddAnimalSchedule(Animal animal, Animal? animalMap);
     }
 }

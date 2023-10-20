@@ -28,8 +28,6 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<AnimalCageDto, AnimalCage>();
             CreateMap<AnimalSchedule, AnimalScheduleDto>();
             CreateMap<AnimalScheduleDto, AnimalSchedule>();
-            CreateMap<AnimalFoodDto, AnimalFood>();
-            CreateMap<AnimalFood, AnimalFoodDto>();
             CreateMap<AnimalTrainer, AnimalTrainerDto>();
             CreateMap<AnimalTrainerDto, AnimalTrainer>();
             CreateMap<OrderDto, Order>();
@@ -47,8 +45,6 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<UpdateAnimalDto, AnimalCage>();
             CreateMap<User, UserUpdateDto>();
             CreateMap<UserUpdateDto, User>();
-            CreateMap<Animal, AnimalFoodDto>();
-            CreateMap<AnimalFoodDto, Animal>();
             CreateMap<Animal, AnimalCreateDto>();
             CreateMap<AnimalCreateDto, Animal>();
             CreateMap<AnimalCreateDto, AnimalTrainer>();
@@ -76,6 +72,10 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<ScheduleCreateDto, Schedule>();
             CreateMap<Schedule, ScheduleCreateDto>();
             CreateMap<PaymentResponseDto, Transaction>();
+            CreateMap<AnimalSchedule, AnimalScheduleCreateDto>();
+            CreateMap<AnimalScheduleCreateDto, AnimalSchedule>();
+            CreateMap<Animal, AnimalScheduleDto>();
+            CreateMap<AnimalScheduleDto, Animal>();
         }
 
     }

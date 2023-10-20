@@ -21,10 +21,13 @@ namespace BBL.Services
             _animalScheduleRepo = animalScheduleRepo;
             _scheduleRepo = scheduleRepo;
         }
-        public bool AddAnimalSchedule(string animalId, List<AnimalSchedule> schedules)
+        public bool AddAnimalSchedule(Animal animal, Animal? animalMap)
         {
-
-            return true;
+            if (animalMap != null)
+            {
+                animal.AnimalSchedules = animalMap.AnimalSchedules;
+            }
+            return _animalRepo.Update(animal);
         }
     }
 }
