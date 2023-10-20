@@ -1,36 +1,8 @@
 import React,{useState,useEffect} from 'react'
 import { Link } from 'react-router-dom';
 import useShopping from '../hooks/useShopping';
+import { Link as ScrollLink } from 'react-scroll';
 
-const menuItems = [
-  {
-    text: 'Home',
-    link:"/",
-    // subMenuItems: [
-    //   { text: 'Home 1', link: 'index.html' },
-    //   { text: 'Home 2', link: 'index-2.html' },
-    //   { text: 'Home 3', link: 'index-3.html' },
-    // ],
-  },
-  {
-    text: 'News',
-    link:"/new",
-    // subMenuItems: [
-    //   { text: 'Our Blog', link: 'our-blog.html' },
-    //   { text: 'Blog Details', link: 'blog-details.html' },
-    // ],
-  },
-  {
-    text: 'Pages',
-    // subMenuItems: [
-    //   { text: 'About', link: 'about.html' },
-    //   { text: 'Our Services', link: 'our-services.html' },
-    //   { text: 'Chef Details', link: 'chef-details.html' },
-    //   { text: 'Login', link: 'login.html' },
-    // ],
-  },
-  { text: 'Contact', link: 'contact.html' },
-];
 
 
 const renderSubMenuItems = (subMenuItems) => {
@@ -38,13 +10,21 @@ const renderSubMenuItems = (subMenuItems) => {
     return null; 
   }
   return subMenuItems.map((item, index) => (
-    <a key={index} href={item.link}>
+    <ScrollLink key={item.id}
+    to={item.id}
+    spy={true}
+    smooth={true}
+    offset={-200} // Điều chỉnh khoảng cách scroll nếu có header cố định
+    duration={500} // Thời gian cuộn (milliseconds)
+  >
+   <p >
       {item.text}
-    </a>
+    </p>
+    </ScrollLink>
   ));
 };
 
-const renderMenuItems = () => {
+const renderMenuItems = (menuItems) => {
   return menuItems.map((menuItem, index) => (
     <li key={index} className="navbar-dropdown">
       <a  href={menuItem.link}>{menuItem.text}</a>
@@ -54,7 +34,7 @@ const renderMenuItems = () => {
 };
 
 
-function Header() {
+function Header(props) {
   const {shoppingCart,countTotal} =useShopping();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   console.log(countTotal);
@@ -134,7 +114,7 @@ function Header() {
               <div className="col-xl-6">
                 <nav className="navbar">
                   <ul className="navbar-links" style={{cursor:"pointer"}}>
-                    {renderMenuItems()}
+                    {renderMenuItems(props.menuItems)}
                   </ul>
                 </nav>
               </div>

@@ -16,6 +16,7 @@ import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import YourComponent from "./AnimalFoodTest";
 import { Pagination } from "antd";
+import axios from "axios";
 function TableAnimal() {
   const role = localStorage.getItem("role");
   const [showModalAdd, setShowmodalAdd] = useState(false);
@@ -75,6 +76,18 @@ function TableAnimal() {
     setDataAnimalEdit(animal);
     setShowmodalEdit(true);
   };
+
+  const handleDeleteAnimal = async (item) => {
+    try {
+      console.log(item.animalId);
+      await axios.delete(`https://localhost:44352/api/Animal/${item.animalId}`);
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
   const handleViewUser = (item) => {
     // setDataUserEdit(item);
     const animal = item;
@@ -137,6 +150,7 @@ function TableAnimal() {
           <Table size="100px" hover>
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Gender</th>
@@ -151,6 +165,7 @@ function TableAnimal() {
                 listAnimal.map((items, index) => {
                   return (
                     <tr key={`animal-${index}`}>
+                      <td>{items.animalId}</td>
                       <td>{items.name}</td>
                       <td>{items.description}</td>
                       <td>{items.sex === true ? "Male" : "Female"}</td>
@@ -175,7 +190,10 @@ function TableAnimal() {
                         >
                           <EditIcon />
                         </Button>
-                        <Button variant="text" style={{ padding: 0 }}>
+                        <Button variant="text" style={{ padding: 0 }}
+                          onClick={() => {
+                            handleDeleteAnimal(items);
+                          }}>
                           <DeleteIcon />
                         </Button>
                       </td>

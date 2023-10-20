@@ -56,7 +56,7 @@ function AddAnimal(pros) {
     return () => (mounted = false);
   }, []);
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
-  const [selectedSpecies, setSelectedSpecies] = useState("Lion");
+  const [selectedSpecies, setSelectedSpecies] = useState("Pig");
   const [selectedCage, setSelectedCage] = useState();
 
   const addField = () => {
@@ -226,7 +226,7 @@ function AddAnimal(pros) {
                     birthday: "",
                     startTrainDate: "",
                     cageId: "",
-                    species: "Lion",
+                    species: "Pig",
                     entryCageDate: "",
                     rarity: true,
                     fields,
@@ -308,7 +308,7 @@ function AddAnimal(pros) {
                                         setSelectedSpecies(e.target.value);
                                       }}
                                     >
-                                      <option value="Lion">Lion</option>
+                                      <option value="Pig">Pig</option>
                                       <option value="Rabbit">Rabbit</option>
                                       <option value="Dog">Dog</option>
                                       <option value="Cat">Cat</option>
@@ -424,7 +424,7 @@ function AddAnimal(pros) {
                                 </Form.Control.Feedback>
                               </div>
                             </div>
-                            <div className="mb-3" style={{marginRight: "20px"}}>
+                            <div className="mb-3" style={{ marginRight: "20px" }}>
                               <label className="form-label">
                                 Enter healthCheck
                               </label>
@@ -446,7 +446,7 @@ function AddAnimal(pros) {
                                 {errors.healthCheck}
                               </Form.Control.Feedback>
                             </div>
-                            <div className="mb-2" style={{marginRight: "20px"}}>
+                            <div className="mb-2" style={{ marginRight: "20px" }}>
                               <label className="form-label">
                                 Enter Description
                               </label>
@@ -612,8 +612,8 @@ function AddAnimal(pros) {
                                 >
                                   <Field
                                     name={`fields[${index}].foodId`}
-                                    // as="select"
-                                    // onChange={(e) => handleChange(e.target.value)}
+                                  // as="select"
+                                  // onChange={(e) => handleChange(e.target.value)}
                                   >
                                     {({ field, form }) => (
                                       <Form.Select
@@ -666,20 +666,36 @@ function AddAnimal(pros) {
                         </button> */}
                                 </div>
                               ))}
-                              {errors.fields && (
-                                <div style={{ color: "red" }}>
-                                  Choose Food and Quantity and Description
-                                </div>
-                              )}
+                              {errors.fields &&
+                                <>
+                                  {errors.fields[0].foodId &&
+                                    <div style={{ color: "red" }}>
+                                      {errors.fields[0].foodId}
+                                    </div>
+                                  }
+                                  {errors.fields[0].amount &&
+                                    <div style={{ color: "red" }}>
+                                      {errors.fields[0].amount}
+                                    </div>
+                                  }
+                                  {errors.fields[0].description &&
+                                    <div style={{ color: "red" }}>
+                                      {errors.fields[0].description}
+                                    </div>
+                                  }
+                                </>
+                              }
                             </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              <Button onClick={addField}>More Food</Button>
-                            </div>
+                            {fields.length < options.length &&
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                }}
+                              >
+                                <Button onClick={addField}>More Food</Button>
+                              </div>
+                            }
                           </div>
                         </div>
                       </div>
@@ -733,7 +749,7 @@ function AddAnimal(pros) {
             <MDBModalFooter></MDBModalFooter>
           </MDBModalContent>
         </MDBModalDialog>
-      </MDBModal>
+      </MDBModal >
     </>
   );
 }

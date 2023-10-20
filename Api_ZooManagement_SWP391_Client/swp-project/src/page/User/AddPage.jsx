@@ -27,6 +27,14 @@ function AddPage() {
   // const [Password, setPassword] = useState("123456");
   // const location = useLocation();
   // const {setListUsers} =  location.state;
+  const [fields, setFields] = useState([
+    {
+      experienceId: "",
+      company: "",
+    },
+  ]);
+  const [errorFood, setErrorFood] = useState("");
+  const [errorQuantity, setErrorQuantity] = useState("");
   const navigate = useNavigate();
   const handleSave = () => {
     console.log("Submit");
@@ -35,6 +43,7 @@ function AddPage() {
   };
   const [Role, setRole] = useState("");
   const [test, setTest] = useState("");
+  const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const handleRadioChange = (value) => {
     // setSex(value.target.value);
     formik.values.sex = value.target.value;
@@ -47,7 +56,21 @@ function AddPage() {
     // setRole(value);
     formik.values.wID = value;
   };
-
+  const roleOptions = [
+    { id: 1, value: "2", label: "Staff" },
+    { id: 2, value: "3", label: "Zoo Trainer" },
+  ];
+  const handleFoodSelect = (event, field, form) => {
+    const selectedFoodId = event.target.value;
+    setSelectedFoodIds((prevSelectedFoodIds) => [
+      ...prevSelectedFoodIds,
+      selectedFoodId,
+    ]);
+    form.setFieldValue(field.name, selectedFoodId);
+  };
+  const addField = () => {
+    setFields([...fields, { experienceId: "", company: "" }]);
+  };
   const [Show, setShow] = useState(true);
   // const [validated, setValidated] = useState(false);
   const toggleShow = () => setShow(!Show);
@@ -70,50 +93,24 @@ function AddPage() {
       submitForm(values);
     },
   });
-  const onChange1 = (value, dateString) => {
-    const date1 = Array.of(dateString);
-    formik.values.startDate = date1[0][0];
-    formik.values.endDate = date1[0][1];
-  };
-  // const handleSubmit = (event) => {
-  //   const form = event.currentTarget;
-  //   if (form.checkValidity() === false) {
-  //     event.preventDefault();
-  //     event.stopPropagation();
-  //   }
-  //   setValidated(true);
-  // };
-  // const onChange = (value, dateString) => {
-  //   const date = Array.of(dateString);
-  //   formik.values.startDate1 = date[0][0];
-  //   formik.values.endDate1 = date[0][1];
-  // };
   const submitForm = async (values) => {
-    // // Lấy dữ liệu cần gửi
-    // const { first_name, last_name } = values;
-    // let res = await creatNewUser(first_name, last_name);
-    // // Gọi API
-    // if (res.data && res.data.id) {
-    //   //success
-    // toast.success("Successfully created user");
-    // location.href = "http://localhost:5173/staff/1";
-    // navigate("/staff/1");
-    // } else {
-    //   //error
-    //   toast.error("Error creating user");
-    // }
-    // console.log(res.data);
-    const { company } = values;
+    let img = "";
+    if (values.userImage === "") {
+      img = "";
+    } else {
+      img = values.userImage;
+    }
+    console.log(img);
     const user = {
-      // wId: values.wID,
-      // company: company,
       email: values.email,
-      firstname: values.first_name,
-      lastname: values.last_name,
+      firstname: values.firstname,
+      lastname: values.lastname,
       address: values.address,
       phone: values.phone,
       sex: Boolean(values.sex),
       role: Number(values.role),
+      userImage: img,
+      experiences: []
     };
     const response = await fetch("https://localhost:44352/api/User", {
       method: "POST",
@@ -125,7 +122,7 @@ function AddPage() {
     if (response.ok) {
       console.log("Success");
       localStorage.setItem("isAdded", true);
-      navigate("/staff/1");
+      navigate("/admin/1");
     }
   };
   return (
@@ -133,220 +130,269 @@ function AddPage() {
       <div className="form-header">
         <p className="fw-bold fs-2">Create New User</p>
       </div>
-      <Form noValidate onSubmit={formik.handleSubmit}>
-        <div className="form-content">
-          <div className="form">
-            <div className="row mb-3">
-              <div className="mb-3 row-content">
-                <label className="form-label">Enter FirstName</label>
-                <Form.Control
-                  id="first_name"
-                  type="text"
-                  placeholder="first_name"
-                  aria-describedby="inputGroupPrepend"
-                  name="first_name"
-                  value={formik.values.first_name}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  isInvalid={
-                    formik.errors.first_name && formik.touched.first_name
-                  }
-                />
-                <Form.Control.Feedback type="invalid">
-                  {formik.errors.first_name}
-                </Form.Control.Feedback>
-              </div>
-              <div className="mb-3 row-content">
-                {/* <label className="form-label">Enter LastName</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={formik.values.last_name}
-                  onChange={formik.handleChange}
-                  id="last_name"
-                /> */}
-                <label className="form-label">Enter LastName</label>
-                <Form.Control
-                  type="text"
-                  id="last_name"
-                  placeholder="last_name"
-                  aria-describedby="inputGroupPrepend"
-                  name="last_name"
-                  value={formik.values.last_name}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  isInvalid={
-                    formik.errors.last_name && formik.touched.last_name
-                  }
-                />
-                <Form.Control.Feedback type="invalid">
-                  {formik.errors.last_name}
-                </Form.Control.Feedback>
-              </div>
-            </div>
-            <div className="row mb-3">
-              <div className="mb-3 row-content">
-                <label className="form-label">Enter Email</label>
-                <Form.Control
-                  type="email"
-                  id="email"
-                  placeholder="email"
-                  aria-describedby="inputGroupPrepend"
-                  name="email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  isInvalid={formik.errors.email && formik.touched.email}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {formik.errors.email}
-                </Form.Control.Feedback>
-              </div>
-              <div className="mb-3 row-content">
-                <label className="form-label">Choose Role</label>
-                <br />
-                <Radio.Group
-                  id="role"
-                  name="role"
-                  defaultValue={formik.values.role}
-                  value={formik.values.role}
-                  onChange={formik.handleChange}
-                  buttonStyle="solid"
-                >
-                  <Radio.Button value="2">Staff</Radio.Button>
-                  <Radio.Button value="3">ZooTrainer</Radio.Button>
-                </Radio.Group>
-              </div>
-            </div>
-            <div className="row mb-3">
-              <div className="mb-3 row-content">
-                <label className="form-label">Enter Phone</label>
-                <Form.Control
-                  type="string"
-                  id="phone"
-                  placeholder="phone"
-                  aria-describedby="inputGroupPrepend"
-                  name="phone"
-                  value={formik.values.phone}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  isInvalid={formik.errors.phone && formik.touched.phone}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {formik.errors.phone}
-                </Form.Control.Feedback>
-              </div>
-              <div className="mb-3 row-content">
-                <label className="form-label">Choose Sex</label>
-                <br />
-                <Radio.Group
-                  id="sex"
-                  name="sex"
-                  onChange={formik.handleChange}
-                  defaultValue={formik.values.sex}
-                  value={formik.values.sex}
-                  buttonStyle="solid"
-                >
-                  <Radio.Button value={true}>Male</Radio.Button>
-                  <Radio.Button value={false}>Female</Radio.Button>
-                </Radio.Group>
-              </div>
-            </div>
-            {/* <div className="mb-3">
-              <label className="form-label">Enter PhoneNumber</label>
-              <input
-                type="number"
-                className="form-control"
-                value={Job}
-                onChange={(event) => {
-                  setJob(event.target.value);
-                }}
-              />
-            </div> */}
-            <div className="mb-3">
-              <label className="form-label">Enter Address</label>
-              <Form.Control
-                type="text"
-                id="address"
-                placeholder="address"
-                aria-describedby="inputGroupPrepend"
-                name="address"
-                value={formik.values.address}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                isInvalid={formik.errors.address && formik.touched.address}
-              />
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.address}
-              </Form.Control.Feedback>
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Enter EndDate</label>
-              <Form.Control
-                type="date"
-                id="endDate"
-                placeholder="address"
-                aria-describedby="inputGroupPrepend"
-                name="endDate"
-                value={formik.values.endDate}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                isInvalid={formik.errors.endDate && formik.touched.endDate}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Choose Sex</label>
-              <br />
-              <Radio.Group
-                id="wID"
-                name="wID"
-                onChange={formik.handleChange}
-                defaultValue={formik.values.wID}
-                value={formik.values.wID}
-                buttonStyle="solid"
-              >
-                <Radio.Button value="2">Staff</Radio.Button>
-                <Radio.Button value="3">ZooTrainer</Radio.Button>
-                <Radio.Button value={null}>None</Radio.Button>
-              </Radio.Group>
-              {/* <MDBCollapse show={Show}> */}
-              <div className="row mb-3 mt-3">
-                <div className="mb-3 row-content">
-                  <label className="form-label">Enter Company</label>
+      <Formik
+        initialValues={{
+          email: "",
+          firstname: "",
+          lastname: "",
+          address: "",
+          phone: "",
+          sex: true,
+          role: "2",
+          userImage: "",
+          fields,
+        }}
+        validationSchema={basicSchema}
+        onSubmit={(values) => {
+          submitForm(values);
+        }}
+      >
+        {({
+          values,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          setFieldValue,
+          errors,
+          touched,
+        }) => (
+          <Form noValidate onSubmit={handleSubmit}>
+            <div className="form-content">
+              <div className="form">
+                <div className="row mb-3">
+                  <div className="mb-3 row-content">
+                    <label className="form-label">Enter FirstName</label>
+                    <Form.Control
+                      id="firstname"
+                      type="text"
+                      placeholder="firstname"
+                      aria-describedby="inputGroupPrepend"
+                      name="firstname"
+                      value={values.firstname}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      isInvalid={
+                        errors.firstname && touched.firstname
+                      }
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.firstname}
+                    </Form.Control.Feedback>
+                  </div>
+                  <div className="mb-3 row-content">
+                    <label className="form-label">Enter LastName</label>
+                    <Form.Control
+                      type="text"
+                      id="lastname"
+                      placeholder="lastname"
+                      aria-describedby="inputGroupPrepend"
+                      name="lastname"
+                      value={values.lastname}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      isInvalid={
+                        errors.lastname && touched.lastname
+                      }
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.lastname}
+                    </Form.Control.Feedback>
+                  </div>
+                </div>
+                <div className="row mb-3">
+                  <div className="mb-3 row-content">
+                    <label className="form-label">Enter Email</label>
+                    <Form.Control
+                      type="email"
+                      id="email"
+                      placeholder="email"
+                      aria-describedby="inputGroupPrepend"
+                      name="email"
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      isInvalid={errors.email && touched.email}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.email}
+                    </Form.Control.Feedback>
+                  </div>
+                  <div className="mb-3 row-content">
+                    <label className="form-label">Choose Role</label>
+                    <br />
+                    <Radio.Group
+                      id="role"
+                      name="role"
+                      defaultValue={values.role}
+                      value={values.role}
+                      onChange={handleChange}
+                      buttonStyle="solid"
+                    >
+                      <Radio value="2">Staff</Radio>
+                      <Radio value="3">ZooTrainer</Radio>
+                    </Radio.Group>
+                  </div>
+                </div>
+                <div className="row mb-3">
+                  <div className="mb-3 row-content">
+                    <label className="form-label">Enter Phone</label>
+                    <Form.Control
+                      type="string"
+                      id="phone"
+                      placeholder="phone"
+                      aria-describedby="inputGroupPrepend"
+                      name="phone"
+                      value={values.phone}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      isInvalid={errors.phone && touched.phone}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.phone}
+                    </Form.Control.Feedback>
+                  </div>
+                  <div className="mb-3 row-content">
+                    <label className="form-label">Choose Sex</label>
+                    <br />
+                    <Radio.Group
+                      id="sex"
+                      name="sex"
+                      onChange={handleChange}
+                      defaultValue={values.sex}
+                      value={values.sex}
+                      buttonStyle="solid"
+                    >
+                      <Radio value={true}>Male</Radio>
+                      <Radio value={false}>Female</Radio>
+                    </Radio.Group>
+                  </div>
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Enter Address</label>
                   <Form.Control
                     type="text"
-                    id="company"
-                    placeholder="company"
+                    id="address"
+                    placeholder="address"
                     aria-describedby="inputGroupPrepend"
-                    name="company"
-                    value={formik.values.company}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    isInvalid={formik.errors.company && formik.touched.company}
+                    name="address"
+                    value={values.address}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    isInvalid={errors.address && touched.address}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {formik.errors.company}
+                    {errors.address}
                   </Form.Control.Feedback>
                 </div>
+                <div className="mb-3">
+                  <label className="form-label">Choose Image</label>
+                  <Form.Control
+                    type="file"
+                    id="userImage"
+                    placeholder="userImage"
+                    aria-describedby="inputGroupPrepend"
+                    name="userImage"
+                    value={values.userImage}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </div>
+                <div className="Food-Information">
+                  <div className="mb-3">
+                    <label className="form-label">
+                      World Experience For Animal
+                    </label>
+                    {errorQuantity && errorQuantity != null && (
+                      <div style={{ color: "red" }}>{errorFood}</div>
+                    )}
+                    {fields.map((field, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          width: "90%",
+                        }}
+                        className="mb-3"
+                      >
+                        <Field
+                          name={`fields[${index}].experienceId`}
+                        // as="select"
+                        // onChange={(e) => handleChange(e.target.value)}
+                        >
+                          {({ field, form }) => (
+                            <Form.Select
+                              {...field}
+                              placeholder="Chọn món ăn"
+                              style={{
+                                width: "40%",
+                              }}
+                              onChange={(event) =>
+                                handleFoodSelect(event, field, form)
+                              }
+                            >
+                              <option value="">Choose Role Work Before</option>
+                              {/* Render các option từ API */}
+                              {roleOptions.map((option) => (
+                                <option
+                                  key={option.value}
+                                  value={option.value}
+                                  disabled={selectedFoodIds.includes(
+                                    option.value
+                                  )}
+                                >
+                                  {option.label}
+                                </option>
+                              ))}
+                            </Form.Select>
+                          )}
+                        </Field>
+                        <Field
+                          placeholder="Enter company"
+                          name={`fields[${index}].company`}
+                          component="input"
+                          style={{
+                            width: "40%",
+                          }}
+                          className="control-field"
+                        />
+                        {/* <button onClick={() => removeField(index)}>
+                          Remove
+                        </button> */}
+                      </div>
+                    ))}
+                    {errors.fields && (
+                      <div style={{ color: "red" }}>
+                        Choose Food and Quantity
+                      </div>
+                    )}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Button onClick={addField}>More Information</Button>
+                  </div>
+                </div>
+                <div className="btn-footer">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    onClick={() => {
+                      handleSave();
+                    }}
+                  >
+                    Create User
+                  </Button>
+                </div>
               </div>
-              {/* </MDBCollapse> */}
             </div>
-            <div className="btn-footer">
-              <Button
-                type="submit"
-                variant="contained"
-                onClick={() => {
-                  handleSave();
-                }}
-              >
-                Create User
-              </Button>
-            </div>
-          </div>
-        </div>
-      </Form>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 }
-
 export default AddPage;
