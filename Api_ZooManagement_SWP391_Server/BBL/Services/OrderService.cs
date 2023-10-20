@@ -26,11 +26,7 @@ namespace BBL.Services
         }
         public bool AddOrder(Order order)
         {
-            if(order != null)
-            {
-                return _orderRepo.Add(order);
-            }
-            return false;
+            return _orderRepo.Add(order);
         }
 
         public bool AddOrder(List<OrderTicket> ordTickets, Order order)
