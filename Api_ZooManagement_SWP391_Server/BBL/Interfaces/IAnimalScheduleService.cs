@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DTO.Dtos
+namespace BBL.Interfaces
 {
-    public class GetCageDto
+    public interface IAnimalScheduleService
     {
-        public string CId { get; set; }
+        //bool AddAnimalSchedule(string animalId, );
     }
 }
