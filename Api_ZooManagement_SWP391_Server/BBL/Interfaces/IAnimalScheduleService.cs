@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DAL.Entities;
+using DTO.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,6 @@ namespace BBL.Interfaces
 {
     public interface IAnimalScheduleService
     {
-        //bool AddAnimalSchedule(string animalId, );
+        bool AddAnimalSchedule(string animalId, List<AnimalSchedule> schedules);
     }
 }
