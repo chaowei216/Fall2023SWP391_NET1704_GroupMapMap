@@ -78,7 +78,6 @@ namespace BBL.Services
                     a.Rarity = animal.Rarity;
                     a.Region = animal.Region;
                     a.Sex = animal.Sex;
-                    a.Species = animal.Species;
                     a.HealthCheck = animal.HealthCheck;
 
                     allAnimals.Add(a);
@@ -243,7 +242,6 @@ namespace BBL.Services
                 animalDto.Rarity = animal.Rarity;
                 animalDto.Region = animal.Region;
                 animalDto.Sex = animal.Sex;
-                animalDto.Species = animal.Species;
                 animalDto.HealthCheck = animal.HealthCheck;
                 return animalDto;
             }

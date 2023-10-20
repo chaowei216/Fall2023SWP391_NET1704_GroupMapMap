@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from './header'
 import SliderHero from './sliderHero';
 import SectionGap from './sectionGap';
@@ -9,6 +9,7 @@ import GapNoBottom from './gapNoBottom';
 import GapNoBottomTwoHeading from './gapNoBottom-twoHeading';
 import GapBackground from './gapBackground';
 import Footer from './footer';
+import useShopping from '../hooks/useShopping';
 
 const menuItems = [
   {
@@ -39,7 +40,38 @@ const menuItems = [
   },
   { text: 'Contact', link: '/contact' },
 ];
+
+// const { shoppingCart, handleSetShoppingCart } = useShopping();
+// let ShoppingCart = localStorage.getItem("shoppingCart");  
+// if (ShoppingCart) {  
+//   try {
+//     ShoppingCart = JSON.parse(ShoppingCart);
+//   } catch (error) {
+//     console.error("Lỗi khi chuyển đổi dữ liệu từ localStorage:", error);
+//     ShoppingCart = null; 
+//   }
+// }
+// if(ShoppingCart) {
+//   handleSetShoppingCart(ShoppingCart);
+// }
+
 function Index() {
+  const { shoppingCart, handleSetShoppingCart } = useShopping();
+  let ShoppingCart = localStorage.getItem("shoppingCart"); 
+  useEffect(() => {
+   
+  if (ShoppingCart) {  
+    try {
+      ShoppingCart = JSON.parse(ShoppingCart);
+    } catch (error) {
+      console.error("Lỗi khi chuyển đổi dữ liệu từ localStorage:", error);
+      ShoppingCart = null; 
+    }
+  }
+  if(ShoppingCart) {
+    handleSetShoppingCart(ShoppingCart);
+  }
+  }, [ShoppingCart]);
   return (
     <div>
          <Header menuItems={menuItems}/>
