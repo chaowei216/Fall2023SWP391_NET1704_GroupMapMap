@@ -5,8 +5,6 @@ import Header from '../header'
 import StaffPage from '../rolePage/staffPage'
 import Banner from './banner'
 import ListItem from './listItem'
-import { useEffect } from 'react'
-import useShopping from '../../hooks/useShopping'
 const menuItems = [
   {
     text: 'Home',
@@ -34,10 +32,9 @@ const menuItems = [
     
     ],
   },
-  { text: 'Contact', link: '/contact' },
+  { text: 'Feedback', link: '/contact' },
 ];
 function Cart() {
-<<<<<<< HEAD
   // const { shoppingCart, handleSetShoppingCart } = useShopping();
   // let ShoppingCart = localStorage.getItem("shoppingCart"); 
   // useEffect(() => {
@@ -54,24 +51,6 @@ function Cart() {
   //   handleSetShoppingCart(ShoppingCart);
   // }
   // }, [ShoppingCart]);
-=======
-  const { shoppingCart, handleSetShoppingCart } = useShopping();
-  let ShoppingCart = localStorage.getItem("shoppingCart"); 
-  useEffect(() => {
-   
-  if (ShoppingCart) {  
-    try {
-      ShoppingCart = JSON.parse(ShoppingCart);
-    } catch (error) {
-      console.error("Lỗi khi chuyển đổi dữ liệu từ localStorage:", error);
-      ShoppingCart = null; 
-    }
-  }
-  if(ShoppingCart) {
-    handleSetShoppingCart(ShoppingCart);
-  }
-  }, [ShoppingCart]);
->>>>>>> d37f7ef (changes css)
   return (
     <div>
         <Header menuItems={menuItems} />
