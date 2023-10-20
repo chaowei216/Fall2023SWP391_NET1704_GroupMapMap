@@ -37,26 +37,25 @@ const renderMenuItems = (menuItems) => {
 function Header(props) {
   const {shoppingCart,countTotal} =useShopping();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [fix,setFix]=useState(false);
   console.log(countTotal);
-  useEffect(() => {
+  
     const handleScroll = () => {
-      const header = document.querySelector('.one .bottom-bar');
       if (window.scrollY > 100) {
-        header.classList.add('sticky-header');
+       
+        setFix(true);
       } else {
-        header.classList.remove('sticky-header');
+        setFix(false);
+ 
       }
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [isPopupVisible]);
+    window.addEventListener('scroll', setFix);
+
  
   return (
     
     <div>
-      <header className="one">
+      <header className={fix ?"one sticky-header" :"one"}>
         {/* <div className="top-header">
           <div className="container">
             <div className="row align-items-center">

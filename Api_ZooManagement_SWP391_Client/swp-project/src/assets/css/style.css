@@ -280,9 +280,11 @@ figure {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #f2f4f6; /* You can adjust the background color */
+    background-color: #f2f4f6; 
     z-index: 1000;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add a box shadow for a shadow effect */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+    transition: transform 1s ease;
   }
 .overlay {
   
@@ -294,7 +296,7 @@ figure {
     background-color: rgba(0, 0, 0, 0.9);
     z-index: -1;
     opacity: 0;
-    transition: 1s all;
+
 }
 
 .navbar {
@@ -578,23 +580,24 @@ figure {
 
     padding-top: 180px;
     padding-bottom: 40px;
-    background-position: center;
+    background-position:center;
     background-repeat: no-repeat;
     background-size: cover;
 }
-.hero-section:nth-of-type(1){
+.custom-first-element{
     background-image: url(../../assets/img/anhnen2.jpg);
+    background-position:bottom;
 }
 
-.hero-section:nth-of-type(2){
+.custom-second-element{
     background-image: url(../../assets/img/buom.jpg);
    
 }
-.hero-section:nth-of-type(3) {
+.custom-third-element {
     background-image: url(../../assets/img/sutu.jpg);
    
 }
-.hero-section:nth-of-type(4) {
+.custom-four-element {
     background-image: url(../../assets/img/soc.jpg);
    
 }
@@ -680,6 +683,7 @@ ul.star li i {
 
 section.slider-hero {
     position: relative;
+    margin-top: 150px;
 }
 
 .weekly-special sup {

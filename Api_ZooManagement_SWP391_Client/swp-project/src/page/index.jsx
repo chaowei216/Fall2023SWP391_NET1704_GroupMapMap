@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useEffect } from 'react'
+=======
+import React,{useEffect} from 'react'
+>>>>>>> d37f7ef (changes css)
 import Header from './header'
 import SliderHero from './sliderHero';
 import SectionGap from './sectionGap';
@@ -10,6 +14,7 @@ import GapNoBottomTwoHeading from './gapNoBottom-twoHeading';
 import GapBackground from './gapBackground';
 import Footer from './footer';
 import useShopping from '../hooks/useShopping';
+
 
 const menuItems = [
   {
@@ -41,6 +46,7 @@ const menuItems = [
   { text: 'Contact', link: '/contact' },
 ];
 
+<<<<<<< HEAD
 // const { shoppingCart, handleSetShoppingCart } = useShopping();
 // let ShoppingCart = localStorage.getItem("shoppingCart");  
 // if (ShoppingCart) {  
@@ -72,6 +78,11 @@ function Index() {
     handleSetShoppingCart(ShoppingCart);
   }
   }, [ShoppingCart]);
+=======
+
+function Index() {
+
+>>>>>>> d37f7ef (changes css)
   return (
     <div>
          <Header menuItems={menuItems}/>

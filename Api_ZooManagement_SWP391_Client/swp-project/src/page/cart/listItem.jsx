@@ -22,7 +22,7 @@ function ListItem() {
   const Store = (cartData) => {
     // Chuyển dữ liệu giỏ hàng thành chuỗi JSON
     const cartDataJSON = JSON.stringify(cartData);
-    
+    // if(localStorage.getItem("shoppingCart")
     // Lưu vào localStorage
     localStorage.setItem('shoppingCart', cartDataJSON);
   };

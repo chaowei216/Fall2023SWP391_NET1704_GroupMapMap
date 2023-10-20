@@ -6,7 +6,10 @@ const initialState = [];
 const shoppingSlice = createSlice({
   name: "shopping",
   initialState,
-  reducers: {
+  reducers:
+   {setShoppingCart: (state, action) => {
+    return action.payload;
+  },
     addItem(state, action) {
       const { ticketId, type, price, imageSrc } = action.payload;
       const existingItemIndex = state.findIndex((item) => item.id === ticketId);
@@ -50,6 +53,10 @@ const shoppingSlice = createSlice({
   },
 });
 
+<<<<<<< HEAD
 export const { addItem, updateShoppingCart, countTotal, removeItem, setShoppingCart } = shoppingSlice.actions;
+=======
+export const { addItem, updateShoppingCart, countTotal, removeItem,setShoppingCart } = shoppingSlice.actions;
+>>>>>>> d37f7ef (changes css)
 export default shoppingSlice.reducer;
 

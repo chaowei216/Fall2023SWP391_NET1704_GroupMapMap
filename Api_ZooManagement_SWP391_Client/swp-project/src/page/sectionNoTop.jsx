@@ -16,7 +16,7 @@ function SectionNoTop() {
                <div className="chef-text">
                   <div>
                      <span>Dessert specialist</span>
-                     <a href="chef-details.html"><h3>Thomas Walim</h3></a>
+                     <a href="chef-details.html" style={{textDecoration:"none"}}><h3>Thomas Walim</h3></a>
                      <ul className="social-media">
                         <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
                         <li><a href="#"><i className="fa-brands fa-twitter"></i></a></li>
@@ -33,7 +33,7 @@ function SectionNoTop() {
                <div className="chef-text">
                   <div>
                      <span>Chef Master</span>
-                     <a href="chef-details.html"><h3>James Jhonson</h3></a>
+                     <a href="chef-details.html" style={{textDecoration:"none"}}><h3>James Jhonson</h3></a>
                      <ul className="social-media">
                         <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
                         <li><a href="#"><i className="fa-brands fa-twitter"></i></a></li>
@@ -50,7 +50,7 @@ function SectionNoTop() {
                <div className="chef-text">
                   <div>
                      <span>Dessert specialist</span>
-                     <a href="chef-details.html"><h3>Room Minal</h3></a>
+                     <a href="chef-details.html" style={{textDecoration:"none"}}><h3>Room Minal</h3></a>
                      <ul className="social-media">
                         <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
                         <li><a href="#"><i className="fa-brands fa-twitter"></i></a></li>

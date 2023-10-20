@@ -3,19 +3,21 @@ import Slider from "react-slick";
 
 
 function SliderHero() {
-    const settings = {
+    var settings = {
         dots: true,
         infinite: true,
-        speed: 500,
         slidesToShow: 1,
-        slidesToScroll: 1
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed:2000,
+     
       };
     return (
         <div>
-            <section className="slider-hero">
-                <div className="slider-home-1 owl-theme">
+            <section className="slider-hero" >
+                <div className="slider-home-1">
                     <Slider {...settings}>
-                    <div className="hero-section item" >
+                    <div className="hero-section item custom-first-element"  >
                         
                         <div className="container">
                             <div className="row align-items-end">
@@ -38,7 +40,7 @@ function SliderHero() {
                             </div>
                         </div>
                     </div>
-                    <div className="hero-section item"  >
+                    <div className="hero-section custom-second-element item"  >
                         <div className="container">
                             <div className="row align-items-end">
                                 <div className="col-xl-6">
@@ -54,7 +56,7 @@ function SliderHero() {
                             </div>
                         </div>
                     </div>
-                    <div className="hero-section item" >
+                    <div className="hero-section custom-third-element item" >
                         <div className="container" >
                             <div className="row align-items-end">
                                 <div className="col-xl-6">
@@ -70,7 +72,7 @@ function SliderHero() {
                             </div>
                         </div>
                     </div>
-                    <div className="hero-section item">
+                    <div className="hero-section custom-four-element item">
                         <div className="container" >
                             <div className="row align-items-end">
                                 <div className="col-xl-6">

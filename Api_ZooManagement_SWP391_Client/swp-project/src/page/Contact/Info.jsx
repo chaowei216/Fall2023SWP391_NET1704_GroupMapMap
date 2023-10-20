@@ -52,15 +52,15 @@ function Info() {
                         </div>
                         <div className="col-xl-6">
                             <div className="get-in-touch">
-                                <h2>Have Question?</h2>
+                                <h2>Send Feedback</h2>
                                 <p>For all enquires, please contact us and one of our delightful team will be be happy to help.</p>
                             </div>
 
                             <form role="form" id="contact-form" method="post" className="add-review leave-comment mt-4">
                                 <input type="text" name="complete_name" id="Complete_Name" placeholder="Full Name" required />
-                                <input type="text" name="email_address" placeholder="Email Address" id="email_address" required />
-                                <input type="text" name="phone" placeholder="Phone No" />
-                                <textarea placeholder="Message" name="message"></textarea>
+                                <input type="email" name="email_address" placeholder="Email Address" id="email_address" required />
+                                <input type="phone" name="phone" placeholder="Phone No" required />
+                                <textarea placeholder="Message" name="message" required></textarea>
                                 <button className="button" type="submit" value="submit">
                                     <span>send Message</span>
                                 </button>
