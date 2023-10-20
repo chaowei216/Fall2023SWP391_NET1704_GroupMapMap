@@ -71,7 +71,8 @@ console.log("vnp_SecureHash: " + vnp_SecureHash)
     }
 } 
 postData();
-}
+}       
+navigate("/");
 
 // useEffect(() => {
 //   const countdownTimer = setTimeout(() => {

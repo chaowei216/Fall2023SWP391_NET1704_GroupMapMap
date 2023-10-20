@@ -24,8 +24,7 @@ namespace DAL.Entities
         public string? UserImage {  get; set; } 
         public ICollection<ExperienceDetail> ExperienceDetails { get; set; }  
         public ICollection<AnimalTrainer> AnimalTrainers { get; set; }
-
-
+        public ICollection<News> News { get; set; }
 
     }
 }

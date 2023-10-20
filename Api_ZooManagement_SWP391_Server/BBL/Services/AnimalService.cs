@@ -3,12 +3,6 @@ using DAL.Data;
 using DAL.Entities;
 using DAL.Repositories;
 using DTO.Dtos;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BBL.Services
 {
@@ -56,11 +50,6 @@ namespace BBL.Services
                     EntryCageDate = DateTime.Now,
                 };
                 _animalCageRepo.Add(newAnimalCage);
-                /*if (animalFood == null) return false;
-                foreach (AnimalFood food in animalFood)
-                {
-                    _animalFoodRepo.Add(food);
-                }*/
 
                 return true;
             }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DTO.Dtos
 {
-    public class GetCageDto
+    public class ExperienceCreateDto
     {
-        public string CId { get; set; }
+        public string Position { get; set; } = string.Empty;
     }
 }

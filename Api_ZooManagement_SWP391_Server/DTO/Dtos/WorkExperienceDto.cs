@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DTO.Dtos
 {
-    public class GetTrainersDto
+    public class WorkExperienceDto
     {
-        public string UserId { get; set; }
+        public string ExperienceId { get; set; }
+        public string Position { get; set; }
     }
 }

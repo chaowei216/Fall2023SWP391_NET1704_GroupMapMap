@@ -2,7 +2,7 @@
 {
     public class AnimalScheduleDto
     {
-        public DateTime Time { get; set; }
-        public string Description { get; set; }
+        public string AnimalId { get; set; }
+        public List<AnimalScheduleCreateDto> AnimalSchedules { get; set; }
     }
 }

@@ -18,7 +18,6 @@ namespace DAL.Data
         public DbSet<AnimalSchedule> AnimalSchedules { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<News> News { get; set; }
-        public DbSet<NewsCategory> NewsCategories { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Area> Areas { get; set; }
         public DbSet<Cage> Cages { get; set; }
@@ -132,6 +131,7 @@ namespace DAL.Data
                 entity.Property(e => e.ReleaseDate).IsRequired();
                 entity.Property(e => e.NewsTitle).HasMaxLength(30).IsRequired();
                 entity.Property(e => e.NewsContent).IsRequired();
+                entity.Property(e => e.Category).IsRequired();
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -158,13 +158,6 @@ namespace DAL.Data
                 entity.Property(s => s.ScheduleId).HasMaxLength(5);
                 entity.Property(s => s.ScheduleName).HasMaxLength(30).IsRequired();
                 entity.Property(s => s.Status).IsRequired();
-            });
-
-            modelBuilder.Entity<NewsCategory>(entity =>
-            {
-                entity.HasKey(nc => nc.Id);
-                entity.Property(nc => nc.Id).HasMaxLength(5);
-                entity.Property(nc => nc.CategoryName).HasMaxLength(30).IsRequired();
             });
 
             modelBuilder.Entity<OrderTicket>(entity =>
