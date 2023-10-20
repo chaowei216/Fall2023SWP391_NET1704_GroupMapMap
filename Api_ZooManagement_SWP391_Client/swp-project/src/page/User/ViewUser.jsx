@@ -9,6 +9,7 @@ import {
   MDBModalBody,
   MDBModalFooter,
 } from "mdb-react-ui-kit";
+import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import Button from "@mui/material/Button";
 import { ToastContainer } from "react-toastify";
@@ -198,10 +199,10 @@ export default function ViewUser(pros) {
                           </Form.Control.Feedback>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Status</label>
+                          <label className="form-label">Role</label>
                           <Radio.Group
-                            id="status"
-                            name="status"
+                            id="role"
+                            name="role"
                             style={{ height: "33%", width: "100%" }}
                             // onChange={(e) => {
                             //   handleRoleChange(e);
@@ -211,30 +212,34 @@ export default function ViewUser(pros) {
                             disabled
                           >
                             {role === "Staff" && (
-                              <Radio
+                              <Radio.Button
                                 style={{
-                                  width: "40%",
+                                  width: "100%",
+                                  fontWeight: "bolder",
                                   color: "red",
+                                  height: "37px",
                                 }}
                                 value="Staff"
                               >
                                 <span style={{ verticalAlign: "middle" }}>
                                   Staff
                                 </span>
-                              </Radio>
+                              </Radio.Button>
                             )}
                             {role === "ZooTrainer" && (
-                              <Radio
+                              <Radio.Button
                                 style={{
-                                  width: "40%",
+                                  width: "100%",
                                   color: "green",
+                                  height: "37px",
+                                  fontWeight: "bolder",
                                 }}
                                 value="ZooTrainer"
                               >
                                 <span style={{ verticalAlign: "middle" }}>
                                   ZooTrainer
                                 </span>
-                              </Radio>
+                              </Radio.Button>
                             )}
                           </Radio.Group>
                         </div>
@@ -253,30 +258,33 @@ export default function ViewUser(pros) {
                               disabled
                             >
                               {sex === "male" && (
-                                <Radio
+                                <Radio.Button
                                   style={{
-                                    width: "40%",
+                                    width: "100%",
                                     color: "blue",
+                                    height: "37px",
+                                    fontWeight: "bolder",
                                   }}
                                   value="male"
                                 >
                                   <span style={{ verticalAlign: "middle" }}>
                                     Male
                                   </span>
-                                </Radio>
+                                </Radio.Button>
                               )}
                               {sex === "female" && (
-                                <Radio
+                                <Radio.Button
                                   style={{
-                                    width: "40%",
+                                    width: "100%",
                                     color: "pink",
+                                    height: "37px",
                                   }}
                                   value="female"
                                 >
                                   <span style={{ verticalAlign: "middle" }}>
                                     Female
                                   </span>
-                                </Radio>
+                                </Radio.Button>
                               )}
                             </Radio.Group>
                           </div>
@@ -289,7 +297,7 @@ export default function ViewUser(pros) {
                           <Space
                             direction="vertical"
                             size={20}
-                            style={{ width: "90%" }}
+                            style={{ width: "100%" }}
                           >
                             <Form.Control
                               type="date"
@@ -310,7 +318,7 @@ export default function ViewUser(pros) {
                             <Space
                               direction="vertical"
                               size={20}
-                              style={{ width: "90%" }}
+                              style={{ width: "100%" }}
                             >
                               <Form.Control
                                 type="date"
@@ -335,31 +343,70 @@ export default function ViewUser(pros) {
                             disabled
                           >
                             {status === true && (
-                              <Radio
+                              <Radio.Button
                                 style={{
-                                  width: "45%",
-                                  fontWeight: "bolder"
+                                  width: "100%",
+                                  color: "green",
+                                  fontWeight: "bolder",
+                                  height: "37px",
                                 }}
                                 value={true}
                               >
                                 <span style={{ verticalAlign: "middle" }}>
-                                  Available
+                                  On Working
                                 </span>
-                              </Radio>
+                              </Radio.Button>
                             )}
                             {status === false && (
-                              <Radio
+                              <Radio.Button
                                 style={{
-                                  width: "45%",
+                                  width: "100%",
+                                  color: "red",
+                                  fontWeight: "bolder",
+                                  height: "37px",
                                 }}
                                 value={false}
                               >
                                 <span style={{ verticalAlign: "middle" }}>
-                                  None
+                                  Out of Job
                                 </span>
-                              </Radio>
+                              </Radio.Button>
                             )}
                           </Radio.Group>
+                        </div>
+                      </div>
+                      <div className="label-info mb-2">
+                        <label>Experience Information</label>
+                      </div>
+                      <div className="Food-Information mb-4" style={{width: "97%"}}>
+                        <div className="mb-3" style={{ paddingRight: "25px" }}>
+                          <Table striped bordered hover>
+                            <thead>
+                              <tr>
+                                <th>Experience ID</th>
+                                <th>Description</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>Haha</td>
+                              <td>Huhu</td>
+                            </tr>
+                              {/* {listFoodsFilter &&
+                                listFoodsFilter.length > 0 &&
+                                listFoodsFilter.map((value) => {
+                                  return (
+                                    <tr>
+                                      <td>{value.foodId}</td>
+                                      <td>{value.fName}</td>
+                                      <td>{value.category}</td>
+                                      <td>{value.amount}</td>
+                                      <td>{value.description}</td>
+                                    </tr>
+                                  );
+                                })} */}
+                            </tbody>
+                          </Table>
                         </div>
                       </div>
                       <div className="btn-footer">

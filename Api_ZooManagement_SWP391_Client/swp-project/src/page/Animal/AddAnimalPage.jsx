@@ -424,7 +424,10 @@ function AddAnimal(pros) {
                                 </Form.Control.Feedback>
                               </div>
                             </div>
-                            <div className="mb-3" style={{ marginRight: "20px" }}>
+                            <div
+                              className="mb-3"
+                              style={{ marginRight: "20px" }}
+                            >
                               <label className="form-label">
                                 Enter healthCheck
                               </label>
@@ -446,7 +449,10 @@ function AddAnimal(pros) {
                                 {errors.healthCheck}
                               </Form.Control.Feedback>
                             </div>
-                            <div className="mb-2" style={{ marginRight: "20px" }}>
+                            <div
+                              className="mb-2"
+                              style={{ marginRight: "20px" }}
+                            >
                               <label className="form-label">
                                 Enter Description
                               </label>
@@ -467,6 +473,19 @@ function AddAnimal(pros) {
                               <Form.Control.Feedback type="invalid">
                                 {errors.description}
                               </Form.Control.Feedback>
+                            </div>
+                            <div className="mb-3">
+                              <label className="form-label">Choose Image</label>
+                              <Form.Control
+                                type="file"
+                                id="userImage"
+                                placeholder="userImage"
+                                aria-describedby="inputGroupPrepend"
+                                name="userImage"
+                                value={values.animalImage}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                              />
                             </div>
                           </div>
                           <div className="label-info">
@@ -612,8 +631,8 @@ function AddAnimal(pros) {
                                 >
                                   <Field
                                     name={`fields[${index}].foodId`}
-                                  // as="select"
-                                  // onChange={(e) => handleChange(e.target.value)}
+                                    // as="select"
+                                    // onChange={(e) => handleChange(e.target.value)}
                                   >
                                     {({ field, form }) => (
                                       <Form.Select
@@ -666,27 +685,27 @@ function AddAnimal(pros) {
                         </button> */}
                                 </div>
                               ))}
-                              {errors.fields &&
+                              {errors.fields && (
                                 <>
-                                  {errors.fields[0].foodId &&
+                                  {errors.fields[0].foodId && (
                                     <div style={{ color: "red" }}>
                                       {errors.fields[0].foodId}
                                     </div>
-                                  }
-                                  {errors.fields[0].amount &&
+                                  )}
+                                  {errors.fields[0].amount && (
                                     <div style={{ color: "red" }}>
                                       {errors.fields[0].amount}
                                     </div>
-                                  }
-                                  {errors.fields[0].description &&
+                                  )}
+                                  {errors.fields[0].description && (
                                     <div style={{ color: "red" }}>
                                       {errors.fields[0].description}
                                     </div>
-                                  }
+                                  )}
                                 </>
-                              }
+                              )}
                             </div>
-                            {fields.length < options.length &&
+                            {fields.length < options.length && (
                               <div
                                 style={{
                                   display: "flex",
@@ -695,7 +714,7 @@ function AddAnimal(pros) {
                               >
                                 <Button onClick={addField}>More Food</Button>
                               </div>
-                            }
+                            )}
                           </div>
                         </div>
                       </div>
@@ -749,7 +768,7 @@ function AddAnimal(pros) {
             <MDBModalFooter></MDBModalFooter>
           </MDBModalContent>
         </MDBModalDialog>
-      </MDBModal >
+      </MDBModal>
     </>
   );
 }

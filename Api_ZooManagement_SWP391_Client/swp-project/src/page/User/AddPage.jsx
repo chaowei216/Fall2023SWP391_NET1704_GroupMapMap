@@ -110,7 +110,7 @@ function AddPage() {
       sex: Boolean(values.sex),
       role: Number(values.role),
       userImage: img,
-      experiences: []
+      experiences: [],
     };
     const response = await fetch("https://localhost:44352/api/User", {
       method: "POST",
@@ -171,9 +171,7 @@ function AddPage() {
                       value={values.firstname}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      isInvalid={
-                        errors.firstname && touched.firstname
-                      }
+                      isInvalid={errors.firstname && touched.firstname}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.firstname}
@@ -190,9 +188,7 @@ function AddPage() {
                       value={values.lastname}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      isInvalid={
-                        errors.lastname && touched.lastname
-                      }
+                      isInvalid={errors.lastname && touched.lastname}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.lastname}
@@ -317,8 +313,8 @@ function AddPage() {
                       >
                         <Field
                           name={`fields[${index}].experienceId`}
-                        // as="select"
-                        // onChange={(e) => handleChange(e.target.value)}
+                          // as="select"
+                          // onChange={(e) => handleChange(e.target.value)}
                         >
                           {({ field, form }) => (
                             <Form.Select
