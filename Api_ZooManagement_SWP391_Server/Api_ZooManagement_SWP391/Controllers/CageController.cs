@@ -62,13 +62,17 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest(ModelState);
             }
 
-            int count = _cageService.GetAll().Count() + 1;
-            var cageId = "C" + count.ToString().PadLeft(4, '0');
-
             var cageMap = _mapper.Map<Cage>(cageDto);
+            var area = _areaService.GetByAreaId(areaId);
+            if (area == null)
+                return BadRequest();
+
+            int count = _cageService.GetCagesByAreaName(area.AreaName).Count() + 1;
+            var cageId = area.AreaName + count.ToString().PadLeft(4, '0');
+
             cageMap.CId = cageId;
-            cageMap.Area = _areaService.GetByAreaId(areaId);
-            if(cageMap.MaxCapacity < cageMap.AnimalQuantity)
+            cageMap.Area = area;
+            if (cageMap.MaxCapacity < cageMap.AnimalQuantity)
             {
                 ModelState.AddModelError("", "Animal quantity must less than max capacity");
                 return BadRequest(ModelState);

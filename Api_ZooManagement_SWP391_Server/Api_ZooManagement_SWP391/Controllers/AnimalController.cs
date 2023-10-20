@@ -21,7 +21,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         private readonly IFoodService _foodService;
         private readonly IScheduleService _scheduleService;
         private readonly IAnimalScheduleService _animalScheduleService;
-        public Regex animalRegex = new Regex(@"^A\d{4}");
+        public Regex animalRegex = new Regex(@"^AN\d{4}");
         public Regex userRegex = new Regex(@"^Z\d{4}");
 
         public AnimalController(IMapper mapper, 
@@ -223,7 +223,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             var animals = _animalService.GetAll();
             if (animals == null) count = 1;
             else count = animals.Count() + 1;
-            var animalId = "A" + count.ToString().PadLeft(4, '0');
+            var animalId = "AN" + count.ToString().PadLeft(4, '0');
 
             List<AnimalFood> animalFoods = new List<AnimalFood>();
 

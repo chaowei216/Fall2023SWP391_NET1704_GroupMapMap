@@ -25,8 +25,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Animal", b =>
                 {
                     b.Property<string>("AnimalId")
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("AnimalImage")
                         .HasColumnType("nvarchar(max)");
@@ -73,7 +73,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.AnimalCage", b =>
                 {
                     b.Property<string>("AnimalId")
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("CageId")
                         .HasColumnType("nvarchar(5)");
@@ -94,10 +94,10 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.AnimalFood", b =>
                 {
                     b.Property<string>("AnimalId")
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("FoodId")
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<float>("Amount")
                         .HasColumnType("real");
@@ -116,10 +116,10 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.AnimalSchedule", b =>
                 {
                     b.Property<string>("ScheduleId")
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("AnimalId")
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -139,10 +139,10 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.AnimalTrainer", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("AnimalId")
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<DateTime?>("EndTrainDate")
                         .HasColumnType("datetime2");
@@ -160,13 +160,13 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Area", b =>
                 {
                     b.Property<string>("AreaId")
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("AreaName")
                         .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -192,7 +192,7 @@ namespace DAL.Migrations
 
                     b.Property<string>("AreaId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<int>("MaxCapacity")
                         .HasColumnType("int");
@@ -212,10 +212,10 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.ExperienceDetail", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("ExperienceId")
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("Company")
                         .IsRequired()
@@ -232,8 +232,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Food", b =>
                 {
                     b.Property<string>("FoodId")
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -269,8 +269,9 @@ namespace DAL.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("NewsCategoryId")
-                        .HasColumnType("nvarchar(5)");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NewsContent")
                         .IsRequired()
@@ -284,34 +285,21 @@ namespace DAL.Migrations
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(6)");
+
                     b.HasKey("NewsId");
 
-                    b.HasIndex("NewsCategoryId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("News");
-                });
-
-            modelBuilder.Entity("DAL.Entities.NewsCategory", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
-
-                    b.Property<string>("CategoryName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("NewsCategories");
                 });
 
             modelBuilder.Entity("DAL.Entities.Order", b =>
                 {
                     b.Property<string>("OrderId")
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -346,10 +334,10 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.OrderTicket", b =>
                 {
                     b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("TicketId")
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<int>("TicketQuantity")
                         .HasColumnType("int");
@@ -364,8 +352,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Review", b =>
                 {
                     b.Property<string>("ReviewId")
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -388,8 +376,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Schedule", b =>
                 {
                     b.Property<string>("ScheduleId")
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("ScheduleName")
                         .IsRequired()
@@ -407,8 +395,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Ticket", b =>
                 {
                     b.Property<string>("TicketId")
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
@@ -452,8 +440,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.User", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -529,8 +517,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.WorkExperience", b =>
                 {
                     b.Property<string>("ExperienceId")
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("Position")
                         .IsRequired()
@@ -650,11 +638,11 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.News", b =>
                 {
-                    b.HasOne("DAL.Entities.NewsCategory", "NewsCategory")
+                    b.HasOne("DAL.Entities.User", "User")
                         .WithMany("News")
-                        .HasForeignKey("NewsCategoryId");
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("NewsCategory");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DAL.Entities.Order", b =>
@@ -713,11 +701,6 @@ namespace DAL.Migrations
                     b.Navigation("AnimalFoods");
                 });
 
-            modelBuilder.Entity("DAL.Entities.NewsCategory", b =>
-                {
-                    b.Navigation("News");
-                });
-
             modelBuilder.Entity("DAL.Entities.Order", b =>
                 {
                     b.Navigation("OrderTickets");
@@ -744,6 +727,8 @@ namespace DAL.Migrations
                     b.Navigation("AnimalTrainers");
 
                     b.Navigation("ExperienceDetails");
+
+                    b.Navigation("News");
                 });
 
             modelBuilder.Entity("DAL.Entities.WorkExperience", b =>

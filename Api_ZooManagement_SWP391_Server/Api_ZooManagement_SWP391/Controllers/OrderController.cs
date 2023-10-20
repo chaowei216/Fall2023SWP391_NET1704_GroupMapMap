@@ -67,7 +67,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             trans.TransactionDate = DateTime.Now;
 
             int count = _orderService.GetAllOrders().Count() + 1;
-            orderMap.OrderId = "O" + count.ToString().PadLeft(4, '0');
+            orderMap.OrderId = "OD" + count.ToString().PadLeft(4, '0');
             orderMap.Transaction = trans;
 
             var TicketQuantities = response.OrderCreate.Tickets;

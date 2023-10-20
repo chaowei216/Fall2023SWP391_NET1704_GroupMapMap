@@ -38,8 +38,8 @@ namespace DAL.Data
             modelBuilder.Entity<Area>(entity =>
             {
                 entity.HasKey(area => area.AreaId);
-                entity.Property(area => area.AreaId).HasMaxLength(5);
-                entity.Property(e => e.AreaName).HasMaxLength(5).IsRequired();
+                entity.Property(area => area.AreaId).HasMaxLength(6);
+                entity.Property(e => e.AreaName).HasMaxLength(1).IsRequired();
                 entity.HasIndex(e => e.AreaName).IsUnique();
                 entity.Property(e => e.Description).HasMaxLength(50);
             });
@@ -56,7 +56,7 @@ namespace DAL.Data
             modelBuilder.Entity<Order>(e =>
             {
                 e.HasKey(order => order.OrderId);
-                e.Property(o => o.OrderId).HasMaxLength(5);
+                e.Property(o => o.OrderId).HasMaxLength(6);
                 e.Property(o => o.TotalPrice).IsRequired();
                 e.Property(o => o.Email).HasMaxLength(30).IsRequired();
                 e.Property(o => o.FullName).HasMaxLength(50).IsRequired();
@@ -66,7 +66,7 @@ namespace DAL.Data
             modelBuilder.Entity<Ticket>(e =>
             {
                 e.HasKey(o => o.TicketId);
-                e.Property(c => c.TicketId).HasMaxLength(5);
+                e.Property(c => c.TicketId).HasMaxLength(6);
                 e.Property(c => c.Type).HasMaxLength(50).IsRequired();
                 e.Property(c => c.Price).IsRequired();
             });
@@ -75,14 +75,14 @@ namespace DAL.Data
             modelBuilder.Entity<WorkExperience>(entity =>
             {
                 entity.HasKey(workExperience => workExperience.ExperienceId);
-                entity.Property(e => e.ExperienceId).HasMaxLength(5);
+                entity.Property(e => e.ExperienceId).HasMaxLength(6);
                 entity.Property(e => e.Position).HasMaxLength(30).IsRequired();
             });
 
             modelBuilder.Entity<Animal>(entity =>
             {
                 entity.HasKey(animal => animal.AnimalId);
-                entity.Property(e => e.AnimalId).HasMaxLength(5);
+                entity.Property(e => e.AnimalId).HasMaxLength(6);
                 entity.Property(e => e.Name).HasMaxLength(50).IsRequired();
                 entity.Property(e => e.Description).IsRequired();
                 entity.Property(e => e.Sex).IsRequired();
@@ -98,7 +98,7 @@ namespace DAL.Data
             modelBuilder.Entity<Food>(entity =>
             {
                 entity.HasKey(food => food.FoodId);
-                entity.Property(f => f.FoodId).HasMaxLength(5);
+                entity.Property(f => f.FoodId).HasMaxLength(6);
                 entity.Property(f => f.FName).HasMaxLength(30).IsRequired();
                 entity.Property(f => f.Quantity).IsRequired();
                 entity.Property(f => f.ImportDate).IsRequired();
@@ -118,7 +118,7 @@ namespace DAL.Data
             modelBuilder.Entity<Review>(entity =>
             {
                 entity.HasKey(e => e.ReviewId);
-                entity.Property(e => e.ReviewId).HasMaxLength(5);
+                entity.Property(e => e.ReviewId).HasMaxLength(6);
                 entity.Property(e => e.Title).HasMaxLength(30).IsRequired();
                 entity.Property(e => e.Description).HasMaxLength(100).IsRequired();
             });
@@ -137,7 +137,7 @@ namespace DAL.Data
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(u => u.UserId);
-                entity.Property(u => u.UserId).HasMaxLength(5);
+                entity.Property(u => u.UserId).HasMaxLength(6);
                 entity.Property(u => u.Email).HasMaxLength(30).IsRequired();
                 entity.HasIndex(u => u.Email).IsUnique();
                 entity.Property(u => u.Firstname).HasMaxLength(10).IsRequired();
@@ -155,7 +155,7 @@ namespace DAL.Data
             modelBuilder.Entity<Schedule>(entity =>
             {
                 entity.HasKey(s => s.ScheduleId);
-                entity.Property(s => s.ScheduleId).HasMaxLength(5);
+                entity.Property(s => s.ScheduleId).HasMaxLength(6);
                 entity.Property(s => s.ScheduleName).HasMaxLength(30).IsRequired();
                 entity.Property(s => s.Status).IsRequired();
             });

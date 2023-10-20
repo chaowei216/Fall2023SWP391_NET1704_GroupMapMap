@@ -52,5 +52,10 @@ namespace BBL.Services
         {
             return _aniCageRepository.GetAll().SingleOrDefault(aniCage => aniCage.AnimalId == animalId && aniCage.OutCageDate == null);
         }
+
+        public ICollection<Cage> GetCagesByAreaName(string areaName)
+        {
+            return _cageRepository.GetAll().Where(cage => cage.CId.StartsWith(areaName)).ToList();
+        }
     }
 }

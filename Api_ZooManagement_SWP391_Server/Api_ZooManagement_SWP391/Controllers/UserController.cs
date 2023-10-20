@@ -172,9 +172,9 @@ namespace Api_ZooManagement_SWP391.Controllers
 
 
             if(UserRoleExtensions.ToIntValue(user.Role) == 2) 
-               userId = "S" + count.ToString().PadLeft(4, '0');
+               userId = "ST" + count.ToString().PadLeft(4, '0');
             else if(UserRoleExtensions.ToIntValue(user.Role) == 3)
-               userId = "Z" + count.ToString().PadLeft(4, '0');
+               userId = "ZT" + count.ToString().PadLeft(4, '0');
             
             user.UserId = userId; 
             user.PasswordHash = passwordHash;
