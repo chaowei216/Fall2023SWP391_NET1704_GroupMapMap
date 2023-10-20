@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useShopping from '../../hooks/useShopping';
+import {GrFormAdd, GrFormSubtract} from 'react-icons/gr'
 
 function ListItem() {
 
@@ -84,21 +85,19 @@ function ListItem() {
                   {shoppingCart.map((product) => (
                     <tr key={product.id}>
                       <td className="product-name">
-                        <img alt="img" src={product.imageSrc} />
                         <div>
                           <a style={{textDecoration:"none",color:"red"}} href="#">{product.name}</a>
                           <span>{product.description}</span>
                         </div>
                       </td>
                       <td className="product-quantity">
-                        <button type="button" onClick={(e) => {  handleDecrease(product.id) }} > - </button>
-                        <span>{product.quantity}</span>
-                        <button type="button"  onClick={(e) => {  handleIncrease(product.id) }}> +</button>
+                        <GrFormSubtract style={{cursor: "pointer", fontSize: "22px", marginBottom: "7px"}} onClick={(e) => {  handleDecrease(product.id) }}></GrFormSubtract>
+                        <span style={{fontSize: "22px"}}>{product.quantity}</span>
+                        <GrFormAdd style={{cursor: "pointer", fontSize: "22px", marginBottom: "7px"}} onClick={(e) => {  handleIncrease(product.id) }}></GrFormAdd>
                       </td>
                       <td className="product-subtotal">
                         <span className="woocommerce-Price-amount">
                           <bdi>
-                            <span className="woocommerce-Price-currencySymbol">$</span>
                             {product.price.toFixed(2)}
                           </bdi>
                         </span>
@@ -163,7 +162,6 @@ function ListItem() {
                           <td>
                             <span className="woocommerce-Price-amount">
                               <bdi>
-                                <span className="woocommerce-Price-currencySymbol">$</span>
                                 {shoppingCart.reduce((total, product) => total + calculateProductTotal(product), 0).toFixed(2)}
                               </bdi>
                             </span>
@@ -174,7 +172,6 @@ function ListItem() {
                           <td>
                             <span className="woocommerce-Price-amount">
                               <bdi>
-                                <span>$</span>
                                 {calculateCartTotal().toFixed(2)}
                               </bdi>
                             </span>

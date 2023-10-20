@@ -26,6 +26,9 @@ const shoppingSlice = createSlice({
     },
     
     removeItem() {},
+    setShoppingCart: (state, action) => {
+      return action.payload;
+    },
     
     updateShoppingCart(state, action) {
       const { id, newQuantity } = action.payload;
@@ -47,6 +50,6 @@ const shoppingSlice = createSlice({
   },
 });
 
-export const { addItem, updateShoppingCart, countTotal, removeItem } = shoppingSlice.actions;
+export const { addItem, updateShoppingCart, countTotal, removeItem, setShoppingCart } = shoppingSlice.actions;
 export default shoppingSlice.reducer;
 

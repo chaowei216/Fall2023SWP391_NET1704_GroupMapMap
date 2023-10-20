@@ -45,9 +45,12 @@ console.log("vnp_TransactionStatus: " + vnp_TransactionStatus);
 console.log("vnp_TxnRef: " + vnp_TxnRef);
 console.log("vnp_SecureHash: " + vnp_SecureHash)
 
-
+if(vnp_ResponseCode == "24") {
+  setTimeout(() => navigate("/"), 3000);
+}
     if(vnp_ResponseCode == "00") {
         const orderDetail = JSON.parse(localStorage.getItem("orderItem"));
+        localStorage.removeItem("shoppingCart");
         console.log(orderDetail);
         status = "success";
 
@@ -71,8 +74,8 @@ console.log("vnp_SecureHash: " + vnp_SecureHash)
     }
 } 
 postData();
-}       
-navigate("/");
+}
+
 
 // useEffect(() => {
 //   const countdownTimer = setTimeout(() => {

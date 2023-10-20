@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addItem, updateShoppingCart } from "../redux/slices/shoppingCart"; // Import cả action updateShoppingCart
+import { addItem, updateShoppingCart, setShoppingCart } from "../redux/slices/shoppingCart"; // Import cả action updateShoppingCart
 
 const useShopping = () => {
   const dispatch = useDispatch();
@@ -25,10 +25,12 @@ const useShopping = () => {
     dispatch(countTotal());
   };
   
- 
+  const handleSetShoppingCart = (newShoppingCart) => {
+    dispatch(setShoppingCart(newShoppingCart));
+  };
 
 
-  return { shoppingCart, handleAddItem, handleUpdateItemQuantity, handleRemoveItem, handleEditItem,countTotal };
+  return { shoppingCart, handleAddItem, handleUpdateItemQuantity, handleRemoveItem, handleEditItem,countTotal, handleSetShoppingCart};
 };
 
 export default useShopping;
