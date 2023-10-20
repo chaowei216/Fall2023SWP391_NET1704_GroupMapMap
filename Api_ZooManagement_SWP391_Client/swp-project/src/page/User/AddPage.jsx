@@ -44,6 +44,10 @@ function AddPage() {
   const [Role, setRole] = useState("");
   const [test, setTest] = useState("");
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
+  const [experienceOption, setExperienceOption] = useState([]);
+
+
+
   const handleRadioChange = (value) => {
     // setSex(value.target.value);
     formik.values.sex = value.target.value;
@@ -56,6 +60,20 @@ function AddPage() {
     // setRole(value);
     formik.values.wID = value;
   };
+  useEffect(() => {
+    const getExpList = () => {
+      return fetch("https://localhost:44352/api/Experience").then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getExpList().then((items) => {
+      if (mounted) {
+        setExperienceOption(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
   const roleOptions = [
     { id: 1, value: "2", label: "Staff" },
     { id: 2, value: "3", label: "Zoo Trainer" },
@@ -74,25 +92,6 @@ function AddPage() {
   const [Show, setShow] = useState(true);
   // const [validated, setValidated] = useState(false);
   const toggleShow = () => setShow(!Show);
-  const formik = useFormik({
-    initialValues: {
-      first_name: "",
-      last_name: "",
-      email: "",
-      password: "123456",
-      endDate: "",
-      phone: "",
-      address: "",
-      company: "",
-      role: "2",
-      sex: true,
-      wID: "2",
-    },
-    validationSchema: basicSchema,
-    onSubmit: (values) => {
-      submitForm(values);
-    },
-  });
   const submitForm = async (values) => {
     let img = "";
     if (values.userImage === "") {
@@ -100,7 +99,6 @@ function AddPage() {
     } else {
       img = values.userImage;
     }
-    console.log(img);
     const user = {
       email: values.email,
       firstname: values.firstname,
@@ -110,8 +108,9 @@ function AddPage() {
       sex: Boolean(values.sex),
       role: Number(values.role),
       userImage: img,
-      experiences: []
+      experiences: values.fields,
     };
+    console.log(user);
     const response = await fetch("https://localhost:44352/api/User", {
       method: "POST",
       headers: {
@@ -171,9 +170,7 @@ function AddPage() {
                       value={values.firstname}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      isInvalid={
-                        errors.firstname && touched.firstname
-                      }
+                      isInvalid={errors.firstname && touched.firstname}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.firstname}
@@ -190,9 +187,7 @@ function AddPage() {
                       value={values.lastname}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      isInvalid={
-                        errors.lastname && touched.lastname
-                      }
+                      isInvalid={errors.lastname && touched.lastname}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.lastname}
@@ -229,7 +224,6 @@ function AddPage() {
                       buttonStyle="solid"
                     >
                       <Radio value="2">Staff</Radio>
-                      <Radio value="3">ZooTrainer</Radio>
                     </Radio.Group>
                   </div>
                 </div>
@@ -317,8 +311,8 @@ function AddPage() {
                       >
                         <Field
                           name={`fields[${index}].experienceId`}
-                        // as="select"
-                        // onChange={(e) => handleChange(e.target.value)}
+                          // as="select"
+                          // onChange={(e) => handleChange(e.target.value)}
                         >
                           {({ field, form }) => (
                             <Form.Select
@@ -333,15 +327,15 @@ function AddPage() {
                             >
                               <option value="">Choose Role Work Before</option>
                               {/* Render các option từ API */}
-                              {roleOptions.map((option) => (
+                              {experienceOption.map((option) => (
                                 <option
-                                  key={option.value}
-                                  value={option.value}
+                                  key={option.experienceId}
+                                  value={option.experienceId}
                                   disabled={selectedFoodIds.includes(
-                                    option.value
+                                    option.experienceId
                                   )}
                                 >
-                                  {option.label}
+                                  {option.experienceId}
                                 </option>
                               ))}
                             </Form.Select>
