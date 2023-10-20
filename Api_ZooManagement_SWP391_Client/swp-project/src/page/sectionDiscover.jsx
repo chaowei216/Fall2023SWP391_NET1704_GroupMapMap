@@ -128,7 +128,7 @@ function SectionDiscover() {
 
   return (
     <div>
-      <section className="section-discover-menu">
+      <section className="section-discover-menu" id="2">
         <div className="container">
           <div className="heading-two">
             <h2>Discover Species</h2>

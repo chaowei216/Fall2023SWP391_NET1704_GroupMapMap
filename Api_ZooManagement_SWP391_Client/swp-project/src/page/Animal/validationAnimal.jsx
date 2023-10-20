@@ -8,12 +8,12 @@ function isValidDate(date, format) {
 export const schemaAnimal = yup.object().shape({
   name: yup
     .string()
-    .required("name is required")
+    .required("Name is required")
     .min(2, "Name must be at least 2 characters")
     .max(50, "Name cannot be more than 50 characters")
     .matches(
-      /^[a-zA-Z-.']+$/,
-      "Name can only contain letters, dashes, periods, and apostrophes"
+      /^[a-zA-Z\s-.']+(\d*)$/,
+      "Name can contain letters, spaces, dashes, periods, apostrophes and numbers"
     ),
   // animalId: yup
   //   .string()
@@ -25,7 +25,7 @@ export const schemaAnimal = yup.object().shape({
     .notOneOf(["Choose Cage"], "CageID cannot be Choose Cage"),
   userId: yup
     .string()
-    .required("UserID is required")
+    .required("ZooTrainerID is required")
     .notOneOf(["Choose ZooTrainer"], "ZooTrainerID cannot be Choose Cage"),
   description: yup
     .string()
@@ -50,10 +50,12 @@ export const schemaAnimal = yup.object().shape({
     .required("healthCheck is required")
     .min(2, "Description must be at least 2 characters"),
   fields: yup.array().of(
-    yup.object({
-      foodId: yup.string().required(),
-      description: yup.string().required(),
-      amount: yup.string().required(),
+    yup.object().shape({
+      foodId: yup.string().required("Please choose foood"),
+      description: yup.string().required("Please enter description of food").min(2, "Description must be at least 2 characters"),
+      amount: yup.string().required("Please enter amount of food").min(1, "Amount must be at least 2 characters").test('positive', 'The amount cannot be negative', value => {
+        return Number(value) >= 1;
+      }),
     })
   ),
   // .matches(
@@ -77,7 +79,7 @@ export const schemaAnimal = yup.object().shape({
     .required("Vui lòng nhập ngày")
     .test({
       name: "start-date-valid",
-      message: "Ngày phải trước ngày outCage",
+      message: "Birthday must be before Entry Cage Date",
       test: function (value) {
         const currentDate = new Date();
         const entryCageDate = new Date(this.parent.entryCageDate);
@@ -92,7 +94,7 @@ export const schemaAnimal = yup.object().shape({
     .required("Vui lòng nhập ngày")
     .test({
       name: "start-date-valid",
-      message: "Ngày phải trước ngày hiện tại",
+      message: "Date must be before Date Now",
       test: function (value) {
         const date = new Date(value);
         return date <= new Date();
@@ -104,10 +106,13 @@ export const schemaAnimal = yup.object().shape({
     .required("Vui lòng nhập ngày")
     .test({
       name: "start-date-valid",
-      message: "Ngày phải trước ngày hiện tại",
+      message: "Date must be after Entry Cage Date",
       test: function (value) {
-        const date = new Date(value);
-        return date <= new Date();
+        const currentDate = new Date();
+        const entryCageDate = new Date(this.parent.entryCageDate);
+        const selectedDate = new Date(value);
+
+        return selectedDate <= currentDate && selectedDate >= entryCageDate;
       },
     }),
   // entryDate: yup.string().required(),
