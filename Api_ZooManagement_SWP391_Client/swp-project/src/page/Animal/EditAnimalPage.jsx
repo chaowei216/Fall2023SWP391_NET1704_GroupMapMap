@@ -693,6 +693,7 @@ export default function EditAnimal(pros) {
                               <Form.Control
                                 type="date"
                                 id="startTrainDate"
+                                disabled
                                 placeholder="address"
                                 aria-describedby="inputGroupPrepend"
                                 name="startTrainDate"

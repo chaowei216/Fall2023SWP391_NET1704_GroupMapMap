@@ -782,7 +782,7 @@ export default function ViewAnimal(pros) {
                         </div>
                       </div>
 
-                      <div className="btn-footer">
+                      <div className="btn-footer" style={{marginTop: "20px"}}>
                         <div
                           style={{
                             marginRight: "20px",

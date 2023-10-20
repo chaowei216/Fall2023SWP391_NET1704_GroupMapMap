@@ -17,6 +17,7 @@ import Typography from "@mui/material/Typography";
 import YourComponent from "./AnimalFoodTest";
 import { Pagination } from "antd";
 import axios from "axios";
+import ScheduleAnimal from "./ScheduleAnimal";
 function TableAnimal() {
   const role = localStorage.getItem("role");
   const [showModalAdd, setShowmodalAdd] = useState(false);
@@ -31,9 +32,9 @@ function TableAnimal() {
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     const getList = () => {
-      return fetch(`https://localhost:44352/api/Animal/page/${currentPage}`).then(
-        (data) => data.json()
-      );
+      return fetch(
+        `https://localhost:44352/api/Animal/page/${currentPage}`
+      ).then((data) => data.json());
     };
     let mounted = true;
     getList().then((items) => {
@@ -85,8 +86,7 @@ function TableAnimal() {
     } catch (error) {
       console.log(error);
     }
-
-  }
+  };
 
   const handleViewUser = (item) => {
     // setDataUserEdit(item);
@@ -139,6 +139,9 @@ function TableAnimal() {
                       <Button variant="outlined" onClick={handleClick}>
                         Add New Animal
                       </Button>
+                      <Button variant="outlined" onClick={handleClick2}>
+                        Add New Schedule
+                      </Button>
                     </div>
                   </div>
                 </Typography>
@@ -190,10 +193,13 @@ function TableAnimal() {
                         >
                           <EditIcon />
                         </Button>
-                        <Button variant="text" style={{ padding: 0 }}
+                        <Button
+                          variant="text"
+                          style={{ padding: 0 }}
                           onClick={() => {
                             handleDeleteAnimal(items);
-                          }}>
+                          }}
+                        >
                           <DeleteIcon />
                         </Button>
                       </td>
@@ -224,10 +230,14 @@ function TableAnimal() {
         dataAnimalView={dataAnimalView}
       />
       {/* <AddAnimalFood show={showModalFoodAnimal} handleClose={handleClose} /> */}
-      <YourComponent
+      {/* <YourComponent
         show={showModalFoodAnimal}
         handleClose={handleClose}
-      ></YourComponent>
+      ></YourComponent> */}
+      <ScheduleAnimal
+        show={showModalFoodAnimal}
+        handleClose={handleClose}
+      ></ScheduleAnimal>
     </div>
   );
 }

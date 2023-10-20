@@ -32,7 +32,7 @@ export default function ViewUser(pros) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [status, setStatus] = useState("");
-
+  const [experienceOption, setExperienceOption] = useState([]);
   useEffect(() => {
     if (show) {
       setUserId(dataUserView.userId);
@@ -48,6 +48,7 @@ export default function ViewUser(pros) {
         dataUserView.endDate === null ? null : dataUserView.endDate.slice(0, 10)
       );
       setStatus(dataUserView.status);
+      setExperienceOption(dataUserView.experiences);
     }
   }, [dataUserView]);
 
@@ -388,23 +389,17 @@ export default function ViewUser(pros) {
                               </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                              <td>Haha</td>
-                              <td>Huhu</td>
-                            </tr>
-                              {/* {listFoodsFilter &&
-                                listFoodsFilter.length > 0 &&
-                                listFoodsFilter.map((value) => {
+                           
+                              {experienceOption &&
+                                experienceOption.length > 0 &&
+                                experienceOption.map((value) => {
                                   return (
                                     <tr>
-                                      <td>{value.foodId}</td>
-                                      <td>{value.fName}</td>
-                                      <td>{value.category}</td>
-                                      <td>{value.amount}</td>
-                                      <td>{value.description}</td>
+                                      <td>{value.experienceId}</td>
+                                      <td>{value.company}</td>
                                     </tr>
                                   );
-                                })} */}
+                                })}
                             </tbody>
                           </Table>
                         </div>
