@@ -12,6 +12,8 @@ namespace BBL.Interfaces
         bool DeleteUser(string id);
         ICollection<UserDto> GetAllUsers();
         ICollection<User> GetUsers();
+        ICollection<UserDto> GetTrainers();
+        ICollection<UserDto> GetStaffs();
         ICollection<UserDto> GetActiveUsers();
         ICollection<Animal> GetAnimalsByUserId(string userId);
         User GetById(string id);

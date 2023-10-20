@@ -253,5 +253,55 @@ namespace BBL.Services
         {
             return _userRepository.GetAll();
         }
+
+        public ICollection<UserDto> GetTrainers()
+        {
+            var users = _userRepository.GetAll();
+            var allUsers = new List<UserDto>();
+            if (users != null && users.Count > 0)
+            {
+                var trainers = users.Where(trainer => UserRoleExtensions.ToIntValue(trainer.Role) == 3);
+                foreach (var user in trainers)
+                {
+                    var userDto = _mapper.Map<UserDto>(user);
+                    var exps = _expDetailRepository.GetAll().Where(ex => ex.UserId == user.UserId).ToList();
+                    if (exps != null && exps.Count > 0)
+                    {
+                        foreach (var exp in exps)
+                        {
+                            var expDetail = _mapper.Map<ExperienceDetailDto>(exp);
+                            userDto.Experiences.Add(expDetail);
+                        }
+                    }
+                    allUsers.Add(userDto);
+                }
+            }
+            return allUsers;
+        }
+
+        public ICollection<UserDto> GetStaffs()
+        {
+            var users = _userRepository.GetAll();
+            var allUsers = new List<UserDto>();
+            if (users != null && users.Count > 0)
+            {
+                var staffs = users.Where(staff => UserRoleExtensions.ToIntValue(staff.Role) == 2);
+                foreach (var user in staffs)
+                {
+                    var userDto = _mapper.Map<UserDto>(user);
+                    var exps = _expDetailRepository.GetAll().Where(ex => ex.UserId == user.UserId).ToList();
+                    if (exps != null && exps.Count > 0)
+                    {
+                        foreach (var exp in exps)
+                        {
+                            var expDetail = _mapper.Map<ExperienceDetailDto>(exp);
+                            userDto.Experiences.Add(expDetail);
+                        }
+                    }
+                    allUsers.Add(userDto);
+                }
+            }
+            return allUsers;
+        }
     }
 }

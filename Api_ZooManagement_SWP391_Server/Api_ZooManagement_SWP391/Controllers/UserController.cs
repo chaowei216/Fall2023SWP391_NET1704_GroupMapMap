@@ -81,6 +81,62 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(response);
         }
 
+        [HttpGet("trainers/pages/{page}")]
+        [ProducesResponseType(200, Type = typeof(UserResponseDto))]
+        public IActionResult GetTrainers(int page)
+        {
+            var users = _userService.GetTrainers();
+            if (users == null || users.Count() == 0)
+                return NotFound();
+
+            var pageResults = 7f;
+            var pageCount = Math.Ceiling(users.Count() / pageResults);
+
+            var result = users
+                        .Skip((page - 1) * (int)pageResults)
+                        .Take((int)pageResults).ToList();
+
+            var response = new UserResponseDto
+            {
+                Users = result,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(response);
+        }
+
+        [HttpGet("staffs/pages/{page}")]
+        [ProducesResponseType(200, Type = typeof(UserResponseDto))]
+        public IActionResult GetStaffs(int page)
+        {
+            var users = _userService.GetStaffs();
+            if (users == null || users.Count() == 0)
+                return NotFound();
+
+            var pageResults = 7f;
+            var pageCount = Math.Ceiling(users.Count() / pageResults);
+
+            var result = users
+                        .Skip((page - 1) * (int)pageResults)
+                        .Take((int)pageResults).ToList();
+
+            var response = new UserResponseDto
+            {
+                Users = result,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(response);
+        }
+
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]

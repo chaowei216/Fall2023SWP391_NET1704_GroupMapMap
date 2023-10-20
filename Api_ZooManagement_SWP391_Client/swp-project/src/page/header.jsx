@@ -41,7 +41,6 @@ function Header(props) {
   useEffect(() => {
     const handleScroll = () => {
       const header = document.querySelector('.one .bottom-bar');
-   console.log(header);
       if (window.scrollY > 100) {
         header.classList.add('sticky-header');
       } else {
