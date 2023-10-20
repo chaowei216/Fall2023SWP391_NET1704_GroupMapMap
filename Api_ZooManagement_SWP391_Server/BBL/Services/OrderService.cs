@@ -1,11 +1,15 @@
 ﻿using BBL.Interfaces;
 using DAL.Entities;
 using DAL.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MailKit.Security;
+using MimeKit.Text;
+using MimeKit;
+using System.Security.Cryptography;
+using Microsoft.Extensions.Configuration;
+using System.Net.Mail;
+using MimeKit.Text;
+using MailKit.Net.Smtp;
+using AutoMapper;
 
 namespace BBL.Services
 {
@@ -14,15 +18,18 @@ namespace BBL.Services
         private readonly IGenericRepository<Order> _orderRepo;
         private readonly IGenericRepository<OrderTicket> _ordTicketRepo;
         private readonly IGenericRepository<Transaction> _transRepo;
+        private readonly IConfiguration _config;
 
         public OrderService(IGenericRepository<Order> orderRepo,
                             IGenericRepository<Ticket> ticketRepo,
                             IGenericRepository<OrderTicket> ordTicketRepo,
-                            IGenericRepository<Transaction> transRepo)
+                            IGenericRepository<Transaction> transRepo,
+                            IConfiguration config)
         {
             _orderRepo = orderRepo;
             _ordTicketRepo = ordTicketRepo;
             _transRepo = transRepo;
+            _config = config;
         }
         public bool AddOrder(Order order)
         {
@@ -38,6 +45,21 @@ namespace BBL.Services
             {
                 _ordTicketRepo.Add(ticket);
             }
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse("mapmapzoofpt@gmail.com"));
+            email.To.Add(MailboxAddress.Parse(order.Email));
+            email.Subject = "Reset Password";
+            email.Body = new TextPart(TextFormat.Text) { Text = "This is your order details:\n" + order.OrderId  +"\n"
+                                                                                                + order.Email + "\n"
+                                                                                                + order.FullName + "\n"
+                                                                                                + order.Transaction
+                                                                                                + "\n\nMapMap Zoo thank you for join with us!!!" };
+
+            using var smtp = new MailKit.Net.Smtp.SmtpClient();
+            smtp.Connect(_config.GetSection("EmailHost").Value, 587, SecureSocketOptions.StartTls);
+            smtp.Authenticate(_config.GetSection("EmailUser").Value, _config.GetSection("EmailPassword").Value);
+            smtp.Send(email);
+            smtp.Disconnect(true);
             return true;
         }
 
