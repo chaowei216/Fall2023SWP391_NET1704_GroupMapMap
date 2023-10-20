@@ -19,6 +19,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         private readonly ICageService _cageService;
         private readonly IUserService _userService;
         private readonly IFoodService _foodService;
+        private readonly IScheduleService _scheduleService;
         public Regex animalRegex = new Regex(@"^A\d{4}");
         public Regex userRegex = new Regex(@"^Z\d{4}");
 
@@ -26,13 +27,15 @@ namespace Api_ZooManagement_SWP391.Controllers
                                 IAnimalService animalService,
                                 ICageService cageService,
                                 IUserService userService,
-                                IFoodService foodService)
+                                IFoodService foodService,
+                                IScheduleService scheduleService)
         {
             _animalService = animalService;
             _mapper = mapper;
             _cageService = cageService;
             _userService = userService;
             _foodService = foodService;
+            _scheduleService = scheduleService;
         }
 
         [HttpGet]
@@ -197,7 +200,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
+        [HttpPost("Animal")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public IActionResult CreateAnimal([FromQuery] string? userId, [FromQuery] string? cageId,
@@ -270,6 +273,35 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok("Successfully");
         }
 
+        [HttpPost("AnimalSchedule")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateAnimalSchedule([FromQuery] string animalId, [FromBody] AnimalScheduleDto animalScheduleDto)
+        {
+            if(animalId == null)
+            {
+                return BadRequest();
+            }
+            var animalScheduleMap = _mapper.Map<AnimalSchedule>(animalScheduleDto);
+            var animal = _animalService.GetByAnimalId(animalId);
+            var schedules = animalScheduleDto.AnimalSchedules;
+            List<AnimalSchedule> list = new List<AnimalSchedule>();
+
+            foreach(var schedule in schedules)
+            {
+                var getSchedule = _scheduleService.GetSchedule(schedule.ScheduleId);
+                list.Add(new AnimalSchedule
+                {
+                    AnimalId = animalId,
+                    Schedule = getSchedule,
+                    Time = schedule.Time,
+                    Description = schedule.Description,
+
+                });
+            }
+
+            return Ok("Successfully");
+        }
 
         [HttpPut("{animalId}")]
         [ProducesResponseType(400)]
