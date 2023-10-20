@@ -98,9 +98,7 @@ function LoginForm() {
 
       try {
         setLoadingApi(true);
-        const response = await axios.post('https://localhost:44352/api/Login/forgot-password', {
-          email: email,
-        });
+        const response = await axios.post(`https://localhost:44352/api/Login/forgot-password?email=${email}`);
 
         if (response.status === 200) {
           localStorage.setItem("tokenEmail", response.data.token);

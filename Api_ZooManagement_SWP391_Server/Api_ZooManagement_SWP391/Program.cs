@@ -65,8 +65,8 @@ builder.Services.AddScoped<IAnimalService, AnimalService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IVnPayService, VnPayService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<IWorkExperienceService, ExperienceService>();
 builder.Services.AddScoped<IAnimalScheduleService, AnimalScheduleService>();
-// add scope for repository
 builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 builder.Services.AddScoped<IGenericRepository<Cage>, GenericRepository<Cage>>();
 builder.Services.AddScoped<IGenericRepository<Area>, GenericRepository<Area>>();
