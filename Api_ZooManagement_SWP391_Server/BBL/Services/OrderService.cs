@@ -52,7 +52,8 @@ namespace BBL.Services
             email.Body = new TextPart(TextFormat.Text) { Text = "This is your order details:\n" + order.OrderId  +"\n"
                                                                                                 + order.Email + "\n"
                                                                                                 + order.FullName + "\n"
-                                                                                                + order.Transaction
+                                                                                                + order.TotalPrice + "\n"
+
                                                                                                 + "\n\nMapMap Zoo thank you for join with us!!!" };
 
             using var smtp = new MailKit.Net.Smtp.SmtpClient();
