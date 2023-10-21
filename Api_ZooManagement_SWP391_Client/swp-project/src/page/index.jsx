@@ -39,7 +39,7 @@ const menuItems = [
     
     ],
   },
-  { text: 'Contact', link: '/contact' },
+  { text: 'Feedback', link: '/contact' },
 ];
 
 // const { shoppingCart, handleSetShoppingCart } = useShopping();

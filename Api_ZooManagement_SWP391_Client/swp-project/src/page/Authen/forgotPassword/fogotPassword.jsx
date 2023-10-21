@@ -4,6 +4,7 @@ import Header from "../../header";
 import Banner from "../loginPage/banner";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 function Forget() {
   const [token, setToken] = useState("");
@@ -24,7 +25,7 @@ function Forget() {
       console.log("Reset password success:", response.data);
       navigator("/login");
     } catch (error) {
-      console.error("Reset password failed:", error);
+      toast.error(error.response.data);
     }
   };
   const menuItems = [
@@ -101,6 +102,7 @@ function Forget() {
         </section>
       </div>
       <Footer />
+      <ToastContainer/>
     </div>
   );
 }

@@ -29,7 +29,7 @@ const menuItems = [
       
       ],
     },
-    { text: 'Contact', link: '/contact' },
+    { text: 'Feedback', link: '/contact' },
   ];
 function Checkout() {
     const navigate = useNavigate();

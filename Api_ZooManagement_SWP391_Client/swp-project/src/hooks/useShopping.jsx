@@ -27,9 +27,6 @@ const useShopping = () => {
   const handleSetShoppingCart = (newShoppingCart) => {
     dispatch(setShoppingCart(newShoppingCart));
   };
-  
-
-
 
   return { shoppingCart, handleAddItem, handleUpdateItemQuantity, handleRemoveItem, handleEditItem,countTotal, handleSetShoppingCart};
 };

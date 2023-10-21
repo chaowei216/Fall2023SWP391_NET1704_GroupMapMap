@@ -32,7 +32,7 @@ const menuItems = [
     
     ],
   },
-  { text: 'Contact', link: '/contact' },
+  { text: 'Feedback', link: '/contact' },
 ];
 function Cart() {
   // const { shoppingCart, handleSetShoppingCart } = useShopping();

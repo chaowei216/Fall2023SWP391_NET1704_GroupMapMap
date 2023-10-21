@@ -85,8 +85,7 @@ function LoginForm() {
         setError(res.data.error);
       }
     } catch (error) {
-      // toast.error(error.response.data.error);
-      console.log(error);
+      toast.error(error.response.data);
     } finally {
       setLoadingApi(false);
     }

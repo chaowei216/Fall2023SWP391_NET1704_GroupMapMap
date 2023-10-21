@@ -29,9 +29,6 @@ const shoppingSlice = createSlice({
     },
     
     removeItem() {},
-    setShoppingCart: (state, action) => {
-      return action.payload;
-    },
     
     updateShoppingCart(state, action) {
       const { id, newQuantity } = action.payload;
