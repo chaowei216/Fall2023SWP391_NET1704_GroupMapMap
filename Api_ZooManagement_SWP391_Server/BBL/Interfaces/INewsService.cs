@@ -1,5 +1,5 @@
 ﻿using DAL.Entities;
-
+using DTO.Dtos;
 
 namespace BBL.Interfaces
 {

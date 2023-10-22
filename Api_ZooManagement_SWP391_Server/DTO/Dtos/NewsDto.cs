@@ -2,11 +2,11 @@
 {
     public class NewsDto
     {
-        public string NewsId { get; set; }
-        public string Category { get; set; }
-        public string NewsTitle { get; set; }
-        public string NewsContent { get; set; }
-        public string AuthorName { get; set; }
-        public DateTime ReleaseDate { get; set; }
+        public string NewsId { get; set; } = string.Empty;
+        public string NewsTitle { get; set; } = string.Empty;
+        public string NewsContent { get; set; } = string.Empty;
+        public string AuthorName { get; set; } = string.Empty;
+        public string? NewsImage { get; set; }
+        public DateTime ReleaseDate { get; set; } 
     }
 }
