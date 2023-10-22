@@ -48,9 +48,9 @@ namespace Api_ZooManagement_SWP391.Controllers
             var animals = _animalService.GetAll();
             foreach (var animal in animals)
             {
-                animal.CId = _cageService.GetCageByAnimalId(animal.AnimalId).CageId;
-                animal.EntryCageDate = _cageService.GetCageByAnimalId(animal.AnimalId).EntryCageDate;
-                animal.OutCageDate = _cageService.GetCageByAnimalId(animal.AnimalId).OutCageDate;
+                animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;
+                animal.EntryCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).EntryCageDate;
+                animal.OutCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).OutCageDate;
                 animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                 animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
@@ -68,6 +68,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                         });
                     }
                 }
+                var schedules = _scheduleService.GetScheduleByAnimalId(animal.AnimalId);
             }
 
             return Ok(animals);
@@ -86,9 +87,9 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             foreach (var animal in animals)
             {
-                animal.CId = _cageService.GetCageByAnimalId(animal.AnimalId).CageId;
-                animal.EntryCageDate = _cageService.GetCageByAnimalId(animal.AnimalId).EntryCageDate;
-                animal.OutCageDate = _cageService.GetCageByAnimalId(animal.AnimalId).OutCageDate;
+                animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;
+                animal.EntryCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).EntryCageDate;
+                animal.OutCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).OutCageDate;
                 animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                 animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
@@ -168,8 +169,8 @@ namespace Api_ZooManagement_SWP391.Controllers
             var animal = _animalService.GetById(animalId);
             if(animal != null)
             {
-                animal.CId = _cageService.GetCageByAnimalId(animal.AnimalId).CageId;
-                animal.EntryCageDate = _cageService.GetCageByAnimalId(animal.AnimalId).EntryCageDate;
+                animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;
+                animal.EntryCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).EntryCageDate;
                 animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                 var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
@@ -254,7 +255,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                     Description = food.Description
                 });
             }
-            isCageFull += 1;
+            
             if (isCageFull > fullCage)
             {
                 return BadRequest("This cage is full");
@@ -266,7 +267,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             if(!userRegex.IsMatch(userId)) {
                 return BadRequest("This is not a zoo trainer!!!");
             }
-    
+
             if (!_animalService.AddAnimal(userId, cageId, animalFoods, animalMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving!!!");
@@ -349,13 +350,17 @@ namespace Api_ZooManagement_SWP391.Controllers
                 _animalService.AddAnimalTrainer(updateAnimalDto.UserId, animalId, trainerMap);
             }
 
-            var animalCage = _animalService.GetCageByAnimalId(animalId).Where(c => c.OutCageDate == null).FirstOrDefault();
+            var newCage = _cageService.GetByCageId(updateAnimalDto.CageId);
+            var animalCage = _animalService.GetAnimalCageByAnimalId(animalId).Where(c => c.OutCageDate == null).FirstOrDefault();
+            var oldCage = _cageService.GetByCageId(animalCage.CageId);
             if(animalCage == null)
             {
                 return BadRequest("Something wrong!!!");
             }
             if (animalCage.CageId != updateAnimalDto.CageId)
             {
+                newCage.AnimalQuantity += 1;
+                oldCage.AnimalQuantity -= 1;
                 animalCage.OutCageDate = DateTime.Now;
                 _animalService.AddAnimalCage(updateAnimalDto.CageId, animalId, cageMap);
             }

@@ -49,8 +49,8 @@ namespace BBL.Services
                     Animal = animal,
                     EntryCageDate = DateTime.Now,
                 };
+                cage.AnimalQuantity += 1;
                 _animalCageRepo.Add(newAnimalCage);
-
                 return true;
             }
             return false;
@@ -102,17 +102,10 @@ namespace BBL.Services
             return _animalCageRepo.GetAll();
         }
 
-        public ICollection<AnimalCage>? GetCageByAnimalId(string animalId)
+        public ICollection<AnimalCage>? GetAnimalCageByAnimalId(string animalId)
         {
             var animalCages = _animalCageRepo.GetAll().Where(a => a.AnimalId == animalId).ToList();
-            /*var cages = new List<Cage>();
-            if (animalCages != null)
-            {
-                foreach (var animalCage in animalCages)
-                {
-                    cages.Add(_cageRepo.GetById(animalCage.CageId));
-                }
-            }*/
+            
             return animalCages;
         }
 
@@ -138,7 +131,7 @@ namespace BBL.Services
                 {
                     User = trainer,
                     Animal = animal,
-                    StartTrainDate = animalTrainer.StartTrainDate,
+                    StartTrainDate = DateTime.Now,
                 };
                 return _animalTrainerRepo.Add(newAnimalTrainer);
             }
@@ -157,6 +150,8 @@ namespace BBL.Services
                     Animal = animal,
                     EntryCageDate = DateTime.Now,
                 };
+                var cageQuan = _cageRepo.GetById(cageId).AnimalQuantity;
+                cageQuan += 1;
                 return _animalCageRepo.Add(newAnimalCage);
             }
             return false;
