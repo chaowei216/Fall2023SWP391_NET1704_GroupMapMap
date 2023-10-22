@@ -62,8 +62,8 @@ function TableStaff() {
     setShowmodalEdit(false);
     setShowmodalView(false);
   };
-  const email = localStorage.getItem("email");
-  const zooTrainerList = users.filter((user) => user.role === 3);
+  // const email = localStorage.getItem("email");
+  // const zooTrainerList = users.filter((user) => user.role === 3);
   console.log(users);
   // const getList = () => {
   //   return fetch("https://localhost:44352/api/User/users").then((data) =>
