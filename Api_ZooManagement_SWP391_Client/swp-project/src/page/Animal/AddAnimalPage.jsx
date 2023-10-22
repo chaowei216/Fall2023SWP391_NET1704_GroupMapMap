@@ -57,6 +57,7 @@ function AddAnimal(pros) {
   }, []);
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState("Pig");
+  const [selectedRegion, setSelectedRegion] = useState("North America");
   const [selectedCage, setSelectedCage] = useState();
 
   const addField = () => {
@@ -223,7 +224,7 @@ function AddAnimal(pros) {
                 <Formik
                   initialValues={{
                     name: "",
-                    region: "",
+                    region: "North America",
                     description: "",
                     gender: true,
                     healthCheck: "",
@@ -280,19 +281,37 @@ function AddAnimal(pros) {
                               </div>
                               <div className="mb-3" style={{ width: "33%" }}>
                                 <label className="form-label">
-                                  Enter Country
+                                  Choose Region
                                 </label>
-                                <Form.Control
-                                  type="text"
-                                  id="region"
-                                  placeholder="Country"
-                                  aria-describedby="inputGroupPrepend"
-                                  name="region"
-                                  value={values.region}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  isInvalid={errors.region && touched.region}
-                                />
+                                <Field name="region">
+                                  {() => (
+                                    <Form.Select
+                                      value={values.region}
+                                      onChange={(e) => {
+                                        setFieldValue(
+                                          "region",
+                                          e.target.value
+                                        );
+                                        setSelectedRegion(e.target.value);
+                                      }}
+                                    >
+                                      <option value="North America">North America</option>
+                                      <option value="South America">South America</option>
+                                      <option value="Central America">Central America</option>
+                                      <option value="Caribbean">Caribbean</option>
+                                      <option value="Central & South Asia">Central & South Asia</option>
+                                      <option value="Northeastern Asia">Northeastern Asia</option>
+                                      <option value="Australia and Oceania">Australia and Oceania</option>
+                                      <option value="Northern Europe">Northern Europe</option>
+                                      <option value="Southern Europe">Southern Europe</option>
+                                      <option value="Eastern Europe">Eastern Europe</option>
+                                      <option value="Western Europe">Western Europe</option>
+                                      <option value="Middle East">Middle East</option>
+                                      <option value="Northern Africa">Northern Africa</option>
+                                      <option value="Southern Africa">Southern Africa</option>
+                                    </Form.Select>
+                                  )}
+                                </Field>
                                 <Form.Control.Feedback type="invalid">
                                   {errors.region}
                                 </Form.Control.Feedback>
@@ -718,7 +737,6 @@ function AddAnimal(pros) {
                                   </div>
                                 </>
                               )}
-                              {errors.fields && console.log(errors.fields)}
                             </div>
                             {fields.length < options.length && (
                               <div

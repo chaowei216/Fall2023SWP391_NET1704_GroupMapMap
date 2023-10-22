@@ -1,16 +1,13 @@
 ﻿using DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DTO.Dtos;
 
 namespace BBL.Interfaces
 {
     public interface INewsService
     {
         bool AddNews(News news);
-        bool UpdateNews(News news);
+        bool UpdateNews(News newsmap);
+        bool DeleteNews(string newsId);
         News GetNews(string id);
         ICollection<News> GetAllNews();
         bool NewsExists(string id);

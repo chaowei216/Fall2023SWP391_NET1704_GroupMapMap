@@ -126,12 +126,11 @@ namespace DAL.Data
             modelBuilder.Entity<News>(entity =>
             {
                 entity.HasKey(e => e.NewsId);
-                entity.Property(e => e.NewsId).HasMaxLength(5);
-                entity.Property(e => e.AuthorName).HasMaxLength(30).IsRequired();
+                entity.Property(e => e.NewsId).HasMaxLength(6);
                 entity.Property(e => e.ReleaseDate).IsRequired();
+                entity.Property(e => e.UserId).HasMaxLength(6).IsRequired();
                 entity.Property(e => e.NewsTitle).HasMaxLength(30).IsRequired();
                 entity.Property(e => e.NewsContent).IsRequired();
-                entity.Property(e => e.Category).IsRequired();
             });
 
             modelBuilder.Entity<User>(entity =>

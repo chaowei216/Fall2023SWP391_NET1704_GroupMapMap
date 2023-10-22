@@ -15,58 +15,53 @@ import { ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import { DatePicker, Radio, Select, Space } from "antd";
 import { South } from "@mui/icons-material";
-import { schema } from "./validationFood";
 
 export default function EditNews(pros) {
   const [staticModal, setStaticModal] = useState(false);
   const { show, handleClose, dataNewsEdit } = pros;
 
-  const [foodId, setFoodId] = useState("");
-  const [foodName, setFoodName] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [importDate, setImportDate] = useState("");
-  const [expiredDate, setExpiredDate] = useState("");
-  const [category, setCategory] = useState("");
-  const [animalFood, setAnimalFood] = useState("");
-
+  const [newsId, setNewsId] = useState("");
+  const [authorName, setAuthorName] = useState("");
+  const [releaseDate, setReleaseDate] = useState("");
+  const [newsTitle, setNewsTitle] = useState("");
+  const [newsContent, setNewsContent] = useState("");
+  const [newsImage, setNewsImage] = useState("");
   useEffect(() => {
     if (show) {
-      setFoodId(dataNewsEdit.foodId);
-      setFoodName(dataNewsEdit.fName);
-      setQuantity(dataNewsEdit.quantity);
-      setImportDate(dataNewsEdit.importDate.slice(0, 10));
-      setExpiredDate(dataNewsEdit.expiredDate.slice(0, 10));
-      setCategory(dataNewsEdit.category);
-      setAnimalFood(dataNewsEdit.animalFood);
+      setNewsId(dataNewsEdit.newsId);
+      setAuthorName(dataNewsEdit.authorName);
+      setReleaseDate(dataNewsEdit.releaseDate.slice(0, 10));
+      setNewsTitle(dataNewsEdit.newsTitle);
+      setNewsContent(dataNewsEdit.newsContent);
+      setNewsImage(dataNewsEdit.newsImage);
     }
   }, [dataNewsEdit]);
-
+  console.log(dataNewsEdit);
   const handleSave = () => {
     console.log("haha");
   };
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    const food = {
-        foodId: foodId,
-        fName: foodName,
-        quantity: quantity,
-        importDate: importDate,
-        expiredDate: expiredDate,
-        category: category
+    const news = {
+      newsId: newsId,
+      authorName: authorName,
+      releaseDate: releaseDate,
+      newsTitle: newsTitle,
+      newsContent: newsContent,
     }
-    console.log(food);
-    const response = await fetch(`https://localhost:44352/api/Food/${foodId}`, {
+    console.log(news);
+    const response = await fetch(`https://localhost:44352/api/News/${newsId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(food),
+      body: JSON.stringify(news),
     });
     if (response.ok) {
       console.log("Success");
       // localStorage.setItem("isAdded", true);
       // handleClose()
-      window.location.href = '/staff/3'
+      window.location.href = '/staff/news'
       // navigate("/staff/1")
     }
   };
@@ -86,129 +81,120 @@ export default function EditNews(pros) {
             <MDBModalBody>
               <div className="form-container-1">
                 <div className="form-header">
-                  <p className="fw-bold fs-2">Edit food</p>
+                  <p className="fw-bold fs-2">Edit News</p>
                 </div>
                 <Form noValidate onSubmit={handleFormSubmit}>
                   <div className="form-content">
                     <div className="form">
                       <div className="mb-3">
-                        <label className="form-label">Enter Food Name</label>
+                        <label className="form-label">Edit Title of News</label>
                         <Form.Control
                           type="text"
                           style={{ height: "56px" }}
-                          disabled
-                          id="fName"
-                          placeholder="fName"
+                          id="newsTitle"
+                          placeholder="newsTitle"
                           aria-describedby="inputGroupPrepend"
-                          name="fName"
-                          value={foodName}
-                          onChange={(e) => setFoodName(e.target.value)}
-                          //   isInvalid={
-                          //     formik.errors.fName && formik.touched.fName
-                          //   }
+                          name="newsTitle"
+                          value={newsTitle}
+                          onChange={(e) => setNewsTitle(e.target.value)}
+                        //   isInvalid={
+                        //     formik.errors.fName && formik.touched.fName
+                        //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.fName}
                         </Form.Control.Feedback> */}
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Enter Category</label>
+                        <label className="form-label">Edit the content</label>
                         <Form.Control
                           type="text"
                           style={{ height: "56px" }}
-                          id="category"
-                          disabled  
-                          placeholder="category"
+                          id="newsContent"
+                          placeholder="newsContent"
                           aria-describedby="inputGroupPrepend"
-                          name="category"
-                          value={category}
-                          onChange={(e) => setCategory(e.target.value)}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          //   isInvalid={
-                          //     formik.errors.category && formik.touched.category
-                          //   }
+                          name="newsContent"
+                          value={newsContent}
+                          onChange={(e) => setNewsContent(e.target.value)}
+                        // onChange={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                        //   isInvalid={
+                        //     formik.errors.category && formik.touched.category
+                        //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.category}
                         </Form.Control.Feedback> */}
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Enter The Quantity</label>
+                        <label className="form-label">Edit Image for News</label>
                         <Form.Control
-                          type="Number"
-                          id="quantity"
-                          placeholder="quantity"
+                          type="input"
+                          id="newsImage"
+                          placeholder="newsImage"
                           aria-describedby="inputGroupPrepend"
-                          name="quantity"
+                          name="newsImage"
                           style={{ height: "56px" }}
-                          value={quantity}
-                          onChange={(e) => setQuantity(e.target.value)}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          //   isInvalid={
-                          //     formik.errors.quantity && formik.touched.quantity
-                          //   }
+                          disabled
+                          value={newsImage}
+                          onChange={(e) => setNewsImage(e.target.value)}
+                          readonly
+                        // onChange={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                        //   isInvalid={
+                        //     formik.errors.quantity && formik.touched.quantity
+                        //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.quantity}
                         </Form.Control.Feedback> */}
                       </div>
-                      <div className="row mb-5 mt-4">
-                        <div className="mb-3" style={{ width: "50%" }}>
-                          <div>
-                            <label className="form-label">
-                              Choose ImportDate
-                            </label>
-                            <br />
-                            <Space
-                              direction="vertical"
-                              size={20}
-                              style={{ width: "90%" }}
-                            >
-                              <Form.Control
-                                type="date"
-                                id="importDate"
-                                name="importDate"
-                                value={importDate}
-                                onChange={(e) => setImportDate(e.target.value)}
-                                // isInvalid={
-                                //   formik.errors.importDate &&
-                                //   formik.touched.importDate
-                                // }
-                              />
-                            </Space>
-                            {/* <Form.Control.Feedback type="invalid">
-                              {formik.errors.quantity}
-                            </Form.Control.Feedback> */}
-                          </div>
-                        </div>
-                        <div className="mb-3" style={{ width: "50%" }}>
-                          <label className="form-label">
-                            Choose ExpiredDate
-                          </label>
-                          <br />
-                          <Space
-                            direction="vertical"
-                            size={20}
-                            style={{ width: "90%" }}
-                          >
-                            <Form.Control
-                              type="date"
-                              id="expiredDate"
-                              name="expiredDate"
-                              value={expiredDate}
-                              onChange={(e) => setExpiredDate(e.target.value)}
-                              //   isInvalid={
-                              //     formik.errors.expiredDate &&
-                              //     formik.touched.expiredDate
-                              //   }
-                            />
-                          </Space>
-                          {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.expiredDate}
-                          </Form.Control.Feedback> */}
-                        </div>
+                      <div className="mb-3">
+                        <label className="form-label">Author of News</label>
+                        <Form.Control
+                          type="input"
+                          id="newsImage"
+                          placeholder="newsImage"
+                          aria-describedby="inputGroupPrepend"
+                          name="newsImage"
+                          style={{ height: "56px" }}
+                          value={authorName}
+                          disabled
+                          readonly
+                          onChange={(e) => setAuthorName(e.target.value)}
+
+                        // onChange={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                        //   isInvalid={
+                        //     formik.errors.quantity && formik.touched.quantity
+                        //   }
+                        />
+                        {/* <Form.Control.Feedback type="invalid">
+                          {formik.errors.quantity}
+                        </Form.Control.Feedback> */}
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Release Date</label>
+                        <Form.Control
+                          type="date"
+                          id="newsImage"
+                          placeholder="newsImage"
+                          aria-describedby="inputGroupPrepend"
+                          name="newsImage"
+                          style={{ height: "56px" }}
+                          value={releaseDate}
+                          disabled
+                          onChange={(e) => setReleaseDate(e.target.value)}
+
+                        // onChange={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                        //   isInvalid={
+                        //     formik.errors.quantity && formik.touched.quantity
+                        //   }
+                        />
+                        {/* <Form.Control.Feedback type="invalid">
+                          {formik.errors.quantity}
+                        </Form.Control.Feedback> */}
                       </div>
                       <MDBModalFooter>
                         <Button
@@ -227,12 +213,9 @@ export default function EditNews(pros) {
                           style={{ background: "blue", color: "white" }}
                           variant="primary"
                           type="submit"
-                          onClick={() => {
-                            handleSave();
-                          }}
                           active
                         >
-                          Edit Food
+                          Create Food
                         </Button>
                       </MDBModalFooter>
                     </div>
