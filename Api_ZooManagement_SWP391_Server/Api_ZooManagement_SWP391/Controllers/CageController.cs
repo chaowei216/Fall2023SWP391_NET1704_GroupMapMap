@@ -26,9 +26,10 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<CageDto>))]
         public IActionResult GetCage()
         {
-            var cages = _cageService.GetAll();
+            var cages = _mapper.Map<List<CageDto>>(_cageService.GetAll());
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -36,6 +37,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(cages);
         }
         [HttpGet("CageId")]
+        [ProducesResponseType(200, Type = typeof(CageDto))]
         public IActionResult GetArea(string cageId)
         {
             if (!_cageService.CageExists(cageId))
@@ -49,8 +51,34 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(cage);
         }
 
+        [HttpGet("pages/{page}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<CageDto>))]
+        public IActionResult GetAllCages(int page)
+        {
+            var cages = _mapper.Map<List<CageDto>>(_cageService.GetAll());
+
+            var pageResults = 5f;
+            var pageCount = Math.Ceiling(cages.Count / pageResults);
+
+            var result = cages
+                        .Skip((page - 1) * (int)pageResults)
+                        .Take((int)pageResults).ToList();
+
+            var response = new CageResponseDto
+            {
+                Cages = result,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(response);
+        }
+
         [HttpPost]
-        public IActionResult CreateCage([FromQuery] string areaId, [FromBody] CageDto cageDto)
+        public IActionResult CreateCage([FromQuery] string areaId, [FromBody] CageCreateDto cageDto)
         {
             if (cageDto == null)
             {
@@ -72,12 +100,18 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             cageMap.CId = cageId;
             cageMap.Area = area;
+            cageMap.AnimalQuantity = 0;
             if (cageMap.MaxCapacity < cageMap.AnimalQuantity)
             {
                 ModelState.AddModelError("", "Animal quantity must less than max capacity");
                 return BadRequest(ModelState);
             }
-            _cageService.AddCage(cageMap);
+
+            if (!_cageService.AddCage(cageMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving!!!");
+                return StatusCode(500, ModelState);
+            }
 
             return Ok("Successfully");
         }

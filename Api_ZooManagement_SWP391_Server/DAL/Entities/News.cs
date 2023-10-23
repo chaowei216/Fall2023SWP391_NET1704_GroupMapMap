@@ -7,6 +7,7 @@
         public string NewsTitle { get; set; }
         public string NewsContent { get; set; }
         public string? NewsImage { get; set; }
+        public bool Status { get; set; }
         public User User { get; set; }
         public string UserId { get; set; }
     }
