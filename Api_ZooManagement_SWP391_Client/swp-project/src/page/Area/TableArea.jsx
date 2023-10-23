@@ -80,7 +80,7 @@ function TableArea() {
             <div className="table-component">
                 <div className="my-3 add-new">
                     <span>
-                        <b>View Cage</b>
+                        <b>View Area</b>
                     </span>
                     <div className="search-container">
                         {/* toggleShow */}

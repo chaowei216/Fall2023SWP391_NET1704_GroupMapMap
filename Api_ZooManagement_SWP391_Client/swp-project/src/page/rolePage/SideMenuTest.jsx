@@ -20,17 +20,17 @@ function getItem(label, key, icon, children, type) {
 const items = [
   getItem("Zoo Management", "sub1", <AlertOutlined />, [
     getItem(
-      "Manage",
+      "User",
       "g1",
       null,
-      [getItem("User", "1"), getItem("Animal", "2")],
+      [getItem("User", "1")],
       "group"
     ),
     getItem(
-      "Service",
+      "Manage",
       "g2",
       null,
-      [getItem("Order", "3")],
+      [getItem("Order", "3"),getItem("Animal", "2"),getItem("News", "news")],
       "group"
     ),
     

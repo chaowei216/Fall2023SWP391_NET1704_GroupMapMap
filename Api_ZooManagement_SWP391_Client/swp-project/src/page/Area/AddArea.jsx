@@ -73,7 +73,7 @@ export default function AddArea(pros) {
                         <MDBModalBody>
                             <div className="form-container-1">
                                 <div className="form-header">
-                                    <p className="fw-bold fs-2">Add Cage</p>
+                                    <p className="fw-bold fs-2">Add Area</p>
                                 </div>
                                 <Form noValidate onSubmit={formik.handleSubmit}>
                                     <div className="form-content">
