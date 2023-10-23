@@ -32,7 +32,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpGet("pages/{page}")]
-        [ProducesResponseType(200, Type = typeof(AreaDto))]
+        [ProducesResponseType(200, Type = typeof(AreaResponseDto))]
         public IActionResult GetAllArea(int page)
         {
             var areas = _mapper.Map<List<AreaDto>>(_areaService.GetAll());
