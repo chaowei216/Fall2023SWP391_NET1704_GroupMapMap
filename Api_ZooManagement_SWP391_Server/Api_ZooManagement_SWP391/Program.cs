@@ -67,6 +67,7 @@ builder.Services.AddScoped<IVnPayService, VnPayService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IWorkExperienceService, ExperienceService>();
 builder.Services.AddScoped<IAnimalScheduleService, AnimalScheduleService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 builder.Services.AddScoped<IGenericRepository<Cage>, GenericRepository<Cage>>();
 builder.Services.AddScoped<IGenericRepository<Area>, GenericRepository<Area>>();
@@ -86,7 +87,7 @@ builder.Services.AddScoped<IGenericRepository<OrderTicket>, GenericRepository<Or
 builder.Services.AddScoped<IGenericRepository<GetAnimalDto>, GenericRepository<GetAnimalDto>>();
 builder.Services.AddScoped<IGenericRepository<Transaction>, GenericRepository<Transaction>>();
 builder.Services.AddScoped<IGenericRepository<AnimalSchedule>, GenericRepository<AnimalSchedule>>();
-
+builder.Services.AddScoped<IGenericRepository<Review>, GenericRepository<Review>>();
 
 builder.Services.AddCors(options =>
 {
