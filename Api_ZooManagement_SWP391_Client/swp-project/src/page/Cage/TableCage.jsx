@@ -121,15 +121,28 @@ function TableCage() {
                                             <td>{items.maxCapacity}</td>
                                             <td>{items.animalQuantity}</td>
                                             <td style={{ width: "208px" }}>
-                                                <Button
-                                                    variant="text"
-                                                    style={{ padding: 0 }}
-                                                    onClick={() => {
-                                                        handleViewCage(items);
-                                                    }}
-                                                >
-                                                    <VisibilityIcon />
-                                                </Button>
+                                                {role && role === 'STAFF' && (
+                                                    <Button
+                                                        variant="text"
+                                                        style={{ padding: 0 }}
+                                                        onClick={() => {
+                                                            handleViewCage(items);
+                                                        }}
+                                                    >
+                                                        <VisibilityIcon />
+                                                    </Button>
+                                                )}
+                                                {role && role === 'ADMIN' && (
+                                                    <Button
+                                                        variant="text"
+                                                        style={{ padding: 0, textAlign: "center" }}
+                                                        onClick={() => {
+                                                            handleViewCage(items);
+                                                        }}
+                                                    >
+                                                        <VisibilityIcon />
+                                                    </Button>
+                                                )}
                                                 {role && role === 'STAFF' &&
                                                     <Button
                                                         onClick={() => {

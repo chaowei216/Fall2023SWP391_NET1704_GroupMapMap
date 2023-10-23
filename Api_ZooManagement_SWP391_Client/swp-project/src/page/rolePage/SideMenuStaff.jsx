@@ -92,8 +92,8 @@ const SideMenuStaff = ({ openSidebarToggle, OpenSidebar }) => {
                         navigate(item.key);
                         setCurrent(item.key);
                     }}
-                    selectedKeys={[current]}
-                    defaultSelectedKeys={["1"]}
+                    // selectedKeys={[current]}
+                    // defaultSelectedKeys={["1"]}
                     defaultOpenKeys={["sub1"]}
                     mode="inline"
                     items={items}

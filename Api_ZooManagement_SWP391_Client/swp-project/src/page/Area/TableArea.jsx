@@ -103,10 +103,9 @@ function TableArea() {
                     <Table size="100px" hover>
                         <thead>
                             <tr>
-                                <th>Cage ID</th>
+                                <th>Area ID</th>
                                 <th>Name</th>
-                                <th>Max Capacity</th>
-                                <th>Animal Quantity</th>
+                                <th>Description</th>
                                 <th style={{ textAlign: "center" }}>Action</th>
                             </tr>
                         </thead>
@@ -119,17 +118,29 @@ function TableArea() {
                                             <td>{items.areaId}</td>
                                             <td>{items.areaName}</td>
                                             <td>{items.description}</td>
-                                            <td>{items.cages === null ? "Not here" : items.cages}</td>
-                                            <td style={{ width: "208px" }}>
-                                                <Button
-                                                    variant="text"
-                                                    style={{ padding: 0 }}
-                                                    onClick={() => {
-                                                        handleViewArea(items);
-                                                    }}
-                                                >
-                                                    <VisibilityIcon />
-                                                </Button>
+                                            <td style={{ width: "190px" }}>
+                                                {role && role === 'STAFF' && (
+                                                    <Button
+                                                        variant="text"
+                                                        style={{ padding: 0 }}
+                                                        onClick={() => {
+                                                            handleViewArea(items);
+                                                        }}
+                                                    >
+                                                        <VisibilityIcon />
+                                                    </Button>
+                                                )}
+                                                {role && role === 'ADMIN' && (
+                                                    <Button
+                                                        variant="text"
+                                                        style={{ padding: 0, textAlign: "center" }}
+                                                        onClick={() => {
+                                                            handleViewArea(items);
+                                                        }}
+                                                    >
+                                                        <VisibilityIcon />
+                                                    </Button>
+                                                )}
                                                 {role && role === 'STAFF' &&
                                                     <Button
                                                         onClick={() => {

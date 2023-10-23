@@ -46,7 +46,6 @@ export default function AddCage(pros) {
         const cage = {
             name: values.name,
             maxCapacity: values.maxCapacity,
-            animalQuantity: values.animalQuantity,
         };
         const url = `https://localhost:44352/api/Cage?areaId=${areaId}`;
         const request = {
@@ -167,29 +166,6 @@ export default function AddCage(pros) {
                                                 {/* <Form.Control.Feedback type="invalid">
                                                     {formik.errors.quantity}
                                                 </Form.Control.Feedback> */}
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label">
-                                                    Enter Animal Quantity
-                                                </label>
-                                                <br />
-                                                <Form.Control
-                                                    type="number"
-                                                    id="animalQuantity"
-                                                    placeholder="animalQuantity"
-                                                    name="animalQuantity"
-                                                    style={{ width: "85%", height: "50px" }}
-                                                    value={formik.values.animalQuantity}
-                                                    onChange={formik.handleChange}
-                                                    onBlur={formik.handleBlur}
-                                                // isInvalid={
-                                                //     formik.errors.expiredDate &&
-                                                //     formik.touched.expiredDate
-                                                // }
-                                                />
-                                                {/* <Form.Control.Feedback type="invalid">
-                                                        {formik.errors.expiredDate}
-                                                    </Form.Control.Feedback> */}
                                             </div>
                                             <MDBModalFooter>
                                                 <Button

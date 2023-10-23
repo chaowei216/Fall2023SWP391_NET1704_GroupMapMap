@@ -20,13 +20,16 @@ function TableNewsByAdmin() {
     const [showModalFodd, setShowmodalFood] = useState(false);
     const [showModalFoodAnimal, setShowmodalFoodAnimal] = useState(false);
     const [listNews, setListNews] = useState([]);
+    const [listAvailableNews, setListAvailableNews] = useState([]);
+    const [listDenyNews, setListDenyNews] = useState([]);
+
     const [dataAnimalEdit, setDataAnimalEdit] = useState({});
     const [dataAnimalView, setDataAnimalView] = useState({});
     const [dataNewsEdit, setDataNewsEdit] = useState({});
     const [dataNewsView, setDataNewsView] = useState({});
-    const [showRequestList, setShowRequestList] = useState(false);
-    const [showAvailableList, setShowAvailableList] = useState(false);
-
+    // const [showRequestList, setShowRequestList] = useState(false);
+    // const [showAvailableList, setShowAvailableList] = useState(false);
+    const [currentList, setCurrentList] = useState(1);
     const getList = () => {
         return fetch("https://localhost:44352/api/News").then((data) =>
             data.json()
@@ -41,9 +44,41 @@ function TableNewsByAdmin() {
         });
         return () => (mounted = false);
     }, []);
+
+    const getAvailableNews = () => {
+        return fetch("https://localhost:44352/api/News/accepted").then((data) =>
+            data.json()
+        );
+    };
+    useEffect(() => {
+        let mounted = true;
+        getAvailableNews().then((items) => {
+            if (mounted) {
+                setListAvailableNews(items === null ? null : items);
+            }
+        });
+        return () => (mounted = false);
+    }, []);
+
+    const getDenyNews = () => {
+        return fetch("https://localhost:44352/api/News/denied").then((data) =>
+            data.json()
+        );
+    };
+    useEffect(() => {
+        let mounted = true;
+        getDenyNews().then((items) => {
+            if (mounted) {
+                setListDenyNews(items === null ? null : items);
+            }
+        });
+        return () => (mounted = false);
+    }, []);
+
     const handleClick = () => {
         setShowmodalAdd(true);
     };
+
     //   const handleClick = () => {
     //     setShowmodalAdd(true);
     //     setAnchorEl(null);
@@ -64,26 +99,60 @@ function TableNewsByAdmin() {
         setAnchorEl(null);
     };
 
-    const handleEditNews = (item) => {
+    const handleAcceptNews = async (item) => {
         // setDataUserEdit(item);
-        const food = item;
-        setDataNewsEdit(food);
-        setShowmodalEdit(true);
+        console.log(item);
+        // setDataNewsEdit(food);
+        // setShowmodalEdit(true);
+        const id = item.newsId;
+        const news = {
+            newsId: item.newsId,
+            releaseDate: item.releaseDate,
+            newsTitle: item.newsTitle,
+            newsContent: item.newsContent,
+            newsImage: item.newsImage,
+            status: true
+        }
+        console.log(news);
+        const response = await fetch(`https://localhost:44352/api/News/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(news),
+        });
+        if (response.ok) {
+            console.log("Success");
+            // localStorage.setItem("isAdded", true);
+            // handleClose()
+            window.location.reload();
+        }
     };
+    const handleDenyNews = async (item) => {
+        const id = item.newsId;
+        const response = await fetch(`https://localhost:44352/api/News/${id}`, {
+            method: "DELETE",
+        });
+        if (response.ok) {
+            console.log("Success");
+            window.location.reload();
+        }
+    }
+
     const handleViewNews = (item) => {
         const food = item;
         setDataNewsView(food);
         setShowmodalView(true);
     };
-    const handleShowNews = () => {
-        setShowAvailableList(!showAvailableList);
-        setShowRequestList(false);
-    }; const handleShowNewsRequest = () => {
-        setShowRequestList(!showRequestList);
-        setShowAvailableList(false);
+    const handleShowNews = (value) => {
+        // setShowAvailableList(!showAvailableList);
+        // setShowRequestList(false);
+        setCurrentList(value);
     };
-    console.log(showAvailableList);
-    console.log(showRequestList);
+    //  const handleShowNewsRequest = () => {
+    //     setShowRequestList(!showRequestList);
+    //     setShowAvailableList(false);
+    // };
     //   const handleViewUser = (item) => {
     //     // setDataUserEdit(item);
     //     const animal = item;
@@ -100,24 +169,19 @@ function TableNewsByAdmin() {
                     <span>
                         <b>View News</b>
                         <br />
-                        <Button variant="contained" onClick={handleShowNews} style={{ marginRight: "20px" }}>
+                        <Button variant="contained" onClick={() => handleShowNews(2)} style={{ marginTop: "20px", marginRight: "20px", backgroundColor: "#d9eef7", fontWeight: "bolder", color: "#000080" }}>
                             News Now
                         </Button>
-                        <Button variant="contained" onClick={handleShowNewsRequest}>
-                            Request
+                        <Button variant="contained" onClick={() => handleShowNews(3)} style={{ marginTop: "20px", backgroundColor: "#D8DADF", fontWeight: "bolder", color: "black" }}>
+                            <div>Request ( </div><div style={{ color: "red", fontWeight: "bolder" }}> {listDenyNews.length}</div>)
                         </Button>
                     </span>
-                    <div className="search-container" style={{height: "50%"}}>
+                    <div className="search-container" style={{ height: "50%" }}>
                         {/* toggleShow */}
                         <div className="search-content">
-                            <input type="email" className="form-control" style={{marginRight: "10px"}}/>
+                            <input type="text" className="form-control" style={{ marginRight: "10px" }} />
                             <Button variant="contained">
                                 <SearchIcon />
-                            </Button>
-                        </div>
-                        <div>
-                            <Button variant="contained" onClick={handleClick}>
-                                <PlusOutlined />
                             </Button>
                         </div>
                     </div>
@@ -131,11 +195,12 @@ function TableNewsByAdmin() {
                                 <th>Author</th>
                                 <th>Image</th>
                                 <th>ReleaseDate</th>
+                                <th style={{ textAlign: "center" }}>Status</th>
                                 <th style={{ textAlign: "center" }}>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {showRequestList &&
+                            {currentList === 1 &&
                                 listNews &&
                                 listNews.length > 0 &&
                                 listNews.map((items, index) => {
@@ -146,7 +211,86 @@ function TableNewsByAdmin() {
                                             <td>{items.authorName}</td>
                                             <td>{items.newsImage}</td>
                                             <td>{items.releaseDate.slice(0, 10)}</td>
-                                            <td style={{ width: "208px" }}>
+                                            <td>
+                                                {items.status === true ? (
+                                                    <div
+                                                        style={{
+                                                            background: "#008800",
+                                                            borderRadius: "50px",
+                                                            textAlign: "center",
+                                                            color: "white",
+                                                            fontWeight: "bold",
+                                                        }}
+                                                    >
+                                                        Approve
+                                                    </div>
+                                                ) : (
+                                                    <div
+                                                        style={{
+                                                            background: "#FFBC00",
+                                                            borderRadius: "50px",
+                                                            textAlign: "center",
+                                                            color: "indigo",
+                                                            fontWeight: "bold",
+                                                        }}
+                                                    >
+                                                        Pending
+                                                    </div>
+                                                )}
+                                            </td>
+                                            <td style={{ width: "170px", textAlign: "center" }}>
+                                                <Button
+                                                    variant="text"
+                                                    style={{ padding: 0 }}
+                                                    onClick={() => {
+                                                        handleViewNews(items);
+                                                    }}
+                                                >
+                                                    <VisibilityIcon />
+                                                </Button>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            {currentList === 2 &&
+                                listAvailableNews &&
+                                listAvailableNews.length > 0 &&
+                                listAvailableNews.map((items, index) => {
+                                    return (
+                                        <tr key={`food-${index}`}>
+                                            <td>{items.newsId}</td>
+                                            <td>{items.newsTitle}</td>
+                                            <td>{items.authorName}</td>
+                                            <td>{items.newsImage}</td>
+                                            <td>{items.releaseDate.slice(0, 10)}</td>
+                                            <td>
+                                                {items.status === true ? (
+                                                    <div
+                                                        style={{
+                                                            background: "#008800",
+                                                            borderRadius: "50px",
+                                                            textAlign: "center",
+                                                            color: "white",
+                                                            fontWeight: "bold",
+                                                        }}
+                                                    >
+                                                        Approve
+                                                    </div>
+                                                ) : (
+                                                    <div
+                                                        style={{
+                                                            background: "#FFBC00",
+                                                            borderRadius: "50px",
+                                                            textAlign: "center",
+                                                            color: "indigo",
+                                                            fontWeight: "bold",
+                                                        }}
+                                                    >
+                                                        Pending
+                                                    </div>
+                                                )}
+                                            </td>
+                                            <td style={{ width: "280px" }}>
                                                 <Button
                                                     variant="text"
                                                     style={{ padding: 0 }}
@@ -161,21 +305,21 @@ function TableNewsByAdmin() {
                                                         handleEditNews(items);
                                                     }}
                                                     variant="text"
-                                                    style={{ padding: 0, backgroundColor: "green" }}
+                                                    style={{ padding: 0, backgroundColor: "green", color: "white", width: "84px", marginRight: "15px" }}
                                                 >
                                                     Accept
                                                 </Button>
-                                                <Button variant="text" style={{ padding: 0, backgroundColor: "red" }}>
+                                                <Button variant="text" style={{ padding: 0, backgroundColor: "red", color: "white", width: "84px" }}>
                                                     Deny
                                                 </Button>
                                             </td>
                                         </tr>
                                     );
                                 })}
-                            {showAvailableList &&
-                                listNews &&
-                                listNews.length > 0 &&
-                                listNews.map((items, index) => {
+                            {currentList === 3 &&
+                                listDenyNews &&
+                                listDenyNews.length > 0 &&
+                                listDenyNews.map((items, index) => {
                                     return (
                                         <tr key={`food-${index}`}>
                                             <td>{items.newsId}</td>
@@ -183,7 +327,34 @@ function TableNewsByAdmin() {
                                             <td>{items.authorName}</td>
                                             <td>{items.newsImage}</td>
                                             <td>{items.releaseDate.slice(0, 10)}</td>
-                                            <td style={{ width: "208px" }}>
+                                            <td>
+                                                {items.status === true ? (
+                                                    <div
+                                                        style={{
+                                                            background: "#008800",
+                                                            borderRadius: "50px",
+                                                            textAlign: "center",
+                                                            color: "white",
+                                                            fontWeight: "bold",
+                                                        }}
+                                                    >
+                                                        Approve
+                                                    </div>
+                                                ) : (
+                                                    <div
+                                                        style={{
+                                                            background: "#FFBC00",
+                                                            borderRadius: "50px",
+                                                            textAlign: "center",
+                                                            color: "indigo",
+                                                            fontWeight: "bold",
+                                                        }}
+                                                    >
+                                                        Pending
+                                                    </div>
+                                                )}
+                                            </td>
+                                            <td style={{ width: "280px" }}>
                                                 <Button
                                                     variant="text"
                                                     style={{ padding: 0 }}
@@ -195,14 +366,16 @@ function TableNewsByAdmin() {
                                                 </Button>
                                                 <Button
                                                     onClick={() => {
-                                                        handleEditNews(items);
+                                                        handleAcceptNews(items);
                                                     }}
                                                     variant="text"
-                                                    style={{ padding: 0, backgroundColor: "green" }}
+                                                    style={{ padding: 0, backgroundColor: "green", color: "white", width: "84px", marginRight: "15px" }}
                                                 >
                                                     Accept
                                                 </Button>
-                                                <Button variant="text" style={{ padding: 0, backgroundColor: "red" }}>
+                                                <Button onClick={() => {
+                                                    handleDenyNews(items);
+                                                }} variant="text" style={{ padding: 0, backgroundColor: "red", color: "white", width: "84px" }}>
                                                     Deny
                                                 </Button>
                                             </td>

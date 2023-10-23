@@ -67,6 +67,8 @@ function App() {
             <Route path="2" element={<TableAnimal />}></Route>
             <Route path="3" element={<OrderTable />}></Route>
             <Route path="news" element={<TableNewsByAdmin />}></Route>
+            <Route path="cage" element={<TableCage />}></Route>
+            <Route path="area" element={<TableArea />}></Route>
             {/* <Route path="3" element={<TableFood />}></Route> */}
           </Route>
           <Route path="/staff" element={<HeaderLayoutStaff />} >

@@ -26,7 +26,7 @@ export default function ViewNews(pros) {
   const [authorName, setAuthorName] = useState("");
   const [releaseDay, setReleaseDay] = useState("");
   const [newsImage, setNewsImage] = useState("");
-
+  const [status, setStatus] = useState("");
   useEffect(() => {
     if (show) {
       setNewsID(dataNewsView.newsId);
@@ -35,6 +35,7 @@ export default function ViewNews(pros) {
       setAuthorName(dataNewsView.authorName);
       setNewsImage(dataNewsView.newsImage);
       setReleaseDay(dataNewsView.releaseDate.slice(0, 10));
+      setStatus(dataNewsView.status);
     }
   }, [dataNewsView]);
   const handleSave = () => {
@@ -112,6 +113,27 @@ export default function ViewNews(pros) {
                           disabled
                           style={{ height: "56px" }}
                           value={content}
+                        // onChange={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                        //   isInvalid={
+                        //     formik.errors.quantity && formik.touched.quantity
+                        //   }
+                        />
+                        {/* <Form.Control.Feedback type="invalid">
+                          {formik.errors.quantity}
+                        </Form.Control.Feedback> */}
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Status</label>
+                        <Form.Control
+                          type="text"
+                          id="content"
+                          placeholder="content"
+                          aria-describedby="inputGroupPrepend"
+                          name="content"
+                          disabled
+                          style={{ height: "56px" }}
+                          value={status}
                         // onChange={formik.handleChange}
                         // onBlur={formik.handleBlur}
                         //   isInvalid={

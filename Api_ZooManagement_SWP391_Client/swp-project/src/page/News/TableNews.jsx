@@ -113,6 +113,7 @@ function TableNews() {
                 <th>Author</th>
                 <th>Image</th>
                 <th>ReleaseDate</th>
+                <th style={{ textAlign: "center" }}>Status</th>
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
             </thead>
@@ -127,6 +128,33 @@ function TableNews() {
                       <td>{items.authorName}</td>
                       <td>{items.newsImage}</td>
                       <td>{items.releaseDate.slice(0, 10)}</td>
+                      <td>
+                        {items.status === true ? (
+                          <div
+                            style={{
+                              background: "#008800",
+                              borderRadius: "50px",
+                              textAlign: "center",
+                              color: "white",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Approve
+                          </div>
+                        ) : (
+                          <div
+                            style={{
+                              background: "#FFBC00",
+                              borderRadius: "50px",
+                              textAlign: "center",
+                              color: "indigo",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Pending
+                          </div>
+                        )}
+                      </td>
                       <td style={{ width: "208px" }}>
                         <Button
                           variant="text"
