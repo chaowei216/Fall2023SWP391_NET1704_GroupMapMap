@@ -79,36 +79,36 @@ namespace Api_ZooManagement_SWP391.Controllers
         public IActionResult GetAnimals(int page)
         {
             var animals = _animalService.GetAll();
-            if (animals == null || animals.Count() == 0)
-                return NotFound();
 
             var pageResults = 7f;
             var pageCount = Math.Ceiling(animals.Count() / pageResults);
-
-            foreach (var animal in animals)
+            if (animals != null && animals.Count > 0)
             {
-                animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;
-                animal.EntryCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).EntryCageDate;
-                animal.OutCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).OutCageDate;
-                animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
-                animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
-                animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
-                var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
-                if (foods != null && foods.Count > 0)
+                foreach (var animal in animals)
                 {
-                    animal.Foods = new List<FoodAmountDto>();
-                    foreach (var food in foods)
+                    animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;
+                    animal.EntryCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).EntryCageDate;
+                    animal.OutCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).OutCageDate;
+                    animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
+                    animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
+                    animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
+                    var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
+                    if (foods != null && foods.Count > 0)
                     {
-                        animal.Foods.Add(new FoodAmountDto
+                        animal.Foods = new List<FoodAmountDto>();
+                        foreach (var food in foods)
                         {
-                            FoodId = food.FoodId,
-                            Amount = food.Amount,
-                            Description = food.Description
-                        });
+                            animal.Foods.Add(new FoodAmountDto
+                            {
+                                FoodId = food.FoodId,
+                                Amount = food.Amount,
+                                Description = food.Description
+                            });
+                        }
                     }
                 }
-            }
 
+            }
             var result = animals
                         .Skip((page - 1) * (int)pageResults)
                         .Take((int)pageResults).ToList();
@@ -143,14 +143,14 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpGet("{animalId}/oldcages")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<CageDto>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<CageCreateDto>))]
         [ProducesResponseType(400)]
         public IActionResult GetOldCagesOfAnimal(string animalId)
         {
             if (!_animalService.AnimalExists(animalId))
                 return NotFound();
 
-            var cages = _mapper.Map<List<CageDto>>(_animalService.GetOldCagesOfAnimal(animalId));
+            var cages = _mapper.Map<List<CageCreateDto>>(_animalService.GetOldCagesOfAnimal(animalId));
 
             if (!ModelState.IsValid)
                 return BadRequest();

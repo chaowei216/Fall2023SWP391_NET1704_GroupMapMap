@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231022033450_initDb")]
+    [Migration("20231023025326_initDb")]
     partial class initDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -270,6 +270,9 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NewsImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NewsTitle")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -278,7 +281,12 @@ namespace DAL.Migrations
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(6)
                         .HasColumnType("nvarchar(6)");
 
                     b.HasKey("NewsId");
@@ -308,6 +316,9 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
@@ -633,7 +644,9 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.User", "User")
                         .WithMany("News")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

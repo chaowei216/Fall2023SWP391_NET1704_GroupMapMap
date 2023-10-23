@@ -234,6 +234,7 @@ namespace DAL.Migrations
                     Email = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TotalPrice = table.Column<double>(type: "float", nullable: false),
                     TransactionId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -282,7 +283,9 @@ namespace DAL.Migrations
                     ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     NewsTitle = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     NewsContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(6)", nullable: true)
+                    NewsImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<bool>(type: "bit", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -291,7 +294,8 @@ namespace DAL.Migrations
                         name: "FK_News_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId");
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

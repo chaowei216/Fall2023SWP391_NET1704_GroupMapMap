@@ -10,6 +10,7 @@ using System.Net.Mail;
 using MimeKit.Text;
 using MailKit.Net.Smtp;
 using AutoMapper;
+using DTO.Dtos;
 
 namespace BBL.Services
 {
@@ -30,10 +31,6 @@ namespace BBL.Services
             _ordTicketRepo = ordTicketRepo;
             _transRepo = transRepo;
             _config = config;
-        }
-        public bool AddOrder(Order order)
-        {
-            return _orderRepo.Add(order);
         }
 
         public bool AddOrder(List<OrderTicket> ordTickets, Order order)
