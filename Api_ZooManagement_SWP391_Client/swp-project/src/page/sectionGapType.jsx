@@ -7,6 +7,9 @@ import childTicket from '../assets/img/Child_Ticket.png';
 import adultTicket from '../assets/img/Adult_Ticket.png';
 
 function SectionGapType() {
+ 
+    // Thêm các đối tượng khác nếu cần
+  
   const [dataList, setDataList] = useState([]);
   const {handleAddItem}=useShopping();
   const {shoppingCart} =useShopping();

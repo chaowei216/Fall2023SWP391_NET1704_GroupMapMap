@@ -27,8 +27,8 @@ const useShopping = () => {
   const handleSetShoppingCart = (newShoppingCart) => {
     dispatch(setShoppingCart(newShoppingCart));
   };
-  const handleUpdateDay=(day,id)=>{
-    dispatch(updateDay(day,id));
+  const handleUpdateDay=(day)=>{
+    dispatch(updateDay(day));
   }
 
   return { shoppingCart, handleAddItem, handleUpdateItemQuantity, handleRemoveItem, handleEditItem,countTotal, handleSetShoppingCart,handleUpdateDay};

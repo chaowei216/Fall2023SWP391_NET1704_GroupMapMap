@@ -48,6 +48,7 @@ function Checkout() {
         return {
             type: product.name,
             Amount: product.quantity,
+            day:product.day
         }
     })
 

@@ -31,12 +31,11 @@ const shoppingSlice = createSlice({
     
     removeItem() {},
     updateDay(state, action) {
-      const { id, newDay } = action.payload;
-      const productToUpdate = state.find((product) => product.id === id);
-
-      if (productToUpdate) {
-        productToUpdate.day = newDay;
-      }
+      const { day } = action.payload;
+      
+  state.forEach((product) => {
+    product.day = day;
+  });
     },
     updateShoppingCart(state, action) {
       const { id, newQuantity } = action.payload;
