@@ -47,6 +47,8 @@ import New from './page/New/New';
 import Loading from './page/cart-checkout/loadingPage';
 import Contact from './page/Contact/Contact';
 import TableNews from './page/News/TableNews';
+import TableCage from './page/Cage/TableCage';
+import TableArea from './page/Area/TableArea';
 
 const secretKey = 'your_secret_key';
 
@@ -73,6 +75,8 @@ function App() {
             <Route path="4" element={<OrderTable />}></Route>
             <Route path="news" element={<TableNews />}></Route>
             <Route path="profile" element={<ViewStaff />}></Route>
+            <Route path="cage" element={<TableCage />}></Route>
+            <Route path="area" element={<TableArea />}></Route>
             {/* <Route path="3" element={<TableFood />}></Route> */}
           </Route>
           <Route path="/ZooTrainer" element={<HeaderLayOutTrainer />}>

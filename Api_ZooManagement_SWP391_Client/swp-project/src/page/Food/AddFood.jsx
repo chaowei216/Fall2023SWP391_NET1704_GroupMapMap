@@ -157,18 +157,18 @@ export default function AddFood(pros) {
                               Choose ImportDate
                             </label>
                             <br />
-                              <Form.Control
-                                type="date"
-                                id="importDate"
-                                name="importDate"
-                                value={formik.values.importDate}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                isInvalid={
-                                  formik.errors.importDate &&
-                                  formik.touched.importDate
-                                }
-                              />
+                            <Form.Control
+                              type="date"
+                              id="importDate"
+                              name="importDate"
+                              value={formik.values.importDate}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              isInvalid={
+                                formik.errors.importDate &&
+                                formik.touched.importDate
+                              }
+                            />
                             <Form.Control.Feedback type="invalid">
                               {formik.errors.quantity}
                             </Form.Control.Feedback>
@@ -179,18 +179,18 @@ export default function AddFood(pros) {
                             Choose ExpiredDate
                           </label>
                           <br />
-                            <Form.Control
-                              type="date"
-                              id="expiredDate"
-                              name="expiredDate"
-                              value={formik.values.expiredDate}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              isInvalid={
-                                formik.errors.expiredDate &&
-                                formik.touched.expiredDate
-                              }
-                            />
+                          <Form.Control
+                            type="date"
+                            id="expiredDate"
+                            name="expiredDate"
+                            value={formik.values.expiredDate}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isInvalid={
+                              formik.errors.expiredDate &&
+                              formik.touched.expiredDate
+                            }
+                          />
                           <Form.Control.Feedback type="invalid">
                             {formik.errors.expiredDate}
                           </Form.Control.Feedback>

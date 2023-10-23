@@ -98,12 +98,12 @@ function TableFood() {
                 <SearchIcon />
               </Button>
             </div>
-            {role && role === 3 &&
-            <div>
-              <Button variant="contained" onClick={handleClick}>
-                <PlusOutlined />
-              </Button>
-            </div>
+            {role && role === 'ZOOTRAINER' &&
+              <div>
+                <Button variant="contained" onClick={handleClick}>
+                  <PlusOutlined />
+                </Button>
+              </div>
             }
           </div>
         </div>
@@ -144,21 +144,21 @@ function TableFood() {
                         >
                           <VisibilityIcon />
                         </Button>
-                        {role && role === 3 &&
-                        <Button
-                          onClick={() => {
-                            handleEditFood(items);
-                          }}
-                          variant="text"
-                          style={{ padding: 0 }}
-                        >
-                          <EditIcon />
-                        </Button>
+                        {role && role === 'ZOOTRAINER' &&
+                          <Button
+                            onClick={() => {
+                              handleEditFood(items);
+                            }}
+                            variant="text"
+                            style={{ padding: 0 }}
+                          >
+                            <EditIcon />
+                          </Button>
                         }
-                        {role && role ===3 && 
-                        <Button variant="text" style={{ padding: 0 }}>
-                          <DeleteIcon />
-                        </Button>
+                        {role && role === 'ZOOTRAINER' &&
+                          <Button variant="text" style={{ padding: 0 }}>
+                            <DeleteIcon />
+                          </Button>
                         }
                       </td>
                     </tr>
