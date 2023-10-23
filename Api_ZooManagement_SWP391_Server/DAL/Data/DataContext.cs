@@ -61,6 +61,7 @@ namespace DAL.Data
                 e.Property(o => o.Email).HasMaxLength(30).IsRequired();
                 e.Property(o => o.FullName).HasMaxLength(50).IsRequired();
                 e.Property(o => o.PhoneNumber).HasMaxLength(10).IsRequired();
+                e.Property(o => o.StartDate).IsRequired();
             });
 
             modelBuilder.Entity<Ticket>(e =>

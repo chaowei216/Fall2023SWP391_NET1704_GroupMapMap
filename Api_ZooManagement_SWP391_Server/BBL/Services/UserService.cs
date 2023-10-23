@@ -303,5 +303,25 @@ namespace BBL.Services
             }
             return allUsers;
         }
+
+        public UserDto GetUserByEmail(string email)
+        {
+            var user = _userRepository.GetAll().FirstOrDefault(user => user.Email == email);
+            UserDto? userDto = null;
+            if(user != null)
+            {
+                userDto = _mapper.Map<UserDto>(user);
+                var exps = _expDetailRepository.GetAll().Where(ex => ex.UserId == user.UserId).ToList();
+                if (exps != null && exps.Count > 0)
+                {
+                    foreach (var exp in exps)
+                    {
+                        var expDetail = _mapper.Map<ExperienceDetailDto>(exp);
+                        userDto.Experiences.Add(expDetail);
+                    }
+                }
+            }
+            return userDto;
+        }
     }
 }
