@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addItem, updateShoppingCart, setShoppingCart } from "../redux/slices/shoppingCart"; // Import cả action updateShoppingCart
+import { addItem, updateShoppingCart, setShoppingCart ,updateDay} from "../redux/slices/shoppingCart"; // Import cả action updateShoppingCart
 
 const useShopping = () => {
   const dispatch = useDispatch();
@@ -27,8 +27,11 @@ const useShopping = () => {
   const handleSetShoppingCart = (newShoppingCart) => {
     dispatch(setShoppingCart(newShoppingCart));
   };
+  const handleUpdateDay=(day,id)=>{
+    dispatch(updateDay(day,id));
+  }
 
-  return { shoppingCart, handleAddItem, handleUpdateItemQuantity, handleRemoveItem, handleEditItem,countTotal, handleSetShoppingCart};
+  return { shoppingCart, handleAddItem, handleUpdateItemQuantity, handleRemoveItem, handleEditItem,countTotal, handleSetShoppingCart,handleUpdateDay};
 };
 
 export default useShopping;
