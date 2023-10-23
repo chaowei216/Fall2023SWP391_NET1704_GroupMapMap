@@ -30,14 +30,29 @@ namespace BBL.Services
             return saved > 0 ? true : false;
         }
 
+        public ICollection<News> GetAcceptedNews()
+        {
+            return _newsRepo.GetAll().Where(news => news.Status == true).ToList();
+        }
+
         public ICollection<News> GetAllNews()
         {
             return  _newsRepo.GetAll();
         }
 
+        public ICollection<News> GetDeniedNews()
+        {
+            return _newsRepo.GetAll().Where(news => news.Status == false).ToList();
+        }
+
         public News GetNews(string id)
         {
             return _newsRepo.GetById(id);
+        }
+
+        public ICollection<News> GetNewsByStaffId(string userId)
+        {
+            return _newsRepo.GetAll().Where(news => news.UserId == userId).ToList();
         }
 
         public bool NewsExists(string id)
@@ -55,6 +70,8 @@ namespace BBL.Services
             review.NewsTitle = newsMap.NewsTitle;
             review.ReleaseDate = newsMap.ReleaseDate;
             review.NewsContent = newsMap.NewsContent;
+            review.Status = newsMap.Status;
+            review.NewsImage = newsMap.NewsImage;
             return _newsRepo.Update(review);
         }
     }

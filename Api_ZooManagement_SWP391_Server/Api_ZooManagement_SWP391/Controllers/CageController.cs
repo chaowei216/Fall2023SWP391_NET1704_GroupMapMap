@@ -52,7 +52,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpGet("pages/{page}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<CageDto>))]
+        [ProducesResponseType(200, Type = typeof(CageResponseDto))]
         public IActionResult GetAllCages(int page)
         {
             var cages = _mapper.Map<List<CageDto>>(_cageService.GetAll());
