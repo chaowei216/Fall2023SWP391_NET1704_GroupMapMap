@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MDBBtn,
   MDBModal,
@@ -15,49 +15,61 @@ import { ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import { DatePicker, Radio, Select, Space } from "antd";
 import { South } from "@mui/icons-material";
-import { schema } from "./validationFood";
 import { useNavigate } from "react-router-dom";
-
+import '../../assets/css/dashboard.css';
 export default function AddNews(pros) {
+  const email = localStorage.getItem('email');
   const [staticModal, setStaticModal] = useState(false);
+  const [user, setUser] = useState({});
+  const [userInfo, setUserInfo] = useState({});
   const { show, handleClose } = pros;
   const navigate = useNavigate();
-  const handleSave = () => {
-    console.log(formik.errors);
-    console.log("haha");
+  const getUserList = () => {
+    return fetch("https://localhost:44352/api/User/users").then((data) =>
+      data.json()
+    );
   };
+  useEffect(() => {
+    let mounted = true;
+    getUserList().then((items) => {
+      if (mounted) {
+        setUser(items.filter(user => user.email === email));
+      }
+    });
+    return () => (mounted = false);
+  }, []);
+  console.log(user);
+  let a = {}
+  a = user[0];
   const submitForm = async (values) => {
-    console.log(values);
-    console.log(formik.errors);
-    const food = {
-      fName: values.fName,
-      quantity: values.quantity,
-      importDate: values.importDate,
-      expiredDate: values.expiredDate,
-      category: values.category,
+    const userStaff = a;
+    console.log(userStaff.userId);
+    const news = {
+      newsTitle: values.newsTitle,
+      newsContent: values.newsContent,
+      newsImage: values.newsImage
     };
-    // const url = "https://localhost:44352/api/Food";
-    // const request = {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(food),
-    // };
-    // const response = await fetch(url, request);
-    // if (response.ok) {
-    //   console.log("Success");
-    //   navigate("/staff/3");
-    //   window.location.reload();
-    // }
+    console.log(news);
+    const url = `https://localhost:44352/api/News?userId=${userStaff.userId}`;
+    const request = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(news),
+    };
+    const response = await fetch(url, request);
+    if (response.ok) {
+      console.log("Success");
+      navigate("/staff/news");
+      window.location.reload();
+    }
   };
   const formik = useFormik({
     initialValues: {
-      category: "",
       newsTitle: "",
-      content: "",
-      authorName: "",
-      releaseDay: "",
+      newsContent: "",
+      newsImage: ""
     },
     // validationSchema: schema,
     onSubmit: (values) => {
@@ -86,112 +98,68 @@ export default function AddNews(pros) {
                   <div className="form-content">
                     <div className="form">
                       <div className="mb-3">
-                        <label className="form-label">Enter authorName</label>
-                        <Form.Control
-                          type="text"
-                          style={{ height: "56px" }}
-                          id="authorName"
-                          placeholder="fName"
-                          aria-describedby="inputGroupPrepend"
-                          name="authorName"
-                          value={formik.values.authorName}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          //   isInvalid={
-                          //     formik.errors.fName && formik.touched.fName
-                          //   }
-                        />
-                        {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.fName}
-                        </Form.Control.Feedback> */}
-                      </div>
-                      <div className="mb-3"></div>
-                      <div className="mb-3">
-                        <label className="form-label">Enter Title of New</label>
+                        <label className="form-label">Enter Title of News</label>
                         <Form.Control
                           type="text"
                           style={{ height: "56px" }}
                           id="newsTitle"
-                          placeholder="fName"
+                          placeholder="newsTitle"
                           aria-describedby="inputGroupPrepend"
                           name="newsTitle"
                           value={formik.values.newsTitle}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          //   isInvalid={
-                          //     formik.errors.fName && formik.touched.fName
-                          //   }
+                        //   isInvalid={
+                        //     formik.errors.fName && formik.touched.fName
+                        //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.fName}
                         </Form.Control.Feedback> */}
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Enter Category</label>
+                        <label className="form-label">Write the content</label>
                         <Form.Control
                           type="text"
                           style={{ height: "56px" }}
-                          id="category"
-                          placeholder="category"
+                          id="newsContent"
+                          placeholder="newsContent"
                           aria-describedby="inputGroupPrepend"
-                          name="category"
-                          value={formik.values.category}
+                          name="newsContent"
+                          value={formik.values.newsContent}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          //   isInvalid={
-                          //     formik.errors.category && formik.touched.category
-                          //   }
+                        // onChange={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                        //   isInvalid={
+                        //     formik.errors.category && formik.touched.category
+                        //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.category}
                         </Form.Control.Feedback> */}
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Enter Content</label>
+                        <label className="form-label">Choose Image for News</label>
                         <Form.Control
-                          type="text"
-                          id="content"
-                          placeholder="content"
+                          type="file"
+                          id="newsImage"
+                          placeholder="newsImage"
                           aria-describedby="inputGroupPrepend"
-                          name="content"
+                          name="newsImage"
                           style={{ height: "56px" }}
-                          value={formik.values.content}
+                          value={formik.values.newsImage}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          //   isInvalid={
-                          //     formik.errors.quantity && formik.touched.quantity
-                          //   }
+                        // onChange={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                        //   isInvalid={
+                        //     formik.errors.quantity && formik.touched.quantity
+                        //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.quantity}
                         </Form.Control.Feedback> */}
-                      </div>
-                      <div className="row mb-5 mt-4">
-                        <div className="mb-3">
-                          <label className="form-label">
-                            Choose ReleaseDate
-                          </label>
-                          <br />
-                          <Form.Control
-                            type="date"
-                            id="releaseDay"
-                            name="releaseDay"
-                            value={formik.values.releaseDay}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.expiredDate &&
-                            //   formik.touched.expiredDate
-                            // }
-                          />
-                          {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.expiredDate}
-                          </Form.Control.Feedback> */}
-                        </div>
                       </div>
                       <MDBModalFooter>
                         <Button
@@ -210,9 +178,6 @@ export default function AddNews(pros) {
                           style={{ background: "blue", color: "white" }}
                           variant="primary"
                           type="submit"
-                          onClick={() => {
-                            handleSave();
-                          }}
                           active
                         >
                           Create Food

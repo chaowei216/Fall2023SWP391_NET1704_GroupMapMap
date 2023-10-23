@@ -63,16 +63,16 @@ export default function EditPage(pros) {
   useEffect(() => {
     if (show) {
       setUID(dataUserEdit.userId);
-      setFirstName(dataUserEdit.firstname),
-        setLastName(dataUserEdit.lastname),
-        setPhone(dataUserEdit.phone),
-        setEmail(dataUserEdit.email),
-        setPassword(dataUserEdit.password),
-        setAddress(dataUserEdit.address),
+      setFirstName(dataUserEdit.firstname);
+        setLastName(dataUserEdit.lastname);
+        setPhone(dataUserEdit.phone);
+        setEmail(dataUserEdit.email);
+        setPassword(dataUserEdit.password);
+        setAddress(dataUserEdit.address);
         setRole(dataUserEdit.role);
-      setSex(dataUserEdit.sex),
+      setSex(dataUserEdit.sex);
         setEndDate(dataUserEdit.endDate === null ? null : dataUserEdit.endDate.slice(0, 10)),
-        setStatus(dataUserEdit.status),
+        setStatus(dataUserEdit.status);
         setWID(dataUserEdit.wID === null ? "2" : `${wID}`);
     }
   }, [dataUserEdit]);

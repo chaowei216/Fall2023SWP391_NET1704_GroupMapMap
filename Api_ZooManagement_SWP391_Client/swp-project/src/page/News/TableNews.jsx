@@ -10,9 +10,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
-import AddFood from "./AddFood";
-import EditFood from "./EditFood";
-import ViewFood from "./ViewFood";
 import ViewNews from "./ViewNews";
 import EditNews from "./EditNews";
 import AddNews from "./AddNews";
@@ -22,14 +19,14 @@ function TableNews() {
   const [showModalView, setShowmodalView] = useState(false);
   const [showModalFodd, setShowmodalFood] = useState(false);
   const [showModalFoodAnimal, setShowmodalFoodAnimal] = useState(false);
-  const [listFood, setListFood] = useState([]);
+  const [listNews, setListNews] = useState([]);
   const [dataAnimalEdit, setDataAnimalEdit] = useState({});
   const [dataAnimalView, setDataAnimalView] = useState({});
   const [dataNewsEdit, setDataNewsEdit] = useState({});
   const [dataNewsView, setDataNewsView] = useState({});
 
   const getList = () => {
-    return fetch("https://localhost:44352/api/Food").then((data) =>
+    return fetch("https://localhost:44352/api/News").then((data) =>
       data.json()
     );
   };
@@ -37,7 +34,7 @@ function TableNews() {
     let mounted = true;
     getList().then((items) => {
       if (mounted) {
-        setListFood(items);
+        setListNews(items);
       }
     });
     return () => (mounted = false);
@@ -65,16 +62,16 @@ function TableNews() {
     setAnchorEl(null);
   };
 
-  const handleEditFood = (item) => {
+  const handleEditNews = (item) => {
     // setDataUserEdit(item);
     const food = item;
     setDataNewsEdit(food);
     setShowmodalEdit(true);
   };
-  const handleViewFood = (item) => {
-        const food = item;
-        setDataNewsView(food);
-        setShowmodalView(true);
+  const handleViewNews = (item) => {
+    const food = item;
+    setDataNewsView(food);
+    setShowmodalView(true);
   };
   //   const handleViewUser = (item) => {
   //     // setDataUserEdit(item);
@@ -90,7 +87,7 @@ function TableNews() {
       <div className="table-component">
         <div className="my-3 add-new">
           <span>
-            <b>View Food</b>
+            <b>View News</b>
           </span>
           <div className="search-container">
             {/* toggleShow */}
@@ -111,42 +108,38 @@ function TableNews() {
           <Table size="100px" hover>
             <thead>
               <tr>
-                <th>Food ID</th>
-                <th>Food Name</th>
-                <th>Food Quantity</th>
-                <th>Category</th>
-                <th>Animal Food</th>
+                <th>News ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Image</th>
+                <th>ReleaseDate</th>
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
             </thead>
             <tbody>
-              {listFood &&
-                listFood.length > 0 &&
-                listFood.map((items, index) => {
+              {listNews &&
+                listNews.length > 0 &&
+                listNews.map((items, index) => {
                   return (
                     <tr key={`food-${index}`}>
-                      <td>{items.foodId}</td>
-                      <td>{items.fName}</td>
-                      <td>{items.quantity}</td>
-                      <td>{items.category}</td>
-                      <td>
-                        {items.animalFoods === null
-                          ? "None"
-                          : `${items.animalFoods}`}
-                      </td>
+                      <td>{items.newsId}</td>
+                      <td>{items.newsTitle}</td>
+                      <td>{items.authorName}</td>
+                      <td>{items.newsImage}</td>
+                      <td>{items.releaseDate.slice(0, 10)}</td>
                       <td style={{ width: "208px" }}>
                         <Button
                           variant="text"
                           style={{ padding: 0 }}
                           onClick={() => {
-                            handleViewFood(items);
+                            handleViewNews(items);
                           }}
                         >
                           <VisibilityIcon />
                         </Button>
                         <Button
                           onClick={() => {
-                            handleEditFood(items);
+                            handleEditNews(items);
                           }}
                           variant="text"
                           style={{ padding: 0 }}

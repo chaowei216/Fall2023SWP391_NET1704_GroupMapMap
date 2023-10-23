@@ -94,10 +94,12 @@ function AddPage() {
   const toggleShow = () => setShow(!Show);
   const submitForm = async (values) => {
     let img = "";
-    if (values.userImage === "") {
-      img = "";
-    } else {
+    let exp = [];
+    if (values.userImage != "") {
       img = values.userImage;
+    }
+    if (values.fields[0].company != "" && values.fields[0].experienceId != "") {
+      exp = values.fields
     }
     const user = {
       email: values.email,
@@ -108,7 +110,7 @@ function AddPage() {
       sex: Boolean(values.sex),
       role: Number(values.role),
       userImage: img,
-      experiences: values.fields,
+      experiences: exp,
     };
     console.log(user);
     const response = await fetch("https://localhost:44352/api/User", {
@@ -311,8 +313,8 @@ function AddPage() {
                       >
                         <Field
                           name={`fields[${index}].experienceId`}
-                          // as="select"
-                          // onChange={(e) => handleChange(e.target.value)}
+                        // as="select"
+                        // onChange={(e) => handleChange(e.target.value)}
                         >
                           {({ field, form }) => (
                             <Form.Select
