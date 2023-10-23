@@ -5,19 +5,20 @@ import {GrFormAdd, GrFormSubtract} from 'react-icons/gr'
 
 function ListItem() {
 
-   const { shoppingCart, handleUpdateItemQuantity,handleUpdateDay } = useShopping();
+   const { shoppingCart, handleUpdateItemQuantity } = useShopping();
 
- 
+    
   const calculateProductTotal = (product) => {
     return product.price * product.quantity;
   };
-
+  console.log(shoppingCart);
   // Hàm tính tổng giá tiền của giỏ hàng
   const calculateCartTotal = () => {
     return shoppingCart.reduce((total, product) => {
       return total + calculateProductTotal(product);
     }, 0);
   };
+
   
   const Store = (cartData) => {
     // Chuyển dữ liệu giỏ hàng thành chuỗi JSON
@@ -61,8 +62,9 @@ function ListItem() {
       handleUpdateItemQuantity(productId, newQuantity);
     }
   };
-  const updateDay=(day,id)=>{
-    handleUpdateDay(day,id);
+  const updateDay=(day)=>{
+    handleUpdateDay(day);
+
 
 
   }
@@ -72,7 +74,7 @@ function ListItem() {
 
     <div>
 
-      {console.log(shoppingCart)}
+     
       <section className="gap">
         <div className="container">
           <form className="woocommerce-cart-form">
@@ -109,7 +111,7 @@ function ListItem() {
                         </span>
                       </td>
                       <td className="product-day">
-                        <input type="date"  onChange={(e)=>{handleUpdateDay(e.target.value,product.id)}}/>
+                        <input type="date"  onChange={(e)=>{handleUpdateDay(e.target.value)}}/>
                       </td>
                     </tr>
                   ))}
