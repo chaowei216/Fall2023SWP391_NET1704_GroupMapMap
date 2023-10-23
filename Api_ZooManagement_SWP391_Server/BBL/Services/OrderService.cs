@@ -45,6 +45,7 @@ namespace BBL.Services
             {
                 _ordTicketRepo.Add(ticket);
             }
+            var trans = order.Transaction;
             var email = new MimeMessage();
             email.From.Add(MailboxAddress.Parse("mapmapzoofpt@gmail.com"));
             email.To.Add(MailboxAddress.Parse(order.Email));
@@ -53,7 +54,8 @@ namespace BBL.Services
                                                                                                 + order.Email + "\n"
                                                                                                 + order.FullName + "\n"
                                                                                                 + order.TotalPrice + "\n"
-
+                                                                                                + trans.TransactionInfo.ToString() + "\n"
+                                                                                                + trans.TransactionDate.ToString() + "\n"
                                                                                                 + "\n\nMapMap Zoo thank you for join with us!!!" };
 
             using var smtp = new MailKit.Net.Smtp.SmtpClient();

@@ -36,11 +36,6 @@ export const schemaAnimal = yup.object().shape({
   //   /^[a-zA-Z-.']+$/,
   //   "description can only contain letters, dashes, periods, and apostrophes"
   // ),
-  region: yup
-    .string()
-    .required("Region is required")
-    .min(2, "Region must be at least 2 characters")
-    .max(30, "Region cannot be more than 30 characters"),
   // .matches(
   //   /^[a-zA-Z-.']+$/,
   //   "Region can only contain letters, dashes, periods, and apostrophes"

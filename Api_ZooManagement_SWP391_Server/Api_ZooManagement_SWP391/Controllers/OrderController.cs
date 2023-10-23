@@ -58,6 +58,10 @@ namespace Api_ZooManagement_SWP391.Controllers
             var trans = _mapper.Map<Transaction>(response);
             if (orderMap == null || trans == null)
                 return BadRequest();
+
+            if (orderMap.StartDate < DateTime.Now)
+                return BadRequest("Please place order after today");
+
             if (response.Success.Equals("success"))
             {
                 trans.Status = true;

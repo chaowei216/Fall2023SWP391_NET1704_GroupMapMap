@@ -11,19 +11,33 @@ namespace Api_ZooManagement_SWP391.Controllers
     public class NewsController : ControllerBase
     {
         private readonly INewsService _newsService;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public NewsController(INewsService newsService, IMapper mapper)
+        public NewsController(INewsService newsService,
+                              IUserService userService,
+                              IMapper mapper)
         {
             _newsService = newsService;
+            _userService = userService;
             _mapper = mapper;
         }
 
         [HttpGet()]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<News>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<NewsDto>))]
         public IActionResult GetAllNews()
         {
+            var news = _newsService.GetAllNews().ToList();
             var allNews = _mapper.Map<List<NewsDto>>(_newsService.GetAllNews());
+            if (news.Count > 0)
+            {
+                for (int index = 0; index < allNews.Count; index++)
+                {
+                    var user = _userService.GetById(news[index].UserId);
+
+                    allNews[index].AuthorName = user.Firstname + " " + user.Lastname;
+                }
+            }
 
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -49,22 +63,28 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateNews([FromBody] NewsDto newsDto)
+        public IActionResult CreateNews([FromQuery] string userId, [FromBody] NewsCreateDto newsCreate)
         {
-            if (newsDto == null)
-            {
-                return BadRequest(ModelState);
-            }
-            if (!ModelState.IsValid)
+            if(!_userService.UserExists(userId))
+                return BadRequest("staff doesn't not exist!!");
+
+            if (newsCreate == null)
             {
                 return BadRequest(ModelState);
             }
 
             int count = _newsService.GetAllNews().Count + 1;
-            var newsId = "NW" + count.ToString().PadLeft(3, '0');
+            var newsId = "NW" + count.ToString().PadLeft(4, '0');
 
-            var newsMap = _mapper.Map<News>(newsDto);
+            var newsMap = _mapper.Map<News>(newsCreate);
+            newsMap.User = _userService.GetById(userId);
             newsMap.NewsId = newsId;
+            newsMap.ReleaseDate = DateTime.Now;
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             if (!_newsService.AddNews(newsMap))
             {

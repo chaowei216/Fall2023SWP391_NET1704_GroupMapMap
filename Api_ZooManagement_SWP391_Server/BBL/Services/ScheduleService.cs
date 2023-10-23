@@ -12,10 +12,12 @@ namespace BBL.Services
     public class ScheduleService : IScheduleService
     {
         private readonly IGenericRepository<Schedule> _scheduleRepository;
+        private readonly IGenericRepository<AnimalSchedule> _animalScheduleRepository;
 
-        public ScheduleService(IGenericRepository<Schedule> scheduleRepository)
+        public ScheduleService(IGenericRepository<Schedule> scheduleRepository, IGenericRepository<AnimalSchedule> animalScheduleRepository)
         {
             _scheduleRepository = scheduleRepository;
+            _animalScheduleRepository = animalScheduleRepository;
         }
 
         public bool AddSchedule(Schedule schedule)
@@ -40,6 +42,11 @@ namespace BBL.Services
         public bool ScheduleExists(string id)
         {
             return _scheduleRepository.GetById(id) != null ? true : false;
+        }
+
+        public AnimalSchedule GetScheduleByAnimalId(string id)
+        {
+            return _animalScheduleRepository.GetAll().SingleOrDefault(aniSc => aniSc.AnimalId == id);
         }
     }
 }

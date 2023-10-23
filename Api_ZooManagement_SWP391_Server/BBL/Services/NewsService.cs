@@ -2,7 +2,7 @@
 using DAL.Data;
 using DAL.Entities;
 using DAL.Repositories;
-
+using DTO.Dtos;
 
 namespace BBL.Services
 {
@@ -32,7 +32,7 @@ namespace BBL.Services
 
         public ICollection<News> GetAllNews()
         {
-            return _newsRepo.GetAll();
+            return  _newsRepo.GetAll();
         }
 
         public News GetNews(string id)
@@ -53,7 +53,6 @@ namespace BBL.Services
             var review = _newsRepo.GetById(newsMap.NewsId);
             if (review == null) return false;
             review.NewsTitle = newsMap.NewsTitle;
-            review.AuthorName = newsMap.AuthorName;
             review.ReleaseDate = newsMap.ReleaseDate;
             review.NewsContent = newsMap.NewsContent;
             return _newsRepo.Update(review);

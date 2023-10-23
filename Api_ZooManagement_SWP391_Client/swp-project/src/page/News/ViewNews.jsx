@@ -15,7 +15,6 @@ import { ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import { DatePicker, Radio, Select, Space } from "antd";
 import { South } from "@mui/icons-material";
-import { schema } from "./validationFood";
 
 export default function ViewNews(pros) {
   const [staticModal, setStaticModal] = useState(false);
@@ -26,19 +25,18 @@ export default function ViewNews(pros) {
   const [content, setContent] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [releaseDay, setReleaseDay] = useState("");
-  const [category, setCategory] = useState("");
+  const [newsImage, setNewsImage] = useState("");
 
   useEffect(() => {
     if (show) {
-      setNewsID(dataNewsView.foodId);
-      setNewsTitle(dataNewsView.fName);
-      setContent(dataNewsView.quantity);
-      setAuthorName(dataNewsView.importDate.slice(0, 10));
-      setReleaseDay(dataNewsView.expiredDate.slice(0, 10));
-      setCategory(dataNewsView.category);
+      setNewsID(dataNewsView.newsId);
+      setNewsTitle(dataNewsView.newsTitle);
+      setContent(dataNewsView.newsContent);
+      setAuthorName(dataNewsView.authorName);
+      setNewsImage(dataNewsView.newsImage);
+      setReleaseDay(dataNewsView.releaseDate.slice(0, 10));
     }
   }, [dataNewsView]);
-
   const handleSave = () => {
     console.log("haha");
   };
@@ -58,33 +56,32 @@ export default function ViewNews(pros) {
             <MDBModalBody>
               <div className="form-container-1">
                 <div className="form-header">
-                  <p className="fw-bold fs-2">View food</p>
+                  <p className="fw-bold fs-2">View News</p>
                 </div>
                 <Form noValidate>
                   <div className="form-content">
                     <div className="form">
                       <div className="mb-3">
-                        <label className="form-label">Food Name</label>
+                        <label className="form-label">ID</label>
                         <Form.Control
                           type="text"
-                          style={{ height: "56px" }}
+                          style={{ height: "56px", backgroundColor: "none" }}
                           id="fName"
                           placeholder="fName"
                           aria-describedby="inputGroupPrepend"
                           name="fName"
-                          value={foodName}
+                          value={newsID}
                           disabled
-                          onChange={(e) => setFoodName(e.target.value)}
-                          //   isInvalid={
-                          //     formik.errors.fName && formik.touched.fName
-                          //   }
+                        //   isInvalid={
+                        //     formik.errors.fName && formik.touched.fName
+                        //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.fName}
                         </Form.Control.Feedback> */}
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Category</label>
+                        <label className="form-label">Title</label>
                         <Form.Control
                           type="text"
                           style={{ height: "56px" }}
@@ -93,92 +90,64 @@ export default function ViewNews(pros) {
                           aria-describedby="inputGroupPrepend"
                           name="category"
                           disabled
-                          value={category}
-                          onChange={(e) => setCategory(e.target.value)}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          //   isInvalid={
-                          //     formik.errors.category && formik.touched.category
-                          //   }
+                          value={newsTitle}
+                        // onChange={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                        //   isInvalid={
+                        //     formik.errors.category && formik.touched.category
+                        //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.category}
                         </Form.Control.Feedback> */}
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">The Quantity</label>
+                        <label className="form-label">Content</label>
                         <Form.Control
-                          type="Number"
-                          id="quantity"
-                          placeholder="quantity"
+                          type="text"
+                          id="content"
+                          placeholder="content"
                           aria-describedby="inputGroupPrepend"
-                          name="quantity"
+                          name="content"
                           disabled
                           style={{ height: "56px" }}
-                          value={quantity}
-                          onChange={(e) => setQuantity(e.target.value)}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          //   isInvalid={
-                          //     formik.errors.quantity && formik.touched.quantity
-                          //   }
+                          value={content}
+                        // onChange={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                        //   isInvalid={
+                        //     formik.errors.quantity && formik.touched.quantity
+                        //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.quantity}
                         </Form.Control.Feedback> */}
                       </div>
                       <div className="row mb-5 mt-4">
-                        <div className="mb-3" style={{ width: "50%" }}>
+                        <div className="mb-3">
                           <div>
-                            <label className="form-label">ImportDate</label>
+                            <label className="form-label">Release Date</label>
                             <br />
                             <Space
                               direction="vertical"
                               size={20}
-                              style={{ width: "90%" }}
+                              style={{ width: "40%" }}
                             >
                               <Form.Control
                                 type="date"
                                 id="importDate"
                                 name="importDate"
                                 disabled
-                                value={importDate}
-                                onChange={(e) => setImportDate(e.target.value)}
-                                // isInvalid={
-                                //   formik.errors.importDate &&
-                                //   formik.touched.importDate
-                                // }
+                                value={releaseDay}
+                              // isInvalid={
+                              //   formik.errors.importDate &&
+                              //   formik.touched.importDate
+                              // }
                               />
                             </Space>
                             {/* <Form.Control.Feedback type="invalid">
                               {formik.errors.quantity}
                             </Form.Control.Feedback> */}
                           </div>
-                        </div>
-                        <div className="mb-3" style={{ width: "50%" }}>
-                          <label className="form-label">ExpiredDate</label>
-                          <br />
-                          <Space
-                            direction="vertical"
-                            size={20}
-                            style={{ width: "90%" }}
-                          >
-                            <Form.Control
-                              type="date"
-                              id="expiredDate"
-                              disabled
-                              name="expiredDate"
-                              value={expiredDate}
-                              onChange={(e) => setExpiredDate(e.target.value)}
-                              //   isInvalid={
-                              //     formik.errors.expiredDate &&
-                              //     formik.touched.expiredDate
-                              //   }
-                            />
-                          </Space>
-                          {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.expiredDate}
-                          </Form.Control.Feedback> */}
                         </div>
                       </div>
                       <MDBModalFooter>

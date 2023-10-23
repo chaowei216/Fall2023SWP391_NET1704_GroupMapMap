@@ -48,7 +48,7 @@ namespace BBL.Services
             return _cageRepository.GetById(id) != null ? true : false;
         }
 
-        public AnimalCage? GetCageByAnimalId(string animalId)
+        public AnimalCage? GetAnimalCageByAnimalId(string animalId)
         {
             return _aniCageRepository.GetAll().SingleOrDefault(aniCage => aniCage.AnimalId == animalId && aniCage.OutCageDate == null);
         }

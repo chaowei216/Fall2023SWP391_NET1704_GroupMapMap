@@ -14,7 +14,7 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<Order, OrderDto>();
             CreateMap<Ticket, TicketDto>();
             CreateMap<News, NewsDto>();
-            CreateMap<NewsDto, News>();
+            CreateMap<NewsCreateDto, News>();
             CreateMap<News, NewsUpdateDto>();
             CreateMap<NewsUpdateDto, News>();
             CreateMap<Review, ReviewDto>();

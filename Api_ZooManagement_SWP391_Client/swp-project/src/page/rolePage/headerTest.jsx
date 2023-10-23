@@ -49,9 +49,9 @@ function AppHeader({ OpenSidebar }) {
         width={90}
         src="https://img.freepik.com/premium-vector/zoo-logo-design-vector-illustration_742779-149.jpg?w=2000"
       ></Image>
-      {/* <Typography.Title style={{ marginBottom: "0" }}>
-        Aamir's Dashboard
-      </Typography.Title> */}
+      <Typography.Title style={{ marginBottom: "0", fontSize: "30px" }}>
+        {role + " " + "Manager"}
+      </Typography.Title>
 
       <Space>
         <div

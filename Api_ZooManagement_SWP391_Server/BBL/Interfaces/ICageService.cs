@@ -10,7 +10,7 @@ namespace BBL.Interfaces
         ICollection<Cage> GetAll();
         Cage GetByCageId(string id);
         ICollection<Cage> GetCagesByAreaName(string areaName);
-        AnimalCage GetCageByAnimalId(string animalId);
+        AnimalCage GetAnimalCageByAnimalId(string animalId);
 
         bool CageExists(string id);
 
