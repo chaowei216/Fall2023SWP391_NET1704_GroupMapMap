@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import useShopping from '../../hooks/useShopping';
-import {GrFormAdd, GrFormSubtract} from 'react-icons/gr'
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import useShopping from "../../hooks/useShopping";
+import { GrFormAdd, GrFormSubtract } from "react-icons/gr";
 
 function ListItem() {
+  const { shoppingCart, handleUpdateItemQuantity, handleUpdateDay } =
+    useShopping();
 
-   const { shoppingCart, handleUpdateItemQuantity } = useShopping();
-
-    
   const calculateProductTotal = (product) => {
     return product.price * product.quantity;
   };
@@ -19,13 +18,12 @@ function ListItem() {
     }, 0);
   };
 
-  
   const Store = (cartData) => {
     // Chuyển dữ liệu giỏ hàng thành chuỗi JSON
     const cartDataJSON = JSON.stringify(cartData);
     // if(localStorage.getItem("shoppingCart")
     // Lưu vào localStorage
-    localStorage.setItem('shoppingCart', cartDataJSON);
+    localStorage.setItem("shoppingCart", cartDataJSON);
   };
   // useEffect(() => {
   //   // Lấy dữ liệu từ localStorage và cập nhật state khi thành phần được tạo
@@ -34,12 +32,13 @@ function ListItem() {
   //     const parsedCart = JSON.parse(shoppingCartData);
   //     setShoppingCart(parsedCart);
   //   }
-  // }, []); // Chạy chỉ một lần khi thành phần được tạo  
+  // }, []); // Chạy chỉ một lần khi thành phần được tạo
   // Hàm để tăng số lượng sản phẩm
   const handleIncrease = (productId) => {
-   
     // Tìm sản phẩm có productId trong giỏ hàng
-    const productToUpdate = shoppingCart.find((product) => product.id === productId);
+    const productToUpdate = shoppingCart.find(
+      (product) => product.id === productId
+    );
 
     if (productToUpdate) {
       // Tăng số lượng sản phẩm lên 1
@@ -51,9 +50,10 @@ function ListItem() {
 
   // Hàm để giảm số lượng sản phẩm
   const handleDecrease = (productId) => {
-  
     // Tìm sản phẩm có productId trong giỏ hàng
-    const productToUpdate = shoppingCart.find((product) => product.id === productId);
+    const productToUpdate = shoppingCart.find(
+      (product) => product.id === productId
+    );
 
     if (productToUpdate && productToUpdate.quantity > 1) {
       // Giảm số lượng sản phẩm đi 1 (nếu số lượng lớn hơn 1)
@@ -62,23 +62,17 @@ function ListItem() {
       handleUpdateItemQuantity(productId, newQuantity);
     }
   };
-  const updateDay=(day)=>{
+  const updateDay = (day) => {
+    console.log(day);
     handleUpdateDay(day);
-
-
-
-  }
+  };
 
   return (
-    
-
     <div>
-
-     
       <section className="gap">
         <div className="container">
           <form className="woocommerce-cart-form">
-            <div style={{ overflowX: 'auto', overflowY: 'hidden' }}>
+            <div style={{ overflowX: "auto", overflowY: "hidden" }}>
               <table className="shop_table table-responsive">
                 <thead>
                   <tr>
@@ -93,25 +87,53 @@ function ListItem() {
                     <tr key={product.id}>
                       <td className="product-name">
                         <div>
-                          <a style={{textDecoration:"none",color:"red"}} href="#">{product.name}</a>
+                          <a
+                            style={{ textDecoration: "none", color: "red" }}
+                            href="#"
+                          >
+                            {product.name}
+                          </a>
                           <span>{product.description}</span>
                         </div>
                       </td>
                       <td className="product-quantity">
-                        <GrFormSubtract style={{cursor: "pointer", fontSize: "22px", marginBottom: "7px"}} onClick={(e) => {  handleDecrease(product.id) }}></GrFormSubtract>
-                        <span style={{fontSize: "22px"}}>{product.quantity}</span>
-                        <GrFormAdd style={{cursor: "pointer", fontSize: "22px", marginBottom: "7px"}} onClick={(e) => {  handleIncrease(product.id) }}></GrFormAdd>
+                        <GrFormSubtract
+                          style={{
+                            cursor: "pointer",
+                            fontSize: "22px",
+                            marginBottom: "7px",
+                          }}
+                          onClick={(e) => {
+                            handleDecrease(product.id);
+                          }}
+                        ></GrFormSubtract>
+                        <span style={{ fontSize: "22px" }}>
+                          {product.quantity}
+                        </span>
+                        <GrFormAdd
+                          style={{
+                            cursor: "pointer",
+                            fontSize: "22px",
+                            marginBottom: "7px",
+                          }}
+                          onClick={(e) => {
+                            handleIncrease(product.id);
+                          }}
+                        ></GrFormAdd>
                       </td>
-                     
+
                       <td className="product-subtotal">
                         <span className="woocommerce-Price-amount">
-                          <bdi>
-                            {product.price.toFixed(2)}
-                          </bdi>
+                          <bdi>{product.price.toFixed(2)}</bdi>
                         </span>
                       </td>
                       <td className="product-day">
-                        <input type="date"  onChange={(e)=>{updateDay(e.target.value)}}/>
+                        <input
+                          type="date"
+                          onChange={(e) => {
+                            updateDay(e.target.value);
+                          }}
+                        />
                       </td>
                     </tr>
                   ))}
@@ -173,7 +195,13 @@ function ListItem() {
                           <td>
                             <span className="woocommerce-Price-amount">
                               <bdi>
-                                {shoppingCart.reduce((total, product) => total + calculateProductTotal(product), 0).toFixed(2)}
+                                {shoppingCart
+                                  .reduce(
+                                    (total, product) =>
+                                      total + calculateProductTotal(product),
+                                    0
+                                  )
+                                  .toFixed(2)}
                               </bdi>
                             </span>
                           </td>
@@ -182,9 +210,7 @@ function ListItem() {
                           <th>Total:</th>
                           <td>
                             <span className="woocommerce-Price-amount">
-                              <bdi>
-                                {calculateCartTotal().toFixed(2)}
-                              </bdi>
+                              <bdi>{calculateCartTotal().toFixed(2)}</bdi>
                             </span>
                           </td>
                         </tr>
@@ -192,10 +218,13 @@ function ListItem() {
                     </table>
                   </div>
                   <div className="wc-proceed-to-checkout">
-                    <Link to="/checkout" className="button" onClick={Store(shoppingCart)}>
-                    <span>Proceed to checkout</span>
+                    <Link
+                      to="/checkout"
+                      className="button"
+                      onClick={Store(shoppingCart)}
+                    >
+                      <span>Proceed to checkout</span>
                     </Link>
-                    
                   </div>
                 </div>
               </div>

@@ -134,8 +134,9 @@ namespace DAL.Data
             {
                 entity.HasKey(e => e.ReviewId);
                 entity.Property(e => e.ReviewId).HasMaxLength(6);
-                entity.Property(e => e.Title).HasMaxLength(30).IsRequired();
-                entity.Property(e => e.Description).HasMaxLength(100).IsRequired();
+                entity.Property(e => e.CompleteName).HasMaxLength(30).IsRequired();
+                entity.Property(e => e.Email).HasMaxLength(30).IsRequired();
+                entity.Property(e => e.Message).IsRequired();
             });
 
             modelBuilder.Entity<News>(entity =>
