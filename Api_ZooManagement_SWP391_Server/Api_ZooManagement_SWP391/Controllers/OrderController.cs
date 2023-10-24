@@ -85,9 +85,6 @@ namespace Api_ZooManagement_SWP391.Controllers
             if (orderMap == null || trans == null)
                 return BadRequest();
 
-            if (orderMap.StartDate < DateTime.Now)
-                return BadRequest("Please place order after today");
-
             if (response.Success.Equals("success"))
             {
                 trans.Status = true;
@@ -111,14 +108,18 @@ namespace Api_ZooManagement_SWP391.Controllers
                 var ticket = _ticketService.GetTicketByType(ticketQuantity.Type);
 
                 if (ticket == null) return BadRequest("Ticket Not Found");
-                
-                if(ticketQuantity.Amount == 0) continue;
+
+                if (ticketQuantity.StartDate < DateTime.Now)
+                    return BadRequest("Please place order from today");
+
+                if (ticketQuantity.Amount == 0) continue;
                 orderTickets.Add(new OrderTicket()
                 {
                        Order = orderMap,
                        Ticket = ticket,
-                       TicketQuantity = ticketQuantity.Amount
-                 });
+                       TicketQuantity = ticketQuantity.Amount,
+                       StartDate = ticketQuantity.StartDate
+                });
             }
 
             if (!ModelState.IsValid)

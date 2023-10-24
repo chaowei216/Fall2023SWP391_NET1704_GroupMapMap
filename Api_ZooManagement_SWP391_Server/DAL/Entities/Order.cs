@@ -10,7 +10,6 @@ namespace DAL.Entities
         public string Email { get; set; }
         public string FullName { get; set; }
         public string PhoneNumber { get; set; }
-        public DateTime StartDate { get; set; }
         public double TotalPrice {  get; set; }
         public ICollection<OrderTicket> OrderTickets { get; set; }
         public Transaction Transaction { get; set; }

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { json, useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { json, useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import axios from 'axios';
-import { Button, Alert, AlertTitle } from '@mui/material';
+import axios from "axios";
+import { Button, Alert, AlertTitle } from "@mui/material";
 function Loading() {
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState(10);
@@ -13,7 +13,7 @@ function Loading() {
   const queryParams = window.location.search;
 
   // Loại bỏ ký tự "?" ở đầu chuỗi nếu có
-  const cleanQuery = queryParams.replace('?', '');
+  const cleanQuery = queryParams.replace("?", "");
 
   // Tạo một đối tượng chứa thông tin từ tham số truy vấn
   const urlParams = new URLSearchParams(cleanQuery);
@@ -44,7 +44,7 @@ function Loading() {
   console.log("vnp_TransactionNo: " + vnp_TransactionNo);
   console.log("vnp_TransactionStatus: " + vnp_TransactionStatus);
   console.log("vnp_TxnRef: " + vnp_TxnRef);
-  console.log("vnp_SecureHash: " + vnp_SecureHash)
+  console.log("vnp_SecureHash: " + vnp_SecureHash);
 
   if (vnp_ResponseCode == "24") {
     setTimeout(() => navigate("/"), 3000);
@@ -62,26 +62,25 @@ function Loading() {
       TransactionId: vnp_TransactionNo,
       Token: vnp_SecureHash,
       VnPayResponseCode: vnp_ResponseCode,
-      OrderCreate: orderDetail
+      OrderCreate: orderDetail,
     };
 
     const postData = async () => {
       try {
-        const postMethod = await axios.post(apiUrl1, data)
+        const postMethod = await axios.post(apiUrl1, data);
         console.log(postMethod.data);
         navigate("/");
       } catch (error) {
         console.error(error);
       }
-    }
+    };
     postData();
   }
-
 
   // useEffect(() => {
   //   const countdownTimer = setTimeout(() => {
   //     navigate("/");
-  //   }, 1000); 
+  //   }, 1000);
 
   //   return () => {
   //     clearTimeout(countdownTimer);
@@ -102,37 +101,42 @@ function Loading() {
   //   };
   // }, [navigate, countdown]);
   return (
-    <div style={{textAlign:"center"}}>
+    <div style={{ textAlign: "center" }}>
       <div className="status-payment">
-       
-      {status == "true" ? <Alert severity="success">
-        <AlertTitle>Success</AlertTitle>
-       Payment success — <strong>check it out!</strong>
-      </Alert> : <Alert severity="error">
-        <AlertTitle>Error</AlertTitle>
-       Payment fail— <strong>check it out!</strong>
-      </Alert>}
+        {status == "success" ? (
+          <Alert severity="success">
+            <AlertTitle>Success</AlertTitle>
+            Payment success — <strong>check it out!</strong>
+          </Alert>
+        ) : (
+          <Alert severity="error">
+            <AlertTitle>Error</AlertTitle>
+            Payment fail— <strong>check it out!</strong>
+          </Alert>
+        )}
       </div>
 
-      <div className='buttonLoading'>
-        
-        <div className="buttonItem"><Link to="/"><Button variant="contained">Back Home</Button> </Link></div>
-       
-       
-        <div className="buttonItem"> <Link to="/cart"> <Button variant="contained">Go to cart</Button>   </Link></div>
-       
-        
-     
-  
-     
-      </div>
+      <div className="buttonLoading">
+        <div className="buttonItem">
+          <Link to="/">
+            <Button variant="contained">Back Home</Button>{" "}
+          </Link>
+        </div>
 
+        <div className="buttonItem">
+          {" "}
+          <Link to="/cart">
+            {" "}
+            <Button variant="contained">Go to cart</Button>{" "}
+          </Link>
+        </div>
+      </div>
 
       <div className="spinner">
         <div className="blob blob-0"></div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Loading;

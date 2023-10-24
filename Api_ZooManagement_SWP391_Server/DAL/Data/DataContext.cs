@@ -63,7 +63,6 @@ namespace DAL.Data
                 e.Property(o => o.Email).HasMaxLength(30).IsRequired();
                 e.Property(o => o.FullName).HasMaxLength(50).IsRequired();
                 e.Property(o => o.PhoneNumber).HasMaxLength(10).IsRequired();
-                e.Property(o => o.StartDate).IsRequired();
             });
 
             modelBuilder.Entity<Ticket>(e =>
@@ -180,6 +179,7 @@ namespace DAL.Data
             modelBuilder.Entity<OrderTicket>(entity =>
             {
                 entity.Property(ot => ot.TicketQuantity).IsRequired();
+                entity.Property(ot => ot.StartDate).IsRequired();
             });
 
             modelBuilder.Entity<ExperienceDetail>(entity =>
