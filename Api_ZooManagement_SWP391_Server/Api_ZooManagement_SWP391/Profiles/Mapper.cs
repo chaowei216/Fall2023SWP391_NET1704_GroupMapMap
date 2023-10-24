@@ -26,6 +26,7 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<Cage, CageDto>();
             CreateMap<CageDto, Cage>();
             CreateMap<FoodDto, Food>();
+            CreateMap<Food, FoodDto>(); 
             CreateMap<FoodUpdateDto, Food>();
             CreateMap<AnimalCage, AnimalCageDto>();
             CreateMap<AnimalCageDto, AnimalCage>();
@@ -81,6 +82,10 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<AnimalScheduleDto, Animal>();
             CreateMap<WorkExperience, WorkExperienceDto>();
             CreateMap<ExperienceCreateDto, WorkExperience>();
+            CreateMap<FoodCategoryDto, FoodCategory>();
+            CreateMap<FoodCategory, FoodCategoryDto>();
+            CreateMap<AnimalSpeciesDto, AnimalSpecies>();
+            CreateMap<AnimalSpecies, GetAnimalDto>();
         }
 
     }

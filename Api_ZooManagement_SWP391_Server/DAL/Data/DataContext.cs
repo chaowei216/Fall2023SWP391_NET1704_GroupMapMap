@@ -30,6 +30,8 @@ namespace DAL.Data
         public DbSet<AnimalCage> AnimalCages { get; set; }
         public DbSet<AnimalTrainer> AnimalTrainers { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<AnimalSpecies> AnimalSpecies { get; set; }
+        public DbSet<FoodCategory> FoodCategories { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -90,10 +92,16 @@ namespace DAL.Data
                 entity.Property(e => e.HealthCheck).IsRequired();
                 entity.Property(e => e.Birthday).IsRequired();
                 entity.Property(e => e.Status).IsRequired();
-                entity.Property(e => e.Species).IsRequired();
                 entity.Property(e => e.Rarity).IsRequired();
                 entity.Property(e => e.AnimalImage);
-            }); 
+            });
+
+            modelBuilder.Entity<AnimalSpecies>(entity =>
+            {
+                entity.HasKey(animal => animal.SpeciesId);
+                entity.Property(animal => animal.SpeciesId).HasMaxLength(6);
+                entity.Property(animal => animal.SpeciesName).HasMaxLength(30).IsRequired();
+            });
 
             modelBuilder.Entity<Food>(entity =>
             {
@@ -103,7 +111,13 @@ namespace DAL.Data
                 entity.Property(f => f.Quantity).IsRequired();
                 entity.Property(f => f.ImportDate).IsRequired();
                 entity.Property(f => f.ExpiredDate).IsRequired();
-                entity.Property(f => f.Category).IsRequired();
+            });
+
+            modelBuilder.Entity<FoodCategory>(entity =>
+            {
+                entity.HasKey(animal => animal.CategoryId);
+                entity.Property(animal => animal.CategoryId).HasMaxLength(6);
+                entity.Property(animal => animal.CategoryName).HasMaxLength(30).IsRequired();
             });
 
             modelBuilder.Entity<Transaction>(entity =>

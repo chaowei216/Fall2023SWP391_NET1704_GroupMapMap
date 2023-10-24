@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231022033450_initDb")]
-    partial class initDb
+    [Migration("20231023133540_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -60,14 +60,16 @@ namespace DAL.Migrations
                     b.Property<bool>("Sex")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Species")
+                    b.Property<string>("SpeciesId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.HasKey("AnimalId");
+
+                    b.HasIndex("SpeciesId");
 
                     b.ToTable("Animals");
                 });
@@ -136,6 +138,22 @@ namespace DAL.Migrations
                     b.HasIndex("AnimalId");
 
                     b.ToTable("AnimalSchedules");
+                });
+
+            modelBuilder.Entity("DAL.Entities.AnimalSpecies", b =>
+                {
+                    b.Property<string>("SpeciesId")
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
+
+                    b.Property<string>("SpeciesName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("SpeciesId");
+
+                    b.ToTable("AnimalSpecies");
                 });
 
             modelBuilder.Entity("DAL.Entities.AnimalTrainer", b =>
@@ -237,9 +255,9 @@ namespace DAL.Migrations
                         .HasMaxLength(6)
                         .HasColumnType("nvarchar(6)");
 
-                    b.Property<string>("Category")
+                    b.Property<string>("CategoryId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<DateTime>("ExpiredDate")
                         .HasColumnType("datetime2");
@@ -257,7 +275,25 @@ namespace DAL.Migrations
 
                     b.HasKey("FoodId");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Foods");
+                });
+
+            modelBuilder.Entity("DAL.Entities.FoodCategory", b =>
+                {
+                    b.Property<string>("CategoryId")
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("FoodCategories");
                 });
 
             modelBuilder.Entity("DAL.Entities.News", b =>
@@ -270,6 +306,9 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NewsImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NewsTitle")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -279,6 +318,8 @@ namespace DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(6)
                         .HasColumnType("nvarchar(6)");
 
                     b.HasKey("NewsId");
@@ -523,6 +564,17 @@ namespace DAL.Migrations
                     b.ToTable("WorkExperiences");
                 });
 
+            modelBuilder.Entity("DAL.Entities.Animal", b =>
+                {
+                    b.HasOne("DAL.Entities.AnimalSpecies", "Species")
+                        .WithMany("Animals")
+                        .HasForeignKey("SpeciesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Species");
+                });
+
             modelBuilder.Entity("DAL.Entities.AnimalCage", b =>
                 {
                     b.HasOne("DAL.Entities.Animal", "Animal")
@@ -629,11 +681,24 @@ namespace DAL.Migrations
                     b.Navigation("WorkExperience");
                 });
 
+            modelBuilder.Entity("DAL.Entities.Food", b =>
+                {
+                    b.HasOne("DAL.Entities.FoodCategory", "Category")
+                        .WithMany("Foods")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("DAL.Entities.News", b =>
                 {
                     b.HasOne("DAL.Entities.User", "User")
                         .WithMany("News")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -679,6 +744,11 @@ namespace DAL.Migrations
                     b.Navigation("AnimalTrainers");
                 });
 
+            modelBuilder.Entity("DAL.Entities.AnimalSpecies", b =>
+                {
+                    b.Navigation("Animals");
+                });
+
             modelBuilder.Entity("DAL.Entities.Area", b =>
                 {
                     b.Navigation("Cages");
@@ -692,6 +762,11 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Food", b =>
                 {
                     b.Navigation("AnimalFoods");
+                });
+
+            modelBuilder.Entity("DAL.Entities.FoodCategory", b =>
+                {
+                    b.Navigation("Foods");
                 });
 
             modelBuilder.Entity("DAL.Entities.Order", b =>

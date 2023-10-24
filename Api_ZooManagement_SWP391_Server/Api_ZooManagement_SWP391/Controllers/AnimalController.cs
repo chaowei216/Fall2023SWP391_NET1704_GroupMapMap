@@ -21,8 +21,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         private readonly IFoodService _foodService;
         private readonly IScheduleService _scheduleService;
         private readonly IAnimalScheduleService _animalScheduleService;
-        public Regex animalRegex = new Regex(@"^AN\d{4}");
-        public Regex userRegex = new Regex(@"^ZT\d{4}");
+        private readonly IAnimalSpeciesService _animalSpeciesService;
 
         public AnimalController(IMapper mapper, 
                                 IAnimalService animalService,
@@ -30,7 +29,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                                 IUserService userService,
                                 IFoodService foodService,
                                 IScheduleService scheduleService,
-                                IAnimalScheduleService animalScheduleService)
+                                IAnimalScheduleService animalScheduleService,
+                                IAnimalSpeciesService animalSpeciesService)
         {
             _animalService = animalService;
             _mapper = mapper;
@@ -39,13 +39,15 @@ namespace Api_ZooManagement_SWP391.Controllers
             _foodService = foodService;
             _scheduleService = scheduleService;
             _animalScheduleService = animalScheduleService;
+            _animalSpeciesService = animalSpeciesService;
         }
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetAnimalDto>))]
+        [ProducesResponseType(400)]
         public IActionResult GetAllAnimal()
         {
-            var animals = _animalService.GetAll();
+            var animals = _animalService.GetAll().ToList();
             foreach (var animal in animals)
             {
                 animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;
@@ -68,7 +70,21 @@ namespace Api_ZooManagement_SWP391.Controllers
                         });
                     }
                 }
-                var schedules = _scheduleService.GetScheduleByAnimalId(animal.AnimalId);
+
+                var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
+                if (schedules != null)
+                {
+                    animal.Schedules = new List<AnimalScheduleCreateDto>();
+                    foreach (var schedule in schedules)
+                    {
+                        animal.Schedules.Add(new AnimalScheduleCreateDto
+                        {
+                            ScheduleId = schedule.ScheduleId,
+                            Description = schedule.Description,
+                            Time = schedule.Time,
+                        });
+                    }
+                }
             }
 
             return Ok(animals);
@@ -76,6 +92,7 @@ namespace Api_ZooManagement_SWP391.Controllers
 
         [HttpGet("page/{page}")]
         [ProducesResponseType(200, Type = typeof(AnimalResponseDto))]
+        [ProducesResponseType(400)]
         public IActionResult GetAnimals(int page)
         {
             var animals = _animalService.GetAll();
@@ -232,10 +249,11 @@ namespace Api_ZooManagement_SWP391.Controllers
             var userMap = _mapper.Map<AnimalTrainer>(animalDto);
             var cageMap = _mapper.Map<AnimalCage>(animalDto);
             var foodAmount = animalDto.AnimalFoods;
-
+            var species = _animalSpeciesService.GetBySpeciesName(animalDto.SpeciesName);
             animalMap.AnimalId = animalId;
             cageMap.EntryCageDate = DateTime.Now;    
             userMap.StartTrainDate = DateTime.Now;
+            animalMap.Species = species;
 
             animalMap.Status = true;
 
@@ -260,12 +278,10 @@ namespace Api_ZooManagement_SWP391.Controllers
             {
                 return BadRequest("This cage is full");
             }
+
             if (_animalService.GetTrainersCanTrain().Count() >= 10)
             {
                 return BadRequest("Zoo trainer have trained 10 animals");
-            }
-            if(!userRegex.IsMatch(userId)) {
-                return BadRequest("This is not a zoo trainer!!!");
             }
 
             if (!_animalService.AddAnimal(userId, cageId, animalFoods, animalMap))

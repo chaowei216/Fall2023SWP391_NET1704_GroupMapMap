@@ -4,6 +4,7 @@ using BBL.Interfaces;
 using AutoMapper;
 using DTO.Dtos;
 using DAL.Entities;
+using BBL.Services;
 
 namespace Api_ZooManagement_SWP391.Controllers
 {
@@ -13,18 +14,30 @@ namespace Api_ZooManagement_SWP391.Controllers
     {
         private readonly IFoodService _foodService;
         private readonly IMapper _mapper;
+        private readonly IFoodCategoryService _foodCategoryService;
 
-        public FoodController(IFoodService foodService, IMapper mapper)
+        public FoodController(IFoodService foodService, IMapper mapper, IFoodCategoryService foodCategoryService)
         {
             _foodService = foodService;
             _mapper = mapper;
+            _foodCategoryService = foodCategoryService;
         }
 
         [HttpGet()]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Food>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<FoodDto>))]
         public IActionResult GetFood()
         {
-            var foods = _foodService.GetAllFood();
+            var getFoods = _foodService.GetAllFood().ToList();
+            var foods = _mapper.Map<List<FoodDto>>(_foodService.GetAllFood());
+            if (getFoods.Count > 0)
+            {
+                for (int index = 0; index < foods.Count; index++)
+                {
+                    var food = _foodCategoryService.GetByCateId(getFoods[index].CategoryId);
+
+                    foods[index].CategoryName = food.CategoryName;
+                }
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -61,12 +74,13 @@ namespace Api_ZooManagement_SWP391.Controllers
             }
 
             var foodMap = _mapper.Map<Food>(foodDto);
-
+            var cate = _foodCategoryService.GetByCateName(foodDto.CategoryName);
             if (foodMap.Quantity == 0)
                 return BadRequest("Fail to Add");
             int count = _foodService.GetAllFood().Count() + 1;
             var foodId = "FD" + count.ToString().PadLeft(4, '0');
             foodMap.FoodId = foodId;
+            foodMap.Category = cate;
 
             if (!ModelState.IsValid)
             {

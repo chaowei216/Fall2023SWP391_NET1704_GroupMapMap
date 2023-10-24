@@ -9,7 +9,6 @@
         public string Region { get; set; }
         public string HealthCheck { get; set; }
         public DateTime Birthday { get; set; }
-        public string Species { get; set; }
         public bool Rarity { get; set; }
         public DateTime EntryCageDate { get; set; }
         public DateTime StartTrainDate { get; set; }

@@ -14,7 +14,8 @@ namespace DAL.Entities
         public bool Status { get; set; }
         public bool Rarity { get; set; }
         public string? AnimalImage {  get; set; }
-        public string Species { get; set; }
+        public AnimalSpecies Species { get; set; }
+        public string SpeciesId { get; set; }
         public ICollection<AnimalCage> AnimalCages { get; set; }
         public ICollection<AnimalTrainer> AnimalTrainers { get; set; }
         public ICollection<AnimalSchedule> AnimalSchedules { get; set; }

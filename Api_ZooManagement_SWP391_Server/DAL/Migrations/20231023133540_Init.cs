@@ -5,29 +5,20 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DAL.Migrations
 {
-    public partial class initDb : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Animals",
+                name: "AnimalSpecies",
                 columns: table => new
                 {
-                    AnimalId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Sex = table.Column<bool>(type: "bit", nullable: false),
-                    Region = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    HealthCheck = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<bool>(type: "bit", nullable: false),
-                    Rarity = table.Column<bool>(type: "bit", nullable: false),
-                    AnimalImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Species = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    SpeciesId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    SpeciesName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Animals", x => x.AnimalId);
+                    table.PrimaryKey("PK_AnimalSpecies", x => x.SpeciesId);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,19 +35,15 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Foods",
+                name: "FoodCategories",
                 columns: table => new
                 {
-                    FoodId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
-                    FName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    ImportDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ExpiredDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CategoryId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    CategoryName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Foods", x => x.FoodId);
+                    table.PrimaryKey("PK_FoodCategories", x => x.CategoryId);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,6 +141,33 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Animals",
+                columns: table => new
+                {
+                    AnimalId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Sex = table.Column<bool>(type: "bit", nullable: false),
+                    Region = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    HealthCheck = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false),
+                    Rarity = table.Column<bool>(type: "bit", nullable: false),
+                    AnimalImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SpeciesId = table.Column<string>(type: "nvarchar(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Animals", x => x.AnimalId);
+                    table.ForeignKey(
+                        name: "FK_Animals_AnimalSpecies_SpeciesId",
+                        column: x => x.SpeciesId,
+                        principalTable: "AnimalSpecies",
+                        principalColumn: "SpeciesId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cages",
                 columns: table => new
                 {
@@ -175,28 +189,93 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AnimalFoods",
+                name: "Foods",
                 columns: table => new
                 {
-                    AnimalId = table.Column<string>(type: "nvarchar(6)", nullable: false),
-                    FoodId = table.Column<string>(type: "nvarchar(6)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Amount = table.Column<float>(type: "real", nullable: false)
+                    FoodId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    FName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    ImportDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExpiredDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CategoryId = table.Column<string>(type: "nvarchar(6)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AnimalFoods", x => new { x.AnimalId, x.FoodId });
+                    table.PrimaryKey("PK_Foods", x => x.FoodId);
                     table.ForeignKey(
-                        name: "FK_AnimalFoods_Animals_AnimalId",
-                        column: x => x.AnimalId,
-                        principalTable: "Animals",
-                        principalColumn: "AnimalId",
+                        name: "FK_Foods_FoodCategories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "FoodCategories",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    OrderId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    TotalPrice = table.Column<double>(type: "float", nullable: false),
+                    TransactionId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.OrderId);
+                    table.ForeignKey(
+                        name: "FK_Orders_Transactions_TransactionId",
+                        column: x => x.TransactionId,
+                        principalTable: "Transactions",
+                        principalColumn: "TransactionId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "News",
+                columns: table => new
+                {
+                    NewsId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NewsTitle = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    NewsContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NewsImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_News", x => x.NewsId);
+                    table.ForeignKey(
+                        name: "FK_News_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExperienceDetails",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(6)", nullable: false),
+                    ExperienceId = table.Column<string>(type: "nvarchar(6)", nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExperienceDetails", x => new { x.UserId, x.ExperienceId });
+                    table.ForeignKey(
+                        name: "FK_ExperienceDetails_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AnimalFoods_Foods_FoodId",
-                        column: x => x.FoodId,
-                        principalTable: "Foods",
-                        principalColumn: "FoodId",
+                        name: "FK_ExperienceDetails_WorkExperiences_ExperienceId",
+                        column: x => x.ExperienceId,
+                        principalTable: "WorkExperiences",
+                        principalColumn: "ExperienceId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -227,28 +306,6 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    OrderId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    TotalPrice = table.Column<double>(type: "float", nullable: false),
-                    TransactionId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.OrderId);
-                    table.ForeignKey(
-                        name: "FK_Orders_Transactions_TransactionId",
-                        column: x => x.TransactionId,
-                        principalTable: "Transactions",
-                        principalColumn: "TransactionId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AnimalTrainers",
                 columns: table => new
                 {
@@ -275,51 +332,6 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "News",
-                columns: table => new
-                {
-                    NewsId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
-                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NewsTitle = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    NewsContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(6)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_News", x => x.NewsId);
-                    table.ForeignKey(
-                        name: "FK_News_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ExperienceDetails",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(6)", nullable: false),
-                    ExperienceId = table.Column<string>(type: "nvarchar(6)", nullable: false),
-                    Company = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ExperienceDetails", x => new { x.UserId, x.ExperienceId });
-                    table.ForeignKey(
-                        name: "FK_ExperienceDetails_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ExperienceDetails_WorkExperiences_ExperienceId",
-                        column: x => x.ExperienceId,
-                        principalTable: "WorkExperiences",
-                        principalColumn: "ExperienceId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AnimalCages",
                 columns: table => new
                 {
@@ -342,6 +354,32 @@ namespace DAL.Migrations
                         column: x => x.CageId,
                         principalTable: "Cages",
                         principalColumn: "CId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AnimalFoods",
+                columns: table => new
+                {
+                    AnimalId = table.Column<string>(type: "nvarchar(6)", nullable: false),
+                    FoodId = table.Column<string>(type: "nvarchar(6)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Amount = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AnimalFoods", x => new { x.AnimalId, x.FoodId });
+                    table.ForeignKey(
+                        name: "FK_AnimalFoods_Animals_AnimalId",
+                        column: x => x.AnimalId,
+                        principalTable: "Animals",
+                        principalColumn: "AnimalId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AnimalFoods_Foods_FoodId",
+                        column: x => x.FoodId,
+                        principalTable: "Foods",
+                        principalColumn: "FoodId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -381,6 +419,11 @@ namespace DAL.Migrations
                 column: "FoodId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Animals_SpeciesId",
+                table: "Animals",
+                column: "SpeciesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AnimalSchedules_AnimalId",
                 table: "AnimalSchedules",
                 column: "AnimalId");
@@ -405,6 +448,11 @@ namespace DAL.Migrations
                 name: "IX_ExperienceDetails_ExperienceId",
                 table: "ExperienceDetails",
                 column: "ExperienceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Foods_CategoryId",
+                table: "Foods",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_News_UserId",
@@ -487,6 +535,12 @@ namespace DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Areas");
+
+            migrationBuilder.DropTable(
+                name: "FoodCategories");
+
+            migrationBuilder.DropTable(
+                name: "AnimalSpecies");
 
             migrationBuilder.DropTable(
                 name: "Transactions");
