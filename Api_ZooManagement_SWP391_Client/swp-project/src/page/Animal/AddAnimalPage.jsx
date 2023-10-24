@@ -642,7 +642,7 @@ function AddAnimal(pros) {
                                     <div style={{ height: "50px" }}>
                                       {option.email} - FirstName :{" "}
                                       {option.firstname} - LastName :{" "}
-                                      {option.lastname}
+                                      {option.lastname} - Training Animal: {" "} {option.countAnimal}
                                     </div>
                                   </option>
                                 ))}

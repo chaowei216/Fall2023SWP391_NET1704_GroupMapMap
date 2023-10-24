@@ -27,6 +27,10 @@ export const schemaAnimal = yup.object().shape({
     .string()
     .required("ZooTrainerID is required")
     .notOneOf(["Choose ZooTrainer"], "Please choose ZooTrainer"),
+  species: yup
+    .string()
+    .required("Species is required")
+    .notOneOf(["Choose Species"], "Please choose Species"),
   description: yup
     .string()
     .required("Description is required")

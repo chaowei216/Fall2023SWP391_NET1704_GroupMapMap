@@ -38,6 +38,7 @@ const items = [
     getItem("Area & Cage Management", "sub2", <AppstoreOutlined />, [
         getItem("Area", "/staff/area"),
         getItem("Cage", "/staff/cage"),
+        getItem("Food", "/staff/food"),
         getItem("Submenu", "sub3", null, [
             getItem("Option 7", "7"),
             getItem("Option 8", "8"),

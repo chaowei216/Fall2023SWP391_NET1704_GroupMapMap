@@ -34,7 +34,7 @@ function TableNews() {
     let mounted = true;
     getList().then((items) => {
       if (mounted) {
-        setListNews(items);
+        setListNews(items.filter(item => item.status === true));
       }
     });
     return () => (mounted = false);
@@ -73,6 +73,16 @@ function TableNews() {
     setDataNewsView(food);
     setShowmodalView(true);
   };
+  const handleDeleteNews = async (item) => {
+    const id = item.newsId;
+    const response = await fetch(`https://localhost:44352/api/News/${id}`, {
+      method: "DELETE",
+    });
+    if (response.ok) {
+      console.log("Success");
+      window.location.reload();
+    }
+  }
   //   const handleViewUser = (item) => {
   //     // setDataUserEdit(item);
   //     const animal = item;
@@ -127,7 +137,7 @@ function TableNews() {
                       <td>{items.authorName}</td>
                       <td>{items.releaseDate.slice(0, 10)}</td>
                       <td>
-                        {items.status === true ? (
+                        {items.checked === true ? (
                           <div
                             style={{
                               background: "#008800",
@@ -172,7 +182,12 @@ function TableNews() {
                         >
                           <EditIcon />
                         </Button>
-                        <Button variant="text" style={{ padding: 0 }}>
+                        <Button
+                          onClick={() => {
+                            handleDeleteNews(items);
+                          }}
+                          variant="text"
+                          style={{ padding: 0 }}>
                           <DeleteIcon />
                         </Button>
                       </td>

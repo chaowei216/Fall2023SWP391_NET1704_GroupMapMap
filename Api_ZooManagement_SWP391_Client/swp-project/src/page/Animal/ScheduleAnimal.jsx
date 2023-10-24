@@ -148,11 +148,11 @@ export default function ScheduleAnimal(pros) {
                           <div className="mb-3">
                             <label className="form-label">Choose Animal</label>
                             <Form.Select
-                              size="lg"
+                              // size="lg"
                               placeholder="Chọn món ăn"
                               id="animalId"
                               name="animalId"
-                              style={{ width: "85%" }}
+                              style={{ width: "73%"}}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               isInvalid={errors.animalId && touched.animalId}

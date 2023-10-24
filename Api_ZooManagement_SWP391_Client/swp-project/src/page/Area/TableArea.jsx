@@ -118,7 +118,7 @@ function TableArea() {
                                             <td>{items.areaId}</td>
                                             <td>{items.areaName}</td>
                                             <td>{items.description}</td>
-                                            <td style={{ width: "190px" }}>
+                                            <td style={{ width: "220px" }}>
                                                 {role && role === 'STAFF' && (
                                                     <Button
                                                         variant="text"

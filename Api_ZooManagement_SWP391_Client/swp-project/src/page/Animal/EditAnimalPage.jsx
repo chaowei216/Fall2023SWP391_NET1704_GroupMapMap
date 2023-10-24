@@ -673,7 +673,7 @@ export default function EditAnimal(pros) {
                               >
                                 ZooTrainerID : {option.userId} - FirstName :{" "}
                                 {option.firstname} - LastName :{" "}
-                                {option.lastname}
+                                {option.lastname} - Training Animal: {" "} {option.countAnimal}
                               </option>
                             ))}
                           </Form.Select>
