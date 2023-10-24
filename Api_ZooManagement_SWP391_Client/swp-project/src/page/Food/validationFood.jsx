@@ -15,15 +15,15 @@ export const schema = yup.object().shape({
       /^[a-zA-Z-.']+$/,
       "Category can only contain letters, dashes, periods, and apostrophes"
     ),
-  category: yup
-    .string()
-    .required("Category is required")
-    .min(1, "Category must be at least 1 characters")
-    .max(50, "Category cannot be more than 50 characters")
-    .matches(
-      /^[a-zA-Z-.']+$/,
-      "Category can only contain letters, dashes, periods, and apostrophes"
-    ),
+  // category: yup
+  //   .string()
+  //   .required("Category is required")
+  //   .min(1, "Category must be at least 1 characters")
+  //   .max(50, "Category cannot be more than 50 characters")
+  //   .matches(
+  //     /^[a-zA-Z-.']+$/,
+  //     "Category can only contain letters, dashes, periods, and apostrophes"
+  //   ),
   quantity: yup
     .number()
     .required()

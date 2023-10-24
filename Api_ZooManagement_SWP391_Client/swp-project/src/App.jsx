@@ -81,6 +81,7 @@ function App() {
             <Route path="profile" element={<ViewStaff />}></Route>
             <Route path="cage" element={<TableCage />}></Route>
             <Route path="area" element={<TableArea />}></Route>
+            <Route path="food" element={<TableFood />}></Route>
             {/* <Route path="3" element={<TableFood />}></Route> */}
           </Route>
           <Route path="/ZooTrainer" element={<HeaderLayOutTrainer />}>

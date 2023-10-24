@@ -56,7 +56,7 @@ function AddAnimal(pros) {
     return () => (mounted = false);
   }, []);
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
-  const [selectedSpecies, setSelectedSpecies] = useState("Pig");
+  const [selectedSpecies, setSelectedSpecies] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("North America");
   const [selectedCage, setSelectedCage] = useState();
 
@@ -87,6 +87,8 @@ function AddAnimal(pros) {
 
   const [listCage, setListCage] = useState([]);
   const [listZooTrainer, setListZooTrainer] = useState([]);
+  const [listSpecies, setListSpecies] = useState([]);
+
   const [selectedAnimalId, setSelectedAnimalId] = useState("");
   const handleCageSelect = (event) => {
     console.log(event.target.value);
@@ -118,6 +120,21 @@ function AddAnimal(pros) {
     getZooTrainerList().then((items) => {
       if (mounted) {
         setListZooTrainer(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
+
+  const getSpeciesList = () => {
+    return fetch("https://localhost:44352/api/AnimalSpecies").then((data) =>
+      data.json()
+    );
+  };
+  useEffect(() => {
+    let mounted = true;
+    getSpeciesList().then((items) => {
+      if (mounted) {
+        setListSpecies(items);
       }
     });
     return () => (mounted = false);
@@ -159,6 +176,8 @@ function AddAnimal(pros) {
     //   return;
     // })
     console.log(values);
+    const userId = values.userId;
+    const cageId = values.cageId;
     let img = "";
     if (values.animalImage != "") {
       img = values.animalImage;
@@ -170,23 +189,17 @@ function AddAnimal(pros) {
       region: values.region,
       healthCheck: values.healthCheck,
       birthday: values.birthday,
-      species: values.species,
       rarity: values.rarity,
       entryCageDate: values.entryCageDate,
       startTrainDate: values.startTrainDate,
       animalImage: "",
+      speciesName: values.species,
       animalFoods: values.fields,
     };
     console.log(animal);
-    const params = {
-      userId: values.userId,
-      cageId: values.cageId,
-    };
-    console.log(params);
     // const url = `https://localhost:44352/api/Animal?${new URLSearchParams(
     //   params
     // )}`;
-    const url = `https://localhost:44352/api/Animal/Animal?userId=${values.userId}&cageId=${values.cageId}`;
     const request = {
       method: "POST",
       headers: {
@@ -194,7 +207,7 @@ function AddAnimal(pros) {
       },
       body: JSON.stringify(animal),
     };
-    const response = await fetch(url, request);
+    const response = await fetch(`https://localhost:44352/api/Animal/Animal?userId=ZT0001&cageId=A0001`, request);
     if (response.ok) {
       console.log("Success");
       navigator("/staff/2");
@@ -231,7 +244,7 @@ function AddAnimal(pros) {
                     birthday: "",
                     startTrainDate: "",
                     cageId: "",
-                    species: "Pig",
+                    species: "",
                     entryCageDate: "",
                     rarity: true,
                     fields,
@@ -288,27 +301,52 @@ function AddAnimal(pros) {
                                     <Form.Select
                                       value={values.region}
                                       onChange={(e) => {
-                                        setFieldValue(
-                                          "region",
-                                          e.target.value
-                                        );
+                                        setFieldValue("region", e.target.value);
                                         setSelectedRegion(e.target.value);
                                       }}
                                     >
-                                      <option value="North America">North America</option>
-                                      <option value="South America">South America</option>
-                                      <option value="Central America">Central America</option>
-                                      <option value="Caribbean">Caribbean</option>
-                                      <option value="Central & South Asia">Central & South Asia</option>
-                                      <option value="Northeastern Asia">Northeastern Asia</option>
-                                      <option value="Australia and Oceania">Australia and Oceania</option>
-                                      <option value="Northern Europe">Northern Europe</option>
-                                      <option value="Southern Europe">Southern Europe</option>
-                                      <option value="Eastern Europe">Eastern Europe</option>
-                                      <option value="Western Europe">Western Europe</option>
-                                      <option value="Middle East">Middle East</option>
-                                      <option value="Northern Africa">Northern Africa</option>
-                                      <option value="Southern Africa">Southern Africa</option>
+                                      <option value="North America">
+                                        North America
+                                      </option>
+                                      <option value="South America">
+                                        South America
+                                      </option>
+                                      <option value="Central America">
+                                        Central America
+                                      </option>
+                                      <option value="Caribbean">
+                                        Caribbean
+                                      </option>
+                                      <option value="Central & South Asia">
+                                        Central & South Asia
+                                      </option>
+                                      <option value="Northeastern Asia">
+                                        Northeastern Asia
+                                      </option>
+                                      <option value="Australia and Oceania">
+                                        Australia and Oceania
+                                      </option>
+                                      <option value="Northern Europe">
+                                        Northern Europe
+                                      </option>
+                                      <option value="Southern Europe">
+                                        Southern Europe
+                                      </option>
+                                      <option value="Eastern Europe">
+                                        Eastern Europe
+                                      </option>
+                                      <option value="Western Europe">
+                                        Western Europe
+                                      </option>
+                                      <option value="Middle East">
+                                        Middle East
+                                      </option>
+                                      <option value="Northern Africa">
+                                        Northern Africa
+                                      </option>
+                                      <option value="Southern Africa">
+                                        Southern Africa
+                                      </option>
                                     </Form.Select>
                                   )}
                                 </Field>
@@ -324,6 +362,7 @@ function AddAnimal(pros) {
                                   {() => (
                                     <Form.Select
                                       value={values.species}
+                                      onBlur={handleBlur}
                                       onChange={(e) => {
                                         setFieldValue(
                                           "species",
@@ -332,13 +371,20 @@ function AddAnimal(pros) {
                                         setSelectedSpecies(e.target.value);
                                       }}
                                     >
-                                      <option value="Pig">Pig</option>
-                                      <option value="Rabbit">Rabbit</option>
-                                      <option value="Dog">Dog</option>
-                                      <option value="Cat">Cat</option>
-                                      <option value="Monkey">Monkey</option>
-                                      <option value="Shark">Shark</option>
-                                      <option value="Lion">Lion</option>
+                                      <option value={null}>
+                                        Choose Species
+                                      </option>
+                                      {/* Render các option từ API */}
+                                      {listSpecies.map((option) => (
+                                        <option
+                                          key={option.speciesName}
+                                          value={option.speciesName}
+                                        >
+                                          <div style={{ height: "50px" }}>
+                                            {option.speciesName}
+                                          </div>
+                                        </option>
+                                      ))}
                                     </Form.Select>
                                   )}
                                 </Field>
@@ -655,8 +701,8 @@ function AddAnimal(pros) {
                                 >
                                   <Field
                                     name={`fields[${index}].foodId`}
-                                  // as="select"
-                                  // onChange={(e) => handleChange(e.target.value)}
+                                    // as="select"
+                                    // onChange={(e) => handleChange(e.target.value)}
                                   >
                                     {({ field, form }) => (
                                       <Form.Select

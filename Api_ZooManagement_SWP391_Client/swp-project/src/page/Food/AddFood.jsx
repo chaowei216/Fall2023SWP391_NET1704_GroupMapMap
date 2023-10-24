@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MDBBtn,
   MDBModal,
@@ -21,6 +21,22 @@ import { useNavigate } from "react-router-dom";
 export default function AddFood(pros) {
   const [staticModal, setStaticModal] = useState(false);
   const { show, handleClose } = pros;
+  const [listCategory, setListCategory] = useState([]);
+  const getCategory = () => {
+    return fetch("https://localhost:44352/api/FoodCategory").then((data) =>
+      data.json()
+    );
+  };
+  useEffect(() => {
+    let mounted = true;
+    getCategory().then((items) => {
+      if (mounted) {
+        setListCategory(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
+
   const navigate = useNavigate();
   const handleSave = () => {
     console.log(formik.errors);
@@ -34,7 +50,7 @@ export default function AddFood(pros) {
       quantity: values.quantity,
       importDate: values.importDate,
       expiredDate: values.expiredDate,
-      category: values.category,
+      categoryName: values.categoryName,
     };
 
     const url = "https://localhost:44352/api/Food";
@@ -48,7 +64,7 @@ export default function AddFood(pros) {
     const response = await fetch(url, request);
     if (response.ok) {
       console.log("Success");
-      navigate("/staff/3");
+      navigate("/staff/food");
       window.location.reload();
     }
   };
@@ -58,7 +74,7 @@ export default function AddFood(pros) {
       quantity: "",
       importDate: "",
       expiredDate: "",
-      category: "",
+      categoryName: "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -108,25 +124,32 @@ export default function AddFood(pros) {
                       </div>
                       <div className="mb-3">
                         <label className="form-label">Enter Category</label>
-                        <Form.Control
-                          type="text"
-                          style={{ height: "56px" }}
-                          id="category"
-                          placeholder="category"
-                          aria-describedby="inputGroupPrepend"
-                          name="category"
-                          value={formik.values.category}
+                        <Form.Select
+                          size="lg"
+                          id="categoryName"
+                          name="categoryName"
+                          placeholder="Chọn món ăn"
+                          style={{ width: "100%" }}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          isInvalid={
-                            formik.errors.category && formik.touched.category
-                          }
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {formik.errors.category}
-                        </Form.Control.Feedback>
+                          // isInvalid={formik.errors.categoryName && formik.touched.categoryName}
+                        >
+                          <option value={null}>Choose Category Name</option>
+                          {/* Render các option từ API */}
+                          {listCategory.map((option) => (
+                            <option
+                              key={option.categoryName}
+                              value={option.categoryName}
+                            >
+                              <div style={{ height: "50px" }}>
+                                {option.categoryName}
+                              </div>
+                            </option>
+                          ))}
+                        </Form.Select>
+                        {/* <Form.Control.Feedback type="invalid">
+                          {errors.userId}
+                        </Form.Control.Feedback> */}
                       </div>
                       <div className="mb-3">
                         <label className="form-label">Enter The Quantity</label>

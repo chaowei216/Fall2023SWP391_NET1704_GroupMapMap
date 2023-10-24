@@ -98,7 +98,7 @@ function TableFood() {
                 <SearchIcon />
               </Button>
             </div>
-            {role && role === 'ZOOTRAINER' &&
+            {role && role === 'STAFF' &&
               <div>
                 <Button variant="contained" onClick={handleClick}>
                   <PlusOutlined />
