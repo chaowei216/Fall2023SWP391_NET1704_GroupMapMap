@@ -18,9 +18,9 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<News, NewsUpdateDto>();
             CreateMap<NewsUpdateDto, News>();
             CreateMap<Review, ReviewDto>();
-            CreateMap<ReviewCreateDto, Review>();
-            CreateMap<Animal, AnimalDto>();
-            CreateMap<AnimalDto, Animal>();
+            CreateMap<ReviewDto, Review>();
+            CreateMap<Review, ReviewUpdateDto>();
+            CreateMap<ReviewUpdateDto, Review>();
             CreateMap<User, UserDto>();
             CreateMap<UserCreateDto, User>();
             CreateMap<Area, AreaCreateDto>();
@@ -32,8 +32,6 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<FoodDto, Food>();
             CreateMap<Food, FoodDto>(); 
             CreateMap<FoodUpdateDto, Food>();
-            CreateMap<AnimalCage, AnimalCageDto>();
-            CreateMap<AnimalCageDto, AnimalCage>();
             CreateMap<AnimalSchedule, AnimalScheduleDto>();
             CreateMap<AnimalScheduleDto, AnimalSchedule>();
             CreateMap<AnimalTrainer, AnimalTrainerDto>();
@@ -45,10 +43,6 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<Ticket, TicketShowDto>();
             CreateMap<UpdateAnimalDto, Animal>();
             CreateMap<Animal, UpdateAnimalDto>();
-            CreateMap<AnimalTrainer, AnimalDto>();
-            CreateMap<AnimalDto, AnimalTrainer>();
-            CreateMap<AnimalCage, AnimalDto>();
-            CreateMap<AnimalDto, AnimalCage>();
             CreateMap<AnimalTrainer, UpdateAnimalDto>();
             CreateMap<UpdateAnimalDto, AnimalTrainer>();
             CreateMap<UpdateAnimalDto, AnimalCage>();
@@ -91,6 +85,7 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<FoodCategory, FoodCategoryDto>();
             CreateMap<AnimalSpeciesDto, AnimalSpecies>();
             CreateMap<AnimalSpecies, GetAnimalDto>();
+            CreateMap<FoodCreateDto, Food>();
         }
 
     }
