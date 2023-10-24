@@ -207,7 +207,7 @@ function AddAnimal(pros) {
       },
       body: JSON.stringify(animal),
     };
-    const response = await fetch(`https://localhost:44352/api/Animal/Animal?userId=ZT0001&cageId=A0001`, request);
+    const response = await fetch(`https://localhost:44352/api/Animal/Animal?userId=${userId}&cageId=${cageId}`, request);
     if (response.ok) {
       console.log("Success");
       navigator("/staff/2");

@@ -413,6 +413,7 @@ export default function EditAnimal(pros) {
                               <Radio.Group
                                 id="status"
                                 name="status"
+                                disabled
                                 style={{ height: "33%", width: "100%" }}
                                 onChange={(e) => {
                                   setStatus(e.target.value);

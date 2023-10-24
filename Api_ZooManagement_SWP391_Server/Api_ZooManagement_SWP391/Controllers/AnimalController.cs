@@ -123,6 +123,20 @@ namespace Api_ZooManagement_SWP391.Controllers
                             });
                         }
                     }
+                    var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
+                    if (schedules != null)
+                    {
+                        animal.Schedules = new List<AnimalScheduleCreateDto>();
+                        foreach (var schedule in schedules)
+                        {
+                            animal.Schedules.Add(new AnimalScheduleCreateDto
+                            {
+                                ScheduleId = schedule.ScheduleId,
+                                Description = schedule.Description,
+                                Time = schedule.Time,
+                            });
+                        }
+                    }
                 }
 
             }

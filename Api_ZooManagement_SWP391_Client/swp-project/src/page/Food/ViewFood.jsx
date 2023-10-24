@@ -36,8 +36,7 @@ export default function ViewFood(pros) {
       setQuantity(dataFoodView.quantity);
       setImportDate(dataFoodView.importDate.slice(0, 10));
       setExpiredDate(dataFoodView.expiredDate.slice(0, 10));
-      setCategory(dataFoodView.category);
-      setAnimalFood(dataFoodView.animalFood);
+      setCategory(dataFoodView.categoryName);
     }
   }, [dataFoodView]);
 

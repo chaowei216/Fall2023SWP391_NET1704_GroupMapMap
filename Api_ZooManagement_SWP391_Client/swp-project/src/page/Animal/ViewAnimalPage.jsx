@@ -46,7 +46,10 @@ export default function ViewAnimal(pros) {
   const [animalID, setAnimalID] = useState("");
   const [listFoods, setListFoods] = useState([]);
   const [foodId, setFoodID] = useState("");
+  const [scheduleId, setScheduleId] = useState("");
   const [listFoodsFilter, setListFoodsFilter] = useState([]);
+  const [listSchedule, setListSchedule] = useState([]);
+  const [listScheduleFilter, setListScheduleFilter] = useState([]);
 
   useEffect(() => {
     if (show) {
@@ -83,11 +86,20 @@ export default function ViewAnimal(pros) {
             ? null
             : dataAnimalView.startTrainDate.slice(0, 10)
         ),
-        setEndTraining(dataAnimalView.endTrainDate === null ? date : dataAnimalView.endTrainDate.slice(0,10)),
-        setOutCage(dataAnimalView.outCageDate === null ? date : dataAnimalView.outCageDate.slice(0,10) ),
-        setSpecies(dataAnimalView.species),
+        setEndTraining(
+          dataAnimalView.endTrainDate === null
+            ? null
+            : dataAnimalView.endTrainDate.slice(0, 10)
+        ),
+        setOutCage(
+          dataAnimalView.outCageDate === null
+            ? null
+            : dataAnimalView.outCageDate.slice(0, 10)
+        ),
+        setSpecies(dataAnimalView.speciesName),
         setRarity(dataAnimalView.rarity);
       setFoodID(dataAnimalView.foods);
+      setScheduleId(dataAnimalView.schedules);
     }
   }, [dataAnimalView]);
   const date = new Date();
@@ -115,6 +127,20 @@ export default function ViewAnimal(pros) {
     getFoodList().then((items) => {
       if (mounted) {
         setListFoods(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
+  useEffect(() => {
+    const getScheduleList = () => {
+      return fetch(`https://localhost:44352/api/Schedule`).then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getScheduleList().then((items) => {
+      if (mounted) {
+        setListSchedule(items);
       }
     });
     return () => (mounted = false);
@@ -161,6 +187,54 @@ export default function ViewAnimal(pros) {
     }
   }, [animalID]);
   useEffect(() => {
+    if (scheduleId) {
+      // Lấy ids
+      // const fIds = foodId.map(f => f.id);
+      // // Lọc foods
+      // const filteredFoods = listFoods.filter(food => {
+      //   return fIds.includes(food.foodId);
+      // }).map(food => {
+      //   // Tìm fId object có id trùng với food.id
+      //   const fId = fIds.find(f => f.id === food.foodId);
+
+      //   // Trả về object mới có quantity là của fId
+      //   return {
+      //     ...food,
+      //     quantity: foodId.quantity
+      //   }
+      // });
+      const scheduleFilter = listSchedule
+        .filter((schedule) => {
+          return scheduleId.some(
+            (sId) => sId.scheduleId === schedule.scheduleId
+          );
+        })
+        .map((food) => {
+          // Tìm fId object có id trùng với food.id
+          const matchedFId = scheduleId.find(
+            (fId) => fId.scheduleId === food.scheduleId
+          );
+
+          // Nếu không tìm thấy fId thì trả về food
+          if (!matchedFId) {
+            return food;
+          }
+
+          // Trả về object mới có quantity là của fId
+          return {
+            ...food,
+            name: matchedFId.scheduleName,
+            time: matchedFId.time,
+            description: matchedFId.description,
+          };
+        });
+      // Cập nhật state
+      setListScheduleFilter(scheduleFilter);
+      console.log(listScheduleFilter);
+    }
+  }, [listSchedule, scheduleId]);
+
+  useEffect(() => {
     if (foodId) {
       // Lấy ids
       // const fIds = foodId.map(f => f.id);
@@ -201,6 +275,7 @@ export default function ViewAnimal(pros) {
       setListFoodsFilter(foodFilter);
     }
   }, [listFoods, foodId]);
+
   const handleButton = () => {
     setShowList(!showList);
   };
@@ -344,7 +419,7 @@ export default function ViewAnimal(pros) {
                                 <Radio
                                   style={{
                                     width: "40%",
-                                    color: "blue"
+                                    color: "blue",
                                   }}
                                   value="male"
                                 >
@@ -355,7 +430,7 @@ export default function ViewAnimal(pros) {
                                 <Radio
                                   style={{
                                     width: "40%",
-                                    color: "pink"
+                                    color: "pink",
                                   }}
                                   value="female"
                                 >
@@ -572,34 +647,36 @@ export default function ViewAnimal(pros) {
                               />
                             </div>
                           </div>
-                          <div className="mb-3" style={{ width: "40%" }}>
-                            <label className="form-label">Out Cage</label>
-                            <Form.Control
-                              type="date"
-                              id="outCage"
-                              aria-describedby="inputGroupPrepend"
-                              name="outCage"
-                              disabled
-                              value={outCage}
-                              onChange={(event) =>
-                                setRegion(event.target.value)
-                              }
-                              // isInvalid={
-                              //   formik.errors.last_name &&
-                              //   formik.touched.last_name
-                              // }
-                            />
-                            {/* <Form.Control.Feedback type="invalid">
+                          {outCage && (
+                            <div className="mb-3" style={{ width: "40%" }}>
+                              <label className="form-label">Out Cage</label>
+                              <Form.Control
+                                type="date"
+                                id="outCage"
+                                aria-describedby="inputGroupPrepend"
+                                name="outCage"
+                                disabled
+                                value={outCage}
+                                onChange={(event) =>
+                                  setRegion(event.target.value)
+                                }
+                                // isInvalid={
+                                //   formik.errors.last_name &&
+                                //   formik.touched.last_name
+                                // }
+                              />
+                              {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
                           </Form.Control.Feedback> */}
-                          </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className="label-info">
                         <label>ZooTrainer Information</label>
                       </div>
                       <div
-                        className="ZooTrainer-Information"
+                        className="ZooTrainer-Information mb-3"
                         style={{ paddingRight: "25px" }}
                       >
                         <div style={{ textAlign: "end", marginTop: "10px" }}>
@@ -634,8 +711,16 @@ export default function ViewAnimal(pros) {
                                           <td>{value.firstname}</td>
                                           <td>{value.lastname}</td>
                                           <td>{value.phone}</td>
-                                          <td>{value.startDate === null ? "Empty" : value.startDate.slice(0,10)}</td>
-                                          <td>{value.endDate === null ? "Empty" : value.endDate.slice(0,10)}</td>
+                                          <td>
+                                            {value.startDate === null
+                                              ? "Empty"
+                                              : value.startDate.slice(0, 10)}
+                                          </td>
+                                          <td>
+                                            {value.endDate === null
+                                              ? "Empty"
+                                              : value.endDate.slice(0, 10)}
+                                          </td>
                                         </tr>
                                       );
                                     })}
@@ -726,31 +811,35 @@ export default function ViewAnimal(pros) {
                               />
                             </div>
                           </div>
-                          <div className="mb-3" style={{ width: "40%" }}>
-                            <label className="form-label">End Training</label>
-                            <Form.Control
-                              id="endTraining"
-                              type="date"
-                              aria-describedby="inputGroupPrepend"
-                              name="endTraining"
-                              disabled
-                              value={endTraining}
-                              onChange={(event) => setName(event.target.value)}
-                              // isInvalid={
-                              //   formik.errors.first_name &&
-                              //   formik.touched.first_name
-                              // }
-                            />
-                            {/* <Form.Control.Feedback type="invalid">
+                          {endTraining && (
+                            <div className="mb-3" style={{ width: "40%" }}>
+                              <label className="form-label">End Training</label>
+                              <Form.Control
+                                id="endTraining"
+                                type="date"
+                                aria-describedby="inputGroupPrepend"
+                                name="endTraining"
+                                disabled
+                                value={endTraining}
+                                onChange={(event) =>
+                                  setName(event.target.value)
+                                }
+                                // isInvalid={
+                                //   formik.errors.first_name &&
+                                //   formik.touched.first_name
+                                // }
+                              />
+                              {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
                           </Form.Control.Feedback> */}
-                          </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className="label-info">
                         <label>Food Information</label>
                       </div>
-                      <div className="Food-Information">
+                      <div className="Food-Information mb-3">
                         <div className="mb-3" style={{ paddingRight: "25px" }}>
                           <label className="form-label">Food For Animal</label>
                           <Table striped bordered hover>
@@ -771,7 +860,7 @@ export default function ViewAnimal(pros) {
                                     <tr>
                                       <td>{value.foodId}</td>
                                       <td>{value.fName}</td>
-                                      <td>{value.category}</td>
+                                      <td>{value.categoryName}</td>
                                       <td>{value.amount}</td>
                                       <td>{value.description}</td>
                                     </tr>
@@ -782,7 +871,42 @@ export default function ViewAnimal(pros) {
                         </div>
                       </div>
 
-                      <div className="btn-footer" style={{marginTop: "20px"}}>
+                      <div className="label-info">
+                        <label>Schedule Information</label>
+                      </div>
+                      <div className="Food-Information">
+                        <div className="mb-3" style={{ paddingRight: "25px" }}>
+                          <label className="form-label">
+                            Schedule For Animal
+                          </label>
+                          <Table striped bordered hover>
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Time</th>
+                                <th>Description</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {listScheduleFilter &&
+                                listScheduleFilter.length > 0 &&
+                                listScheduleFilter.map((value) => {
+                                  return (
+                                    <tr>
+                                      <td>{value.scheduleId}</td>
+                                      <td>{value.scheduleName}</td>
+                                      <td>{value.time}</td>
+                                      <td>{value.description}</td>
+                                    </tr>
+                                  );
+                                })}
+                            </tbody>
+                          </Table>
+                        </div>
+                      </div>
+
+                      <div className="btn-footer" style={{ marginTop: "20px" }}>
                         <div
                           style={{
                             marginRight: "20px",

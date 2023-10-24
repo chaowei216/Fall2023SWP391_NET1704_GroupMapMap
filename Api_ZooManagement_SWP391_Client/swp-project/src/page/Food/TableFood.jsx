@@ -115,7 +115,6 @@ function TableFood() {
                 <th>Food Name</th>
                 <th>Food Quantity</th>
                 <th>Category</th>
-                <th>Animal Food</th>
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
             </thead>
@@ -128,12 +127,7 @@ function TableFood() {
                       <td>{items.foodId}</td>
                       <td>{items.fName}</td>
                       <td>{items.quantity}</td>
-                      <td>{items.category}</td>
-                      <td>
-                        {items.animalFoods === null
-                          ? "None"
-                          : `${items.animalFoods}`}
-                      </td>
+                      <td>{items.categoryName}</td>
                       <td style={{ width: "208px" }}>
                         <Button
                           variant="text"
