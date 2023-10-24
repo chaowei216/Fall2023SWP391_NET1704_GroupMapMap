@@ -133,6 +133,7 @@ namespace DAL.Data
                 entity.Property(e => e.NewsTitle).HasMaxLength(30).IsRequired();
                 entity.Property(e => e.NewsContent).IsRequired();
                 entity.Property(e => e.Status).IsRequired();
+                entity.Property(e => e.Checked).IsRequired();
             });
 
             modelBuilder.Entity<User>(entity =>

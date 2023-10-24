@@ -25,14 +25,13 @@ namespace BBL.Services
         {
             var news = _newsRepo.GetById(newsId);
             if (news == null) return false;
-            _context.Remove(news);
-            var saved = _context.SaveChanges();
-            return saved > 0 ? true : false;
+            news.Status = false;
+            return _newsRepo.Update(news);
         }
 
         public ICollection<News> GetAcceptedNews()
         {
-            return _newsRepo.GetAll().Where(news => news.Status == true).ToList();
+            return _newsRepo.GetAll().Where(news => news.Status == true && news.Checked == true).ToList();
         }
 
         public ICollection<News> GetAllNews()
@@ -42,7 +41,7 @@ namespace BBL.Services
 
         public ICollection<News> GetDeniedNews()
         {
-            return _newsRepo.GetAll().Where(news => news.Status == false).ToList();
+            return _newsRepo.GetAll().Where(news => news.Status == true && news.Checked == false).ToList();
         }
 
         public News GetNews(string id)

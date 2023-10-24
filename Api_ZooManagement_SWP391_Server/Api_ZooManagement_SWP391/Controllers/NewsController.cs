@@ -202,7 +202,8 @@ namespace Api_ZooManagement_SWP391.Controllers
             newsMap.User = _userService.GetById(userId);
             newsMap.NewsId = newsId;
             newsMap.ReleaseDate = DateTime.Now;
-            newsMap.Status = false;
+            newsMap.Status = true;
+            newsMap.Checked = false;
 
             if (!ModelState.IsValid)
             {

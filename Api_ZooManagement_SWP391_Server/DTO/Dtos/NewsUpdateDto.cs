@@ -8,6 +8,7 @@
         public string NewsContent { get; set; }
         public string? NewsImage { get; set; }
         public bool Status { get; set; }
+        public bool Checked { get; set; }
     }
 }
 
