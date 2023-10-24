@@ -128,6 +128,7 @@ namespace BBL.Services
                 foreach (var user in users)
                 {
                     var userDto = _mapper.Map<UserDto>(user);
+                    userDto.CountAnimal = _aniTrainerRepository.GetAll().Where(user => user.UserId == userDto.UserId).Count();
                     var exps = _expDetailRepository.GetAll().Where(ex => ex.UserId == user.UserId).ToList();
                     if(exps != null && exps.Count > 0)
                     {

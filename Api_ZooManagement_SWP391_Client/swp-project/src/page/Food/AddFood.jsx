@@ -132,7 +132,7 @@ export default function AddFood(pros) {
                           style={{ width: "100%" }}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          // isInvalid={formik.errors.categoryName && formik.touched.categoryName}
+                          isInvalid={formik.errors.categoryName && formik.touched.categoryName}
                         >
                           <option value={null}>Choose Category Name</option>
                           {/* Render các option từ API */}
@@ -147,9 +147,9 @@ export default function AddFood(pros) {
                             </option>
                           ))}
                         </Form.Select>
-                        {/* <Form.Control.Feedback type="invalid">
-                          {errors.userId}
-                        </Form.Control.Feedback> */}
+                        <Form.Control.Feedback type="invalid">
+                          {formik.errors.categoryName}
+                        </Form.Control.Feedback>
                       </div>
                       <div className="mb-3">
                         <label className="form-label">Enter The Quantity</label>
@@ -193,7 +193,7 @@ export default function AddFood(pros) {
                               }
                             />
                             <Form.Control.Feedback type="invalid">
-                              {formik.errors.quantity}
+                              {formik.errors.importDate}
                             </Form.Control.Feedback>
                           </div>
                         </div>

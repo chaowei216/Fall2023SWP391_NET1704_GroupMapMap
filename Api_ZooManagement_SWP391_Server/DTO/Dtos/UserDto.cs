@@ -14,6 +14,7 @@
         public DateTime? EndDate { get; set; }
         public bool Status { get; set; }
         public string UserImage { get; set; }
+        public int CountAnimal { get; set; }
         public List<ExperienceDetailDto> Experiences { get; set; } = new List<ExperienceDetailDto>();
     }
 }

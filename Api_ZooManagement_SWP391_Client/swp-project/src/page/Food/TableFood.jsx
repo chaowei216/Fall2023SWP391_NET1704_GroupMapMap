@@ -128,16 +128,29 @@ function TableFood() {
                       <td>{items.fName}</td>
                       <td>{items.quantity}</td>
                       <td>{items.categoryName}</td>
-                      <td style={{ width: "208px" }}>
-                        <Button
-                          variant="text"
-                          style={{ padding: 0 }}
-                          onClick={() => {
-                            handleViewFood(items);
-                          }}
-                        >
-                          <VisibilityIcon />
-                        </Button>
+                      <td style={{ width: "208px", textAlign: "center" }}>
+                        {role && role === 'ZOOTRAINER' &&
+                          <Button
+                            variant="text"
+                            style={{ padding: 0 }}
+                            onClick={() => {
+                              handleViewFood(items);
+                            }}
+                          >
+                            <VisibilityIcon />
+                          </Button>
+                        }
+                        {role && role === 'STAFF' &&
+                          <Button
+                            variant="text"
+                            style={{ padding: 0, textAlign: "center" }}
+                            onClick={() => {
+                              handleViewFood(items);
+                            }}
+                          >
+                            <VisibilityIcon />
+                          </Button>
+                        }
                         {role && role === 'ZOOTRAINER' &&
                           <Button
                             onClick={() => {

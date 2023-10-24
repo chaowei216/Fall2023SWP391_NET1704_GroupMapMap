@@ -44,10 +44,12 @@ export default function EditNews(pros) {
     event.preventDefault();
     const news = {
       newsId: newsId,
-      authorName: authorName,
       releaseDate: releaseDate,
       newsTitle: newsTitle,
       newsContent: newsContent,
+      newsImage: newsImage,
+      status: true,
+      checked: false,
     }
     console.log(news);
     const response = await fetch(`https://localhost:44352/api/News/${newsId}`, {
@@ -129,22 +131,20 @@ export default function EditNews(pros) {
                       <div className="mb-3">
                         <label className="form-label">Edit Image for News</label>
                         <Form.Control
-                          type="input"
+                          type="file"
                           id="newsImage"
                           placeholder="newsImage"
                           aria-describedby="inputGroupPrepend"
                           name="newsImage"
                           style={{ height: "56px" }}
-                          disabled
-                          value={newsImage}
                           onChange={(e) => setNewsImage(e.target.value)}
-                          readonly
                         // onChange={formik.handleChange}
                         // onBlur={formik.handleBlur}
                         //   isInvalid={
                         //     formik.errors.quantity && formik.touched.quantity
                         //   }
                         />
+                        {newsImage && <p>{newsImage}</p>}
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.quantity}
                         </Form.Control.Feedback> */}

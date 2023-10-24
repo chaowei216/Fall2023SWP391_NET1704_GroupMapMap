@@ -50,6 +50,7 @@ import TableNews from './page/News/TableNews';
 import TableCage from './page/Cage/TableCage';
 import TableArea from './page/Area/TableArea';
 import TableNewsByAdmin from './page/News/TableNewsByAdmin';
+import TableFeedBack from './page/FeedBack/TableFeedBack';
 
 const secretKey = 'your_secret_key';
 
@@ -69,6 +70,7 @@ function App() {
             <Route path="news" element={<TableNewsByAdmin />}></Route>
             <Route path="cage" element={<TableCage />}></Route>
             <Route path="area" element={<TableArea />}></Route>
+            <Route path="feedback" element={<TableFeedBack />}></Route>
             {/* <Route path="3" element={<TableFood />}></Route> */}
           </Route>
           <Route path="/staff" element={<HeaderLayoutStaff />} >
@@ -87,7 +89,7 @@ function App() {
           <Route path="/ZooTrainer" element={<HeaderLayOutTrainer />}>
             <Route path="" element={<Dashboard />}></Route>
             <Route path="profile" element={<ViewStaff />}></Route>
-            <Route path="3" element={<TableFood />}></Route>
+            <Route path="food" element={<TableFood />}></Route>
             <Route path="2" element={<TableAnimalDetail />}></Route>
           </Route>
           <Route path="/loading" element={<Loading></Loading>} />

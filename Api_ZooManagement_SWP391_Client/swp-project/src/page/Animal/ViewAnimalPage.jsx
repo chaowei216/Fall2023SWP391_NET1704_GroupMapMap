@@ -349,10 +349,10 @@ export default function ViewAnimal(pros) {
                               name="name"
                               value={name}
                               onChange={(event) => setName(event.target.value)}
-                              // isInvalid={
-                              //   formik.errors.first_name &&
-                              //   formik.touched.first_name
-                              // }
+                            // isInvalid={
+                            //   formik.errors.first_name &&
+                            //   formik.touched.first_name
+                            // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
@@ -371,10 +371,10 @@ export default function ViewAnimal(pros) {
                               onChange={(event) =>
                                 setRegion(event.target.value)
                               }
-                              // isInvalid={
-                              //   formik.errors.last_name &&
-                              //   formik.touched.last_name
-                              // }
+                            // isInvalid={
+                            //   formik.errors.last_name &&
+                            //   formik.touched.last_name
+                            // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
@@ -390,10 +390,10 @@ export default function ViewAnimal(pros) {
                               aria-describedby="inputGroupPrepend"
                               name="species"
                               value={species}
-                              // value={formik.values.species}
-                              // onChange={formik.handleChange}
-                              // onBlur={formik.handleBlur}
-                              // isInvalid={phone == nul}
+                            // value={formik.values.species}
+                            // onChange={formik.handleChange}
+                            // onBlur={formik.handleBlur}
+                            // isInvalid={phone == nul}
                             />
                             <Form.Control.Feedback type="invalid">
                               Haha
@@ -521,11 +521,11 @@ export default function ViewAnimal(pros) {
                             onChange={(event) =>
                               setHealthCheck(event.target.value)
                             }
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.address && formik.touched.address
-                            // }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.address && formik.touched.address
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
@@ -545,11 +545,11 @@ export default function ViewAnimal(pros) {
                             onChange={(event) =>
                               setDescription(event.target.value)
                             }
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.address && formik.touched.address
-                            // }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.address && formik.touched.address
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
@@ -660,10 +660,10 @@ export default function ViewAnimal(pros) {
                                 onChange={(event) =>
                                   setRegion(event.target.value)
                                 }
-                                // isInvalid={
-                                //   formik.errors.last_name &&
-                                //   formik.touched.last_name
-                                // }
+                              // isInvalid={
+                              //   formik.errors.last_name &&
+                              //   formik.touched.last_name
+                              // }
                               />
                               {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
@@ -746,6 +746,7 @@ export default function ViewAnimal(pros) {
                                 <th>Last Name</th>
                                 <th>Phone</th>
                                 <th>Email</th>
+                                <th>Training Animal</th>
                                 <th>Status</th>
                               </tr>
                             </thead>
@@ -760,6 +761,7 @@ export default function ViewAnimal(pros) {
                                       <td>{value.lastname}</td>
                                       <td>{value.phone}</td>
                                       <td>{value.email}</td>
+                                      <td>{value.countAnimal}</td>
                                       <td>
                                         {value.status === true ? (
                                           <div
@@ -824,10 +826,10 @@ export default function ViewAnimal(pros) {
                                 onChange={(event) =>
                                   setName(event.target.value)
                                 }
-                                // isInvalid={
-                                //   formik.errors.first_name &&
-                                //   formik.touched.first_name
-                                // }
+                              // isInvalid={
+                              //   formik.errors.first_name &&
+                              //   formik.touched.first_name
+                              // }
                               />
                               {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
@@ -866,6 +868,11 @@ export default function ViewAnimal(pros) {
                                     </tr>
                                   );
                                 })}
+                              {listFoodsFilter.length <= 0 && (
+                                <tr>
+                                  <td colSpan="5">Empty</td>
+                                </tr>
+                              )}
                             </tbody>
                           </Table>
                         </div>
@@ -901,6 +908,11 @@ export default function ViewAnimal(pros) {
                                     </tr>
                                   );
                                 })}
+                              {listScheduleFilter.length <= 0 && (
+                                <tr>
+                                  <td colSpan="4">Empty</td>
+                                </tr>
+                              )}
                             </tbody>
                           </Table>
                         </div>

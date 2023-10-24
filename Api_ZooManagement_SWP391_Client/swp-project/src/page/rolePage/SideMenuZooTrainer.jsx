@@ -30,7 +30,7 @@ const items = [
       "Item 2",
       "g2",
       null,
-      [getItem("Food", "3")],
+      [getItem("Food", "food")],
       "group"
     ),
   ]),

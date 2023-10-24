@@ -17,6 +17,7 @@ import { DatePicker, Radio, Select, Space } from "antd";
 import { South } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import '../../assets/css/dashboard.css';
+import { validationNews } from "./ValidationNews"
 export default function AddNews(pros) {
   const email = localStorage.getItem('email');
   const [staticModal, setStaticModal] = useState(false);
@@ -71,7 +72,7 @@ export default function AddNews(pros) {
       newsContent: "",
       newsImage: ""
     },
-    // validationSchema: schema,
+    validationSchema: validationNews,
     onSubmit: (values) => {
       submitForm(values);
     },
@@ -109,13 +110,13 @@ export default function AddNews(pros) {
                           value={formik.values.newsTitle}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                        //   isInvalid={
-                        //     formik.errors.fName && formik.touched.fName
-                        //   }
+                          isInvalid={
+                            formik.errors.newsTitle && formik.touched.newsTitle
+                          }
                         />
-                        {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.fName}
-                        </Form.Control.Feedback> */}
+                        <Form.Control.Feedback type="invalid">
+                          {formik.errors.newsTitle}
+                        </Form.Control.Feedback>
                       </div>
                       <div className="mb-3">
                         <label className="form-label">Write the content</label>
@@ -129,15 +130,13 @@ export default function AddNews(pros) {
                           value={formik.values.newsContent}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                        // onChange={formik.handleChange}
-                        // onBlur={formik.handleBlur}
-                        //   isInvalid={
-                        //     formik.errors.category && formik.touched.category
-                        //   }
+                          isInvalid={
+                            formik.errors.newsContent && formik.touched.newsContent
+                          }
                         />
-                        {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.category}
-                        </Form.Control.Feedback> */}
+                        <Form.Control.Feedback type="invalid">
+                          {formik.errors.newsContent}
+                        </Form.Control.Feedback>
                       </div>
                       <div className="mb-3">
                         <label className="form-label">Choose Image for News</label>
@@ -147,19 +146,17 @@ export default function AddNews(pros) {
                           placeholder="newsImage"
                           aria-describedby="inputGroupPrepend"
                           name="newsImage"
-                          style={{ height: "56px" }}
+                          style={{ height: "44px" }}
                           value={formik.values.newsImage}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                        // onChange={formik.handleChange}
-                        // onBlur={formik.handleBlur}
-                        //   isInvalid={
-                        //     formik.errors.quantity && formik.touched.quantity
-                        //   }
+                          isInvalid={
+                            formik.errors.newsImage && formik.touched.newsImage
+                          }
                         />
-                        {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.quantity}
-                        </Form.Control.Feedback> */}
+                        <Form.Control.Feedback type="invalid">
+                          {formik.errors.newsImage}
+                        </Form.Control.Feedback>
                       </div>
                       <MDBModalFooter>
                         <Button
