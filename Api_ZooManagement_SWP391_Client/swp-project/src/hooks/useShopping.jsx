@@ -1,5 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addItem, updateShoppingCart, setShoppingCart ,updateDay} from "../redux/slices/shoppingCart"; // Import cả action updateShoppingCart
+import {
+  addItem,
+  updateShoppingCart,
+  setShoppingCart,
+  updateDay,
+} from "../redux/slices/shoppingCart"; // Import cả action updateShoppingCart
 
 const useShopping = () => {
   const dispatch = useDispatch();
@@ -21,17 +26,27 @@ const useShopping = () => {
   const handleEditItem = () => {
     // Bạn có thể thêm logic chỉnh sửa sản phẩm ở đây nếu cần
   };
-  const  countTotal=() => {
+  const countTotal = () => {
     dispatch(countTotal());
   };
   const handleSetShoppingCart = (newShoppingCart) => {
     dispatch(setShoppingCart(newShoppingCart));
   };
-  const handleUpdateDay=(day)=>{
-    dispatch(updateDay(day));
-  }
+  const handleUpdateDay = (day) => {
+    dispatch(updateDay({ day }));
+    console.log("Hook: " + day);
+  };
 
-  return { shoppingCart, handleAddItem, handleUpdateItemQuantity, handleRemoveItem, handleEditItem,countTotal, handleSetShoppingCart,handleUpdateDay};
+  return {
+    shoppingCart,
+    handleAddItem,
+    handleUpdateItemQuantity,
+    handleRemoveItem,
+    handleEditItem,
+    countTotal,
+    handleSetShoppingCart,
+    handleUpdateDay,
+  };
 };
 
 export default useShopping;

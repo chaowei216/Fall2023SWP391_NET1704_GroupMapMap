@@ -20,7 +20,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Review>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ReviewDto>))]
         public IActionResult GetAllReview()
         {
             var review = _mapper.Map<List<ReviewDto>>(_reviewService.GetAllReview());
@@ -30,8 +30,35 @@ namespace Api_ZooManagement_SWP391.Controllers
             }
             return Ok(review);
         }
+
+        [HttpGet("pages/{page}")]
+        [ProducesResponseType(200, Type = typeof(ReviewResponseDto))]
+        public IActionResult GetReviewByPage(int page)
+        {
+            var reviews = _mapper.Map<List<ReviewDto>>(_reviewService.GetAllReview());
+
+            var pageResults = 5f;
+            var pageCount = Math.Ceiling(reviews.Count / pageResults);
+
+            var result = reviews
+                        .Skip((page - 1) * (int)pageResults)
+                        .Take((int)pageResults).ToList();
+
+            var response = new ReviewResponseDto
+            {
+                Reviews = result,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(response);
+        }
+
         [HttpGet("reviewId")]
-        [ProducesResponseType(200, Type = typeof(Review))]
+        [ProducesResponseType(200, Type = typeof(ReviewDto))]
         [ProducesResponseType(400)]
         public IActionResult GetReview(string reviewId)
         {
@@ -47,7 +74,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateReview([FromBody] ReviewDto reviewDto)
+        public IActionResult CreateReview([FromBody] ReviewCreateDto reviewDto)
         {
             if (reviewDto == null)
             {
@@ -59,7 +86,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             }
 
             int count = _reviewService.GetAllReview().Count + 1;
-            var reviewId = "R" + count.ToString().PadLeft(4, '0');
+            var reviewId = "RV" + count.ToString().PadLeft(4, '0');
 
             var reviewMap = _mapper.Map<Review>(reviewDto);
             reviewMap.ReviewId = reviewId;
@@ -72,55 +99,6 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             return Ok("Successful Created");
         }
-        [HttpPut("{reviewId}")]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(404)]
-        public IActionResult UpdateFood(string reviewId, [FromBody] ReviewUpdateDto reviewUpdate)
-        {
-            if (reviewUpdate == null)
-                return BadRequest(ModelState);
 
-            if (reviewId != reviewUpdate.ReviewId)
-                return BadRequest(ModelState);
-
-            if (!_reviewService.ReviewExists(reviewId))
-                return NotFound();
-
-            var reviewMap = _mapper.Map<Review>(reviewUpdate);
-
-            if (!ModelState.IsValid)
-                return BadRequest();
-
-            if (!_reviewService.UpdateReview(reviewMap))
-            {
-                ModelState.AddModelError("", "Error when updating food!!");
-                return StatusCode(500, ModelState);
-            }
-
-            return NoContent();
-        }
-
-        [HttpDelete("{reviewId}")]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(404)]
-        public IActionResult DeleteFood(string reviewId)
-        {
-            if (!_reviewService.ReviewExists(reviewId))
-            {
-                return NotFound();
-            }
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            if (!_reviewService.DeleteReview(reviewId))
-            {
-                ModelState.AddModelError("", "Something went wrong while deleting food");
-            }
-
-            return NoContent();
-        }
     }
 }
