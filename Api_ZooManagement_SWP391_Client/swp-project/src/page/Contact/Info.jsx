@@ -1,6 +1,33 @@
-import React from 'react'
+import axios from 'axios';
+import React,{useState} from 'react'
 
 function Info() {
+    const [formData, setFormData] = useState({
+        complete_name: '',
+        email_address: '',
+        phone: '',
+        message: '',
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const handleSubmit= async()=>{
+        e.preventDefault();
+        try{
+        const res = await axios.post("",)
+        console.log(res);
+        }catch(error){
+            console.log(error);
+
+        }
+    }
+    console.log(formData);
     return (
         <div>
             <section className="gap">
@@ -56,11 +83,11 @@ function Info() {
                                 <p>For all enquires, please contact us and one of our delightful team will be be happy to help.</p>
                             </div>
 
-                            <form role="form" id="contact-form" method="post" className="add-review leave-comment mt-4">
-                                <input type="text" name="complete_name" id="Complete_Name" placeholder="Full Name" required />
-                                <input type="email" name="email_address" placeholder="Email Address" id="email_address" required />
-                                <input type="phone" name="phone" placeholder="Phone No" required />
-                                <textarea placeholder="Message" name="message" required></textarea>
+                            <form role="form" id="contact-form" onSubmit={handleSubmit} className="add-review leave-comment mt-4">
+                                <input type="text" name="complete_name" id="Complete_Name" placeholder="Full Name" required onChange={handleChange} />
+                                <input type="email" name="email_address" placeholder="Email Address" id="email_address" required onChange={handleChange} />
+                                <input type="phone" name="phone" placeholder="Phone No" required onChange={handleChange} />
+                                <textarea placeholder="Message" name="message" required onChange={handleChange}></textarea>
                                 <button className="button" type="submit" value="submit">
                                     <span>send Message</span>
                                 </button>
