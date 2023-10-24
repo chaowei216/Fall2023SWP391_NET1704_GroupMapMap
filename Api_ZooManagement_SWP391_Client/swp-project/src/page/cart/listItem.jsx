@@ -79,7 +79,6 @@ function ListItem() {
                     <th className="product-name">Product</th>
                     <th className="product-quantity">Quantity</th>
                     <th className="product-subtotal">Price</th>
-                    <th className="product-day">Day</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -150,6 +149,16 @@ function ListItem() {
                         >
                           Apply coupon
                         </button>
+
+                        <td className="product-day">
+                          <p>DAY</p>
+                          <input
+                            type="date"
+                            onChange={(e) => {
+                              updateDay(e.target.value);
+                            }}
+                          />
+                        </td>
                         <button
                           type="submit"
                           name="update_cart"

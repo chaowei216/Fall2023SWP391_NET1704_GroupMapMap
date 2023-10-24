@@ -5,7 +5,6 @@ function Info() {
     const [formData, setFormData] = useState({
         complete_name: '',
         email_address: '',
-        phone: '',
         message: '',
     });
 
@@ -86,7 +85,6 @@ function Info() {
                             <form role="form" id="contact-form" onSubmit={handleSubmit} className="add-review leave-comment mt-4">
                                 <input type="text" name="complete_name" id="Complete_Name" placeholder="Full Name" required onChange={handleChange} />
                                 <input type="email" name="email_address" placeholder="Email Address" id="email_address" required onChange={handleChange} />
-                                <input type="phone" name="phone" placeholder="Phone No" required onChange={handleChange} />
                                 <textarea placeholder="Message" name="message" required onChange={handleChange}></textarea>
                                 <button className="button" type="submit" value="submit">
                                     <span>send Message</span>
