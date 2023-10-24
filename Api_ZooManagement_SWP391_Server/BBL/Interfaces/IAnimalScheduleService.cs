@@ -11,5 +11,6 @@ namespace BBL.Interfaces
     public interface IAnimalScheduleService
     {
         bool AddAnimalSchedule(Animal animal, Animal? animalMap);
+        ICollection<AnimalSchedule> GetScheduleByAnimalId(string animalId);
     }
 }

@@ -53,6 +53,19 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(users);
         }
 
+        [HttpGet("users/available")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<UserDto>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetUserAvailable()
+        {
+            var users = _userService.GetAllUsers();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok();
+        }
+
         [HttpGet("page/{page}")]
         [ProducesResponseType(200, Type = typeof(UserResponseDto))]
         public IActionResult GetUsers(int page)

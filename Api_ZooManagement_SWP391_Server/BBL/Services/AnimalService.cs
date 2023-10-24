@@ -14,14 +14,15 @@ namespace BBL.Services
         private readonly IGenericRepository<AnimalTrainer> _animalTrainerRepo;
         private readonly IGenericRepository<AnimalCage> _animalCageRepo;
         private readonly IGenericRepository<AnimalFood> _animalFoodRepo;
-
+        private readonly IGenericRepository<AnimalSpecies> _animalSpeRepo;
 
         public AnimalService(IGenericRepository<Animal> animalRepo,
                              IGenericRepository<User> userRepo,
                              IGenericRepository<Cage> cageRepo, 
                              IGenericRepository<AnimalCage> animalCageRepo,
                              IGenericRepository<AnimalTrainer> animalTrainerRepo, 
-                             IGenericRepository<AnimalFood> animalFoodRepo)
+                             IGenericRepository<AnimalFood> animalFoodRepo,
+                             IGenericRepository<AnimalSpecies> animalSpeRepo)
         {
             _animalRepo = animalRepo;
             _cageRepo = cageRepo;
@@ -29,6 +30,7 @@ namespace BBL.Services
             _animalCageRepo = animalCageRepo;
             _animalTrainerRepo = animalTrainerRepo;
             _animalFoodRepo = animalFoodRepo;
+            _animalSpeRepo = animalSpeRepo;
         }
         public bool AddAnimal(string? userId, string? cageId, List<AnimalFood> animalFood, Animal animal)
         {
@@ -78,8 +80,8 @@ namespace BBL.Services
                     a.Rarity = animal.Rarity;
                     a.Region = animal.Region;
                     a.Sex = animal.Sex;
-                    a.Species = animal.Species;
                     a.HealthCheck = animal.HealthCheck;
+                    a.SpeciesName = _animalSpeRepo.GetById(animal.SpeciesId).SpeciesName;
 
                     allAnimals.Add(a);
                 }
@@ -238,7 +240,6 @@ namespace BBL.Services
                 animalDto.Rarity = animal.Rarity;
                 animalDto.Region = animal.Region;
                 animalDto.Sex = animal.Sex;
-                animalDto.Species = animal.Species;
                 animalDto.HealthCheck = animal.HealthCheck;
                 return animalDto;
             }

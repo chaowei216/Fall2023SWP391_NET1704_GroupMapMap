@@ -1,6 +1,12 @@
-﻿namespace DTO.Dtos
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DTO.Dtos
 {
-    public class GetAnimalDto
+    public class GetAnimalScheduleDto
     {
         public string AnimalId { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
@@ -10,15 +16,7 @@
         public string HealthCheck { get; set; } = string.Empty;
         public DateTime Birthday { get; set; }
         public bool Rarity { get; set; }
-        public string? CId { get; set; }
-        public string? UserId { get; set; }
-        public DateTime? EntryCageDate { get; set; }
-        public DateTime? StartTrainDate { get; set; }
-        public DateTime? OutCageDate { get; set; }
-        public DateTime? EndTrainDate { get; set; }
         public string? AnimalImage { get; set; }
-        public string SpeciesName { get; set; }
-        public List<FoodAmountDto>? Foods { get; set; }
         public List<AnimalScheduleCreateDto> Schedules { get; set; }
     }
 }

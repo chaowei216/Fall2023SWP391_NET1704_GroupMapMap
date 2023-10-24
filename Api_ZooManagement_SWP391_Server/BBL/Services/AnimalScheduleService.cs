@@ -29,5 +29,10 @@ namespace BBL.Services
             }
             return _animalRepo.Update(animal);
         }
+
+        public ICollection<AnimalSchedule> GetScheduleByAnimalId(string animalId)
+        {
+            return _animalScheduleRepo.GetAll().Where(schedule => schedule.AnimalId == animalId).ToList();
+        }
     }
 }
