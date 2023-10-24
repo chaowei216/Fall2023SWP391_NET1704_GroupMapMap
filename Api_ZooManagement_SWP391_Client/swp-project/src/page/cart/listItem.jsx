@@ -111,7 +111,7 @@ function ListItem() {
                         </span>
                       </td>
                       <td className="product-day">
-                        <input type="date"  onChange={(e)=>{handleUpdateDay(e.target.value)}}/>
+                        <input type="date"  onChange={(e)=>{updateDay(e.target.value)}}/>
                       </td>
                     </tr>
                   ))}
