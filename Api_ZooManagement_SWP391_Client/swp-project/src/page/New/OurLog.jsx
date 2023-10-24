@@ -1,6 +1,28 @@
-import React from 'react'
-
+import React,{useState} from 'react'
+import ReactPaginate from 'react-paginate';
 function OurLog() {
+   const [listPages,setListPages]=useState([]);
+   const [totalPages,setTotalPages]=useState(0);
+
+   const getPages=async(page)=>{
+      let res = await axios.get();
+      if(res && res.data){
+         console.log(res);
+         setTotalPages(res.pages);
+         setListPages(res.data.news);
+  
+      }
+   }
+   const customPrevious = (
+      <li  style={{top:"-30px"}} className="prev"><a href="#"><i className="fa-solid fa-angles-left"></i></a></li>
+    );
+  
+    const customNext = (
+      <li style={{top:"-30px"}} className="next"><a href="#"><i className="fa-solid fa-angles-right"></i></a></li>
+    );
+    const handlePageClick=(event)=>{
+      getPages(+event.selected+1);
+    }
   return (
     <div>
        <style>
@@ -13,72 +35,21 @@ function OurLog() {
       <section className="gap our-blog">
    <div className="container">
       <div className="row">
-         <div className="col-xl-8">
-            <div className="recent-news-two">
-               <img alt="recent-news-img" src="../../src/assets/img/kahchdulich850.jpeg"/>
-               <div className="recent-news mt-3">
-                  <div>
-                     <a href="#"><span>29 December, 2023</span></a>
-                     <a href="blog-details.html"><h2>Tender fried baby squid with a salt, pepper</h2></a>
-                     <div className="d-flex align-items-center"><img alt="img" className="me-3" src="https://via.placeholder.com/55x55"/><h6>by Thomas Walimes</h6>
-                     </div>
-                  </div>
-               </div>
+      {listPages.map((news) => (
+        <div key={news.newsId} className="recent-news-two">
+          <img alt="recent-news-img" src={news.newsImage} />
+          <div className="recent-news mt-3">
+            <div>
+              <a href="#"><span>{news.releaseDate}</span></a>
+              <a href="blog-details.html"><h2>{news.newsTitle}</h2></a>
+              <div className="d-flex align-items-center">
+                <img alt="img" className="me-3" src="https://via.placeholder.com/55x55" />
+                <h6>by {news.authorName}</h6>
+              </div>
             </div>
-            <div className="recent-news-two">
-               <img alt="recent-news-img" src="../../src/assets/img/hotrang850.jpeg"/>
-               <div className="recent-news mt-3">
-                  <div>
-                     <a href="#"><span>29 December, 2023</span></a>
-                     <a href="blog-details.html"><h2>Operates approximately 400 restaurants</h2></a>
-                     <div className="d-flex align-items-center"><img alt="img" className="me-3" src="https://via.placeholder.com/55x55"/><h6>by Thomas Walimes</h6>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div className="recent-news-two">
-               <img alt="recent-news-img" src="../../src/assets/img/nguavan850.jpeg"/>
-               <div className="recent-news mt-3">
-                  <div>
-                     <a href="#"><span>29 December, 2023</span></a>
-                     <a href="blog-details.html"><h2>Eclectic and imaginative menu in the restaurant</h2></a>
-                     <div className="d-flex align-items-center"><img alt="img" className="me-3" src="https://via.placeholder.com/55x55"/><h6>by Thomas Walimes</h6>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div className="recent-news-two">
-               <img alt="recent-news-img" src="../../src/assets/img/gautruc850.jpeg"/>
-               <div className="recent-news mt-3">
-                  <div>
-                     <a href="#"><span>29 December, 2023</span></a>
-                     <a href="blog-details.html"><h2>Menus for your event, inspired equally</h2></a>
-                     <div className="d-flex align-items-center"><img alt="img" className="me-3" src="https://via.placeholder.com/55x55"/><h6>by Thomas Walimes</h6>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div className="recent-news-two">
-               <img alt="recent-news-img" src="../../src/assets/img/2anhfooter.jpeg"/>
-               <div className="recent-news mt-3">
-                  <div>
-                     <a href="#"><span>29 December, 2023</span></a>
-                     <a href="blog-details.html"><h2>Flowers, candles and menu cards are provided</h2></a>
-                     <div className="d-flex align-items-center"><img alt="img" className="me-3" src="https://via.placeholder.com/55x55"/><h6>by Thomas Walimes</h6>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <ul className="pagination">
-                  <li className="prev"><a href="#"><i className="fa-solid fa-angles-left"></i></a></li>
-                  <li><a href="#">1</a></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">...</a></li>
-                  <li><a href="#">18</a></li>
-                  <li className="next"><a href="#"><i className="fa-solid fa-angles-right"></i></a></li>
-               </ul>
-         </div>
+          </div>
+        </div>
+      ))}
          <div className="col-xl-4">
             <div className="posts recent-posts">
                <h3>Recent Posts</h3>
@@ -193,6 +164,26 @@ function OurLog() {
       </div>
    </div>
 </section>
+<ReactPaginate
+      nextLabel={customNext}
+      previousLabel={customPrevious}
+      onPageChange={handlePageClick}
+      pageRangeDisplayed={3}
+      marginPagesDisplayed={2}
+      pageCount={10}
+      pageClassName="page-item"
+      pageLinkClassName="page-link"
+      previousClassName="page-item"
+      previousLinkClassName="page-link"
+      nextClassName="page-item"
+      nextLinkClassName="page-link"
+      breakLabel="..."
+      breakClassName="page-item"
+      breakLinkClassName="page-link"
+      containerClassName="pagination"
+      activeClassName="active"
+      renderOnZeroPageCount={null}
+    />
     </div>
   )
 }
