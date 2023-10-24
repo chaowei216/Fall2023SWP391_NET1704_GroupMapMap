@@ -66,7 +66,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateFood([FromBody] FoodDto foodDto)
+        public IActionResult CreateFood([FromBody] FoodCreateDto foodDto)
         {
             if (foodDto == null)
             {
