@@ -4,13 +4,7 @@ using DAL.Repositories;
 using MailKit.Security;
 using MimeKit.Text;
 using MimeKit;
-using System.Security.Cryptography;
 using Microsoft.Extensions.Configuration;
-using System.Net.Mail;
-using MimeKit.Text;
-using MailKit.Net.Smtp;
-using AutoMapper;
-using DTO.Dtos;
 
 namespace BBL.Services
 {
