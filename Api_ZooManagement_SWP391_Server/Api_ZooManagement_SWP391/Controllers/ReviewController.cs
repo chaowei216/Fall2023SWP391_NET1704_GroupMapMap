@@ -31,6 +31,32 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(review);
         }
 
+        [HttpGet("pages/{page}")]
+        [ProducesResponseType(200, Type = typeof(ReviewResponseDto))]
+        public IActionResult GetReviewByPage(int page)
+        {
+            var reviews = _mapper.Map<List<ReviewDto>>(_reviewService.GetAllReview());
+
+            var pageResults = 5f;
+            var pageCount = Math.Ceiling(reviews.Count / pageResults);
+
+            var result = reviews
+                        .Skip((page - 1) * (int)pageResults)
+                        .Take((int)pageResults).ToList();
+
+            var response = new ReviewResponseDto
+            {
+                Reviews = result,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(response);
+        }
+
         [HttpGet("reviewId")]
         [ProducesResponseType(200, Type = typeof(ReviewDto))]
         [ProducesResponseType(400)]
