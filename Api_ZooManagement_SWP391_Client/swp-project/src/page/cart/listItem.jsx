@@ -126,14 +126,6 @@ function ListItem() {
                           <bdi>{product.price.toFixed(2)}</bdi>
                         </span>
                       </td>
-                      <td className="product-day">
-                        <input
-                          type="date"
-                          onChange={(e) => {
-                            updateDay(e.target.value);
-                          }}
-                        />
-                      </td>
                     </tr>
                   ))}
                 </tbody>
