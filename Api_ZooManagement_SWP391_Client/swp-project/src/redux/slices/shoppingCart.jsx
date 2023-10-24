@@ -24,12 +24,19 @@ const shoppingSlice = createSlice({
           price: price,
           imageSrc,
           quantity: 1, 
+          day: '',
         });
       }
     },
     
     removeItem() {},
-    
+    updateDay(state, action) {
+      const { day } = action.payload;
+      
+  state.forEach((product) => {
+    product.day = day;
+  });
+    },
     updateShoppingCart(state, action) {
       const { id, newQuantity } = action.payload;
       const productToUpdate = state.find((product) => product.id === id);
@@ -50,6 +57,6 @@ const shoppingSlice = createSlice({
   },
 });
 
-export const { addItem, updateShoppingCart, countTotal, removeItem, setShoppingCart } = shoppingSlice.actions;
+export const { addItem, updateShoppingCart, countTotal, removeItem, setShoppingCart,updateDay } = shoppingSlice.actions;
 export default shoppingSlice.reducer;
 

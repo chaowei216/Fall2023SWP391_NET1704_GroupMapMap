@@ -67,9 +67,13 @@ builder.Services.AddScoped<IVnPayService, VnPayService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IWorkExperienceService, ExperienceService>();
 builder.Services.AddScoped<IAnimalScheduleService, AnimalScheduleService>();
+<<<<<<< HEAD
 builder.Services.AddScoped<IFoodCategoryService, FoodCategoryService>();
 builder.Services.AddScoped<IAnimalSpeciesService, AnimalSpeciesService>();
 
+=======
+builder.Services.AddScoped<IReviewService, ReviewService>();
+>>>>>>> 24f1f88d3187966c03cba6df5f3857ae9b22a85a
 builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 builder.Services.AddScoped<IGenericRepository<Cage>, GenericRepository<Cage>>();
 builder.Services.AddScoped<IGenericRepository<Area>, GenericRepository<Area>>();
@@ -89,8 +93,12 @@ builder.Services.AddScoped<IGenericRepository<OrderTicket>, GenericRepository<Or
 builder.Services.AddScoped<IGenericRepository<GetAnimalDto>, GenericRepository<GetAnimalDto>>();
 builder.Services.AddScoped<IGenericRepository<Transaction>, GenericRepository<Transaction>>();
 builder.Services.AddScoped<IGenericRepository<AnimalSchedule>, GenericRepository<AnimalSchedule>>();
+<<<<<<< HEAD
 builder.Services.AddScoped<IGenericRepository<FoodCategory>, GenericRepository<FoodCategory>>();
 builder.Services.AddScoped<IGenericRepository<AnimalSpecies>, GenericRepository<AnimalSpecies>>();
+=======
+builder.Services.AddScoped<IGenericRepository<Review>, GenericRepository<Review>>();
+>>>>>>> 24f1f88d3187966c03cba6df5f3857ae9b22a85a
 
 builder.Services.AddCors(options =>
 {

@@ -94,6 +94,20 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(response);
         }
 
+        [HttpGet("users/{email}")]
+        [ProducesResponseType(200, Type = typeof(UserDto))]
+        public IActionResult GetUserByEmail(string email)
+        {
+            if (email == null)
+                return BadRequest();
+
+            var user = _userService.GetUserByEmail(email);
+
+            if (user == null)
+                return NotFound();
+            return Ok(user);
+        }
+
         [HttpGet("trainers/pages/{page}")]
         [ProducesResponseType(200, Type = typeof(UserResponseDto))]
         public IActionResult GetTrainers(int page)

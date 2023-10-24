@@ -20,45 +20,30 @@ function getItem(label, key, icon, children, type) {
 const items = [
   getItem("Zoo Management", "sub1", <AlertOutlined />, [
     getItem(
-      "Manage",
+      "User",
       "g1",
       null,
-      [getItem("User", "1"), getItem("Animal", "2")],
+      [getItem("User", "1")],
       "group"
     ),
     getItem(
-      "Service",
+      "Manage",
       "g2",
       null,
-      [getItem("Order", "3")],
+      [getItem("Order", "3"), getItem("Animal", "2"), getItem("News", "news")],
       "group"
     ),
-    
+
   ]),
-  getItem("Navigation Two", "sub2", <AppstoreOutlined />, [
-    getItem("Option 5", "/staff/2"),
-    getItem("Option 6", "5"),
+  getItem("Cage & Area", "sub2", <AppstoreOutlined />, [
+    getItem("View Area", "/admin/area"),
+    getItem("View Cage", "/admin/cage"),
     getItem("Submenu", "sub3", null, [
       getItem("Option 7", "7"),
       getItem("Option 8", "8"),
     ]),
   ]),
-  {
-    type: "divider",
-  },
-  getItem("Navigation Three", "sub4", <SettingOutlined />, [
-    getItem("Option 9", "9"),
-    getItem("Option 10", "10"),
-    getItem("Option 11", "11"),
-    getItem("Option 12", "12"),
-  ]),
-  getItem(
-    "Group",
-    "grp",
-    null,
-    [getItem("Option 13", "13"), getItem("Option 14", "14")],
-    "group"
-  ),
+
 ];
 const SideMenuTest = ({ openSidebarToggle, OpenSidebar }) => {
   const [theme, setTheme] = useState("light");
@@ -95,8 +80,8 @@ const SideMenuTest = ({ openSidebarToggle, OpenSidebar }) => {
           navigate(item.key);
           setCurrent(item.key);
         }}
-        selectedKeys={[current]}
-        defaultSelectedKeys={["1"]}
+        // selectedKeys={[current]}
+        // defaultSelectedKeys={["1"]}
         defaultOpenKeys={["sub1"]}
         mode="inline"
         items={items}

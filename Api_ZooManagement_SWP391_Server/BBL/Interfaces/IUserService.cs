@@ -15,6 +15,7 @@ namespace BBL.Interfaces
         ICollection<UserDto> GetTrainers();
         ICollection<UserDto> GetStaffs();
         ICollection<UserDto> GetActiveUsers();
+        UserDto GetUserByEmail(string email);
         ICollection<Animal> GetAnimalsByUserId(string userId);
         User GetById(string id);
         int GetTotalUserByRole(Role role);

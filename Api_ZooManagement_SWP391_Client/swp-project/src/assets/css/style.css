@@ -3219,6 +3219,15 @@ table.shop_table td.product-quantity input {
     width: 100px;
     border-radius: 11px;
 }
+table.shop_table td.product-day input {
+    padding: 0px;
+    border: 3px solid #5CDB95;
+    color: #000;
+    
+    outline: none;
+    width: 100px;
+    border-radius: 11px;
+}
 table.shop_table td.product-name {
     display: flex;
     text-align: inherit;

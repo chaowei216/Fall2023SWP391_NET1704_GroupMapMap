@@ -63,6 +63,7 @@ namespace DAL.Data
                 e.Property(o => o.Email).HasMaxLength(30).IsRequired();
                 e.Property(o => o.FullName).HasMaxLength(50).IsRequired();
                 e.Property(o => o.PhoneNumber).HasMaxLength(10).IsRequired();
+                e.Property(o => o.StartDate).IsRequired();
             });
 
             modelBuilder.Entity<Ticket>(e =>
@@ -145,6 +146,8 @@ namespace DAL.Data
                 entity.Property(e => e.UserId).HasMaxLength(6).IsRequired();
                 entity.Property(e => e.NewsTitle).HasMaxLength(30).IsRequired();
                 entity.Property(e => e.NewsContent).IsRequired();
+                entity.Property(e => e.Status).IsRequired();
+                entity.Property(e => e.Checked).IsRequired();
             });
 
             modelBuilder.Entity<User>(entity =>

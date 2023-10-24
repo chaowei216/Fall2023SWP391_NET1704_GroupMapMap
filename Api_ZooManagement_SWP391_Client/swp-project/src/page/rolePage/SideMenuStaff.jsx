@@ -20,24 +20,24 @@ function getItem(label, key, icon, children, type) {
 const items = [
     getItem("Zoo Management", "sub1", <AlertOutlined />, [
         getItem(
-            "Manage",
+            "Information",
             "g1",
             null,
-            [getItem("Profile", "profile"),getItem("ZooTrainer", "/staff/1"), getItem("Animal", "2")],
+            [getItem("Profile", "profile", <AlertOutlined />)],
             "group"
         ),
         getItem(
-            "Item 2",
+            "Manage",
             "g2",
             null,
-            [getItem("Order", "4"),getItem("News", "news")],
+            [getItem("ZooTrainer", "/staff/1", <AlertOutlined />), getItem("Animal", "2", <AlertOutlined />), getItem("Order", "4", <AlertOutlined />), getItem("News", "news", <AlertOutlined />)],
             "group"
         ),
 
     ]),
-    getItem("Navigation Two", "sub2", <AppstoreOutlined />, [
-        getItem("Option 5", "/staff/2"),
-        getItem("Option 6", "5"),
+    getItem("Area & Cage Management", "sub2", <AppstoreOutlined />, [
+        getItem("Area", "/staff/area"),
+        getItem("Cage", "/staff/cage"),
         getItem("Submenu", "sub3", null, [
             getItem("Option 7", "7"),
             getItem("Option 8", "8"),
@@ -45,13 +45,13 @@ const items = [
     ]),
     {
         type: "divider",
-    },
-    getItem("Navigation Three", "sub4", <SettingOutlined />, [
-        getItem("Option 9", "9"),
-        getItem("Option 10", "10"),
-        getItem("Option 11", "11"),
-        getItem("Option 12", "12"),
-    ])
+    }
+    // getItem("Navigation Three", "sub4", <SettingOutlined />, [
+    //     getItem("Option 9", "9"),
+    //     getItem("Option 10", "10"),
+    //     getItem("Option 11", "11"),
+    //     getItem("Option 12", "12"),
+    // ])
 ];
 const SideMenuStaff = ({ openSidebarToggle, OpenSidebar }) => {
     const [theme, setTheme] = useState("light");
@@ -92,8 +92,8 @@ const SideMenuStaff = ({ openSidebarToggle, OpenSidebar }) => {
                         navigate(item.key);
                         setCurrent(item.key);
                     }}
-                    selectedKeys={[current]}
-                    defaultSelectedKeys={["1"]}
+                    // selectedKeys={[current]}
+                    // defaultSelectedKeys={["1"]}
                     defaultOpenKeys={["sub1"]}
                     mode="inline"
                     items={items}

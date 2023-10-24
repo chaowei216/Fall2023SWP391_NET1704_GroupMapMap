@@ -24,7 +24,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpGet()]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Order>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<OrderDto>))]
         public IActionResult GetAllOrder()
         {
             var orders = _mapper.Map<List<OrderDto>>(_orderService.GetAllOrders());
@@ -46,6 +46,32 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(order);
         }
 
+        [HttpGet("pages/{page}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<OrderDto>))]
+        public IActionResult GetAllOrders(int page)
+        {
+            var orders = _mapper.Map<List<OrderDto>>(_orderService.GetAllOrders());
+
+            var pageResults = 5f;
+            var pageCount = Math.Ceiling(orders.Count / pageResults);
+
+            var result = orders
+                        .Skip((page - 1) * (int)pageResults)
+                        .Take((int)pageResults).ToList();
+
+            var response = new OrderResponseDto
+            {
+                Orders = result,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(response);
+        }
+
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -58,6 +84,10 @@ namespace Api_ZooManagement_SWP391.Controllers
             var trans = _mapper.Map<Transaction>(response);
             if (orderMap == null || trans == null)
                 return BadRequest();
+
+            if (orderMap.StartDate < DateTime.Now)
+                return BadRequest("Please place order after today");
+
             if (response.Success.Equals("success"))
             {
                 trans.Status = true;

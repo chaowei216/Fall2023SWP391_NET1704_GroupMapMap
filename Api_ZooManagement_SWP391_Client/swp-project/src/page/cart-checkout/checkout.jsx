@@ -31,6 +31,7 @@ const menuItems = [
     },
     { text: 'Feedback', link: '/contact' },
   ];
+  
 function Checkout() {
     const navigate = useNavigate();
     const cartDataJSON = localStorage.getItem('shoppingCart');
@@ -47,6 +48,7 @@ function Checkout() {
         return {
             type: product.name,
             Amount: product.quantity,
+            day:product.day
         }
     })
 
@@ -92,6 +94,9 @@ function Checkout() {
             // Handle network errors
         }
     };
+    const updateDay=()=>{
+
+    }
     return (
         <div>
             <Header menuItems={menuItems} />

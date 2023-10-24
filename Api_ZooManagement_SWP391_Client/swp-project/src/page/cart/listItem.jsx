@@ -5,19 +5,20 @@ import {GrFormAdd, GrFormSubtract} from 'react-icons/gr'
 
 function ListItem() {
 
-  const { shoppingCart, handleUpdateItemQuantity } = useShopping();
+   const { shoppingCart, handleUpdateItemQuantity } = useShopping();
 
-
+    
   const calculateProductTotal = (product) => {
     return product.price * product.quantity;
   };
-
+  console.log(shoppingCart);
   // Hàm tính tổng giá tiền của giỏ hàng
   const calculateCartTotal = () => {
     return shoppingCart.reduce((total, product) => {
       return total + calculateProductTotal(product);
     }, 0);
   };
+
   
   const Store = (cartData) => {
     // Chuyển dữ liệu giỏ hàng thành chuỗi JSON
@@ -61,14 +62,19 @@ function ListItem() {
       handleUpdateItemQuantity(productId, newQuantity);
     }
   };
-  
+  const updateDay=(day)=>{
+    handleUpdateDay(day);
+
+
+
+  }
 
   return (
     
 
     <div>
 
-      {console.log(shoppingCart)}
+     
       <section className="gap">
         <div className="container">
           <form className="woocommerce-cart-form">
@@ -79,6 +85,7 @@ function ListItem() {
                     <th className="product-name">Product</th>
                     <th className="product-quantity">Quantity</th>
                     <th className="product-subtotal">Price</th>
+                    <th className="product-day">Day</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -95,12 +102,16 @@ function ListItem() {
                         <span style={{fontSize: "22px"}}>{product.quantity}</span>
                         <GrFormAdd style={{cursor: "pointer", fontSize: "22px", marginBottom: "7px"}} onClick={(e) => {  handleIncrease(product.id) }}></GrFormAdd>
                       </td>
+                     
                       <td className="product-subtotal">
                         <span className="woocommerce-Price-amount">
                           <bdi>
                             {product.price.toFixed(2)}
                           </bdi>
                         </span>
+                      </td>
+                      <td className="product-day">
+                        <input type="date"  onChange={(e)=>{handleUpdateDay(e.target.value)}}/>
                       </td>
                     </tr>
                   ))}

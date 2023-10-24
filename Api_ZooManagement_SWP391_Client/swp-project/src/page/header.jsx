@@ -38,7 +38,7 @@ function Header(props) {
   const {shoppingCart,countTotal} =useShopping();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [fix,setFix]=useState(false);
-  console.log(countTotal);
+
   
     const handleScroll = () => {
       if (window.scrollY > 100) {

@@ -20,14 +20,41 @@ namespace Api_ZooManagement_SWP391.Controllers
             _areaService = areaService;
         }
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<AreaDto>))]
         public IActionResult GetArea()
         {
-            var areas = _areaService.GetAll();
+            var areas = _mapper.Map<List<AreaDto>>(_areaService.GetAll());
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             return Ok(areas);
+        }
+
+        [HttpGet("pages/{page}")]
+        [ProducesResponseType(200, Type = typeof(AreaResponseDto))]
+        public IActionResult GetAllArea(int page)
+        {
+            var areas = _mapper.Map<List<AreaDto>>(_areaService.GetAll());
+
+            var pageResults = 5f;
+            var pageCount = Math.Ceiling(areas.Count / pageResults);
+
+            var result = areas
+                        .Skip((page - 1) * (int)pageResults)
+                        .Take((int)pageResults).ToList();
+
+            var response = new AreaResponseDto
+            {
+                Areas = result,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(response);
         }
 
         [HttpGet("areaId")]
@@ -37,7 +64,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             if (!_areaService.AreaExists(areaId))
                 return NotFound();
 
-            var area = _mapper.Map<AreaDto>(_areaService.GetByAreaId(areaId));
+            var area = _mapper.Map<AreaCreateDto>(_areaService.GetByAreaId(areaId));
 
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -46,7 +73,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateArea([FromBody] AreaDto areaDto)
+        public IActionResult CreateArea([FromBody] AreaCreateDto areaDto)
         {
             if (areaDto == null)
             {
