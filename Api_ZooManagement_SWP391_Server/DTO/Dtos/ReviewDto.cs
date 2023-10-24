@@ -2,8 +2,9 @@
 {
     public class ReviewDto
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public float Rating { get; set; }
+        public string ReviewId { get; set; }
+        public string Email { get; set; }
+        public string CompleteName { get; set; }
+        public string Message { get; set; }
     }
 }

@@ -31,15 +31,6 @@ namespace BBL.Services
             return false;
         }
 
-        public bool DeleteReview(string reviewId)
-        {
-            var review = _reviewRepository.GetById(reviewId);
-            if (review == null) return false;
-            _context.Remove(review);
-            var saved = _context.SaveChanges();
-            return saved > 0 ? true : false;
-        }
-
         public ICollection<Review> GetAllReview()
         {
             return _reviewRepository.GetAll();
@@ -54,17 +45,6 @@ namespace BBL.Services
         {
             return _reviewRepository.GetById(id) != null ? true : false;
         }
-
-        public bool UpdateReview(Review reviewMap)
-        {
-            var review = _reviewRepository.GetById(reviewMap.ReviewId);
-            if (review == null) return false;
-            review.Title = reviewMap.Title;
-            review.Description = reviewMap.Description;
-            review.Rating = reviewMap.Rating;
-            return _reviewRepository.Update(review);
-        }
-
 
     }
 }
