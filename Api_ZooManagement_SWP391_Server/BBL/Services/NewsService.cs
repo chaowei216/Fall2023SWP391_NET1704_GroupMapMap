@@ -70,6 +70,7 @@ namespace BBL.Services
             review.ReleaseDate = newsMap.ReleaseDate;
             review.NewsContent = newsMap.NewsContent;
             review.Status = newsMap.Status;
+            review.Checked = newsMap.Checked;
             review.NewsImage = newsMap.NewsImage;
             return _newsRepo.Update(review);
         }

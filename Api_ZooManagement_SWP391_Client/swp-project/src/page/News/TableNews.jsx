@@ -111,7 +111,6 @@ function TableNews() {
                 <th>News ID</th>
                 <th>Title</th>
                 <th>Author</th>
-                <th>Image</th>
                 <th>ReleaseDate</th>
                 <th style={{ textAlign: "center" }}>Status</th>
                 <th style={{ textAlign: "center" }}>Action</th>
@@ -126,7 +125,6 @@ function TableNews() {
                       <td>{items.newsId}</td>
                       <td>{items.newsTitle}</td>
                       <td>{items.authorName}</td>
-                      <td>{items.newsImage}</td>
                       <td>{items.releaseDate.slice(0, 10)}</td>
                       <td>
                         {items.status === true ? (

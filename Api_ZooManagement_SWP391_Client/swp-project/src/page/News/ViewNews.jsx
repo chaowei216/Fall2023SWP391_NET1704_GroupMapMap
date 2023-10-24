@@ -19,7 +19,6 @@ import { South } from "@mui/icons-material";
 export default function ViewNews(pros) {
   const [staticModal, setStaticModal] = useState(false);
   const { show, handleClose, dataNewsView } = pros;
-
   const [newsID, setNewsID] = useState("");
   const [newsTitle, setNewsTitle] = useState("");
   const [content, setContent] = useState("");
@@ -33,7 +32,10 @@ export default function ViewNews(pros) {
       setNewsTitle(dataNewsView.newsTitle);
       setContent(dataNewsView.newsContent);
       setAuthorName(dataNewsView.authorName);
-      setNewsImage(dataNewsView.newsImage);
+      const path = dataNewsView.newsImage;
+      const secondSlashIndex = path.indexOf("\\", path.indexOf("\\") + 1);
+      const substring = path.substring(secondSlashIndex + 1);
+      setNewsImage(substring);
       setReleaseDay(dataNewsView.releaseDate.slice(0, 10));
       setStatus(dataNewsView.status);
     }
@@ -41,6 +43,7 @@ export default function ViewNews(pros) {
   const handleSave = () => {
     console.log("haha");
   };
+
   return (
     <>
       <MDBModal staticBackdrop tabIndex="-1" show={show} onHide={handleClose}>
@@ -73,9 +76,9 @@ export default function ViewNews(pros) {
                           name="fName"
                           value={newsID}
                           disabled
-                        //   isInvalid={
-                        //     formik.errors.fName && formik.touched.fName
-                        //   }
+                          //   isInvalid={
+                          //     formik.errors.fName && formik.touched.fName
+                          //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.fName}
@@ -92,11 +95,11 @@ export default function ViewNews(pros) {
                           name="category"
                           disabled
                           value={newsTitle}
-                        // onChange={formik.handleChange}
-                        // onBlur={formik.handleBlur}
-                        //   isInvalid={
-                        //     formik.errors.category && formik.touched.category
-                        //   }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          //   isInvalid={
+                          //     formik.errors.category && formik.touched.category
+                          //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.category}
@@ -113,11 +116,11 @@ export default function ViewNews(pros) {
                           disabled
                           style={{ height: "56px" }}
                           value={content}
-                        // onChange={formik.handleChange}
-                        // onBlur={formik.handleBlur}
-                        //   isInvalid={
-                        //     formik.errors.quantity && formik.touched.quantity
-                        //   }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          //   isInvalid={
+                          //     formik.errors.quantity && formik.touched.quantity
+                          //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.quantity}
@@ -134,11 +137,11 @@ export default function ViewNews(pros) {
                           disabled
                           style={{ height: "56px" }}
                           value={status}
-                        // onChange={formik.handleChange}
-                        // onBlur={formik.handleBlur}
-                        //   isInvalid={
-                        //     formik.errors.quantity && formik.touched.quantity
-                        //   }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          //   isInvalid={
+                          //     formik.errors.quantity && formik.touched.quantity
+                          //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.quantity}
@@ -156,19 +159,24 @@ export default function ViewNews(pros) {
                             >
                               <Form.Control
                                 type="date"
-                                id="importDate"
-                                name="importDate"
+                                id="releaseDay"
+                                name="releaseDay"
                                 disabled
                                 value={releaseDay}
-                              // isInvalid={
-                              //   formik.errors.importDate &&
-                              //   formik.touched.importDate
-                              // }
+                                // isInvalid={
+                                //   formik.errors.importDate &&
+                                //   formik.touched.importDate
+                                // }
                               />
                             </Space>
                             {/* <Form.Control.Feedback type="invalid">
                               {formik.errors.quantity}
                             </Form.Control.Feedback> */}
+                          </div>
+                        </div>
+                        <div className="mb-3">
+                          <div>
+                            <img src={"/"+ newsImage} />
                           </div>
                         </div>
                       </div>
