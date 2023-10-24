@@ -1,58 +1,59 @@
 import React, { useState, useEffect } from 'react'
 import { json, useNavigate, useParams } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import axios from 'axios';
-
+import { Button, Alert, AlertTitle } from '@mui/material';
 function Loading() {
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState(10);
   const apiUrl1 = "https://localhost:44352/api/Order";
-  let status = "fail"; 
+  let status = "fail";
 
-// Lấy tham số truy vấn (query parameters) từ URL
-const queryParams = window.location.search;
+  // Lấy tham số truy vấn (query parameters) từ URL
+  const queryParams = window.location.search;
 
-// Loại bỏ ký tự "?" ở đầu chuỗi nếu có
-const cleanQuery = queryParams.replace('?', '');
+  // Loại bỏ ký tự "?" ở đầu chuỗi nếu có
+  const cleanQuery = queryParams.replace('?', '');
 
-// Tạo một đối tượng chứa thông tin từ tham số truy vấn
-const urlParams = new URLSearchParams(cleanQuery);
+  // Tạo một đối tượng chứa thông tin từ tham số truy vấn
+  const urlParams = new URLSearchParams(cleanQuery);
 
-// Trích xuất các giá trị từ tham số truy vấn
-const vnp_Amount = urlParams.get("vnp_Amount");
-const vnp_BankCode = urlParams.get("vnp_BankCode");
-const vnp_BankTranNo = urlParams.get("vnp_BankTranNo");
-const vnp_CardType = urlParams.get("vnp_CardType");
-const vnp_OrderInfo = urlParams.get("vnp_OrderInfo");
-const vnp_PayDate = urlParams.get("vnp_PayDate");
-const vnp_ResponseCode = urlParams.get("vnp_ResponseCode");
-const vnp_TmnCode = urlParams.get("vnp_TmnCode");
-const vnp_TransactionNo = urlParams.get("vnp_TransactionNo");
-const vnp_TransactionStatus = urlParams.get("vnp_TransactionStatus");
-const vnp_TxnRef = urlParams.get("vnp_TxnRef");
-const vnp_SecureHash = urlParams.get("vnp_SecureHash");
+  // Trích xuất các giá trị từ tham số truy vấn
+  const vnp_Amount = urlParams.get("vnp_Amount");
+  const vnp_BankCode = urlParams.get("vnp_BankCode");
+  const vnp_BankTranNo = urlParams.get("vnp_BankTranNo");
+  const vnp_CardType = urlParams.get("vnp_CardType");
+  const vnp_OrderInfo = urlParams.get("vnp_OrderInfo");
+  const vnp_PayDate = urlParams.get("vnp_PayDate");
+  const vnp_ResponseCode = urlParams.get("vnp_ResponseCode");
+  const vnp_TmnCode = urlParams.get("vnp_TmnCode");
+  const vnp_TransactionNo = urlParams.get("vnp_TransactionNo");
+  const vnp_TransactionStatus = urlParams.get("vnp_TransactionStatus");
+  const vnp_TxnRef = urlParams.get("vnp_TxnRef");
+  const vnp_SecureHash = urlParams.get("vnp_SecureHash");
 
-// In ra các giá trị
-console.log("vnp_Amount: " + vnp_Amount);
-console.log("vnp_BankCode: " + vnp_BankCode);
-console.log("vnp_BankTranNo: " + vnp_BankTranNo);
-console.log("vnp_CardType: " + vnp_CardType);
-console.log("vnp_OrderInfo: " + vnp_OrderInfo);
-console.log("vnp_PayDate: " + vnp_PayDate);
-console.log("vnp_ResponseCode: " + vnp_ResponseCode);
-console.log("vnp_TmnCode: " + vnp_TmnCode);
-console.log("vnp_TransactionNo: " + vnp_TransactionNo);
-console.log("vnp_TransactionStatus: " + vnp_TransactionStatus);
-console.log("vnp_TxnRef: " + vnp_TxnRef);
-console.log("vnp_SecureHash: " + vnp_SecureHash)
+  // In ra các giá trị
+  console.log("vnp_Amount: " + vnp_Amount);
+  console.log("vnp_BankCode: " + vnp_BankCode);
+  console.log("vnp_BankTranNo: " + vnp_BankTranNo);
+  console.log("vnp_CardType: " + vnp_CardType);
+  console.log("vnp_OrderInfo: " + vnp_OrderInfo);
+  console.log("vnp_PayDate: " + vnp_PayDate);
+  console.log("vnp_ResponseCode: " + vnp_ResponseCode);
+  console.log("vnp_TmnCode: " + vnp_TmnCode);
+  console.log("vnp_TransactionNo: " + vnp_TransactionNo);
+  console.log("vnp_TransactionStatus: " + vnp_TransactionStatus);
+  console.log("vnp_TxnRef: " + vnp_TxnRef);
+  console.log("vnp_SecureHash: " + vnp_SecureHash)
 
-if(vnp_ResponseCode == "24") {
-  setTimeout(() => navigate("/"), 3000);
-}
-    if(vnp_ResponseCode == "00") {
-        const orderDetail = JSON.parse(localStorage.getItem("orderItem"));
-        localStorage.removeItem("shoppingCart");
-        console.log(orderDetail);
-        status = "success";
+  if (vnp_ResponseCode == "24") {
+    setTimeout(() => navigate("/"), 3000);
+  }
+  if (vnp_ResponseCode == "00") {
+    const orderDetail = JSON.parse(localStorage.getItem("orderItem"));
+    localStorage.removeItem("shoppingCart");
+    console.log(orderDetail);
+    status = "success";
 
     const data = {
       Success: status,
@@ -65,27 +66,27 @@ if(vnp_ResponseCode == "24") {
     };
 
     const postData = async () => {
-    try {
+      try {
         const postMethod = await axios.post(apiUrl1, data)
         console.log(postMethod.data);
         navigate("/");
-    } catch(error) {
+      } catch (error) {
         console.error(error);
+      }
     }
-} 
-postData();
-}
+    postData();
+  }
 
 
-// useEffect(() => {
-//   const countdownTimer = setTimeout(() => {
-//     navigate("/");
-//   }, 1000); 
+  // useEffect(() => {
+  //   const countdownTimer = setTimeout(() => {
+  //     navigate("/");
+  //   }, 1000); 
 
-//   return () => {
-//     clearTimeout(countdownTimer);
-//   };
-// }, [navigate]);
+  //   return () => {
+  //     clearTimeout(countdownTimer);
+  //   };
+  // }, [navigate]);
   // useEffect(() => {
   //   const countdownTimer = setTimeout(() => {
   //     navigate("/");
@@ -101,13 +102,32 @@ postData();
   //   };
   // }, [navigate, countdown]);
   return (
-    <div>
+    <div style={{textAlign:"center"}}>
       <div className="status-payment">
-        <p style={{ textAlign: "center",color:"red" }}>thanh toán {status}</p>
+       
+      {status == "true" ? <Alert severity="success">
+        <AlertTitle>Success</AlertTitle>
+       Payment success — <strong>check it out!</strong>
+      </Alert> : <Alert severity="error">
+        <AlertTitle>Error</AlertTitle>
+       Payment fail— <strong>check it out!</strong>
+      </Alert>}
       </div>
-      <div className="title-icon-loading">
-        <p style={{ textAlign: "center" }}>Chuyển trang sau {countdown} giây...</p>
+
+      <div className='buttonLoading'>
+        
+        <div className="buttonItem"><Link to="/"><Button variant="contained">Back Home</Button> </Link></div>
+       
+       
+        <div className="buttonItem"> <Link to="/cart"> <Button variant="contained">Go to cart</Button>   </Link></div>
+       
+        
+     
+  
+     
       </div>
+
+
       <div className="spinner">
         <div className="blob blob-0"></div>
       </div>

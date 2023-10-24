@@ -4877,3 +4877,25 @@ button.swal-button.swal-button--confirm {
     box-shadow: 0 3px 3px 0 rgba(61, 175, 255, 1);
     animation: spin 1.5s linear infinite;
   }
+.buttonLoading{
+  margin-top: 20px;
+display: grid;
+grid-template-columns: 0.5fr 0.5fr;
+
+}
+.MuiPaper-root{
+    font-size: 100px;
+display: flex;
+justify-content: center;
+}
+.MuiPaper-root svg{
+    transform: translateX(70px);
+}
+.buttonItem:nth-child(1){
+    margin-left: 500px;
+}
+.buttonItem:nth-child(2){
+    margin-right: 500px;
+   
+}
+  
