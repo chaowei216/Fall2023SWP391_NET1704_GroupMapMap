@@ -25,19 +25,22 @@ function OurLog() {
     };
     getPages(0);
   }, []);
-  const customPrevious = (
+  const customPrevious =(
+  
+   
     <li style={{ top: "-30px" }} className="prev">
-      <a href="#">
+     
         <i className="fa-solid fa-angles-left"></i>
-      </a>
+     
     </li>
+    
   );
 
   const customNext = (
-    <li style={{ top: "-30px" }} className="next">
-      <a href="#">
+    <li style={{ top: "-30px",padding:"0" }} className="next">
+      
         <i className="fa-solid fa-angles-right"></i>
-      </a>
+      
     </li>
   );
   const handlePageClick = (event) => {
@@ -296,13 +299,14 @@ function OurLog() {
           </div>
         </div>
       </section>
+     
       <ReactPaginate
         nextLabel={customNext}
         previousLabel={customPrevious}
         onPageChange={handlePageClick}
         pageRangeDisplayed={3}
         marginPagesDisplayed={2}
-        pageCount={totalPages}
+        pageCount={5}
         pageClassName="page-item"
         pageLinkClassName="page-link"
         previousClassName="page-item"
@@ -316,6 +320,8 @@ function OurLog() {
         activeClassName="active"
         renderOnZeroPageCount={null}
       />
+     
+     
     </div>
   );
 }
