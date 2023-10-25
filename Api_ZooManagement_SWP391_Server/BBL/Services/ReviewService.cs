@@ -29,7 +29,7 @@ namespace BBL.Services
                 var email = new MimeMessage();
                 email.From.Add(MailboxAddress.Parse("mapmapzoofpt@gmail.com"));
                 email.To.Add(MailboxAddress.Parse(review.Email));
-                email.Subject = "Reset Password";
+                email.Subject = "Thanks for feedback";
                 email.Body = new TextPart(TextFormat.Html)
                 {
                     Text = "<form action=\"\">\r\n\r\n  <h2>Thank you for your feedback about MapMap Zoo</h2>\r\n\r\n  <p>We will try to improve the things that make you unhappy. See you next time!!!</p> </form>"

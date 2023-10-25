@@ -46,8 +46,6 @@ function AddPage() {
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [experienceOption, setExperienceOption] = useState([]);
 
-
-
   const handleRadioChange = (value) => {
     // setSex(value.target.value);
     formik.values.sex = value.target.value;
@@ -99,7 +97,7 @@ function AddPage() {
       img = values.userImage;
     }
     if (values.fields[0].company != "" && values.fields[0].experienceId != "") {
-      exp = values.fields
+      exp = values.fields;
     }
     const user = {
       email: values.email,
@@ -313,8 +311,8 @@ function AddPage() {
                       >
                         <Field
                           name={`fields[${index}].experienceId`}
-                        // as="select"
-                        // onChange={(e) => handleChange(e.target.value)}
+                          // as="select"
+                          // onChange={(e) => handleChange(e.target.value)}
                         >
                           {({ field, form }) => (
                             <Form.Select
@@ -358,9 +356,7 @@ function AddPage() {
                       </div>
                     ))}
                     {errors.fields && (
-                      <div style={{ color: "red" }}>
-                        Choose Food and Quantity
-                      </div>
+                      <div style={{ color: "red" }}>Choose Exp and Company</div>
                     )}
                   </div>
                   <div

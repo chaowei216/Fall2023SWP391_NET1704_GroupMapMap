@@ -23,6 +23,7 @@ function Info() {
         "https://localhost:44352/api/Review",
         formData
       );
+      window.location.reload();
       console.log(res);
     } catch (error) {
       console.log(error);

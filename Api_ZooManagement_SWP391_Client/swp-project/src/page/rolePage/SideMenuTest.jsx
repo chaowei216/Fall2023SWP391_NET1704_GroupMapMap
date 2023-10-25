@@ -19,13 +19,7 @@ function getItem(label, key, icon, children, type) {
 }
 const items = [
   getItem("Zoo Management", "sub1", <AlertOutlined />, [
-    getItem(
-      "User",
-      "g1",
-      null,
-      [getItem("User", "1")],
-      "group"
-    ),
+    getItem("User", "g1", null, [getItem("User", "1")], "group"),
     getItem(
       "Manage",
       "g2",
@@ -33,7 +27,6 @@ const items = [
       [getItem("Order", "3"), getItem("Animal", "2"), getItem("News", "news")],
       "group"
     ),
-
   ]),
   getItem("Cage & Area", "sub2", <AppstoreOutlined />, [
     getItem("View Area", "/admin/area"),
@@ -44,7 +37,6 @@ const items = [
       getItem("Option 8", "8"),
     ]),
   ]),
-
 ];
 const SideMenuTest = ({ openSidebarToggle, OpenSidebar }) => {
   const [theme, setTheme] = useState("light");
@@ -72,9 +64,9 @@ const SideMenuTest = ({ openSidebarToggle, OpenSidebar }) => {
       <Menu
         // theme="blue"
         style={{
-          height: 920,
-          "backgroundColor": "wheat",
-          "borderRadius": "10px 10px 10px 10px",
+          height: 1000,
+          backgroundColor: "wheat",
+          borderRadius: "10px 10px 10px 10px",
         }}
         onClick={(item) => {
           //item.key

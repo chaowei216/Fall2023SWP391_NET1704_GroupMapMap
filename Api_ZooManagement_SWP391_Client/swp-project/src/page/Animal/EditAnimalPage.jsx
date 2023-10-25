@@ -51,7 +51,8 @@ export default function EditAnimal(pros) {
   const [isValidOutCage, setIsValidOutCage] = useState(true);
   const [isValidTrainerDate, setIsValidTrainerDate] = useState(true);
   const [isValidAmount, setIsValidAmount] = useState(true);
-  const [selectedFoodId, setSelectedFoodId] = useState("");
+  // const [selectedFoodId, setSelectedFoodId] = useState("");
+  const [selectedFoodIds, setSelectedFoodIds] = useState([]);
 
   const validateOutCageDate = (dateString) => {
     const selectedDate = new Date(dateString);
@@ -90,11 +91,11 @@ export default function EditAnimal(pros) {
   const validateAmountFood = (value) => {
     const amout = Number(value);
     if (!isNaN(amout) && amout >= 1) {
-      setIsValidAmount(true)
+      setIsValidAmount(true);
     } else {
-      setIsValidAmount(false)
+      setIsValidAmount(false);
     }
-  }
+  };
   const handleOutCageChange = (event) => {
     setOutCage(event.target.value);
     validateOutCageDate(event.target.value);
@@ -126,30 +127,37 @@ export default function EditAnimal(pros) {
 
   const handleFoodSelect = (e, index) => {
     // setSelectedFoodId(e.target.value);
-
+    console.log(e.target.value);
     // Lấy ra food object từ options
-    const selectedFood = options.find(
-      o => o.foodId === e.target.value
-    );
-    console.log(selectedFood.foodId)
-    console.log(e.target.value)
-    console.log(index)
+    const selectedFoodId = e.target.value;
+    setSelectedFoodIds((prevSelectedFoodIds) => [
+      ...prevSelectedFoodIds,
+      selectedFoodId,
+    ]);
+    console.log(selectedFoodIds);
+    const selectedFood = options.find((o) => o.foodId === e.target.value);
+    console.log(selectedFood.foodId);
+    console.log(e.target.value);
+    console.log(index);
     // Cập nhật lại cho food hiện tại
     const currentFood = foods[index];
     currentFood.foodId = selectedFood.foodId;
     console.log(currentFood);
     setFoods([...foods]);
-  }
+  };
 
   const handleAdd = () => {
     setIsNew(true);
     // Thêm mới object vào cuối mảng
-    setFoods([...foods, {
-      foodId: '',
-      amount: '',
-      description: ''
-    }]);
-  }
+    setFoods([
+      ...foods,
+      {
+        foodId: "",
+        amount: "",
+        description: "",
+      },
+    ]);
+  };
 
   const getList = () => {
     return fetch("https://localhost:44352/api/Food").then((data) =>
@@ -178,8 +186,16 @@ export default function EditAnimal(pros) {
         setBirthday(dataAnimalEdit.birthday.slice(0, 10)),
         setEntryCage(dataAnimalEdit.entryCageDate.slice(0, 10)),
         setStartTrain(dataAnimalEdit.startTrainDate.slice(0, 10)),
-        setEndTraining(dataAnimalEdit.endTrainDate === null ? null : dataAnimalEdit.endTrainDate.slice(0, 10)),
-        setOutCage(dataAnimalEdit.outCageDate === null ? null : dataAnimalEdit.outCageDate.slice(0, 10)),
+        setEndTraining(
+          dataAnimalEdit.endTrainDate === null
+            ? null
+            : dataAnimalEdit.endTrainDate.slice(0, 10)
+        ),
+        setOutCage(
+          dataAnimalEdit.outCageDate === null
+            ? null
+            : dataAnimalEdit.outCageDate.slice(0, 10)
+        ),
         setSpecies(dataAnimalEdit.species),
         setRarity(dataAnimalEdit.rarity);
       setFoods(dataAnimalEdit.foods);
@@ -216,10 +232,15 @@ export default function EditAnimal(pros) {
   const ZooTrainerList = listZooTrainer.filter((user) => user.role === 3);
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    if (healthCheck === dataAnimalEdit.healthCheck && description === dataAnimalEdit.description && outCage === null && endTraining === null) {
+    if (
+      healthCheck === dataAnimalEdit.healthCheck &&
+      description === dataAnimalEdit.description &&
+      outCage === null &&
+      endTraining === null
+    ) {
       setErros("Data Dupplicated");
       if (role === "ZOOTRAINER") {
-        window.location.href("/ZooTrainer/2")
+        window.location.href("/ZooTrainer/2");
       }
     } else if (healthCheck === "") {
       setErros("HealthCheck can't be null");
@@ -235,7 +256,7 @@ export default function EditAnimal(pros) {
       return;
     } else if (isValidTrainerDate === false) {
       return;
-    } else if (isValidAmount === false){
+    } else if (isValidAmount === false) {
       return;
     }
     console.log(dataAnimalEdit);
@@ -299,7 +320,17 @@ export default function EditAnimal(pros) {
                 <Form noValidate onSubmit={handleFormSubmit}>
                   <div className="form-content">
                     <div className="form">
-                      {error && <div style={{ color: "red", fontSize: "30px", textAlign: "center" }}>{error}</div>}
+                      {error && (
+                        <div
+                          style={{
+                            color: "red",
+                            fontSize: "30px",
+                            textAlign: "center",
+                          }}
+                        >
+                          {error}
+                        </div>
+                      )}
                       <div className="label-info">
                         <label>Animal Information Basic</label>
                       </div>
@@ -316,10 +347,10 @@ export default function EditAnimal(pros) {
                               name="name"
                               value={name}
                               onChange={(event) => setName(event.target.value)}
-                            // isInvalid={
-                            //   formik.errors.first_name &&
-                            //   formik.touched.first_name
-                            // }
+                              // isInvalid={
+                              //   formik.errors.first_name &&
+                              //   formik.touched.first_name
+                              // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
@@ -338,10 +369,10 @@ export default function EditAnimal(pros) {
                               onChange={(event) =>
                                 setRegion(event.target.value)
                               }
-                            // isInvalid={
-                            //   formik.errors.last_name &&
-                            //   formik.touched.last_name
-                            // }
+                              // isInvalid={
+                              //   formik.errors.last_name &&
+                              //   formik.touched.last_name
+                              // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
@@ -357,10 +388,10 @@ export default function EditAnimal(pros) {
                               aria-describedby="inputGroupPrepend"
                               name="species"
                               value={species}
-                            // value={formik.values.species}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={phone == nul}
+                              // value={formik.values.species}
+                              // onChange={formik.handleChange}
+                              // onBlur={formik.handleBlur}
+                              // isInvalid={phone == nul}
                             />
                             <Form.Control.Feedback type="invalid">
                               Haha
@@ -523,11 +554,11 @@ export default function EditAnimal(pros) {
                             onChange={(event) =>
                               setHealthCheck(event.target.value)
                             }
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.address && formik.touched.address
-                          // }
+                            // onChange={formik.handleChange}
+                            // onBlur={formik.handleBlur}
+                            // isInvalid={
+                            //   formik.errors.address && formik.touched.address
+                            // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
@@ -546,11 +577,11 @@ export default function EditAnimal(pros) {
                             onChange={(event) =>
                               setDescription(event.target.value)
                             }
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.address && formik.touched.address
-                          // }
+                            // onChange={formik.handleChange}
+                            // onBlur={formik.handleBlur}
+                            // isInvalid={
+                            //   formik.errors.address && formik.touched.address
+                            // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
@@ -576,7 +607,7 @@ export default function EditAnimal(pros) {
                             name="cageId"
                             style={{ width: "85%" }}
                             onChange={(event) => setCageID(event.target.value)}
-                          // onChange={handleChange}
+                            // onChange={handleChange}
                           >
                             {/* <option value="">Choose Cage</option> */}
                             {/* Render các option từ API */}
@@ -613,10 +644,10 @@ export default function EditAnimal(pros) {
                               onChange={(event) =>
                                 setEntryCage(event.target.value)
                               }
-                            // isInvalid={
-                            //   formik.errors.entryCageDate &&
-                            //   formik.touched.entryCageDate
-                            // }
+                              // isInvalid={
+                              //   formik.errors.entryCageDate &&
+                              //   formik.touched.entryCageDate
+                              // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                                 {formik.errors.entryCageDate}
@@ -637,10 +668,10 @@ export default function EditAnimal(pros) {
                               // }
                               onChange={handleOutCageChange}
                               isInvalid={!isValidOutCage}
-                            // isInvalid={
-                            //   formik.errors.last_name &&
-                            //   formik.touched.last_name
-                            // }
+                              // isInvalid={
+                              //   formik.errors.last_name &&
+                              //   formik.touched.last_name
+                              // }
                             />
                             <Form.Control.Feedback type="invalid">
                               Ngày không hợp lệ hoặc lớn hơn ngày hiện tại.
@@ -673,7 +704,8 @@ export default function EditAnimal(pros) {
                               >
                                 ZooTrainerID : {option.userId} - FirstName :{" "}
                                 {option.firstname} - LastName :{" "}
-                                {option.lastname} - Training Animal: {" "} {option.countAnimal}
+                                {option.lastname} - Training Animal:{" "}
+                                {option.countAnimal}
                               </option>
                             ))}
                           </Form.Select>
@@ -702,10 +734,10 @@ export default function EditAnimal(pros) {
                                 onChange={(event) =>
                                   setStartTrain(event.target.value)
                                 }
-                              // isInvalid={
-                              //   formik.errors.startTrainDate &&
-                              //   formik.touched.startTrainDate
-                              // }
+                                // isInvalid={
+                                //   formik.errors.startTrainDate &&
+                                //   formik.touched.startTrainDate
+                                // }
                               />
                             </div>
                             {/* <Form.Control.Feedback type="invalid">
@@ -723,10 +755,10 @@ export default function EditAnimal(pros) {
                                 value={endTraining}
                                 onChange={handleEndTrainingDate}
                                 isInvalid={!isValidTrainerDate}
-                              // isInvalid={
-                              //   formik.errors.first_name &&
-                              //   formik.touched.first_name
-                              // }
+                                // isInvalid={
+                                //   formik.errors.first_name &&
+                                //   formik.touched.first_name
+                                // }
                               />
                               <Form.Control.Feedback type="invalid">
                                 Ngày không hợp lệ hoặc lớn hơn ngày hiện tại.
@@ -773,7 +805,11 @@ export default function EditAnimal(pros) {
                                     marginRight: "20px",
                                   }}
                                   value={food.foodId}
-                                  onChange={isNew ? (e) => handleFoodSelect(e, index) : null}
+                                  onChange={
+                                    isNew
+                                      ? (e) => handleFoodSelect(e, index)
+                                      : null
+                                  }
                                   placeholder="Chọn món ăn"
                                 >
                                   <option value="">Chọn món ăn</option>
@@ -782,9 +818,12 @@ export default function EditAnimal(pros) {
                                     <option
                                       key={option.foodId}
                                       value={option.foodId}
-                                    // disabled={selectedFoodIds.includes(
-                                    //   option.foodId
-                                    // )}
+                                      disabled={selectedFoodIds.includes(
+                                        food.foodId
+                                      )}
+                                      // disabled={selectedFoodIds.includes(
+                                      //   option.foodId
+                                      // )}
                                     >
                                       {option.fName}
                                     </option>
@@ -825,10 +864,9 @@ export default function EditAnimal(pros) {
                                   }
                                 />
                               </div>
-
                             </div>
                           ))}
-                          {foods.length && (foods.length < options.length) &&
+                          {foods.length && foods.length < options.length && (
                             <div
                               style={{
                                 display: "flex",
@@ -837,7 +875,7 @@ export default function EditAnimal(pros) {
                             >
                               <Button onClick={handleAdd}>Add</Button>
                             </div>
-                          }
+                          )}
                         </div>
                       </div>
 

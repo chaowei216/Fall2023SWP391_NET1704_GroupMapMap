@@ -23,16 +23,10 @@ const items = [
       "Manage",
       "g1",
       null,
-      [getItem("Profile", "1"), getItem("Animal", "2")],
+      [getItem("Profile", "profile"), getItem("Animal", "2")],
       "group"
     ),
-    getItem(
-      "Item 2",
-      "g2",
-      null,
-      [getItem("Food", "food")],
-      "group"
-    ),
+    getItem("Item 2", "g2", null, [getItem("Food", "food")], "group"),
   ]),
   getItem("Navigation Two", "sub2", <AppstoreOutlined />, [
     getItem("Option 5", "/staff/2"),
@@ -85,9 +79,9 @@ const SideMenuZooTrainer = ({ openSidebarToggle, OpenSidebar }) => {
       <Menu
         // theme="blue"
         style={{
-          "height": "88vh",
-          "backgroundColor": "wheat",
-          "borderRadius": "10px 10px 10px 10px",
+          height: "128vh",
+          backgroundColor: "wheat",
+          borderRadius: "10px 10px 10px 10px",
         }}
         onClick={(item) => {
           //item.key

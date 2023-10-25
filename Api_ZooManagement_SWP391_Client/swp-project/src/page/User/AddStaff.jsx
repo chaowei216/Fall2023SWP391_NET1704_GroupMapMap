@@ -91,7 +91,7 @@ function AddStaff() {
   const submitForm = async (values) => {
     let exp = [];
     if (values.fields[0].company != "" && values.fields[0].experienceId != "") {
-      exp = values.fields
+      exp = values.fields;
     }
     const user = {
       email: values.email,
@@ -164,9 +164,7 @@ function AddStaff() {
                       value={values.firstname}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      isInvalid={
-                        errors.firstname && touched.firstname
-                      }
+                      isInvalid={errors.firstname && touched.firstname}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.firstname}
@@ -183,9 +181,7 @@ function AddStaff() {
                       value={values.lastname}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      isInvalid={
-                        errors.lastname && touched.lastname
-                      }
+                      isInvalid={errors.lastname && touched.lastname}
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.lastname}
@@ -309,8 +305,8 @@ function AddStaff() {
                       >
                         <Field
                           name={`fields[${index}].experienceId`}
-                        // as="select"
-                        // onChange={(e) => handleChange(e.target.value)}
+                          // as="select"
+                          // onChange={(e) => handleChange(e.target.value)}
                         >
                           {({ field, form }) => (
                             <Form.Select
@@ -354,9 +350,7 @@ function AddStaff() {
                       </div>
                     ))}
                     {errors.fields && (
-                      <div style={{ color: "red" }}>
-                        Choose Food and Quantity
-                      </div>
+                      <div style={{ color: "red" }}>Choose Exp and Company</div>
                     )}
                   </div>
                   <div
@@ -365,7 +359,7 @@ function AddStaff() {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Button onClick={addField}>More Food</Button>
+                    <Button onClick={addField}>More Information</Button>
                   </div>
                 </div>
                 <div className="btn-footer">

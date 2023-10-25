@@ -55,32 +55,30 @@ export default function EditPage(pros) {
   const role = localStorage.getItem("role");
   var today = new Date();
   var date =
-    today.getFullYear() +
-    "-" +
-    (today.getMonth() + 1) +
-    "-" +
-    today.getDate();
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
   useEffect(() => {
     if (show) {
       setUID(dataUserEdit.userId);
       setFirstName(dataUserEdit.firstname);
-        setLastName(dataUserEdit.lastname);
-        setPhone(dataUserEdit.phone);
-        setEmail(dataUserEdit.email);
-        setPassword(dataUserEdit.password);
-        setAddress(dataUserEdit.address);
-        setRole(dataUserEdit.role);
+      setLastName(dataUserEdit.lastname);
+      setPhone(dataUserEdit.phone);
+      setEmail(dataUserEdit.email);
+      setPassword(dataUserEdit.password);
+      setAddress(dataUserEdit.address);
+      setRole(dataUserEdit.role);
       setSex(dataUserEdit.sex);
-        setEndDate(dataUserEdit.endDate === null ? null : dataUserEdit.endDate.slice(0, 10)),
+      setEndDate(
+        dataUserEdit.endDate === null ? null : dataUserEdit.endDate.slice(0, 10)
+      ),
         setStatus(dataUserEdit.status);
-        setWID(dataUserEdit.wID === null ? "2" : `${wID}`);
+      setWID(dataUserEdit.wID === null ? "2" : `${wID}`);
     }
   }, [dataUserEdit]);
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     let end = "";
     if (endDate != "") {
-      end = endDate
+      end = endDate;
     } else {
       end = date;
     }
@@ -204,11 +202,11 @@ export default function EditPage(pros) {
                             name="firstname"
                             value={firstname}
                             onChange={(e) => setFirstName(e.target.value)}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.first_name &&
-                          //   formik.touched.first_name
-                          // }
+                            // onBlur={formik.handleBlur}
+                            // isInvalid={
+                            //   formik.errors.first_name &&
+                            //   formik.touched.first_name
+                            // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
@@ -224,12 +222,12 @@ export default function EditPage(pros) {
                             name="lastname"
                             value={lastname}
                             onChange={(e) => setLastName(e.target.value)}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.last_name &&
-                          //   formik.touched.last_name
-                          // }
+                            // onChange={formik.handleChange}
+                            // onBlur={formik.handleBlur}
+                            // isInvalid={
+                            //   formik.errors.last_name &&
+                            //   formik.touched.last_name
+                            // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
@@ -248,11 +246,11 @@ export default function EditPage(pros) {
                             name="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.email && formik.touched.email
-                          // }
+                            // onChange={formik.handleChange}
+                            // onBlur={formik.handleBlur}
+                            // isInvalid={
+                            //   formik.errors.email && formik.touched.email
+                            // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.email}
@@ -271,7 +269,7 @@ export default function EditPage(pros) {
                             defaultValue={Role}
                             buttonStyle="solid"
                           >
-                            {role === "ADMIN " &&
+                            {role === "ADMIN " && (
                               <Radio
                                 style={{
                                   textAlign: "center",
@@ -282,7 +280,7 @@ export default function EditPage(pros) {
                                   Staff
                                 </span>
                               </Radio>
-                            }
+                            )}
                             <Radio
                               style={{
                                 textAlign: "center ",
@@ -352,11 +350,11 @@ export default function EditPage(pros) {
                           name="address"
                           value={address}
                           onChange={(e) => setAddress(e.target.value)}
-                        // onChange={formik.handleChange}
-                        // onBlur={formik.handleBlur}
-                        // isInvalid={
-                        //   formik.errors.address && formik.touched.address
-                        // }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.address && formik.touched.address
+                          // }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
@@ -374,7 +372,7 @@ export default function EditPage(pros) {
                             name="endDate"
                             value={endDate}
                             onChange={(event) => setEndDate(event.target.value)}
-                          // onBlur={formik.handleBlur}
+                            // onBlur={formik.handleBlur}
                           />
                         </div>
                       </div>
