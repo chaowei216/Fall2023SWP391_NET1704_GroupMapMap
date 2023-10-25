@@ -285,6 +285,7 @@ figure {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transform: translateY(0);
     transition: transform 1s ease;
+    margin-bottom: 100px;
   }
 .overlay {
   
@@ -4898,4 +4899,8 @@ justify-content: center;
     margin-right: 500px;
    
 }
-  
+
+.pagination{
+    padding: 0;
+}
+
