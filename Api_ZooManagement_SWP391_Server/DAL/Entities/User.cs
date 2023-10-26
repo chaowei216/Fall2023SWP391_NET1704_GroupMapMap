@@ -21,6 +21,7 @@ namespace DAL.Entities
         public string? ResetPassToken { get; set; }
         public DateTime? ResetTokenExpires { get; set; }
         public Role Role { get; set; }
+        public int CountAnimal {  get; set; }
         public string? UserImage {  get; set; } 
         public ICollection<ExperienceDetail> ExperienceDetails { get; set; }  
         public ICollection<AnimalTrainer> AnimalTrainers { get; set; }

@@ -166,6 +166,7 @@ namespace DAL.Data
                 entity.Property(u => u.Role).IsRequired();
                 entity.Property(u => u.Status).IsRequired();
                 entity.Property(u => u.UserImage);
+                entity.Property(u => u.CountAnimal).IsRequired();
             });
 
             modelBuilder.Entity<Schedule>(entity =>

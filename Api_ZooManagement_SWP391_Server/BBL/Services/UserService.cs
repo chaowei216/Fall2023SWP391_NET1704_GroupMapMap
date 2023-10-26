@@ -202,7 +202,9 @@ namespace BBL.Services
         {
             var user = _userRepository.GetById(id);
             if (user == null) return false;
-            
+
+            if (user.CountAnimal != 0) return false;
+
             user.Status = false;
             return _userRepository.Update(user);
         }

@@ -158,14 +158,14 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpGet("{animalId}/oldtrainers")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<UserDto>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<OldUsersDto>))]
         [ProducesResponseType(400)]
         public IActionResult GetTrainersByAnimalId(string animalId)
         {
             if (!_animalService.AnimalExists(animalId))
                 return NotFound();
 
-            var trainers = _mapper.Map<List<UserDto>>(_animalService.GetOldTrainersOfAnimal(animalId));
+            var trainers = _animalService.GetOldTrainersOfAnimal(animalId);
 
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -174,14 +174,14 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpGet("{animalId}/oldcages")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<CageCreateDto>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<OldCagesDto>))]
         [ProducesResponseType(400)]
         public IActionResult GetOldCagesOfAnimal(string animalId)
         {
             if (!_animalService.AnimalExists(animalId))
                 return NotFound();
 
-            var cages = _mapper.Map<List<CageCreateDto>>(_animalService.GetOldCagesOfAnimal(animalId));
+            var cages = _animalService.GetOldCagesOfAnimal(animalId);
 
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -264,6 +264,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             var cageMap = _mapper.Map<AnimalCage>(animalDto);
             var foodAmount = animalDto.AnimalFoods;
             var species = _animalSpeciesService.GetBySpeciesName(animalDto.SpeciesName);
+
             animalMap.AnimalId = animalId;
             cageMap.EntryCageDate = DateTime.Now;    
             userMap.StartTrainDate = DateTime.Now;
@@ -371,11 +372,15 @@ namespace Api_ZooManagement_SWP391.Controllers
             var cageMap = _mapper.Map<AnimalCage>(updateAnimalDto);
             var foodMap = _mapper.Map<AnimalFood>(updateAnimalDto);
 
+            var newTrainer = _userService.GetById(updateAnimalDto.UserId);
             var animalTrainer = _userService.GetUserByAnimalId(animal.AnimalId);
+            var oldTrainer = _userService.GetById(animalTrainer.UserId);
             if (animalTrainer == null)
                 return BadRequest("Something wrong!!!");
             if (animalTrainer.UserId != updateAnimalDto.UserId)
             {
+                newTrainer.CountAnimal += 1;
+                oldTrainer.CountAnimal -= 1;
                 animalTrainer.EndTrainDate = DateTime.Now;
                 _animalService.AddAnimalTrainer(updateAnimalDto.UserId, animalId, trainerMap);
             }

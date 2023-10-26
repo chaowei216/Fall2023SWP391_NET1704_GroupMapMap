@@ -52,6 +52,7 @@ namespace BBL.Services
                     EntryCageDate = DateTime.Now,
                 };
                 cage.AnimalQuantity += 1;
+                trainer.CountAnimal += 1;
                 _animalCageRepo.Add(newAnimalCage);
                 return true;
             }
@@ -163,6 +164,17 @@ namespace BBL.Services
             var animal = _animalRepo.GetById(animalId);
             if (animal == null)
                 return false;
+            var animalCage = _animalCageRepo.GetAll().Where(a => a.AnimalId == animalId && a.OutCageDate == null).FirstOrDefault();
+            animalCage.OutCageDate = DateTime.Now;
+
+            var animalTrainer = _animalTrainerRepo.GetAll().Where(a => a.AnimalId == animalId && a.EndTrainDate == null).FirstOrDefault();
+            animalTrainer.EndTrainDate = DateTime.Now;
+
+            var cage = _cageRepo.GetById(animalCage.CageId);
+            cage.AnimalQuantity -= 1;
+
+            var train = _userRepo.GetById(animalTrainer.UserId);
+            train.CountAnimal -= 1;
 
             animal.Status = false;
             return _animalRepo.Update(animal);
@@ -196,31 +208,40 @@ namespace BBL.Services
             return users;
         }
 
-        public ICollection<User>? GetOldTrainersOfAnimal(string animalId)
+        public ICollection<OldUsersDto>? GetOldTrainersOfAnimal(string animalId)
         {
             var aniTrainers = _animalTrainerRepo.GetAll().Where(a => a.AnimalId == animalId && a.EndTrainDate != null).ToList();
+            var trainers = new List<OldUsersDto>();
             if (aniTrainers != null)
             {
-                var trainers = new List<User>();
                 foreach (var aniTrainer in aniTrainers)
                 {
-                    trainers.Add(_userRepo.GetById(aniTrainer.UserId));
+                    var t = new OldUsersDto();
+                    t.UserId = aniTrainer.UserId;
+                    t.UserName = _userRepo.GetById(aniTrainer.UserId).Firstname + _userRepo.GetById(aniTrainer.UserId).Lastname;
+                    t.StartTrainDate = aniTrainer.StartTrainDate;
+                    t.EndTrainDate = aniTrainer.EndTrainDate;
+                    trainers.Add(t);
                 }
-                return trainers;
             }
-
-            return null;
+            return trainers;
         }
 
-        public ICollection<Cage>? GetOldCagesOfAnimal(string animalId)
+        public ICollection<OldCagesDto>? GetOldCagesOfAnimal(string animalId)
         {
             var aniCages = _animalCageRepo.GetAll().Where(aniCage => aniCage.AnimalId == animalId && aniCage.OutCageDate != null).ToList();
-            var cages = new List<Cage>();
+            var cages = new List<OldCagesDto>();
             if (aniCages != null)
             {
                 foreach(var aniCage in aniCages)
                 {
-                    cages.Add(_cageRepo.GetById(aniCage.CageId));
+                    var c = new OldCagesDto();
+                    c.CId = aniCage.CageId;
+                    c.Name = _cageRepo.GetById(aniCage.CageId).Name;
+                    c.EntryCageDate = aniCage.EntryCageDate;
+                    c.OutCageDate = aniCage.OutCageDate;
+
+                    cages.Add(c);
                 }
             }
             return cages;

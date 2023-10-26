@@ -20,8 +20,8 @@ namespace BBL.Interfaces
         bool AnimalExists(string id);
         bool DeleteAnimal(string id);
         ICollection<User> GetTrainersCanTrain();
-        ICollection<User>? GetOldTrainersOfAnimal(string animalId);
-        ICollection<Cage>? GetOldCagesOfAnimal(string animalId);
+        ICollection<OldUsersDto>? GetOldTrainersOfAnimal(string animalId);
+        ICollection<OldCagesDto>? GetOldCagesOfAnimal(string animalId);
         ICollection<AnimalCage> GetAnimalCageByAnimalId(string animalId);
         ICollection<AnimalCage> GetAnimalCages();
         ICollection<AnimalTrainer> GetAnimalTrainers();

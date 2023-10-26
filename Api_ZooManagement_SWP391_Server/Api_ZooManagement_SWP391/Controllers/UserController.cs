@@ -207,6 +207,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
             user.StartDate = DateTime.Now;
+            user.CountAnimal = 0;
             user.Status = true;
 
             if (!_userService.Add(userCreate.Experiences, user))

@@ -9,7 +9,7 @@ namespace DTO.Dtos
     public class AnimalScheduleCreateDto
     {
         public string ScheduleId { get; set; }
-        public DateTime Time { get; set; }
+        public string Time { get; set; }
         public string Description { get; set; }
     }
 }
