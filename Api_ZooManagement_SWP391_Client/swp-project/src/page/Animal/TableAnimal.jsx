@@ -44,7 +44,7 @@ function TableAnimal() {
       }
     });
     return () => (mounted = false);
-  }, [currentPage]);
+  }, [showModalEdit === false]);
   const onShowSizeChange = (current) => {
     console.log(current);
     setCurrentPage(current);
