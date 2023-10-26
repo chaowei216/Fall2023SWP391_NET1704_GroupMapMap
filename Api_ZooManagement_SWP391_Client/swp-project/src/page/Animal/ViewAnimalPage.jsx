@@ -172,7 +172,7 @@ export default function ViewAnimal(pros) {
       }
     });
     return () => (mounted = false);
-  }, [animalID]);
+  }, [animalID, showList]);
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
@@ -575,9 +575,10 @@ export default function ViewAnimal(pros) {
                               <Table striped bordered hover>
                                 <thead>
                                   <tr>
+                                    <th>ID</th>
                                     <th>Cage Name</th>
-                                    <th>Quantity</th>
-                                    <th>Max Capacity</th>
+                                    <th>Animal Entry Cage</th>
+                                    <th>Animal Out Cage</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -586,15 +587,16 @@ export default function ViewAnimal(pros) {
                                     listCageOld.map((value) => {
                                       return (
                                         <tr>
+                                          <td>{value.cId}</td>
                                           <td>{value.name}</td>
-                                          <td>{value.animalQuantity}</td>
-                                          <td>{value.maxCapacity}</td>
+                                          <td>{value.entryCageDate === null ? null : value.entryCageDate.slice(0,10)}</td>
+                                          <td>{value.outCageDate === null ? null : value.outCageDate.slice(0,10)}</td>
                                         </tr>
                                       );
                                     })}
                                   {listCageOld.length === 0 && (
                                     <tr>
-                                      <td colSpan={3}>Empty List</td>
+                                      <td colSpan={4}>Empty List</td>
                                     </tr>
                                   )}
                                 </tbody>
@@ -694,9 +696,7 @@ export default function ViewAnimal(pros) {
                                 <thead>
                                   <tr>
                                     <th>ID</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Phone</th>
+                                    <th>Full Name</th>
                                     <th>StartDate</th>
                                     <th>EndDate</th>
                                   </tr>
@@ -708,25 +708,23 @@ export default function ViewAnimal(pros) {
                                       return (
                                         <tr>
                                           <td>{value.userId}</td>
-                                          <td>{value.firstname}</td>
-                                          <td>{value.lastname}</td>
-                                          <td>{value.phone}</td>
+                                          <td>{value.userName}</td>
                                           <td>
                                             {value.startDate === null
                                               ? "Empty"
-                                              : value.startDate.slice(0, 10)}
+                                              : value.startTrainDate.slice(0, 10)}
                                           </td>
                                           <td>
                                             {value.endDate === null
                                               ? "Empty"
-                                              : value.endDate.slice(0, 10)}
+                                              : value.endTrainDate.slice(0, 10)}
                                           </td>
                                         </tr>
                                       );
                                     })}
                                   {listTrainerOld.length === 0 && (
                                     <tr>
-                                      <td colSpan={6}>Empty List</td>
+                                      <td colSpan={5}>Empty List</td>
                                     </tr>
                                   )}
                                 </tbody>
@@ -742,10 +740,8 @@ export default function ViewAnimal(pros) {
                             <thead>
                               <tr>
                                 <th>ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Full Name</th>
                                 <th>Phone</th>
-                                <th>Email</th>
                                 <th>Training Animal</th>
                                 <th>Status</th>
                               </tr>
@@ -757,10 +753,8 @@ export default function ViewAnimal(pros) {
                                   return (
                                     <tr>
                                       <td>{value.userId}</td>
-                                      <td>{value.firstname}</td>
-                                      <td>{value.lastname}</td>
+                                      <td>{value.firstname + " " + value.lastname}</td>
                                       <td>{value.phone}</td>
-                                      <td>{value.email}</td>
                                       <td>{value.countAnimal}</td>
                                       <td>
                                         {value.status === true ? (

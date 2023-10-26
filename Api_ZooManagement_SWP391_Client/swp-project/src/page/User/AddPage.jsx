@@ -38,7 +38,6 @@ function AddPage() {
   const navigate = useNavigate();
   const handleSave = () => {
     console.log("Submit");
-    console.log(formik.values);
     // console.log(formik.errors);
   };
   const [Role, setRole] = useState("");

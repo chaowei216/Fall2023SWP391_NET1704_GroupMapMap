@@ -9,15 +9,16 @@ import {
   MDBModalBody,
   MDBModalFooter,
 } from "mdb-react-ui-kit";
+import { Navigate, json, useNavigate } from "react-router-dom";
 import { DatePicker, Radio, Select, Space } from "antd";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "../../assets/css/dashboard.css";
 import { ToastContainer } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { MDBIcon } from 'mdb-react-ui-kit';
 export default function EditAnimal(pros) {
   const role = localStorage.getItem("role");
+  const navigate = useNavigate();
   const { show, handleClose, dataAnimalEdit } = pros;
   const [isNew, setIsNew] = useState(false);
   const [region, setRegion] = useState("");
@@ -39,12 +40,6 @@ export default function EditAnimal(pros) {
   const [listCage, setListCage] = useState([]);
   const [listZooTrainer, setListZooTrainer] = useState([]);
   const [options, setOptions] = useState([]);
-  const [fields, setFields] = useState([
-    {
-      id: "",
-      quantity: "",
-    },
-  ]);
   const [status, setStatus] = useState(true);
   const [foods, setFoods] = useState([]);
   const [error, setErros] = useState("");
@@ -53,7 +48,11 @@ export default function EditAnimal(pros) {
   const [isValidAmount, setIsValidAmount] = useState(true);
   // const [selectedFoodId, setSelectedFoodId] = useState("");
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
+  const [listTrainerOld, setListTrainerOld] = useState([]);
+  const [listCageOld, setListCageOld] = useState([]);
   const [list3, setList3] = useState([]);
+  const [availableTrainer, setAvailableTrainer] = useState([]);
+  const [availableCage, setAvailableCage] = useState([]);
   const validateOutCageDate = (dateString) => {
     const selectedDate = new Date(dateString);
     const currentDate = new Date();
@@ -71,6 +70,10 @@ export default function EditAnimal(pros) {
       // Xử lý logic khi ngày không hợp lệ
     }
   };
+  const handle = () => {
+    handleClose
+    window.location.reload()
+  }
   const validateTrainerDate = (dateString) => {
     const selectedDate = new Date(dateString);
     const currentDate = new Date();
@@ -104,7 +107,6 @@ export default function EditAnimal(pros) {
     setEndTraining(event.target.value);
     validateTrainerDate(event.target.value);
   };
-  const navigate = useNavigate();
   const handleFoodChange = (id, event) => {
     validateAmountFood(event.target.value);
     const newFood = foods.map((food) => {
@@ -252,7 +254,55 @@ export default function EditAnimal(pros) {
     });
     return () => (mounted = false);
   }, []);
-  const ZooTrainerList = listZooTrainer.filter((user) => user.role === 3);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(
+        `https://localhost:44352/api/Animal/${animalId}/oldtrainers`
+      );
+      const data = await response.json();
+      setListTrainerOld(data);
+    };
+    if (animalId) {
+      fetchData();
+    }
+  }, [animalId]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(
+        `https://localhost:44352/api/Animal/${animalId}/oldcages`
+      );
+      const data = await response.json();
+      setListCageOld(data);
+    };
+    if (animalId) {
+      fetchData();
+    }
+  }, [animalId]);
+
+  useEffect(() => {
+    const ZooTrainerList = listZooTrainer.filter((user) => user.role === 3);
+    const oldTrainerId = listTrainerOld.map(user => user.userId);
+    const test1 = [];
+    const test = ZooTrainerList.map((value) => {
+      if (!oldTrainerId.includes(value.userId)) {
+        test1.push(value);
+        setAvailableTrainer(test1)
+      }
+    })
+  }, [listZooTrainer, listTrainerOld])
+  console.log(availableTrainer);
+  useEffect(() => {
+    const oldCageId = listCageOld.map(cage => cage.cId);
+    const test2 = [];
+    const test = listCage.map((value) => {
+      if (!oldCageId.includes(value.cId)) {
+        test2.push(value);
+        setAvailableCage(test2);
+      }
+    })
+  }, [listCage, listCageOld])
+  console.log(availableCage);
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     if (
@@ -643,13 +693,13 @@ export default function EditAnimal(pros) {
                           >
                             {/* <option value="">Choose Cage</option> */}
                             {/* Render các option từ API */}
-                            {listCage.map((option) => (
+                            {availableCage.map((option) => (
                               <option
                                 key={option.cId}
                                 value={option.cId}
                                 selected={option.cId === cageID}
                               >
-                                {option.cId} - MaxCapacity :{" "}
+                                {option.cId} - Cage Name :{" "} {option.name} - MaxCapacity :{" "}
                                 {option.maxCapacity} - AnimalQuantity :{" "}
                                 {option.animalQuantity}
                               </option>
@@ -685,7 +735,7 @@ export default function EditAnimal(pros) {
                                 {formik.errors.entryCageDate}
                               </Form.Control.Feedback> */}
                           </div>
-                          <div className="mb-3" style={{ width: "40%" }}>
+                          {/* <div className="mb-3" style={{ width: "40%" }}>
                             <label className="form-label">
                               Choose Out Cage
                             </label>
@@ -708,11 +758,11 @@ export default function EditAnimal(pros) {
                             <Form.Control.Feedback type="invalid">
                               Ngày không hợp lệ hoặc lớn hơn ngày hiện tại.
                             </Form.Control.Feedback>
-                          </div>
+                          </div> */}
                         </div>
                         <div style={{ textAlign: "end" }}>
                           <Button
-                           type="submit"
+                            type="submit"
                             variant="text"
                             style={{ padding: 0 }}
                           >
@@ -737,7 +787,7 @@ export default function EditAnimal(pros) {
                             onChange={(evnet) => setUserID(evnet.target.value)}
                           >
                             {/* Render các option từ API */}
-                            {ZooTrainerList.map((option) => (
+                            {availableTrainer.map((option) => (
                               <option
                                 key={option.userId}
                                 value={option.userId}
@@ -783,7 +833,7 @@ export default function EditAnimal(pros) {
                             {/* <Form.Control.Feedback type="invalid">
                                 {formik.errors.startTrainDate}
                               </Form.Control.Feedback> */}
-                            <div style={{ width: "40%" }}>
+                            {/* <div style={{ width: "40%" }}>
                               <label className="form-label">
                                 Choose End Training
                               </label>
@@ -803,7 +853,7 @@ export default function EditAnimal(pros) {
                               <Form.Control.Feedback type="invalid">
                                 Ngày không hợp lệ hoặc lớn hơn ngày hiện tại.
                               </Form.Control.Feedback>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                         <div style={{ textAlign: "end" }}>
@@ -943,7 +993,7 @@ export default function EditAnimal(pros) {
                         >
                           <Button
                             variant="secondary"
-                            onClick={handleClose}
+                            onClick={handle}
                             active
                             style={{ width: "80px" }}
                           >
