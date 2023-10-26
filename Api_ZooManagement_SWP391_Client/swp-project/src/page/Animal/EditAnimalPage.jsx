@@ -15,7 +15,7 @@ import Button from "react-bootstrap/Button";
 import "../../assets/css/dashboard.css";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
+import { MDBIcon } from 'mdb-react-ui-kit';
 export default function EditAnimal(pros) {
   const role = localStorage.getItem("role");
   const { show, handleClose, dataAnimalEdit } = pros;
@@ -53,7 +53,7 @@ export default function EditAnimal(pros) {
   const [isValidAmount, setIsValidAmount] = useState(true);
   // const [selectedFoodId, setSelectedFoodId] = useState("");
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
-
+  const [list3, setList3] = useState([]);
   const validateOutCageDate = (dateString) => {
     const selectedDate = new Date(dateString);
     const currentDate = new Date();
@@ -124,17 +124,28 @@ export default function EditAnimal(pros) {
     });
     setFoods(newFood);
   };
+  useEffect(() => {
+    const array = [];
+    const foodIds1 = foods.map(food => food.foodId);
+    array.push(foodIds1)
+    console.log(array);
+    setSelectedFoodIds(foodIds1);
+    console.log(foodIds1);
+    console.log(selectedFoodIds);
+  }, [dataAnimalEdit, foods])
 
   const handleFoodSelect = (e, index) => {
     // setSelectedFoodId(e.target.value);
     console.log(e.target.value);
     // Lấy ra food object từ options
     const selectedFoodId = e.target.value;
-    setSelectedFoodIds((prevSelectedFoodIds) => [
-      ...prevSelectedFoodIds,
-      selectedFoodId,
-    ]);
+    // setSelectedFoodIds((prevSelectedFoodIds) => [
+    //   ...prevSelectedFoodIds,
+    //   selectedFoodId,
+    // ]);
+    setSelectedFoodIds([...selectedFoodIds, e.target.value]);
     console.log(selectedFoodIds);
+
     const selectedFood = options.find((o) => o.foodId === e.target.value);
     console.log(selectedFood.foodId);
     console.log(e.target.value);
@@ -201,6 +212,18 @@ export default function EditAnimal(pros) {
       setFoods(dataAnimalEdit.foods);
     }
   }, [dataAnimalEdit]);
+
+  useEffect(() => {
+    const list3 = [];
+    const foodIds1 = foods.map(food => food.foodId);
+    options.forEach(food => {
+      if (!foodIds1.includes(food.foodId)) {
+        list3.push(food);
+      }
+    })
+    console.log(list3);
+    setList3(list3);
+  }, [dataAnimalEdit, foods])
   const getCageList = () => {
     return fetch("https://localhost:44352/api/Cage").then((data) =>
       data.json()
@@ -290,18 +313,18 @@ export default function EditAnimal(pros) {
       // localStorage.setItem("isAdded", true);
       // handleClose()
       // window.location.href = "/staff/2";
-      if (role === "ZOOTRAINER") {
-        navigate("/ZooTrainer/2");
-      } else {
-        navigate("/staff/2");
-      }
-      window.location.reload();
+      // if (role === "ZOOTRAINER") {
+      //   navigate("/ZooTrainer/2");
+      // } else {
+      //   navigate("/staff/2");
+      // }
+      // window.location.reload();
     }
   };
 
   return (
     <>
-      <MDBModal staticBackdrop tabIndex="-1" show={show} onHide={handleClose}>
+      <MDBModal show={show} onHide={handleClose}>
         <MDBModalDialog size="xl">
           <MDBModalContent>
             <MDBModalHeader>
@@ -347,10 +370,10 @@ export default function EditAnimal(pros) {
                               name="name"
                               value={name}
                               onChange={(event) => setName(event.target.value)}
-                              // isInvalid={
-                              //   formik.errors.first_name &&
-                              //   formik.touched.first_name
-                              // }
+                            // isInvalid={
+                            //   formik.errors.first_name &&
+                            //   formik.touched.first_name
+                            // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
@@ -369,10 +392,10 @@ export default function EditAnimal(pros) {
                               onChange={(event) =>
                                 setRegion(event.target.value)
                               }
-                              // isInvalid={
-                              //   formik.errors.last_name &&
-                              //   formik.touched.last_name
-                              // }
+                            // isInvalid={
+                            //   formik.errors.last_name &&
+                            //   formik.touched.last_name
+                            // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
@@ -388,10 +411,10 @@ export default function EditAnimal(pros) {
                               aria-describedby="inputGroupPrepend"
                               name="species"
                               value={species}
-                              // value={formik.values.species}
-                              // onChange={formik.handleChange}
-                              // onBlur={formik.handleBlur}
-                              // isInvalid={phone == nul}
+                            // value={formik.values.species}
+                            // onChange={formik.handleChange}
+                            // onBlur={formik.handleBlur}
+                            // isInvalid={phone == nul}
                             />
                             <Form.Control.Feedback type="invalid">
                               Haha
@@ -544,8 +567,8 @@ export default function EditAnimal(pros) {
                         <div className="mb-3">
                           <label className="form-label">HealthCheck</label>
                           <Form.Control
-                            type="textarea"
-                            style={{ height: "56px" }}
+                            as="textarea"
+                            style={{ height: "90px", width: "98%" }}
                             id="healthCheck"
                             placeholder="healthCheck"
                             aria-describedby="inputGroupPrepend"
@@ -554,11 +577,11 @@ export default function EditAnimal(pros) {
                             onChange={(event) =>
                               setHealthCheck(event.target.value)
                             }
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.address && formik.touched.address
-                            // }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.address && formik.touched.address
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
@@ -567,25 +590,34 @@ export default function EditAnimal(pros) {
                         <div className="mb-3">
                           <label className="form-label">Description</label>
                           <Form.Control
-                            type="text"
+                            as="textarea"
                             id="description"
                             placeholder="description"
                             aria-describedby="inputGroupPrepend"
                             name="description"
-                            style={{ height: "56px" }}
+                            style={{ height: "90px", width: "98%" }}
                             value={description}
                             onChange={(event) =>
                               setDescription(event.target.value)
                             }
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.address && formik.touched.address
-                            // }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.address && formik.touched.address
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
                         </Form.Control.Feedback> */}
+                        </div>
+                        <div style={{ textAlign: "end" }}>
+                          <Button
+                            type="submit"
+                            variant="text"
+                            style={{ padding: 0, marginRight: "18px" }}
+                          >
+                            <MDBIcon fas icon="edit" size="2x" />
+                          </Button>
                         </div>
                       </div>
 
@@ -607,7 +639,7 @@ export default function EditAnimal(pros) {
                             name="cageId"
                             style={{ width: "85%" }}
                             onChange={(event) => setCageID(event.target.value)}
-                            // onChange={handleChange}
+                          // onChange={handleChange}
                           >
                             {/* <option value="">Choose Cage</option> */}
                             {/* Render các option từ API */}
@@ -644,10 +676,10 @@ export default function EditAnimal(pros) {
                               onChange={(event) =>
                                 setEntryCage(event.target.value)
                               }
-                              // isInvalid={
-                              //   formik.errors.entryCageDate &&
-                              //   formik.touched.entryCageDate
-                              // }
+                            // isInvalid={
+                            //   formik.errors.entryCageDate &&
+                            //   formik.touched.entryCageDate
+                            // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                                 {formik.errors.entryCageDate}
@@ -668,15 +700,24 @@ export default function EditAnimal(pros) {
                               // }
                               onChange={handleOutCageChange}
                               isInvalid={!isValidOutCage}
-                              // isInvalid={
-                              //   formik.errors.last_name &&
-                              //   formik.touched.last_name
-                              // }
+                            // isInvalid={
+                            //   formik.errors.last_name &&
+                            //   formik.touched.last_name
+                            // }
                             />
                             <Form.Control.Feedback type="invalid">
                               Ngày không hợp lệ hoặc lớn hơn ngày hiện tại.
                             </Form.Control.Feedback>
                           </div>
+                        </div>
+                        <div style={{ textAlign: "end" }}>
+                          <Button
+                           type="submit"
+                            variant="text"
+                            style={{ padding: 0 }}
+                          >
+                            <MDBIcon fas icon="edit" size="2x" />
+                          </Button>
                         </div>
                       </div>
                       <div className="label-info">
@@ -702,9 +743,8 @@ export default function EditAnimal(pros) {
                                 value={option.userId}
                                 selected={option.userId === userID}
                               >
-                                ZooTrainerID : {option.userId} - FirstName :{" "}
-                                {option.firstname} - LastName :{" "}
-                                {option.lastname} - Training Animal:{" "}
+                                ZooTrainerID : {option.userId} - FullName : {option.firstname + " " + option.lastname} -
+                                Training Animal:{" "}
                                 {option.countAnimal}
                               </option>
                             ))}
@@ -734,10 +774,10 @@ export default function EditAnimal(pros) {
                                 onChange={(event) =>
                                   setStartTrain(event.target.value)
                                 }
-                                // isInvalid={
-                                //   formik.errors.startTrainDate &&
-                                //   formik.touched.startTrainDate
-                                // }
+                              // isInvalid={
+                              //   formik.errors.startTrainDate &&
+                              //   formik.touched.startTrainDate
+                              // }
                               />
                             </div>
                             {/* <Form.Control.Feedback type="invalid">
@@ -755,16 +795,25 @@ export default function EditAnimal(pros) {
                                 value={endTraining}
                                 onChange={handleEndTrainingDate}
                                 isInvalid={!isValidTrainerDate}
-                                // isInvalid={
-                                //   formik.errors.first_name &&
-                                //   formik.touched.first_name
-                                // }
+                              // isInvalid={
+                              //   formik.errors.first_name &&
+                              //   formik.touched.first_name
+                              // }
                               />
                               <Form.Control.Feedback type="invalid">
                                 Ngày không hợp lệ hoặc lớn hơn ngày hiện tại.
                               </Form.Control.Feedback>
                             </div>
                           </div>
+                        </div>
+                        <div style={{ textAlign: "end" }}>
+                          <Button
+                            type="submit"
+                            variant="text"
+                            style={{ padding: 0, marginRight: "24px" }}
+                          >
+                            <MDBIcon fas icon="edit" size="2x" />
+                          </Button>
                         </div>
                       </div>
                       <div className="label-info">
@@ -819,11 +868,8 @@ export default function EditAnimal(pros) {
                                       key={option.foodId}
                                       value={option.foodId}
                                       disabled={selectedFoodIds.includes(
-                                        food.foodId
+                                        option.foodId
                                       )}
-                                      // disabled={selectedFoodIds.includes(
-                                      //   option.foodId
-                                      // )}
                                     >
                                       {option.fName}
                                     </option>
@@ -877,6 +923,15 @@ export default function EditAnimal(pros) {
                             </div>
                           )}
                         </div>
+                        <div style={{ textAlign: "end" }}>
+                          <Button
+                            type="submit"
+                            variant="text"
+                            style={{ padding: 0, marginRight: "24px" }}
+                          >
+                            <MDBIcon fas icon="edit" size="2x" />
+                          </Button>
+                        </div>
                       </div>
 
                       <div className="btn-footer">
@@ -895,7 +950,7 @@ export default function EditAnimal(pros) {
                             Close
                           </Button>
                         </div>
-                        <div>
+                        {/* <div>
                           <Button
                             style={{ background: "blue" }}
                             variant="primary"
@@ -904,7 +959,7 @@ export default function EditAnimal(pros) {
                           >
                             Edit animal
                           </Button>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>

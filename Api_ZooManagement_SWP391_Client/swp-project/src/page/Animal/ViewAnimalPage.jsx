@@ -314,7 +314,7 @@ export default function ViewAnimal(pros) {
 
   return (
     <>
-      <MDBModal staticBackdrop tabIndex="-1" show={show} onHide={handleClose}>
+      <MDBModal show={show} onHide={handleClose}>
         <MDBModalDialog size="xl">
           <MDBModalContent>
             <MDBModalHeader>
@@ -510,8 +510,8 @@ export default function ViewAnimal(pros) {
                         <div className="row mb-3">
                           <label className="form-label">Health Check</label>
                           <Form.Control
-                            type="textarea"
-                            style={{ height: "56px" }}
+                            as="textarea"
+                            style={{ height: "85px" }}
                             id="healthCheck"
                             placeholder="healthCheck"
                             disabled
@@ -534,13 +534,13 @@ export default function ViewAnimal(pros) {
                         <div className="mb-3 row">
                           <label className="form-label">Description</label>
                           <Form.Control
-                            type="text"
+                            as="textarea"
                             id="description"
                             placeholder="description"
                             aria-describedby="inputGroupPrepend"
                             disabled
                             name="description"
-                            style={{ height: "56px" }}
+                            style={{ height: "85px" }}
                             value={description}
                             onChange={(event) =>
                               setDescription(event.target.value)
