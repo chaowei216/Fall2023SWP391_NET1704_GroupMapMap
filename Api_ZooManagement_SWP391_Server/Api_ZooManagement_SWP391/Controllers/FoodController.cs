@@ -153,7 +153,7 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             return NoContent();
         }
-        /*[HttpGet("animalId")]
+        [HttpPut("animalId")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
@@ -163,17 +163,16 @@ namespace Api_ZooManagement_SWP391.Controllers
             {
                 return NotFound();
             }
-            //var animalFood = _foodService.GetAnimalFoodsByAnimalId(animalId);
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            *//*if (!_foodService.UpdateFoodFeed(animalId))
+            if (!_foodService.UpdateFoodFeed(animalId))
             {
                 ModelState.AddModelError("", "Something went wrong while deleting food");
-            }*//*
+            }
 
-            return Ok(animalFood);
-        }*/
+            return Ok();
+        }
     }
 }

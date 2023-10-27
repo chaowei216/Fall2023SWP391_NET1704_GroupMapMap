@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace DTO.Dtos
 {
-    public class AnimalScheduleCreateDto
+    public class GetAnimalScheduleDto
     {
         public string ScheduleId { get; set; }
+        public string ScheduleName { get; set; }
         public string Time { get; set; }
         public string Description { get; set; }
     }

@@ -83,11 +83,11 @@ namespace Api_ZooManagement_SWP391.Controllers
                 var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                 if (schedules != null)
                 {
-                    animal.Schedules = new List<AnimalScheduleCreateDto>();
+                    animal.Schedules = new List<GetAnimalScheduleDto>();
                     foreach (var schedule in schedules)
                     {
                         var scheduleDetail = _scheduleService.GetSchedule(schedule.ScheduleId);
-                        animal.Schedules.Add(new AnimalScheduleCreateDto
+                        animal.Schedules.Add(new GetAnimalScheduleDto
                         {
                             ScheduleId = schedule.ScheduleId,
                             ScheduleName = scheduleDetail.ScheduleName,
@@ -143,11 +143,11 @@ namespace Api_ZooManagement_SWP391.Controllers
                     var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                     if (schedules != null)
                     {
-                        animal.Schedules = new List<AnimalScheduleCreateDto>();
+                        animal.Schedules = new List<GetAnimalScheduleDto>();
                         foreach (var schedule in schedules)
                         {
                             var scheduleDetail = _scheduleService.GetSchedule(schedule.ScheduleId);
-                            animal.Schedules.Add(new AnimalScheduleCreateDto
+                            animal.Schedules.Add(new GetAnimalScheduleDto
                             {
                                 ScheduleId = schedule.ScheduleId,
                                 ScheduleName = scheduleDetail.ScheduleName,
@@ -246,11 +246,11 @@ namespace Api_ZooManagement_SWP391.Controllers
                 var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                 if (schedules != null)
                 {
-                    animal.Schedules = new List<AnimalScheduleCreateDto>();
+                    animal.Schedules = new List<GetAnimalScheduleDto>();
                     foreach (var schedule in schedules)
                     {
                         var scheduleDetail = _scheduleService.GetSchedule(schedule.ScheduleId);
-                        animal.Schedules.Add(new AnimalScheduleCreateDto
+                        animal.Schedules.Add(new GetAnimalScheduleDto
                         {
                             ScheduleId = schedule.ScheduleId,
                             ScheduleName = scheduleDetail.ScheduleName,
