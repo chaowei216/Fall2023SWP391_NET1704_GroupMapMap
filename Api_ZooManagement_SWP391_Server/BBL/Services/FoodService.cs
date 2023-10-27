@@ -89,5 +89,12 @@ namespace BBL.Services
             food.Quantity = foodMap.Quantity;          
             return _foodRepository.Update(food);
         }
+
+        public bool UpdateFoodFeed(string foodId)
+        {
+            var food = _foodRepository.GetById(foodId);
+
+            return true;
+        }
     }
 }

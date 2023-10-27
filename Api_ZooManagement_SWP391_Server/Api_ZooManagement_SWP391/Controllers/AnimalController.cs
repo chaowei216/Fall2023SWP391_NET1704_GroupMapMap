@@ -66,7 +66,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                         {
                             FoodId = food.FoodId,
                             Amount = food.Amount,
-                            Description = food.Description
+                            StartEat = food.StartEat,
+                            EndEat = food.EndEat,
                         });
                     }
                 }
@@ -119,7 +120,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                             {
                                 FoodId = food.FoodId,
                                 Amount = food.Amount,
-                                Description = food.Description
+                                StartEat = food.StartEat,
+                                EndEat = food.EndEat,
                             });
                         }
                     }
@@ -214,7 +216,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                         {
                             FoodId = food.FoodId,
                             Amount = food.Amount,
-                            Description = food.Description  
+                            StartEat = food.StartEat,
+                            EndEat = food.EndEat
                         });
                     }
                 }
@@ -285,7 +288,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                     AnimalId = animalMap.AnimalId,
                     Food = food1,
                     Amount = food.Amount,
-                    Description = food.Description
+                    StartEat = food.StartEat,
+                    EndEat = food.EndEat,
                 });
             }
             

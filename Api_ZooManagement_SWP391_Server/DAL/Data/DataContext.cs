@@ -203,7 +203,8 @@ namespace DAL.Data
             modelBuilder.Entity<AnimalFood>(entity =>
             {
                 entity.Property(af => af.Amount).IsRequired();
-                entity.Property(af => af.Description).IsRequired();
+                entity.Property(af => af.StartEat).IsRequired();
+                entity.Property(af => af.EndEat).IsRequired();
             });
 
             modelBuilder.Entity<AnimalCage>(entity =>

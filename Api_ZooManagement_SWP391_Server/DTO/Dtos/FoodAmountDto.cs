@@ -3,7 +3,8 @@
     public class FoodAmountDto
     {
         public string FoodId { get; set; }
-        public string Description { get; set; }
+        public DateTime StartEat { get; set; }
+        public DateTime EndEat { get; set; }
         public float Amount { get; set; }
     }
 }
