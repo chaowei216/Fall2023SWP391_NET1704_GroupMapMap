@@ -21,6 +21,7 @@ import { UserOutlined } from "@ant-design/icons";
 import EditIcon from "@mui/icons-material/Edit";
 import EditProfile from "./EditProfile";
 import "../../assets/css/profile.css";
+import { MDBIcon } from 'mdb-react-ui-kit';
 const onOk = (value) => {
   console.log("onOk: ", value);
 };
@@ -356,7 +357,7 @@ function ViewStaff() {
                       variant="text"
                       style={{ padding: 0 }}
                     >
-                      <EditIcon />
+                      <MDBIcon fas icon="user-edit" size="2x"/>
                     </Button>
                   </div>
                 </div>

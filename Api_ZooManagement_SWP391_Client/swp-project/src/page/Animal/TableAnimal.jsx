@@ -161,9 +161,9 @@ function TableAnimal() {
                 <th>ID</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Gender</th>
-                <th>Region</th>
-                <th>Rarity</th>
+                <th style={{ textAlign: "center" }}>Gender</th>
+                <th style={{ textAlign: "center" }}>Region</th>
+                <th style={{ textAlign: "center" }}>Rarity</th>
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
             </thead>
@@ -174,11 +174,11 @@ function TableAnimal() {
                   return (
                     <tr key={`animal-${index}`}>
                       <td>{items.animalId}</td>
-                      <td>{items.name}</td>
-                      <td>{items.description}</td>
-                      <td>{items.sex === true ? "Male" : "Female"}</td>
-                      <td>{items.region}</td>
-                      <td>{items.rarity === true ? "Rarity" : "None"}</td>
+                      <td width={130}>{items.name}</td>
+                      <td width={370} style={{textAlign: "justify"}}>{items.description}</td>
+                      <td style={{textAlign: "center"}}>{items.sex === true ? "Male" : "Female"}</td>
+                      <td style={{ textAlign: "center" }}>{items.region}</td>
+                      <td style={{ textAlign: "center" }}>{items.rarity === true ? "Rarity" : "None"}</td>
                       <td style={{ width: "208px" }}>
                         <Button
                           variant="text"
