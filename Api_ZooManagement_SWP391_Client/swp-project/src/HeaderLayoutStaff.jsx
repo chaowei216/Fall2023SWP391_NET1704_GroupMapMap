@@ -18,7 +18,7 @@ function HeaderLayoutStaff() {
                 <AppHeader OpenSidebar={OpenSidebar} />
                 <div
                     className="SideMenuAndPageContent"
-                    style={{ "background-color": 'ghostwhite' }}
+                    style={{ "background-color": '#f5f5f5' }}
                 >
                     <SideMenuStaff
                         openSidebarToggle={openSidebarToggle}

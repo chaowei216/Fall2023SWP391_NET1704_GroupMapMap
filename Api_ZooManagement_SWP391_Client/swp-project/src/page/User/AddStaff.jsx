@@ -90,8 +90,12 @@ function AddStaff() {
   const toggleShow = () => setShow(!Show);
   const submitForm = async (values) => {
     let exp = [];
+    let img = "";
     if (values.fields[0].company != "" && values.fields[0].experienceId != "") {
       exp = values.fields;
+    }
+    if (values.userImage != "") {
+      img = values.userImage;
     }
     const user = {
       email: values.email,

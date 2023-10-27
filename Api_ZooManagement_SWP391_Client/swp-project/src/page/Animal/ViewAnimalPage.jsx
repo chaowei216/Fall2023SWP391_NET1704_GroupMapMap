@@ -268,7 +268,8 @@ export default function ViewAnimal(pros) {
           return {
             ...food,
             amount: matchedFId.amount,
-            description: matchedFId.description,
+            startEat: matchedFId.startEat,
+            endEat: matchedFId.endEat,
           };
         });
       // Cập nhật state
@@ -845,7 +846,8 @@ export default function ViewAnimal(pros) {
                                 <th>Food Name</th>
                                 <th>Category</th>
                                 <th>Amount</th>
-                                <th>Description</th>
+                                <th>Start Eating</th>
+                                <th>End Eating</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -858,7 +860,8 @@ export default function ViewAnimal(pros) {
                                       <td>{value.fName}</td>
                                       <td>{value.categoryName}</td>
                                       <td>{value.amount}</td>
-                                      <td>{value.description}</td>
+                                      <td>{value.startEat.slice(0,10)}</td>
+                                      <td>{value.endEat.slice(0,10)}</td>
                                     </tr>
                                   );
                                 })}

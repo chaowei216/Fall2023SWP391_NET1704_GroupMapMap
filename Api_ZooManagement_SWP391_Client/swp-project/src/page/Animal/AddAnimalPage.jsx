@@ -37,7 +37,8 @@ function AddAnimal(pros) {
   const [fields, setFields] = useState([
     {
       foodId: "",
-      description: "",
+      startEat: "",
+      endEat: "",
       amount: "",
     },
   ]);
@@ -61,7 +62,10 @@ function AddAnimal(pros) {
   const [selectedCage, setSelectedCage] = useState();
 
   const addField = () => {
-    setFields([...fields, { foodId: "", description: "", amount: "" }]);
+    setFields([
+      ...fields,
+      { foodId: "", startEat: "", endEat: "", amount: "" },
+    ]);
   };
   const removeField = (index) => {
     setFields(fields.filter((_, i) => i !== index));
@@ -207,7 +211,10 @@ function AddAnimal(pros) {
       },
       body: JSON.stringify(animal),
     };
-    const response = await fetch(`https://localhost:44352/api/Animal/Animal?userId=${userId}&cageId=${cageId}`, request);
+    const response = await fetch(
+      `https://localhost:44352/api/Animal/Animal?userId=${userId}&cageId=${cageId}`,
+      request
+    );
     if (response.ok) {
       console.log("Success");
       navigator("/staff/2");
@@ -499,13 +506,13 @@ function AddAnimal(pros) {
                               style={{ marginRight: "20px" }}
                             >
                               <label className="form-label">
-                                Enter healthCheck
+                                Enter Health Check
                               </label>
                               <Form.Control
                                 as="textarea"
-                                style={{ height: "100px" }}
+                                style={{ height: "45px" }}
                                 id="healthCheck"
-                                placeholder="healthCheck"
+                                placeholder="Health Check"
                                 aria-describedby="inputGroupPrepend"
                                 name="healthCheck"
                                 value={values.healthCheck}
@@ -615,12 +622,12 @@ function AddAnimal(pros) {
                             </div>
                           </div>
                           <div className="label-info">
-                            <label>ZooTrainer Information</label>
+                            <label>Zoo Trainer Information</label>
                           </div>
                           <div className="mb-3 ZooTrainer-Information">
                             <div className="mb-3">
                               <label className="form-label">
-                                Choose ZooTrainer for Animal
+                                Choose Zoo Trainer for Animal
                               </label>
                               <Form.Select
                                 size="lg"
@@ -632,7 +639,7 @@ function AddAnimal(pros) {
                                 onBlur={handleBlur}
                                 isInvalid={errors.userId && touched.userId}
                               >
-                                <option value={null}>Choose ZooTrainer</option>
+                                <option value={null}>Choose Zoo Trainer</option>
                                 {/* Render các option từ API */}
                                 {ZooTrainerList.map((option) => (
                                   <option
@@ -642,7 +649,8 @@ function AddAnimal(pros) {
                                     <div style={{ height: "50px" }}>
                                       {option.email} - FirstName :{" "}
                                       {option.firstname} - LastName :{" "}
-                                      {option.lastname} - Training Animal: {" "} {option.countAnimal}
+                                      {option.lastname} - Training Animal:{" "}
+                                      {option.countAnimal}
                                     </div>
                                   </option>
                                 ))}
@@ -683,73 +691,109 @@ function AddAnimal(pros) {
                           </div>
                           <div className="Food-Information">
                             <div className="mb-3">
-                              <label className="form-label">
-                                Choose Food For Animal
-                              </label>
-                              {errorQuantity && errorQuantity != null && (
-                                <div style={{ color: "red" }}>{errorFood}</div>
-                              )}
                               {fields.map((field, index) => (
                                 <div
                                   key={index}
                                   style={{
                                     display: "flex",
                                     justifyContent: "space-between",
-                                    width: "90%",
+                                    width: "95%",
                                   }}
                                   className="mb-3"
                                 >
-                                  <Field
-                                    name={`fields[${index}].foodId`}
-                                    // as="select"
-                                    // onChange={(e) => handleChange(e.target.value)}
-                                  >
-                                    {({ field, form }) => (
-                                      <Form.Select
-                                        {...field}
-                                        placeholder="Chọn món ăn"
-                                        style={{
-                                          width: "35%",
-                                          marginRight: "20px",
-                                        }}
-                                        onChange={(event) =>
-                                          handleFoodSelect(event, field, form)
-                                        }
-                                      >
-                                        <option value="">Choose Food</option>
-                                        {/* Render các option từ API */}
-                                        {options.map((option) => (
-                                          <option
-                                            key={option.foodId}
-                                            value={option.foodId}
-                                            disabled={selectedFoodIds.includes(
-                                              option.foodId
-                                            )}
-                                          >
-                                            {option.fName}
-                                          </option>
-                                        ))}
-                                      </Form.Select>
-                                    )}
-                                  </Field>
-                                  <Field
-                                    placeholder="Enter Quantity"
-                                    name={`fields[${index}].amount`}
-                                    component="input"
+                                  <div
                                     style={{
-                                      width: "35%",
+                                      width: "30%",
                                       marginRight: "20px",
                                     }}
-                                    className="control-field"
-                                  />
-
-                                  <Field
-                                    name={`fields[${index}].description`}
-                                    component="input"
-                                    placeholder="Enter time to feed animal"
-                                    className="control-field"
-                                    style={{ width: "35%" }}
-                                  />
+                                  >
+                                    <label className="form-label">
+                                      Choose Food For Animal
+                                    </label>
+                                    <Field
+                                      name={`fields[${index}].foodId`}
+                                      // as="select"
+                                      // onChange={(e) => handleChange(e.target.value)}
+                                    >
+                                      {({ field, form }) => (
+                                        <Form.Select
+                                          {...field}
+                                          placeholder="Chọn món ăn"
+                                          onChange={(event) =>
+                                            handleFoodSelect(event, field, form)
+                                          }
+                                        >
+                                          <option value="">Choose Food</option>
+                                          {/* Render các option từ API */}
+                                          {options.map((option) => (
+                                            <option
+                                              key={option.foodId}
+                                              value={option.foodId}
+                                              disabled={selectedFoodIds.includes(
+                                                option.foodId
+                                              )}
+                                            >
+                                              {option.fName}
+                                            </option>
+                                          ))}
+                                        </Form.Select>
+                                      )}
+                                    </Field>
+                                  </div>
+                                  <div
+                                    style={{
+                                      width: "30%",
+                                      marginRight: "20px",
+                                    }}
+                                  >
+                                    <label className="form-label">
+                                      Enter Quantity
+                                    </label>
+                                    <Field
+                                      placeholder="Enter Quantity"
+                                      name={`fields[${index}].amount`}
+                                      component="input"
+                                      className="control-field"
+                                    />
+                                  </div>
+                                  <div
+                                    style={{
+                                      width: "30%",
+                                      marginRight: "20px",
+                                    }}
+                                  >
+                                    <label className="form-label">
+                                      Choose Start Eat
+                                    </label>
+                                    <Field
+                                      name={`fields[${index}].startEat`}
+                                      component="input"
+                                      type="date"
+                                      placeholder="Enter time to feed animal"
+                                      className="control-field"
+                                      // `style={{
+                                      //   width: "30%",
+                                      //   marginRight: "20px",
+                                      // }}`
+                                    />
+                                  </div>
+                                  <div
+                                    style={{
+                                      width: "30%",
+                                      marginRight: "20px",
+                                    }}
+                                  >
+                                    <label className="form-label">
+                                      Choose End Eat
+                                    </label>
+                                    <Field
+                                      name={`fields[${index}].endEat`}
+                                      component="input"
+                                      type="date"
+                                      placeholder="Enter time to feed animal"
+                                      className="control-field"
+                                    />
+                                  </div>
                                   {/* <button onClick={() => removeField(index)}>
                           Remove
                         </button> */}

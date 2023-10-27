@@ -224,7 +224,7 @@ export default function ScheduleAnimal(pros) {
                                   </Field>
                                   <Field
                                     placeholder="Enter Time"
-                                    type="date"
+                                    type="time"
                                     name={`fields[${index}].time`}
                                     component="input"
                                     style={{
@@ -234,7 +234,7 @@ export default function ScheduleAnimal(pros) {
                                     className="control-field"
                                   />
                                   <Field
-                                    placeholder="Enter Time To Feed"
+                                    placeholder="Enter Description"
                                     name={`fields[${index}].description`}
                                     component="input"
                                     style={{

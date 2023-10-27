@@ -51,6 +51,7 @@ import TableCage from './page/Cage/TableCage';
 import TableArea from './page/Area/TableArea';
 import TableNewsByAdmin from './page/News/TableNewsByAdmin';
 import TableFeedBack from './page/FeedBack/TableFeedBack';
+import TableScheduleFeed from './page/FeedScheduleAnimal/TableScheduleFeed';
 
 const secretKey = 'your_secret_key';
 
@@ -91,6 +92,7 @@ function App() {
             <Route path="profile" element={<ViewStaff />}></Route>
             <Route path="food" element={<TableFood />}></Route>
             <Route path="2" element={<TableAnimalDetail />}></Route>
+            <Route path="feed" element={<TableScheduleFeed />}></Route>
           </Route>
           <Route path="/loading" element={<Loading></Loading>} />
           <Route path="/login" element={<Login />}></Route>
