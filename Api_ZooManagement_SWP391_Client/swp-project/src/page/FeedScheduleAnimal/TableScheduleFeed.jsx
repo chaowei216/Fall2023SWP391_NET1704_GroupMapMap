@@ -176,55 +176,61 @@ function TableScheduleFeed() {
                 })}
             </tbody>
           </Table> */}
-          <MDBTable bordered borderColor="primary">
-            <MDBTableHead
-              style={{
-                borderTop: "white",
-                borderRight: "black",
-                borderLeft: "black",
-                borderBottom: "black",
-              }}
+          <MDBTable>
+            <MDBTableHead dark
+              // style={{
+              //   borderTop: "white",
+              //   borderRight: "black",
+              //   borderLeft: "black",
+              //   borderBottom: "black",
+              // }}
             >
               <tr>
                 <th
                   scope="col"
-                  style={{ textAlign: "center", color: "#4A8689" }}
+                  style={{ textAlign: "center"}}
                 >
-                  #
+                  No.
                 </th>
                 <th
                   scope="col"
-                  style={{ textAlign: "center", color: "#4A8689" }}
+                  style={{ textAlign: "center"}}
                 >
                   ANIMAL
                 </th>
                 <th
                   scope="col"
-                  style={{ textAlign: "center", color: "#4A8689" }}
+                  style={{ textAlign: "center"}}
                 >
                   TYPE OF FEED
                 </th>
                 <th
                   scope="col"
-                  style={{ textAlign: "center", color: "#4A8689" }}
+                  style={{ textAlign: "center"}}
                 >
-                  AMOUNT OF FEED
+                  FOOD
                 </th>
                 <th
                   scope="col"
-                  style={{ textAlign: "center", color: "#4A8689" }}
+                  style={{ textAlign: "center"}}
+                >
+                  AMOUNT OF FEED (KG)
+                </th>
+                <th
+                  scope="col"
+                  style={{ textAlign: "center"}}
                 >
                   TIME OF DAY
                 </th>
                 <th
                   scope="col"
-                  style={{ textAlign: "center", color: "#4A8689" }}
+                  style={{ textAlign: "center"}}
                 >
-                  Action
+                  ACTION
                 </th>
               </tr>
             </MDBTableHead>
-            <MDBTableBody style={{ height: "5rem", border: "2px solid brown" }}>
+            <MDBTableBody >
               {list &&
                 list.length > 0 &&
                 list.map((items, index) => {
@@ -232,7 +238,6 @@ function TableScheduleFeed() {
                     <tr
                       style={{
                         height: "70px",
-                        verticalAlign: "middle",
                         textAlign: "center",
                         fontWeight: "500",
                       }}
@@ -243,8 +248,18 @@ function TableScheduleFeed() {
                         {items.foods &&
                           items.foods.map((value) => {
                             return (
-                              <div key={value.foodId}>
-                                <span>{value.foodId}</span>
+                              <div key={value.categoryName}>
+                                <span>{value.categoryName}</span>
+                              </div>
+                            );
+                          })}
+                      </td>
+                      <td>
+                        {items.foods &&
+                          items.foods.map((value) => {
+                            return (
+                              <div key={value.fName}>
+                                <span>{value.fName}</span>
                               </div>
                             );
                           })}
@@ -260,20 +275,18 @@ function TableScheduleFeed() {
                           })}
                       </td>
                       <td>
-                        {items.foods &&
-                          items.foods.map((value) => {
+                        {items.schedules &&
+                          items.schedules.map((value) => {
                             return (
                               <div>
                                 <span>
-                                  {value.startEat.slice(0, 10) +
-                                    " - " +
-                                    value.endEat.slice(0, 10)}
+                                  {value.scheduleName + " - " + value.time}
                                 </span>
                               </div>
                             );
                           })}
                       </td>
-                      <td style={{ width: "208px" }}>
+                      <td style={{ width: "208px", verticalAlign: "middle" }}>
                         <Button
                           variant="text"
                           style={{ padding: 0 }}
@@ -296,7 +309,7 @@ function TableScheduleFeed() {
                             marginRight: "15px",
                           }}
                         >
-                          Fed
+                          Done
                         </Button>
                       </td>
                     </tr>

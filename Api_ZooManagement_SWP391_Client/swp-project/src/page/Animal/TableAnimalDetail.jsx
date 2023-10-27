@@ -120,7 +120,7 @@ function TableAnimalDetail() {
         </div>
         <div className="table-content">
           <Table size="100px" hover>
-            <thead>
+            <thead className="table-dark">
               <tr>
                 <th>Name</th>
                 <th>Description</th>

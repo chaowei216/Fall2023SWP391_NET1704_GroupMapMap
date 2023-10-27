@@ -506,13 +506,13 @@ function AddAnimal(pros) {
                               style={{ marginRight: "20px" }}
                             >
                               <label className="form-label">
-                                Enter healthCheck
+                                Enter Health Check
                               </label>
                               <Form.Control
                                 as="textarea"
-                                style={{ height: "100px" }}
+                                style={{ height: "45px" }}
                                 id="healthCheck"
-                                placeholder="healthCheck"
+                                placeholder="Health Check"
                                 aria-describedby="inputGroupPrepend"
                                 name="healthCheck"
                                 value={values.healthCheck}
@@ -622,12 +622,12 @@ function AddAnimal(pros) {
                             </div>
                           </div>
                           <div className="label-info">
-                            <label>ZooTrainer Information</label>
+                            <label>Zoo Trainer Information</label>
                           </div>
                           <div className="mb-3 ZooTrainer-Information">
                             <div className="mb-3">
                               <label className="form-label">
-                                Choose ZooTrainer for Animal
+                                Choose Zoo Trainer for Animal
                               </label>
                               <Form.Select
                                 size="lg"
@@ -639,7 +639,7 @@ function AddAnimal(pros) {
                                 onBlur={handleBlur}
                                 isInvalid={errors.userId && touched.userId}
                               >
-                                <option value={null}>Choose ZooTrainer</option>
+                                <option value={null}>Choose Zoo Trainer</option>
                                 {/* Render các option từ API */}
                                 {ZooTrainerList.map((option) => (
                                   <option
@@ -747,7 +747,7 @@ function AddAnimal(pros) {
                                     }}
                                   >
                                     <label className="form-label">
-                                      Choose Start Eat
+                                      Enter Quantity
                                     </label>
                                     <Field
                                       placeholder="Enter Quantity"

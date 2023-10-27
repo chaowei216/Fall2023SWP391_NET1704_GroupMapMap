@@ -322,9 +322,6 @@ export default function EditAnimal(pros) {
       endTraining === null
     ) {
       setErros("Data Dupplicated");
-      if (role === "ZOOTRAINER") {
-        window.location.href("/ZooTrainer/2");
-      }
     } else if (healthCheck === "") {
       setErros("HealthCheck can't be null");
       return;

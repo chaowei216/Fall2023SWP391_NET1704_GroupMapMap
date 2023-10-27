@@ -33,20 +33,17 @@ const items = [
       [
         getItem("ZooTrainer", "/staff/1", <AlertOutlined />),
         getItem("Animal", "2", <AlertOutlined />),
-        getItem("Order", "4", <AlertOutlined />),
-        getItem("News", "news", <AlertOutlined />),
+
+        getItem("Area", "/staff/area", <AppstoreOutlined />),
+        getItem("Cage", "/staff/cage", <AppstoreOutlined />),
+        getItem("Food", "/staff/food", <AppstoreOutlined />),
       ],
       "group"
     ),
   ]),
-  getItem("Area & Cage Management", "sub2", <AppstoreOutlined />, [
-    getItem("Area", "/staff/area"),
-    getItem("Cage", "/staff/cage"),
-    getItem("Food", "/staff/food"),
-    getItem("Submenu", "sub3", null, [
-      getItem("Option 7", "7"),
-      getItem("Option 8", "8"),
-    ]),
+  getItem("Other", "sub2", <AppstoreOutlined />, [
+    getItem("Order", "4", <AlertOutlined />),
+    getItem("News", "news", <AlertOutlined />),
   ]),
   {
     type: "divider",
@@ -83,7 +80,7 @@ const SideMenuStaff = ({ openSidebarToggle, OpenSidebar }) => {
       /> */}
       <div
         style={{
-          backgroundColor: "wheat",
+          backgroundColor: "bisque",
           borderRadius: "10px 10px 10px 10px",
         }}
       >
