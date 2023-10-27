@@ -48,15 +48,7 @@ export const schemaAnimal = yup.object().shape({
     .string()
     .required("healthCheck is required")
     .min(2, "Description must be at least 2 characters"),
-  fields: yup.array().of(
-    yup.object().shape({
-      foodId: yup.string().required("Please choose foood"),
-      // description: yup.string().required("Please enter description of food").min(2, "Description must be at least 2 characters"),
-      amount: yup.string().required("Please enter amount of food").min(1, "Amount must be at least 2 characters").test('positive', 'The amount cannot be negative', value => {
-        return Number(value) >= 1;
-      }),
-    })
-  ),
+
   // .matches(
   //   /^[a-zA-Z-.']+$/,
   //   "healthCheck can only contain letters, dashes, periods, and apostrophes"
@@ -116,4 +108,32 @@ export const schemaAnimal = yup.object().shape({
     }),
   // entryDate: yup.string().required(),
   // image: yup.mixed().required('Please choose the image')
+  fields: yup.array().of(
+    yup.object().shape({
+      foodId: yup.string().required("Please choose foood"),
+      startEat: yup.string()
+        .required("Vui lòng nhập ngày bắt đầu ăn")
+        .test({
+          name: 'date-after',
+          message: 'Ngày bắt đầu ăn phải sau ngày vào lồng',
+          test: function (value) {
+            const entryCageDate = this.options.context.entryCageDate; // Lấy giá trị của trường entryCageDate từ context
+            return moment(value).isAfter(entryCageDate); // Sử dụng moment.js hoặc thư viện tương tự để so sánh ngày
+          }
+        }),
+      endEat: yup.string()
+        .required("Vui lòng nhập ngày kết thúc ăn")
+        .test({
+          name: 'date-after-startEat',
+          message: 'Ngày kết thúc ăn phải sau ngày bắt đầu ăn',
+          test: function (value) {
+            const startEat = this.parent.startEat;
+            return moment(value).isAfter(startEat);
+          }
+        }),
+      amount: yup.string().required("Please enter amount of food").min(1, "Amount must be at least 2 characters").test('positive', 'The amount cannot be negative', value => {
+        return Number(value) >= 1;
+      }),
+    })
+  ),
 });

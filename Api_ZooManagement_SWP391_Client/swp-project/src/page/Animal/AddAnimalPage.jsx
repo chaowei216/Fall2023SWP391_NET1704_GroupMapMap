@@ -712,8 +712,8 @@ function AddAnimal(pros) {
                                     </label>
                                     <Field
                                       name={`fields[${index}].foodId`}
-                                      // as="select"
-                                      // onChange={(e) => handleChange(e.target.value)}
+                                    // as="select"
+                                    // onChange={(e) => handleChange(e.target.value)}
                                     >
                                       {({ field, form }) => (
                                         <Form.Select
@@ -771,10 +771,10 @@ function AddAnimal(pros) {
                                       type="date"
                                       placeholder="Enter time to feed animal"
                                       className="control-field"
-                                      // `style={{
-                                      //   width: "30%",
-                                      //   marginRight: "20px",
-                                      // }}`
+                                    // `style={{
+                                    //   width: "30%",
+                                    //   marginRight: "20px",
+                                    // }}`
                                     />
                                   </div>
                                   <div
@@ -823,8 +823,12 @@ function AddAnimal(pros) {
                                     Amount must be positive
                                   </div>
                                   <div style={{ color: "red" }}>
-                                    Enter description
+                                    Start Eat must be after Entry Cage Date
                                   </div>
+                                  <div style={{ color: "red" }}>
+                                    End Eat must be after Start Eat Date
+                                  </div>
+                                  {console.log(errors.fields)}
                                 </>
                               )}
                             </div>

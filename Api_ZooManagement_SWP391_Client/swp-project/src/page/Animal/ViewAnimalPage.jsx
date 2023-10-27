@@ -172,7 +172,7 @@ export default function ViewAnimal(pros) {
       }
     });
     return () => (mounted = false);
-  }, [animalID, showList]);
+  }, [animalID, showList, cageID]);
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
@@ -185,7 +185,7 @@ export default function ViewAnimal(pros) {
     if (animalID) {
       fetchData();
     }
-  }, [animalID]);
+  }, [animalID,showList, userID]);
   useEffect(() => {
     if (scheduleId) {
       // Lấy ids

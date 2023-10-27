@@ -44,7 +44,7 @@ function TableAnimal() {
       }
     });
     return () => (mounted = false);
-  }, [showModalEdit === false]);
+  }, [showModalEdit === false, currentPage]);
   const onShowSizeChange = (current) => {
     console.log(current);
     setCurrentPage(current);
@@ -69,7 +69,6 @@ function TableAnimal() {
     setShowmodalFood(false);
     setAnchorEl(null);
   };
-
   const handleEditUser = (item) => {
     // setDataUserEdit(item);
     console.log(item);
@@ -175,8 +174,8 @@ function TableAnimal() {
                     <tr key={`animal-${index}`}>
                       <td>{items.animalId}</td>
                       <td width={130}>{items.name}</td>
-                      <td width={370} style={{textAlign: "justify"}}>{items.description}</td>
-                      <td style={{textAlign: "center"}}>{items.sex === true ? "Male" : "Female"}</td>
+                      <td width={370} style={{ textAlign: "justify" }}>{items.description}</td>
+                      <td style={{ textAlign: "center" }}>{items.sex === true ? "Male" : "Female"}</td>
                       <td style={{ textAlign: "center" }}>{items.region}</td>
                       <td style={{ textAlign: "center" }}>{items.rarity === true ? "Rarity" : "None"}</td>
                       <td style={{ width: "208px" }}>

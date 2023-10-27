@@ -11,6 +11,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import AddArea from "./AddArea";
+import { Pagination } from "antd";
 function TableArea() {
     const role = localStorage.getItem("role");
     const [showModalAdd, setShowmodalAdd] = useState(false);
@@ -23,9 +24,14 @@ function TableArea() {
     const [dataAnimalView, setDataAnimalView] = useState({});
     const [dataCageEdit, setDataCageEdit] = useState({});
     const [dataCageView, setDataCageView] = useState({});
-
+    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const onShowSizeChange = (current) => {
+        console.log(current);
+        setCurrentPage(current);
+    };
     const getList = () => {
-        return fetch("https://localhost:44352/api/Area").then((data) =>
+        return fetch(`https://localhost:44352/api/Area/pages/${currentPage}`).then((data) =>
             data.json()
         );
     };
@@ -33,7 +39,8 @@ function TableArea() {
         let mounted = true;
         getList().then((items) => {
             if (mounted) {
-                setListArea(items);
+                setListArea(items.areas);
+                setTotalPages(items.pages);
             }
         });
         return () => (mounted = false);
@@ -163,6 +170,14 @@ function TableArea() {
                                 })}
                         </tbody>
                     </Table>
+                    <div className="pagination-container">
+                        <Pagination
+                            onChange={onShowSizeChange}
+                            defaultCurrent={currentPage}
+                            defaultPageSize={5}
+                            total={totalPages * 5}
+                        />
+                    </div>
                 </div>
             </div>
             <AddArea show={showModalAdd} handleClose={handleClose} />

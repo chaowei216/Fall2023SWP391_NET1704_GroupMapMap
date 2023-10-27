@@ -21,6 +21,7 @@ export default function EditAnimal(pros) {
   const navigate = useNavigate();
   const { show, handleClose, dataAnimalEdit } = pros;
   const [isNew, setIsNew] = useState(false);
+  const [isNew2, setIsNew2] = useState(false);
   const [region, setRegion] = useState("");
   const [animalId, setAnimalId] = useState("");
   const [name, setName] = useState("");
@@ -48,8 +49,12 @@ export default function EditAnimal(pros) {
   const [isValidOutCage, setIsValidOutCage] = useState(true);
   const [isValidTrainerDate, setIsValidTrainerDate] = useState(true);
   const [isValidAmount, setIsValidAmount] = useState(true);
+  const [isValidDescription, setIsValidDescription] = useState(true);
+  const [isValidStartEat, setIsValidStartEat] = useState(true);
+  const [isValidEndEat, setIsValidEndEat] = useState(true);
   // const [selectedFoodId, setSelectedFoodId] = useState("");
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
+  const [selectedScheduleIds, setSelectedScheduleIds] = useState([]);
   const [listTrainerOld, setListTrainerOld] = useState([]);
   const [listCageOld, setListCageOld] = useState([]);
   const [list3, setList3] = useState([]);
@@ -101,6 +106,36 @@ export default function EditAnimal(pros) {
       setIsValidAmount(false);
     }
   };
+  const validateStartEat = (value) => {
+    const startEatDate = new Date(value);
+    const entryCageDate = new Date(entryCage);
+    console.log(startEatDate > entryCageDate);
+    if (startEatDate > entryCageDate) {
+      // valid
+      setIsValidStartEat(true)
+    } else {
+      setIsValidStartEat(false)
+    }
+  };
+  const validateEndEat = (value) => {
+    const EndEatDate = new Date(value);
+    foods.forEach(food => {
+      const startEatDate = new Date(food.startEat);
+      if (!(EndEatDate >= startEatDate)) {
+        setIsValidEndEat(false)
+      } else {
+        setIsValidEndEat(true)
+      }
+    })
+  };
+  const validateDescription = (value) => {
+    const description = String(value);
+    if (description.trim().length === 0 && description.length <= 2) {
+      setIsValidDescription(false);
+    } else {
+      setIsValidDescription(true);
+    }
+  };
   const handleOutCageChange = (event) => {
     setOutCage(event.target.value);
     validateOutCageDate(event.target.value);
@@ -120,6 +155,7 @@ export default function EditAnimal(pros) {
     setFoods(newFood);
   };
   const handleStartEatDateChange = (id, event) => {
+    validateStartEat(event.target.value);
     const newFood = foods.map((food) => {
       if (food.foodId === id) {
         food.startEat = event.target.value;
@@ -129,6 +165,7 @@ export default function EditAnimal(pros) {
     setFoods(newFood);
   };
   const handleEndEatDateChange = (id, event) => {
+    validateEndEat(event.target.value);
     const newFood = foods.map((food) => {
       if (food.foodId === id) {
         food.endEat = event.target.value;
@@ -136,6 +173,25 @@ export default function EditAnimal(pros) {
       return food;
     });
     setFoods(newFood);
+  };
+  const handleTimeEatChange = (id, event) => {
+    const newSchedule = schedules.map((schedule) => {
+      if (schedule.scheduleId === id) {
+        schedule.time = event.target.value;
+      }
+      return schedule;
+    });
+    setSchedules(newSchedule);
+  };
+  const handleDescriptionChange = (id, event) => {
+    validateDescription(event.target.value);
+    const newSchedule = schedules.map((schedule) => {
+      if (schedule.scheduleId === id) {
+        schedule.description = event.target.value;
+      }
+      return schedule;
+    });
+    setSchedules(newSchedule);
   };
   useEffect(() => {
     const array = [];
@@ -147,6 +203,13 @@ export default function EditAnimal(pros) {
     console.log(selectedFoodIds);
   }, [dataAnimalEdit, foods]);
 
+  useEffect(() => {
+    const array = [];
+    const scheduleIds1 = schedules.map((schedule) => schedule.scheduleId);
+    array.push(scheduleIds1);
+    console.log(array);
+    setSelectedScheduleIds(scheduleIds1);
+  }, [dataAnimalEdit, schedules]);
   const handleFoodSelect = (e, index) => {
     // setSelectedFoodId(e.target.value);
     console.log(e.target.value);
@@ -170,6 +233,29 @@ export default function EditAnimal(pros) {
     setFoods([...foods]);
   };
 
+  const handleScheduleSelect = (e, index) => {
+    // setSelectedFoodId(e.target.value);
+    console.log(e.target.value);
+    // Lấy ra food object từ options
+    const selectedFoodId = e.target.value;
+    // setSelectedFoodIds((prevSelectedFoodIds) => [
+    //   ...prevSelectedFoodIds,
+    //   selectedFoodId,
+    // ]);
+    setSelectedScheduleIds([...selectedScheduleIds, e.target.value]);
+    console.log(selectedScheduleIds);
+
+    const selectedSchedule = scheduleList.find((o) => o.scheduleId === e.target.value);
+    console.log(selectedSchedule.scheduleId);
+    console.log(e.target.value);
+    console.log(index);
+    // Cập nhật lại cho food hiện tại
+    const currentFood = schedules[index];
+    currentFood.scheduleId = selectedSchedule.scheduleId;
+    console.log(currentFood);
+    setSchedules([...schedules]);
+  };
+
   const handleAdd = () => {
     setIsNew(true);
     // Thêm mới object vào cuối mảng
@@ -183,7 +269,18 @@ export default function EditAnimal(pros) {
       },
     ]);
   };
-
+  const handleAdd2 = () => {
+    setIsNew2(true);
+    // Thêm mới object vào cuối mảng
+    setSchedules([
+      ...schedules,
+      {
+        scheduleId: "",
+        time: "",
+        description: "",
+      },
+    ]);
+  };
   const getList = () => {
     return fetch("https://localhost:44352/api/Food").then((data) =>
       data.json()
@@ -293,7 +390,7 @@ export default function EditAnimal(pros) {
     if (animalId) {
       fetchData();
     }
-  }, [animalId]);
+  }, [animalId, userID]);
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
@@ -305,7 +402,7 @@ export default function EditAnimal(pros) {
     if (animalId) {
       fetchData();
     }
-  }, [animalId]);
+  }, [animalId, cageID]);
 
   useEffect(() => {
     const ZooTrainerList = listZooTrainer.filter((user) => user.role === 3);
@@ -317,7 +414,7 @@ export default function EditAnimal(pros) {
         setAvailableTrainer(test1);
       }
     });
-  }, [listZooTrainer, listTrainerOld]);
+  }, [listZooTrainer, listTrainerOld, userID]);
   console.log(availableTrainer);
   useEffect(() => {
     const oldCageId = listCageOld.map((cage) => cage.cId);
@@ -328,19 +425,12 @@ export default function EditAnimal(pros) {
         setAvailableCage(test2);
       }
     });
-  }, [listCage, listCageOld]);
+  }, [listCage, listCageOld, cageID]);
   console.log(availableCage);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    if (
-      healthCheck === dataAnimalEdit.healthCheck &&
-      description === dataAnimalEdit.description &&
-      outCage === null &&
-      endTraining === null
-    ) {
-      setErros("Data Dupplicated");
-    } else if (healthCheck === "") {
+     if (healthCheck === "") {
       setErros("HealthCheck can't be null");
       return;
     } else if (healthCheck != "") {
@@ -356,6 +446,12 @@ export default function EditAnimal(pros) {
       return;
     } else if (isValidAmount === false) {
       return;
+    } else if (isValidDescription === false){
+      return;
+    } else if (isValidStartEat ===  false){
+      return;
+    } else if (isValidEndEat ===  false){
+      return;
     }
     console.log(dataAnimalEdit);
     console.log(event);
@@ -370,6 +466,7 @@ export default function EditAnimal(pros) {
       endTrainDate: null,
       outCageDate: null,
       animalFoods: foods,
+      animalSchedules: schedules,
     };
     console.log("OK");
     console.log(animalEdit);
@@ -978,6 +1075,7 @@ export default function EditAnimal(pros) {
                                   type="date"
                                   className="mb-3"
                                   aria-describedby="inputGroupPrepend"
+                                  isInvalid={!isValidStartEat}
                                   style={{ width: "90%" }}
                                   value={food.startEat != null ? food.startEat.slice(0, 10) : null}
                                   onChange={(e) =>
@@ -992,6 +1090,7 @@ export default function EditAnimal(pros) {
                                 <Form.Control
                                   type="date"
                                   className="mb-3"
+                                  isInvalid={!isValidEndEat}
                                   aria-describedby="inputGroupPrepend"
                                   style={{ width: "90%" }}
                                   value={food.endEat != null ? food.endEat.slice(0, 10) : null}
@@ -1002,6 +1101,13 @@ export default function EditAnimal(pros) {
                               </div>
                             </div>
                           ))}
+                          {!isValidStartEat &&
+                            <div className="mb-3" style={{ color: "red" }}>StartEatDate must be after EntryCageDate</div>
+                          }
+                          {!isValidEndEat &&
+                            <div className="mb-3" style={{ color: "red" }}>EndEatDate must be after StartEatDate</div>
+                          }
+
                           {foods.length && foods.length < options.length && (
                             <div
                               style={{
@@ -1055,7 +1161,7 @@ export default function EditAnimal(pros) {
                               </div> */}
                                 <div style={{ width: "30%" }}>
                                   <label className="form-label">
-                                    Edit Food For Animal
+                                    Edit Schedule For Animal
                                   </label>
                                   <Form.Control
                                     as="select"
@@ -1065,19 +1171,19 @@ export default function EditAnimal(pros) {
                                     }}
                                     value={schedule.scheduleId}
                                     onChange={
-                                      isNew
-                                        ? (e) => handleFoodSelect(e, index)
+                                      isNew2
+                                        ? (e) => handleScheduleSelect(e, index)
                                         : null
                                     }
                                     placeholder="Chọn món ăn"
                                   >
-                                    <option value="">Chọn món ăn</option>
+                                    <option value="">Choose Schedule</option>
                                     {/* Render các option từ API */}
-                                    {options.map((option) => (
+                                    {scheduleList.map((option) => (
                                       <option
                                         key={option.scheduleId}
                                         value={option.scheduleId}
-                                        disabled={selectedFoodIds.includes(
+                                        disabled={selectedScheduleIds.includes(
                                           option.scheduleId
                                         )}
                                       >
@@ -1086,28 +1192,9 @@ export default function EditAnimal(pros) {
                                     ))}
                                   </Form.Control>
                                 </div>
-                                <div style={{ width: "25%" }}>
+                                <div style={{ width: "30%" }}>
                                   <label className="form-label">
-                                    Enter Amount Food
-                                  </label>
-                                  <Form.Control
-                                    type="text"
-                                    className="mb-3"
-                                    aria-describedby="inputGroupPrepend"
-                                    style={{ width: "90%" }}
-                                    value={schedule.description}
-                                    isInvalid={!isValidAmount}
-                                    onChange={(e) =>
-                                      handleFoodChange(schedule.scheduleId, e)
-                                    }
-                                  />
-                                  <Form.Control.Feedback type="invalid">
-                                    Amount is a positive number
-                                  </Form.Control.Feedback>
-                                </div>
-                                <div style={{ width: "25%" }}>
-                                  <label className="form-label">
-                                    Edit Start Eat Date
+                                    Edit Time Eat
                                   </label>
                                   <Form.Control
                                     type="time"
@@ -1116,12 +1203,32 @@ export default function EditAnimal(pros) {
                                     style={{ width: "90%" }}
                                     value={schedule.time}
                                     onChange={(e) =>
-                                      handleStartEatDateChange(schedule.scheduleId, e)
+                                      handleTimeEatChange(schedule.scheduleId, e)
                                     }
                                   />
                                 </div>
+                                <div style={{ width: "30%" }}>
+                                  <label className="form-label">
+                                    Edit Description
+                                  </label>
+                                  <Form.Control
+                                    type="text"
+                                    className="mb-3"
+                                    aria-describedby="inputGroupPrepend"
+                                    style={{ width: "90%" }}
+                                    value={schedule.description}
+                                    isInvalid={!isValidDescription}
+                                    onChange={(e) =>
+                                      handleDescriptionChange(schedule.scheduleId, e)
+                                    }
+                                  />
+
+                                </div>
                               </div>
                             ))}
+                            {!isValidDescription &&
+                              <div className="mb-3" style={{ color: "red" }}>Description must be 2 characters</div>
+                            }
                             {schedules.length && schedules.length < scheduleList.length && (
                               <div
                                 style={{
@@ -1129,9 +1236,10 @@ export default function EditAnimal(pros) {
                                   justifyContent: "space-between",
                                 }}
                               >
-                                <Button onClick={handleAdd}>Add</Button>
+                                <Button onClick={handleAdd2}>Add</Button>
                               </div>
                             )}
+
                           </div>
                           <div style={{ textAlign: "end" }}>
                             <Button
@@ -1142,6 +1250,7 @@ export default function EditAnimal(pros) {
                               <MDBIcon fas icon="edit" size="2x" />
                             </Button>
                           </div>
+
                         </div>
                       )}
 
