@@ -355,7 +355,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         public IActionResult CreateAnimalSchedule(string animalId, [FromBody] AnimalScheduleDto animalScheduleDto)
         {
-            if(animalId == null)
+            if (animalId == null)
             {
                 return BadRequest();
             }
@@ -364,20 +364,28 @@ namespace Api_ZooManagement_SWP391.Controllers
             if (!_animalService.AnimalExists(animalId))
                 return NotFound();
 
+            var animalScheduleMap = _mapper.Map<Animal>(animalScheduleDto);
+            var animal = _animalService.GetByAnimalId(animalId);
             var schedules = animalScheduleDto.AnimalSchedules;
 
-            List<AnimalSchedule> list = new List<AnimalSchedule>();
+            List<AnimalScheduleCreateDto> list = new List<AnimalScheduleCreateDto>();
 
-            foreach(var schedule in schedules)
+            foreach (var schedule in schedules)
             {
                 var getSchedule = _scheduleService.GetSchedule(schedule.ScheduleId);
-                if (getSchedule == null) return BadRequest("Schedule not found!!!");
-                list.Add(new AnimalSchedule()
+                if (getSchedule == null) return BadRequest("Food not found!!!");
+                list.Add(new AnimalScheduleCreateDto()
                 {
                     ScheduleId = schedule.ScheduleId,
                     Time = schedule.Time,
                     Description = schedule.Description,
                 });
+            }
+
+            if (!_animalScheduleService.AddAnimalSchedule(animal, animalScheduleMap))
+            {
+                ModelState.AddModelError("", "Error when updating animal!!");
+                return StatusCode(500, ModelState);
             }
             return NoContent();
         }

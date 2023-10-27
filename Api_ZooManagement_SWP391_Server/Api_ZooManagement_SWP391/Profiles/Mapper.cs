@@ -96,6 +96,8 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<UpdateAnimalScheduleDto, AnimalSchedule>();
             CreateMap<UpdateAnimalScheduleDto, Schedule>();
             CreateMap<Schedule, UpdateAnimalScheduleDto>();
+            CreateMap<AnimalFoodCreateDto,  AnimalFood>();
+            CreateMap<AnimalFood, AnimalFoodCreateDto>();   
         }
 
     }
