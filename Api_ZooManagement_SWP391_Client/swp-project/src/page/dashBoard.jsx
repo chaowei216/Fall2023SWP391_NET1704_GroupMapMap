@@ -6,7 +6,7 @@ import {
   } from "@ant-design/icons";
   import { Card, Space, Statistic, Table, Typography } from "antd";
   import { useEffect, useState } from "react";
-  import { getCustomers, getInventory, getOrders, getRevenue } from "../../src/service/DashBoardService";
+  import { getEmployee, getAnimails, getOrders, getRevenue } from "../../src/service/DashBoardService";
   
   import {
     Chart as ChartJS,
@@ -29,26 +29,28 @@ import {
   );
   
   function Dashboard() {
-    const [orders, setOrders] = useState(0);
-    const [inventory, setInventory] = useState(0);
-    const [customers, setCustomers] = useState(0);
+    const [orders, setOrders] = useState([]);
+    const [animails, setAnimails] = useState(0);
+    const [employee, setEmployee] = useState(0);
     const [revenue, setRevenue] = useState(0);
   
     useEffect(() => {
       getOrders().then((res) => {
-        setOrders(res.total);
-        setRevenue(res.discountedTotal);
+        setOrders(res);
+        setRevenue(res);
       });
-      getInventory().then((res) => {
-        setInventory(res.total);
+      getAnimails().then((res) => {
+      
+        setAnimails(res);
       });
-      getCustomers().then((res) => {
-        setCustomers(res.total);
+      getEmployee().then((res) => {
+        setEmployee(res.total);
       });
     }, []);
   
+
     return (
-      <Space size={20} direction="vertical" style={{textAlign: "center", marginLeft: "30px",marginTop: "20px" ,width:"80%"}}>
+      <Space size={20} direction="vertical" style={{textAlign: "center", marginLeft: "30px",marginTop: "20px",marginBottom:"60px" ,width:"80%"}}>
         <Typography.Title level={4}>Dashboard</Typography.Title>
         <Space direction="horizontal">
           <DashboardCard
@@ -64,7 +66,7 @@ import {
               />
             }
             title={"Orders"}
-            value={orders}
+            value={(orders.map(item => item.totalTicket)).reduce((acc, ticket) => acc + ticket, 0)}
           />
           <DashboardCard
             icon={
@@ -78,8 +80,8 @@ import {
                 }}
               />
             }
-            title={"Inventory"}
-            value={inventory}
+            title={"Animails"}
+            value={animails}
           />
           <DashboardCard
             icon={
@@ -93,8 +95,8 @@ import {
                 }}
               />
             }
-            title={"Customer"}
-            value={customers}
+            title={"Employee"}
+            value={employee}
           />
           <DashboardCard
             icon={
@@ -109,8 +111,9 @@ import {
               />
             }
             title={"Revenue"}
-            value={revenue}
+            value={(orders.map(item => item.totalPrice)).reduce((acc, price) => acc + price, 0)}
           />
+         
         </Space>
         <Space>
           <RecentOrders />
@@ -137,29 +140,32 @@ import {
     useEffect(() => {
       setLoading(true);
       getOrders().then((res) => {
-        setDataSource(res.products.splice(0, 3));
+        setDataSource(res);
         setLoading(false);
+        console.log(res);
       });
     }, []);
+
   
     return (
       <>
         <Typography.Text>Recent Orders</Typography.Text>
-        <Table
+        <Table style={{width:"300px"}}
           columns={[
             {
-              title: "Title",
-              dataIndex: "title",
+              title: "Month",
+              dataIndex: "month",
             },
             {
               title: "Quantity",
-              dataIndex: "quantity",
+              dataIndex: "totalTicket",
             },
             {
               title: "Price",
-              dataIndex: "discountedPrice",
+              dataIndex: "totalPrice",
             },
           ]}
+        
           loading={loading}
           dataSource={dataSource}
           pagination={false}
@@ -175,12 +181,12 @@ import {
     });
   
     useEffect(() => {
-      getRevenue().then((res) => {
-        const labels = res.carts.map((cart) => {
-          return `User-${cart.userId}`;
+      getOrders().then((res) => {
+        const labels = res.map((i) => {
+          return `Month-${i.month}`;
         });
-        const data = res.carts.map((cart) => {
-          return cart.discountedTotal;
+        const data = res.map((i) => {
+          return i.totalPrice;
         });
   
         const dataSource = {
@@ -189,7 +195,8 @@ import {
             {
               label: "Revenue",
               data: data,
-              backgroundColor: "rgba(255, 0, 0, 1)",
+              height:"1000px",
+              backgroundColor: "rgba(255, 0, 0, 10)",
             },
           ],
         };
@@ -212,9 +219,13 @@ import {
     };
   
     return (
-      <Card style={{ width: 500, height: 250 }}>
-        <Bar options={options} data={reveneuData} />
-      </Card>
+      
+      <div style={{width:"800px",height:"700px"}}> 
+         <Bar style ={{height:"1000px"}} options={options} data={reveneuData} />
+      </div>
+       
+      
+
     );
   }
   export default Dashboard;
