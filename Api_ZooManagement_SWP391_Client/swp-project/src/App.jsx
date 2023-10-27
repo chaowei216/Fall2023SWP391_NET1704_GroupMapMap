@@ -53,6 +53,7 @@ import TableNewsByAdmin from './page/News/TableNewsByAdmin';
 import TableFeedBack from './page/FeedBack/TableFeedBack';
 import TableScheduleFeed from './page/FeedScheduleAnimal/TableScheduleFeed';
 
+
 const secretKey = 'your_secret_key';
 
 function App() {
@@ -102,6 +103,9 @@ function App() {
           <Route path="/" element={<Index />}></Route>
           <Route path="/new" element={<New />} />
           <Route path="/contact" element={<Contact />} />
+         
+          
+
         </Routes>
       </Router>
     </>
