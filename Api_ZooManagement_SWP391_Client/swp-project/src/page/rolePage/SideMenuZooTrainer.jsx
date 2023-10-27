@@ -26,7 +26,7 @@ const items = [
       [getItem("Profile", "profile"), getItem("Animal", "2")],
       "group"
     ),
-    getItem("Item 2", "g2", null, [getItem("Food", "food")], "group"),
+    getItem("Item 2", "g2", null, [getItem("Food", "food"),getItem("Schedule Feed Animal", "feed")], "group"),
   ]),
   getItem("Navigation Two", "sub2", <AppstoreOutlined />, [
     getItem("Option 5", "/staff/2"),

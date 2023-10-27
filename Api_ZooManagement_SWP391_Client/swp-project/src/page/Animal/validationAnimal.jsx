@@ -51,7 +51,7 @@ export const schemaAnimal = yup.object().shape({
   fields: yup.array().of(
     yup.object().shape({
       foodId: yup.string().required("Please choose foood"),
-      description: yup.string().required("Please enter description of food").min(2, "Description must be at least 2 characters"),
+      // description: yup.string().required("Please enter description of food").min(2, "Description must be at least 2 characters"),
       amount: yup.string().required("Please enter amount of food").min(1, "Amount must be at least 2 characters").test('positive', 'The amount cannot be negative', value => {
         return Number(value) >= 1;
       }),

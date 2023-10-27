@@ -15,7 +15,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "../../assets/css/dashboard.css";
 import { ToastContainer } from "react-toastify";
-import { MDBIcon } from 'mdb-react-ui-kit';
+import { MDBIcon } from "mdb-react-ui-kit";
 export default function EditAnimal(pros) {
   const role = localStorage.getItem("role");
   const navigate = useNavigate();
@@ -71,9 +71,9 @@ export default function EditAnimal(pros) {
     }
   };
   const handle = () => {
-    handleClose
-    window.location.reload()
-  }
+    handleClose;
+    window.location.reload();
+  };
   const validateTrainerDate = (dateString) => {
     const selectedDate = new Date(dateString);
     const currentDate = new Date();
@@ -117,10 +117,19 @@ export default function EditAnimal(pros) {
     });
     setFoods(newFood);
   };
-  const handleDescriptionFoodChange = (id, event) => {
+  const handleStartEatDateChange = (id, event) => {
     const newFood = foods.map((food) => {
       if (food.foodId === id) {
-        food.description = event.target.value;
+        food.startEat = event.target.value;
+      }
+      return food;
+    });
+    setFoods(newFood);
+  };
+  const handleEndEatDateChange = (id, event) => {
+    const newFood = foods.map((food) => {
+      if (food.foodId === id) {
+        food.endEat = event.target.value;
       }
       return food;
     });
@@ -128,13 +137,13 @@ export default function EditAnimal(pros) {
   };
   useEffect(() => {
     const array = [];
-    const foodIds1 = foods.map(food => food.foodId);
-    array.push(foodIds1)
+    const foodIds1 = foods.map((food) => food.foodId);
+    array.push(foodIds1);
     console.log(array);
     setSelectedFoodIds(foodIds1);
     console.log(foodIds1);
     console.log(selectedFoodIds);
-  }, [dataAnimalEdit, foods])
+  }, [dataAnimalEdit, foods]);
 
   const handleFoodSelect = (e, index) => {
     // setSelectedFoodId(e.target.value);
@@ -167,7 +176,8 @@ export default function EditAnimal(pros) {
       {
         foodId: "",
         amount: "",
-        description: "",
+        startEat: "",
+        endEat: "",
       },
     ]);
   };
@@ -217,15 +227,15 @@ export default function EditAnimal(pros) {
 
   useEffect(() => {
     const list3 = [];
-    const foodIds1 = foods.map(food => food.foodId);
-    options.forEach(food => {
+    const foodIds1 = foods.map((food) => food.foodId);
+    options.forEach((food) => {
       if (!foodIds1.includes(food.foodId)) {
         list3.push(food);
       }
-    })
+    });
     console.log(list3);
     setList3(list3);
-  }, [dataAnimalEdit, foods])
+  }, [dataAnimalEdit, foods]);
   const getCageList = () => {
     return fetch("https://localhost:44352/api/Cage").then((data) =>
       data.json()
@@ -281,26 +291,26 @@ export default function EditAnimal(pros) {
 
   useEffect(() => {
     const ZooTrainerList = listZooTrainer.filter((user) => user.role === 3);
-    const oldTrainerId = listTrainerOld.map(user => user.userId);
+    const oldTrainerId = listTrainerOld.map((user) => user.userId);
     const test1 = [];
     const test = ZooTrainerList.map((value) => {
       if (!oldTrainerId.includes(value.userId)) {
         test1.push(value);
-        setAvailableTrainer(test1)
+        setAvailableTrainer(test1);
       }
-    })
-  }, [listZooTrainer, listTrainerOld])
+    });
+  }, [listZooTrainer, listTrainerOld]);
   console.log(availableTrainer);
   useEffect(() => {
-    const oldCageId = listCageOld.map(cage => cage.cId);
+    const oldCageId = listCageOld.map((cage) => cage.cId);
     const test2 = [];
     const test = listCage.map((value) => {
       if (!oldCageId.includes(value.cId)) {
         test2.push(value);
         setAvailableCage(test2);
       }
-    })
-  }, [listCage, listCageOld])
+    });
+  }, [listCage, listCageOld]);
   console.log(availableCage);
 
   const handleFormSubmit = async (event) => {
@@ -420,10 +430,10 @@ export default function EditAnimal(pros) {
                               name="name"
                               value={name}
                               onChange={(event) => setName(event.target.value)}
-                            // isInvalid={
-                            //   formik.errors.first_name &&
-                            //   formik.touched.first_name
-                            // }
+                              // isInvalid={
+                              //   formik.errors.first_name &&
+                              //   formik.touched.first_name
+                              // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
@@ -442,10 +452,10 @@ export default function EditAnimal(pros) {
                               onChange={(event) =>
                                 setRegion(event.target.value)
                               }
-                            // isInvalid={
-                            //   formik.errors.last_name &&
-                            //   formik.touched.last_name
-                            // }
+                              // isInvalid={
+                              //   formik.errors.last_name &&
+                              //   formik.touched.last_name
+                              // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
@@ -461,10 +471,10 @@ export default function EditAnimal(pros) {
                               aria-describedby="inputGroupPrepend"
                               name="species"
                               value={species}
-                            // value={formik.values.species}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={phone == nul}
+                              // value={formik.values.species}
+                              // onChange={formik.handleChange}
+                              // onBlur={formik.handleBlur}
+                              // isInvalid={phone == nul}
                             />
                             <Form.Control.Feedback type="invalid">
                               Haha
@@ -627,11 +637,11 @@ export default function EditAnimal(pros) {
                             onChange={(event) =>
                               setHealthCheck(event.target.value)
                             }
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.address && formik.touched.address
-                          // }
+                            // onChange={formik.handleChange}
+                            // onBlur={formik.handleBlur}
+                            // isInvalid={
+                            //   formik.errors.address && formik.touched.address
+                            // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
@@ -650,11 +660,11 @@ export default function EditAnimal(pros) {
                             onChange={(event) =>
                               setDescription(event.target.value)
                             }
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.address && formik.touched.address
-                          // }
+                            // onChange={formik.handleChange}
+                            // onBlur={formik.handleBlur}
+                            // isInvalid={
+                            //   formik.errors.address && formik.touched.address
+                            // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
@@ -689,7 +699,7 @@ export default function EditAnimal(pros) {
                             name="cageId"
                             style={{ width: "85%" }}
                             onChange={(event) => setCageID(event.target.value)}
-                          // onChange={handleChange}
+                            // onChange={handleChange}
                           >
                             {/* <option value="">Choose Cage</option> */}
                             {/* Render các option từ API */}
@@ -699,9 +709,9 @@ export default function EditAnimal(pros) {
                                 value={option.cId}
                                 selected={option.cId === cageID}
                               >
-                                {option.cId} - Cage Name :{" "} {option.name} - MaxCapacity :{" "}
-                                {option.maxCapacity} - AnimalQuantity :{" "}
-                                {option.animalQuantity}
+                                {option.cId} - Cage Name : {option.name} -
+                                MaxCapacity : {option.maxCapacity} -
+                                AnimalQuantity : {option.animalQuantity}
                               </option>
                             ))}
                           </Form.Select>
@@ -726,10 +736,10 @@ export default function EditAnimal(pros) {
                               onChange={(event) =>
                                 setEntryCage(event.target.value)
                               }
-                            // isInvalid={
-                            //   formik.errors.entryCageDate &&
-                            //   formik.touched.entryCageDate
-                            // }
+                              // isInvalid={
+                              //   formik.errors.entryCageDate &&
+                              //   formik.touched.entryCageDate
+                              // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                                 {formik.errors.entryCageDate}
@@ -793,9 +803,9 @@ export default function EditAnimal(pros) {
                                 value={option.userId}
                                 selected={option.userId === userID}
                               >
-                                ZooTrainerID : {option.userId} - FullName : {option.firstname + " " + option.lastname} -
-                                Training Animal:{" "}
-                                {option.countAnimal}
+                                ZooTrainerID : {option.userId} - FullName :{" "}
+                                {option.firstname + " " + option.lastname} -
+                                Training Animal: {option.countAnimal}
                               </option>
                             ))}
                           </Form.Select>
@@ -824,10 +834,10 @@ export default function EditAnimal(pros) {
                                 onChange={(event) =>
                                   setStartTrain(event.target.value)
                                 }
-                              // isInvalid={
-                              //   formik.errors.startTrainDate &&
-                              //   formik.touched.startTrainDate
-                              // }
+                                // isInvalid={
+                                //   formik.errors.startTrainDate &&
+                                //   formik.touched.startTrainDate
+                                // }
                               />
                             </div>
                             {/* <Form.Control.Feedback type="invalid">
@@ -893,9 +903,9 @@ export default function EditAnimal(pros) {
                                   value={food.foodId}
                                 />
                               </div> */}
-                              <div style={{ width: "30%" }}>
+                              <div style={{ width: "25%" }}>
                                 <label className="form-label">
-                                  Choose Food For Animal
+                                  Edit Food For Animal
                                 </label>
                                 <Form.Control
                                   as="select"
@@ -926,9 +936,9 @@ export default function EditAnimal(pros) {
                                   ))}
                                 </Form.Control>
                               </div>
-                              <div style={{ width: "30%" }}>
+                              <div style={{ width: "25%" }}>
                                 <label className="form-label">
-                                  Enter Amount Food For Animal
+                                  Enter Amount Food
                                 </label>
                                 <Form.Control
                                   type="number"
@@ -945,18 +955,33 @@ export default function EditAnimal(pros) {
                                   Amount is a positive number
                                 </Form.Control.Feedback>
                               </div>
-                              <div style={{ width: "30%" }}>
+                              <div style={{ width: "25%" }}>
                                 <label className="form-label">
-                                  Edit Description Food For Animal
+                                  Edit Start Eat Date
                                 </label>
                                 <Form.Control
-                                  type="text"
+                                  type="date"
                                   className="mb-3"
                                   aria-describedby="inputGroupPrepend"
                                   style={{ width: "90%" }}
-                                  value={food.description}
+                                  value={food.startEat != null ? food.startEat.slice(0, 10) : null}
                                   onChange={(e) =>
-                                    handleDescriptionFoodChange(food.foodId, e)
+                                    handleStartEatDateChange(food.foodId, e)
+                                  }
+                                />
+                              </div>
+                              <div style={{ width: "25%" }}>
+                                <label className="form-label">
+                                  Edit End Eat Date
+                                </label>
+                                <Form.Control
+                                  type="date"
+                                  className="mb-3"
+                                  aria-describedby="inputGroupPrepend"
+                                  style={{ width: "90%" }}
+                                  value={food.endEat != null ? food.endEat.slice(0, 10) : null}
+                                  onChange={(e) =>
+                                    handleEndEatDateChange(food.foodId, e)
                                   }
                                 />
                               </div>
