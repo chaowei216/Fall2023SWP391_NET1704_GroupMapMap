@@ -18,6 +18,6 @@ namespace BBL.Interfaces
         Food GetByFoodId(string id);
         Food GetByFoodName(string name);
         bool FoodExists(string id);
-        bool UpdateFoodFeed(string foodId);
+        bool UpdateFoodFeed(string animalId);
     }
 }
