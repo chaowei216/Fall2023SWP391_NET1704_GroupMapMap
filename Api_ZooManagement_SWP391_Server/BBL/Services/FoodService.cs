@@ -92,18 +92,27 @@ namespace BBL.Services
 
         public bool UpdateFoodFeed(string animalId)
         {
-            var animalFood = GetFoodsByAnimalId(animalId);
-
-            foreach(var aniFood in animalFood)
-            {
-                var food = _foodRepository.GetById(aniFood.FoodId);
-                if (food.Quantity > aniFood.Amount && aniFood.EndEat > DateTime.Now)
+            var animalFood = GetFoodsByAnimalId(animalId).ToList();
+            if (animalFood != null && animalFood.Count > 0) { 
+            
+                foreach (var aniFood in animalFood)
                 {
-                    food.Quantity -=aniFood.Amount;
-                }
-                return _foodRepository.Update(food);
-            }
+                    /*var food = _foodRepository.GetById(aniFood.FoodId);
+                    if (food.Quantity > aniFood.Amount && aniFood.EndEat > DateTime.Now)
+                    {
+                        food.Quantity -= aniFood.Amount;
+                    }*/
+                    //return _foodRepository.Update(food);
+                   
+                        for (int index = 0; index <= animalFood.Count; index++)
+                        {
+                            var food1 = GetByFoodId(aniFood.FoodId);
 
+                            food1.Quantity = food1.Quantity - animalFood[index].Amount;
+                            return _foodRepository.Update(food1);
+                        }
+                }
+            }
             return false;
         }
     }

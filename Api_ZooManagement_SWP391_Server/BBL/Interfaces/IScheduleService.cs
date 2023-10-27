@@ -14,6 +14,6 @@ namespace BBL.Interfaces
         ICollection<Schedule> GetAllSchedule();
         Schedule GetSchedule(string id);
         bool ScheduleExists(string id);
-        AnimalSchedule GetScheduleByAnimalId(string id);
+        ICollection<AnimalSchedule> GetScheduleByAnimalId(string id);
     }
 }

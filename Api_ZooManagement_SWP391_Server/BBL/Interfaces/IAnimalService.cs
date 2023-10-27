@@ -10,7 +10,7 @@ namespace BBL.Interfaces
 {
     public interface IAnimalService
     {
-        bool AddAnimal(string? userId, string? cageId, List<AnimalFood> animalFood, Animal animal);
+        bool AddAnimal(string? userId, string? cageId, Animal animal);
         bool UpdateAnimal(Animal animal, Animal? animalMap);
         bool AddAnimalTrainer(string userId, string animalId, AnimalTrainer animalTrainer);
         bool AddAnimalCage(string cageId, string animalId, AnimalCage animalCage);

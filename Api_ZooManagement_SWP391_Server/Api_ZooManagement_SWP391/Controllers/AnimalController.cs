@@ -341,7 +341,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest("Zoo trainer have trained 10 animals");
             }
 
-            if (!_animalService.AddAnimal(userId, cageId, animalFoods, animalMap))
+            if (!_animalService.AddAnimal(userId, cageId, animalMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving!!!");
                 return StatusCode(500, ModelState);
@@ -364,28 +364,20 @@ namespace Api_ZooManagement_SWP391.Controllers
             if (!_animalService.AnimalExists(animalId))
                 return NotFound();
 
-            var animalScheduleMap = _mapper.Map<Animal>(animalScheduleDto);
-            var animal = _animalService.GetByAnimalId(animalId);
             var schedules = animalScheduleDto.AnimalSchedules;
 
-            List<AnimalScheduleCreateDto> list = new List<AnimalScheduleCreateDto>();
+            List<AnimalSchedule> list = new List<AnimalSchedule>();
 
             foreach(var schedule in schedules)
             {
                 var getSchedule = _scheduleService.GetSchedule(schedule.ScheduleId);
-                if (getSchedule == null) return BadRequest("Food not found!!!");
-                list.Add(new AnimalScheduleCreateDto()
+                if (getSchedule == null) return BadRequest("Schedule not found!!!");
+                list.Add(new AnimalSchedule()
                 {
                     ScheduleId = schedule.ScheduleId,
                     Time = schedule.Time,
                     Description = schedule.Description,
                 });
-            }
-
-            if (!_animalScheduleService.AddAnimalSchedule(animal, animalScheduleMap))
-            {
-                ModelState.AddModelError("", "Error when updating animal!!");
-                return StatusCode(500, ModelState);
             }
             return NoContent();
         }
@@ -413,6 +405,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             var trainerMap = _mapper.Map<AnimalTrainer>(updateAnimalDto);
             var cageMap = _mapper.Map<AnimalCage>(updateAnimalDto);
             var foodMap = _mapper.Map<AnimalFood>(updateAnimalDto);
+            var scheduleMap = _mapper.Map<AnimalSchedule>(updateAnimalDto);
 
             var newTrainer = _userService.GetById(updateAnimalDto.UserId);
             var animalTrainer = _userService.GetUserByAnimalId(animal.AnimalId);
@@ -441,7 +434,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 animalCage.OutCageDate = DateTime.Now;
                 _animalService.AddAnimalCage(updateAnimalDto.CageId, animalId, cageMap);
             }
-
+            
             List<UpdateAnimalFoodDto> animalFoods = new List<UpdateAnimalFoodDto>();
             var foods = _foodService.GetFoodsByAnimalId(updateAnimalDto.AnimalId);
             var foodAmount = updateAnimalDto.AnimalFoods;
@@ -455,6 +448,22 @@ namespace Api_ZooManagement_SWP391.Controllers
                     Amount = food.Amount,
                     StartEat = food.StartEat,
                     EndEat = food.EndEat,
+                });
+            }
+
+            List<UpdateAnimalScheduleDto> animalSchedules = new List<UpdateAnimalScheduleDto>();
+            var animalSchedule = _scheduleService.GetScheduleByAnimalId(updateAnimalDto.AnimalId);
+            var schedules = updateAnimalDto.AnimalSchedules;
+            foreach (var schedule in schedules)
+            {
+                var schedule1 = _scheduleService.GetSchedule(schedule.ScheduleId);
+                if (schedule1 == null) return BadRequest("Schedule not found!!!");
+                animalSchedules.Clear();
+                animalSchedules.Add(new UpdateAnimalScheduleDto()
+                {
+                    ScheduleId = schedule.ScheduleId,
+                    Description = schedule.Description,
+                    Time = schedule.Time,
                 });
             }
 

@@ -44,9 +44,9 @@ namespace BBL.Services
             return _scheduleRepository.GetById(id) != null ? true : false;
         }
 
-        public AnimalSchedule GetScheduleByAnimalId(string id)
+        public ICollection<AnimalSchedule> GetScheduleByAnimalId(string id)
         {
-            return _animalScheduleRepository.GetAll().SingleOrDefault(aniSc => aniSc.AnimalId == id);
+            return _animalScheduleRepository.GetAll().Where(ac => ac.AnimalId == id).ToList();
         }
     }
 }

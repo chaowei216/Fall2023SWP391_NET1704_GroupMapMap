@@ -32,7 +32,7 @@ namespace BBL.Services
             _animalFoodRepo = animalFoodRepo;
             _animalSpeRepo = animalSpeRepo;
         }
-        public bool AddAnimal(string? userId, string? cageId, List<AnimalFood> animalFood, Animal animal)
+        public bool AddAnimal(string? userId, string? cageId, Animal animal)
         {
             if (_animalRepo.Add(animal))
             {
@@ -121,6 +121,7 @@ namespace BBL.Services
                 animal.Status = animalMap.Status;
                 animal.Rarity = animalMap.Rarity;
                 animal.AnimalFoods = animalMap.AnimalFoods;
+                animal.AnimalSchedules = animalMap.AnimalSchedules;
             }
             return _animalRepo.Update(animal);
         }
