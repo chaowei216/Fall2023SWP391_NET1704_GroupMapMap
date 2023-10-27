@@ -81,7 +81,7 @@ function TableFeedBack() {
                 </div>
                 <div className="table-content">
                     <Table size="100px" hover>
-                        <thead>
+                        <thead className="table-dark">
                             <tr>
                                 <th>ID</th>
                                 <th>Email</th>

@@ -101,7 +101,7 @@ function TableArea() {
                 </div>
                 <div className="table-content">
                     <Table size="100px" hover>
-                        <thead>
+                        <thead className="table-dark">
                             <tr>
                                 <th>Area ID</th>
                                 <th>Name</th>

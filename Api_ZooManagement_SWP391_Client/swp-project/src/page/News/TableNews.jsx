@@ -116,7 +116,7 @@ function TableNews() {
         </div>
         <div className="table-content">
           <Table size="100px" hover>
-            <thead>
+            <thead className="table-dark">
               <tr>
                 <th>News ID</th>
                 <th>Title</th>

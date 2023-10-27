@@ -8,6 +8,7 @@ import SliderHero from "./page/sliderHero";
 import SideMenu from "./page/rolePage/test";
 import SideMenuStaff from "./page/rolePage/SideMenuStaff";
 import SideMenuZooTrainer from "./page/rolePage/SideMenuZooTrainer";
+import { Sticky } from "react-sticky";
 function HeaderLayOutTrainer() {
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
     const OpenSidebar = () => {
@@ -16,10 +17,10 @@ function HeaderLayOutTrainer() {
     return (
         <>
             <div className="App">
-                <AppHeader OpenSidebar={OpenSidebar} />
+                    <AppHeader  style={{position: "sticky", top: 0}}  OpenSidebar={OpenSidebar} />
                 <div
                     className="SideMenuAndPageContent"
-                    style={{ "background-color": 'ghostwhite' }}
+                    style={{ "background-color": 'ghostwhite', paddingTop: "50px" }}
                 >
                     <SideMenuZooTrainer
                         openSidebarToggle={openSidebarToggle}

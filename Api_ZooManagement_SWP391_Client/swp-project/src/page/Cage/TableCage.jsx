@@ -101,7 +101,7 @@ function TableCage() {
                 </div>
                 <div className="table-content">
                     <Table size="100px" hover>
-                        <thead>
+                        <thead className="table-dark">
                             <tr>
                                 <th>Cage ID</th>
                                 <th>Name</th>

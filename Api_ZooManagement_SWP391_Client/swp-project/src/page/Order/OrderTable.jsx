@@ -81,7 +81,7 @@ function OrderTable() {
         </div>
         <div className="table-content">
           <Table size="100px" hover>
-            <thead>
+            <thead className="table-dark">
               <tr>
                 <th>Email</th>
                 <th>Full Name</th>

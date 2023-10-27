@@ -101,8 +101,8 @@ export default function ScheduleAnimal(pros) {
     const response = await fetch(url, request);
     if (response.ok) {
       console.log("Success");
-      navigate("/staff/2");
-      window.location.reload();
+      // navigate("/staff/2");
+      // window.location.reload();
     }
   };
   return (

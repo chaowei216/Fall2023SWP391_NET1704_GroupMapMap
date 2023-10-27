@@ -40,8 +40,10 @@ export default function EditAnimal(pros) {
   const [listCage, setListCage] = useState([]);
   const [listZooTrainer, setListZooTrainer] = useState([]);
   const [options, setOptions] = useState([]);
+  const [scheduleList, setScheduleList] = useState([]);
   const [status, setStatus] = useState(true);
   const [foods, setFoods] = useState([]);
+  const [schedules, setSchedules] = useState([]);
   const [error, setErros] = useState("");
   const [isValidOutCage, setIsValidOutCage] = useState(true);
   const [isValidTrainerDate, setIsValidTrainerDate] = useState(true);
@@ -196,6 +198,21 @@ export default function EditAnimal(pros) {
     });
     return () => (mounted = false);
   }, []);
+
+  useEffect(() => {
+    const getScheduleList = () => {
+      return fetch("https://localhost:44352/api/Schedule").then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getScheduleList().then((items) => {
+      if (mounted) {
+        setScheduleList(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
   useEffect(() => {
     if (show) {
       setRegion(dataAnimalEdit.region),
@@ -222,6 +239,7 @@ export default function EditAnimal(pros) {
         setSpecies(dataAnimalEdit.species),
         setRarity(dataAnimalEdit.rarity);
       setFoods(dataAnimalEdit.foods);
+      setSchedules(dataAnimalEdit.schedules);
     }
   }, [dataAnimalEdit]);
 
@@ -427,10 +445,10 @@ export default function EditAnimal(pros) {
                               name="name"
                               value={name}
                               onChange={(event) => setName(event.target.value)}
-                              // isInvalid={
-                              //   formik.errors.first_name &&
-                              //   formik.touched.first_name
-                              // }
+                            // isInvalid={
+                            //   formik.errors.first_name &&
+                            //   formik.touched.first_name
+                            // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
@@ -449,10 +467,10 @@ export default function EditAnimal(pros) {
                               onChange={(event) =>
                                 setRegion(event.target.value)
                               }
-                              // isInvalid={
-                              //   formik.errors.last_name &&
-                              //   formik.touched.last_name
-                              // }
+                            // isInvalid={
+                            //   formik.errors.last_name &&
+                            //   formik.touched.last_name
+                            // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
@@ -468,10 +486,10 @@ export default function EditAnimal(pros) {
                               aria-describedby="inputGroupPrepend"
                               name="species"
                               value={species}
-                              // value={formik.values.species}
-                              // onChange={formik.handleChange}
-                              // onBlur={formik.handleBlur}
-                              // isInvalid={phone == nul}
+                            // value={formik.values.species}
+                            // onChange={formik.handleChange}
+                            // onBlur={formik.handleBlur}
+                            // isInvalid={phone == nul}
                             />
                             <Form.Control.Feedback type="invalid">
                               Haha
@@ -634,11 +652,11 @@ export default function EditAnimal(pros) {
                             onChange={(event) =>
                               setHealthCheck(event.target.value)
                             }
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.address && formik.touched.address
-                            // }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.address && formik.touched.address
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
@@ -657,11 +675,11 @@ export default function EditAnimal(pros) {
                             onChange={(event) =>
                               setDescription(event.target.value)
                             }
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.address && formik.touched.address
-                            // }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.address && formik.touched.address
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
@@ -696,7 +714,7 @@ export default function EditAnimal(pros) {
                             name="cageId"
                             style={{ width: "85%" }}
                             onChange={(event) => setCageID(event.target.value)}
-                            // onChange={handleChange}
+                          // onChange={handleChange}
                           >
                             {/* <option value="">Choose Cage</option> */}
                             {/* Render các option từ API */}
@@ -733,10 +751,10 @@ export default function EditAnimal(pros) {
                               onChange={(event) =>
                                 setEntryCage(event.target.value)
                               }
-                              // isInvalid={
-                              //   formik.errors.entryCageDate &&
-                              //   formik.touched.entryCageDate
-                              // }
+                            // isInvalid={
+                            //   formik.errors.entryCageDate &&
+                            //   formik.touched.entryCageDate
+                            // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                                 {formik.errors.entryCageDate}
@@ -831,10 +849,10 @@ export default function EditAnimal(pros) {
                                 onChange={(event) =>
                                   setStartTrain(event.target.value)
                                 }
-                                // isInvalid={
-                                //   formik.errors.startTrainDate &&
-                                //   formik.touched.startTrainDate
-                                // }
+                              // isInvalid={
+                              //   formik.errors.startTrainDate &&
+                              //   formik.touched.startTrainDate
+                              // }
                               />
                             </div>
                             {/* <Form.Control.Feedback type="invalid">
@@ -1005,6 +1023,127 @@ export default function EditAnimal(pros) {
                           </Button>
                         </div>
                       </div>
+                      {schedules.length > 0 &&
+                        <div className="label-info">
+                          <label>Schedule Information</label>
+                        </div>
+                      }
+                      {schedules.length > 0 && (
+                        <div className="mb-3 Schedule-Information">
+                          <div className="mb-1">
+                            {schedules && schedules.map((schedule, index) => (
+                              <div
+                                key={schedule.scheduleId}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  width: "95%",
+                                }}
+                              >
+                                {/* <div style={{ width: "30%" }}>
+                                <label className="form-label">
+                                  ID Food Of Animal
+                                </label>
+                                <Form.Control
+                                  type="text"
+                                  className="mb-3"
+                                  aria-describedby="inputGroupPrepend"
+                                  disabled
+                                  style={{ width: "90%" }}
+                                  value={food.foodId}
+                                />
+                              </div> */}
+                                <div style={{ width: "30%" }}>
+                                  <label className="form-label">
+                                    Edit Food For Animal
+                                  </label>
+                                  <Form.Control
+                                    as="select"
+                                    style={{
+                                      width: "95%",
+                                      marginRight: "20px",
+                                    }}
+                                    value={schedule.scheduleId}
+                                    onChange={
+                                      isNew
+                                        ? (e) => handleFoodSelect(e, index)
+                                        : null
+                                    }
+                                    placeholder="Chọn món ăn"
+                                  >
+                                    <option value="">Chọn món ăn</option>
+                                    {/* Render các option từ API */}
+                                    {options.map((option) => (
+                                      <option
+                                        key={option.scheduleId}
+                                        value={option.scheduleId}
+                                        disabled={selectedFoodIds.includes(
+                                          option.scheduleId
+                                        )}
+                                      >
+                                        {option.scheduleName}
+                                      </option>
+                                    ))}
+                                  </Form.Control>
+                                </div>
+                                <div style={{ width: "25%" }}>
+                                  <label className="form-label">
+                                    Enter Amount Food
+                                  </label>
+                                  <Form.Control
+                                    type="text"
+                                    className="mb-3"
+                                    aria-describedby="inputGroupPrepend"
+                                    style={{ width: "90%" }}
+                                    value={schedule.description}
+                                    isInvalid={!isValidAmount}
+                                    onChange={(e) =>
+                                      handleFoodChange(schedule.scheduleId, e)
+                                    }
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    Amount is a positive number
+                                  </Form.Control.Feedback>
+                                </div>
+                                <div style={{ width: "25%" }}>
+                                  <label className="form-label">
+                                    Edit Start Eat Date
+                                  </label>
+                                  <Form.Control
+                                    type="time"
+                                    className="mb-3"
+                                    aria-describedby="inputGroupPrepend"
+                                    style={{ width: "90%" }}
+                                    value={schedule.time}
+                                    onChange={(e) =>
+                                      handleStartEatDateChange(schedule.scheduleId, e)
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            ))}
+                            {schedules.length && schedules.length < scheduleList.length && (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                }}
+                              >
+                                <Button onClick={handleAdd}>Add</Button>
+                              </div>
+                            )}
+                          </div>
+                          <div style={{ textAlign: "end" }}>
+                            <Button
+                              type="submit"
+                              variant="text"
+                              style={{ padding: 0, marginRight: "24px" }}
+                            >
+                              <MDBIcon fas icon="edit" size="2x" />
+                            </Button>
+                          </div>
+                        </div>
+                      )}
 
                       <div className="btn-footer">
                         <div
