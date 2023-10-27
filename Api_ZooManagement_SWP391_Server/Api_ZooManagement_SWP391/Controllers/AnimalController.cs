@@ -22,6 +22,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         private readonly IScheduleService _scheduleService;
         private readonly IAnimalScheduleService _animalScheduleService;
         private readonly IAnimalSpeciesService _animalSpeciesService;
+        private readonly IFoodCategoryService _foodCategoryService;
 
         public AnimalController(IMapper mapper, 
                                 IAnimalService animalService,
@@ -30,7 +31,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                                 IFoodService foodService,
                                 IScheduleService scheduleService,
                                 IAnimalScheduleService animalScheduleService,
-                                IAnimalSpeciesService animalSpeciesService)
+                                IAnimalSpeciesService animalSpeciesService,
+                                IFoodCategoryService foodCategoryService)
         {
             _animalService = animalService;
             _mapper = mapper;
@@ -40,6 +42,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             _scheduleService = scheduleService;
             _animalScheduleService = animalScheduleService;
             _animalSpeciesService = animalSpeciesService;
+            _foodCategoryService = foodCategoryService;
         }
 
         [HttpGet]
@@ -57,14 +60,19 @@ namespace Api_ZooManagement_SWP391.Controllers
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                 animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
                 var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
+                
                 if (foods != null && foods.Count > 0)
                 {
                     animal.Foods = new List<FoodAmountDto>();
                     foreach (var food in foods)
                     {
+                        var foodDetail = _foodService.GetByFoodId(food.FoodId);
+                        var foodCate = _foodService.GetByFoodId(food.FoodId).CategoryId;
                         animal.Foods.Add(new FoodAmountDto
                         {
                             FoodId = food.FoodId,
+                            FName = foodDetail.FName,
+                            CategoryName = _foodCategoryService.GetByCateId(foodCate).CategoryName,
                             Amount = food.Amount,
                             StartEat = food.StartEat,
                             EndEat = food.EndEat,
@@ -78,9 +86,11 @@ namespace Api_ZooManagement_SWP391.Controllers
                     animal.Schedules = new List<AnimalScheduleCreateDto>();
                     foreach (var schedule in schedules)
                     {
+                        var scheduleDetail = _scheduleService.GetSchedule(schedule.ScheduleId);
                         animal.Schedules.Add(new AnimalScheduleCreateDto
                         {
                             ScheduleId = schedule.ScheduleId,
+                            ScheduleName = scheduleDetail.ScheduleName,
                             Description = schedule.Description,
                             Time = schedule.Time,
                         });
@@ -116,24 +126,31 @@ namespace Api_ZooManagement_SWP391.Controllers
                         animal.Foods = new List<FoodAmountDto>();
                         foreach (var food in foods)
                         {
+                            var foodDetail = _foodService.GetByFoodId(food.FoodId);
+                            var foodCate = _foodService.GetByFoodId(food.FoodId).CategoryId;
                             animal.Foods.Add(new FoodAmountDto
                             {
                                 FoodId = food.FoodId,
+                                FName = foodDetail.FName,
+                                CategoryName = _foodCategoryService.GetByCateId(foodCate).CategoryName,
                                 Amount = food.Amount,
                                 StartEat = food.StartEat,
                                 EndEat = food.EndEat,
                             });
                         }
                     }
+
                     var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                     if (schedules != null)
                     {
                         animal.Schedules = new List<AnimalScheduleCreateDto>();
                         foreach (var schedule in schedules)
                         {
+                            var scheduleDetail = _scheduleService.GetSchedule(schedule.ScheduleId);
                             animal.Schedules.Add(new AnimalScheduleCreateDto
                             {
                                 ScheduleId = schedule.ScheduleId,
+                                ScheduleName = scheduleDetail.ScheduleName,
                                 Description = schedule.Description,
                                 Time = schedule.Time,
                             });
@@ -212,12 +229,33 @@ namespace Api_ZooManagement_SWP391.Controllers
                     animal.Foods = new List<FoodAmountDto>();
                     foreach (var food in foods)
                     {
+                        var foodDetail = _foodService.GetByFoodId(food.FoodId);
+                        var foodCate = _foodService.GetByFoodId(food.FoodId).CategoryId;
                         animal.Foods.Add(new FoodAmountDto
                         {
                             FoodId = food.FoodId,
+                            FName = foodDetail.FName,
+                            CategoryName = _foodCategoryService.GetByCateId(foodCate).CategoryName,
                             Amount = food.Amount,
                             StartEat = food.StartEat,
-                            EndEat = food.EndEat
+                            EndEat = food.EndEat,
+                        });
+                    }
+                }
+
+                var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
+                if (schedules != null)
+                {
+                    animal.Schedules = new List<AnimalScheduleCreateDto>();
+                    foreach (var schedule in schedules)
+                    {
+                        var scheduleDetail = _scheduleService.GetSchedule(schedule.ScheduleId);
+                        animal.Schedules.Add(new AnimalScheduleCreateDto
+                        {
+                            ScheduleId = schedule.ScheduleId,
+                            ScheduleName = scheduleDetail.ScheduleName,
+                            Description = schedule.Description,
+                            Time = schedule.Time,
                         });
                     }
                 }
@@ -415,7 +453,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                 {
                     FoodId = food.FoodId,
                     Amount = food.Amount,
-                    Description = food.Description,
+                    StartEat = food.StartEat,
+                    EndEat = food.EndEat,
                 });
             }
 

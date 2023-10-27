@@ -88,6 +88,8 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<FoodCreateDto, Food>();
             CreateMap<Review, ReviewCreateDto>();
             CreateMap<ReviewCreateDto, Review>();
+            CreateMap<Food, FoodAmountDto>();
+            CreateMap<FoodAmountDto, Food>();
         }
 
     }

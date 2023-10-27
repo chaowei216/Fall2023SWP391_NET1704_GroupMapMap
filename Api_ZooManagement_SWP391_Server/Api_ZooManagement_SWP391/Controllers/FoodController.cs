@@ -15,12 +15,14 @@ namespace Api_ZooManagement_SWP391.Controllers
         private readonly IFoodService _foodService;
         private readonly IMapper _mapper;
         private readonly IFoodCategoryService _foodCategoryService;
+        private readonly IAnimalService _animalService;
 
-        public FoodController(IFoodService foodService, IMapper mapper, IFoodCategoryService foodCategoryService)
+        public FoodController(IFoodService foodService, IMapper mapper, IFoodCategoryService foodCategoryService, IAnimalService animalService)
         {
             _foodService = foodService;
             _mapper = mapper;
             _foodCategoryService = foodCategoryService;
+            _animalService = animalService;
         }
 
         [HttpGet()]
@@ -151,6 +153,27 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             return NoContent();
         }
+        /*[HttpGet("animalId")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateFoodEat(string animalId)
+        {
+            if (!_animalService.AnimalExists(animalId))
+            {
+                return NotFound();
+            }
+            //var animalFood = _foodService.GetAnimalFoodsByAnimalId(animalId);
 
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            *//*if (!_foodService.UpdateFoodFeed(animalId))
+            {
+                ModelState.AddModelError("", "Something went wrong while deleting food");
+            }*//*
+
+            return Ok(animalFood);
+        }*/
     }
 }

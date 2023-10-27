@@ -240,7 +240,7 @@ namespace BBL.Services
                     c.Name = _cageRepo.GetById(aniCage.CageId).Name;
                     c.EntryCageDate = aniCage.EntryCageDate;
                     c.OutCageDate = aniCage.OutCageDate;
-
+                    
                     cages.Add(c);
                 }
             }

@@ -9,7 +9,7 @@ namespace DTO.Dtos
     public class FoodCreateDto
     {
         public string FName { get; set; }
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
         public DateTime ImportDate { get; set; }
         public DateTime ExpiredDate { get; set; }
         public string CategoryName { get; set; }

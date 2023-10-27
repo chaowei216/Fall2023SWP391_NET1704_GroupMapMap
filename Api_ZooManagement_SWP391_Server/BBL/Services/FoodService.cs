@@ -90,11 +90,21 @@ namespace BBL.Services
             return _foodRepository.Update(food);
         }
 
-        public bool UpdateFoodFeed(string foodId)
+        public bool UpdateFoodFeed(string animalId)
         {
-            var food = _foodRepository.GetById(foodId);
+            var animalFood = GetFoodsByAnimalId(animalId);
 
-            return true;
+            foreach(var aniFood in animalFood)
+            {
+                var food = _foodRepository.GetById(aniFood.FoodId);
+                if (food.Quantity > aniFood.Amount && aniFood.EndEat > DateTime.Now)
+                {
+                    food.Quantity -=aniFood.Amount;
+                }
+                return _foodRepository.Update(food);
+            }
+
+            return false;
         }
     }
 }
