@@ -19,6 +19,6 @@
         public string? AnimalImage { get; set; }
         public string SpeciesName { get; set; }
         public List<FoodAmountDto>? Foods { get; set; }
-        public List<AnimalScheduleCreateDto> Schedules { get; set; }
+        public List<GetAnimalScheduleDto> Schedules { get; set; }
     }
 }
