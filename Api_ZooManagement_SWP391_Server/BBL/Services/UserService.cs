@@ -11,6 +11,7 @@ using MailKit.Security;
 using MimeKit.Text;
 using MailKit.Net.Smtp;
 using AutoMapper;
+using System.Text.RegularExpressions;
 
 namespace BBL.Services
 {
@@ -23,6 +24,7 @@ namespace BBL.Services
         private readonly IGenericRepository<AnimalTrainer> _aniTrainerRepository;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
+        private Regex x = new Regex(@"^ZT\d{4}");
 
         public UserService(IGenericRepository<User> userRepository,
                            IGenericRepository<WorkExperience> workExpRepository,
@@ -102,6 +104,12 @@ namespace BBL.Services
                 return _userRepository.Update(user);
             }
             return false;
+        }
+        public ICollection<User> GetTrainersCanTrain()
+        {
+            var userAvailables = _userRepository.GetAll().Where(u => u.CountAnimal < 10 && u.UserId.Contains("ZT")).ToList();
+
+            return userAvailables;
         }
 
         public User? GetByEmail(string email)

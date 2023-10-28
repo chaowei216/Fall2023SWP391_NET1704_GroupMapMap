@@ -66,6 +66,15 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok();
         }
 
+        [HttpGet("AvailableTrainers")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult GetTrainersAvailable()
+        {
+            var user = _mapper.Map<List<AvailableTrainer>>(_userService.GetTrainersCanTrain());
+            return Ok(user);
+        }
+
         [HttpGet("page/{page}")]
         [ProducesResponseType(200, Type = typeof(UserResponseDto))]
         public IActionResult GetUsers(int page)

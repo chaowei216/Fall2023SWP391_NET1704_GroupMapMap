@@ -18,6 +18,7 @@ namespace BBL.Interfaces
         UserDto GetUserByEmail(string email);
         ICollection<Animal> GetAnimalsByUserId(string userId);
         User GetById(string id);
+        ICollection<User> GetTrainersCanTrain();
         int GetTotalUserByRole(Role role);
         User GetUserByPhone(string phone);
         AnimalTrainer GetUserByAnimalId(string animalId);

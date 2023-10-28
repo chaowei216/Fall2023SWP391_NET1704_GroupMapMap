@@ -265,16 +265,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest();
 
             return Ok(animal);
-        }
-
-        [HttpGet("AvailableTrainers")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public IActionResult GetTrainersAvailable()
-        {
-            var user = _mapper.Map<List<AvailableTrainer>>(_animalService.GetTrainersCanTrain());
-            return Ok(user);
-        }
+        } 
 
         [HttpPost("Animal")]
         [ProducesResponseType(204)]
@@ -334,11 +325,6 @@ namespace Api_ZooManagement_SWP391.Controllers
             if (isCageFull > fullCage)
             {
                 return BadRequest("This cage is full");
-            }
-
-            if (_animalService.GetTrainersCanTrain().Count() >= 10)
-            {
-                return BadRequest("Zoo trainer have trained 10 animals");
             }
 
             if (!_animalService.AddAnimal(userId, cageId, animalMap))

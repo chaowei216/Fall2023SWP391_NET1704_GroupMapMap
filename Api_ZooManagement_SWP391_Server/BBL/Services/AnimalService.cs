@@ -193,21 +193,7 @@ namespace BBL.Services
                 }
             }
             return animals;
-        }
-
-        public ICollection<User> GetTrainersCanTrain()
-        {
-            var userAvailables = _animalTrainerRepo.GetAll().Where(at => at.AnimalId.Count() < 10 && at.EndTrainDate == null).ToList();
-            var users = new List<User>();
-            if (userAvailables != null)
-            {
-                foreach (var userAvailable in userAvailables)
-                {
-                    users.Add(_userRepo.GetById(userAvailable.UserId));
-                }
-            }
-            return users;
-        }
+        } 
 
         public ICollection<OldUsersDto>? GetOldTrainersOfAnimal(string animalId)
         {
