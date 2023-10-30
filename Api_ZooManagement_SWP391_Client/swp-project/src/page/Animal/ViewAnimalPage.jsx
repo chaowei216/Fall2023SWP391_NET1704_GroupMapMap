@@ -10,7 +10,8 @@ import {
   MDBModalFooter,
 } from "mdb-react-ui-kit";
 import Table from "react-bootstrap/Table";
-import { DatePicker, Radio, Select, Space } from "antd";
+import { DatePicker, Radio, Select, Space, Image } from "antd";
+import { MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "../../assets/css/dashboard.css";
@@ -50,6 +51,7 @@ export default function ViewAnimal(pros) {
   const [listFoodsFilter, setListFoodsFilter] = useState([]);
   const [listSchedule, setListSchedule] = useState([]);
   const [listScheduleFilter, setListScheduleFilter] = useState([]);
+  const [animalImage, setAnimalImage] = useState("");
 
   useEffect(() => {
     if (show) {
@@ -100,6 +102,14 @@ export default function ViewAnimal(pros) {
         setRarity(dataAnimalView.rarity);
       setFoodID(dataAnimalView.foods);
       setScheduleId(dataAnimalView.schedules);
+      const path = dataAnimalView.animalImage;
+      if (path != "") {
+        const secondSlashIndex = path.indexOf("\\", path.indexOf("\\") + 1);
+        const substring = path.substring(secondSlashIndex + 1);
+        setAnimalImage(substring)
+      } else {
+        setAnimalImage("")
+      }
     }
   }, [dataAnimalView]);
   const date = new Date();
@@ -185,7 +195,7 @@ export default function ViewAnimal(pros) {
     if (animalID) {
       fetchData();
     }
-  }, [animalID,showList, userID]);
+  }, [animalID, showList, userID]);
   useEffect(() => {
     if (scheduleId) {
       // Lấy ids
@@ -556,6 +566,19 @@ export default function ViewAnimal(pros) {
                           {formik.errors.address}
                         </Form.Control.Feedback> */}
                         </div>
+                        {animalImage != "" && (
+                          < div className="mb-3">
+                            <label className="form-label">Image</label>
+                            {/* <div>
+                            <Image
+                              width={90}
+                            ></Image>
+                          </div> */}
+                            <MDBCol lg='4' md='12' className='mb-4'>
+                              <img src={"/" + animalImage} className='img-fluid rounded' style={{ width: "60%" }} alt='#' />
+                            </MDBCol>
+                          </div>
+                        )}
                       </div>
                       <div className="label-info">
                         <label>Cage Information</label>
@@ -590,8 +613,8 @@ export default function ViewAnimal(pros) {
                                         <tr>
                                           <td>{value.cId}</td>
                                           <td>{value.name}</td>
-                                          <td>{value.entryCageDate === null ? null : value.entryCageDate.slice(0,10)}</td>
-                                          <td>{value.outCageDate === null ? null : value.outCageDate.slice(0,10)}</td>
+                                          <td>{value.entryCageDate === null ? null : value.entryCageDate.slice(0, 10)}</td>
+                                          <td>{value.outCageDate === null ? null : value.outCageDate.slice(0, 10)}</td>
                                         </tr>
                                       );
                                     })}
@@ -860,8 +883,8 @@ export default function ViewAnimal(pros) {
                                       <td>{value.fName}</td>
                                       <td>{value.categoryName}</td>
                                       <td>{value.amount}</td>
-                                      <td>{value.startEat.slice(0,10)}</td>
-                                      <td>{value.endEat.slice(0,10)}</td>
+                                      <td>{value.startEat.slice(0, 10)}</td>
+                                      <td>{value.endEat.slice(0, 10)}</td>
                                     </tr>
                                   );
                                 })}
@@ -953,8 +976,8 @@ export default function ViewAnimal(pros) {
             </MDBModalBody>
             <MDBModalFooter></MDBModalFooter>
           </MDBModalContent>
-        </MDBModalDialog>
-      </MDBModal>
+        </MDBModalDialog >
+      </MDBModal >
     </>
   );
 }

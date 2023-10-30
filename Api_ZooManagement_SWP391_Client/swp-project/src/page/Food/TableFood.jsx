@@ -13,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import AddFood from "./AddFood";
 import EditFood from "./EditFood";
 import ViewFood from "./ViewFood";
+import { debounce } from "lodash";
+
 function TableFood() {
   const role = localStorage.getItem("role");
   const [showModalAdd, setShowmodalAdd] = useState(false);
@@ -26,12 +28,12 @@ function TableFood() {
   const [dataFoodEdit, setDataFoodEdit] = useState({});
   const [dataFoodView, setDataFoodView] = useState({});
 
-  const getList = () => {
-    return fetch("https://localhost:44352/api/Food").then((data) =>
-      data.json()
-    );
-  };
   useEffect(() => {
+    const getList = () => {
+      return fetch("https://localhost:44352/api/Food").then((data) =>
+        data.json()
+      );
+    };
     let mounted = true;
     getList().then((items) => {
       if (mounted) {
@@ -74,6 +76,37 @@ function TableFood() {
     setDataFoodView(food);
     setShowmodalView(true);
   };
+  const handleSearch = debounce((e) => {
+    console.log(e.target.value);
+    let term = e.target.value;
+    if (term) {
+      const getList = () => {
+        return fetch("https://localhost:44352/api/Food").then((data) =>
+          data.json()
+        );
+      };
+      let mounted = true;
+      getList().then((items) => {
+        if (mounted) {
+          setListFood(items.filter(item => item.fName.toUpperCase().includes(term.toUpperCase())));
+        }
+      });
+      return () => (mounted = false);
+    } else {
+      const getList = () => {
+        return fetch("https://localhost:44352/api/Food").then((data) =>
+          data.json()
+        );
+      };
+      let mounted = true;
+      getList().then((items) => {
+        if (mounted) {
+          setListFood(items);
+        }
+      });
+      return () => (mounted = false);
+    }
+  }, 350)
   //   const handleViewUser = (item) => {
   //     // setDataUserEdit(item);
   //     const animal = item;
@@ -93,7 +126,7 @@ function TableFood() {
           <div className="search-container">
             {/* toggleShow */}
             <div className="search-content">
-              <input type="email" className="form-control" />
+              <input type="text" onChange={handleSearch} className="form-control" />
               <Button variant="contained">
                 <SearchIcon />
               </Button>

@@ -196,7 +196,7 @@ function AddAnimal(pros) {
       rarity: values.rarity,
       entryCageDate: values.entryCageDate,
       startTrainDate: values.startTrainDate,
-      animalImage: "",
+      animalImage: img,
       speciesName: values.species,
       animalFoods: values.fields,
     };

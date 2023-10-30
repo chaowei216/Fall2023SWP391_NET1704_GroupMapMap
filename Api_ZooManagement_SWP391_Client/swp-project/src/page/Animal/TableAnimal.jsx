@@ -18,6 +18,8 @@ import YourComponent from "./AnimalFoodTest";
 import { Pagination } from "antd";
 import axios from "axios";
 import ScheduleAnimal from "./ScheduleAnimal";
+import _ from "lodash";
+import { debounce } from "lodash";
 function TableAnimal() {
   const role = localStorage.getItem("role");
   const [showModalAdd, setShowmodalAdd] = useState(false);
@@ -30,6 +32,7 @@ function TableAnimal() {
   const [dataAnimalView, setDataAnimalView] = useState({});
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     const getList = () => {
       return fetch(
@@ -93,6 +96,41 @@ function TableAnimal() {
     setDataAnimalView(animal);
     setShowmodalView(true);
   };
+
+  const handleSearch = debounce((e) => {
+    console.log(e.target.value);
+    let term = e.target.value;
+    if (term) {
+      const getList = () => {
+        return fetch(
+          `https://localhost:44352/api/Animal/page/${currentPage}`
+        ).then((data) => data.json());
+      };
+      let mounted = true;
+      getList().then((items) => {
+        if (mounted) {
+          setListAnimal(items.animals.filter(a => a.name.toUpperCase().includes(term.toUpperCase())));
+          setTotalPages(items.pages);
+        }
+      });
+      return () => (mounted = false);
+    } else {
+      const getList = () => {
+        return fetch(
+          `https://localhost:44352/api/Animal/page/${currentPage}`
+        ).then((data) => data.json());
+      };
+      let mounted = true;
+      getList().then((items) => {
+        if (mounted) {
+          setListAnimal(items.animals);
+          setTotalPages(items.pages);
+        }
+      });
+      return () => (mounted = false);
+    }
+  }, 350)
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
@@ -106,7 +144,7 @@ function TableAnimal() {
           <div className="search-container">
             {/* toggleShow */}
             <div className="search-content">
-              <input type="email" className="form-control" />
+              <input type="text" onChange={handleSearch} className="form-control" />
               <Button variant="contained">
                 <SearchIcon />
               </Button>

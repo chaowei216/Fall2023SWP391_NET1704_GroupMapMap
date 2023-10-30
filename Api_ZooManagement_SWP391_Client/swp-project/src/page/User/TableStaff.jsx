@@ -17,6 +17,8 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import ViewUser from "./ViewUser";
 import EditPage from "./EditPage";
+import _ from "lodash";
+import { debounce } from "lodash";
 function TableStaff() {
   useEffect(() => {
     if (localStorage.getItem("isAdded") === "true") {
@@ -64,7 +66,6 @@ function TableStaff() {
   };
   // const email = localStorage.getItem("email");
   // const zooTrainerList = users.filter((user) => user.role === 3);
-  console.log(users);
   // const getList = () => {
   //   return fetch("https://localhost:44352/api/User/users").then((data) =>
   //     data.json()
@@ -91,6 +92,39 @@ function TableStaff() {
   const handleClick = () => {
     navigate("/staff/add");
   };
+  const handleSearch = debounce((e) => {
+    console.log(e.target.value);
+    let term = e.target.value;
+    if (term) {
+      const getUsers = () => {
+        return fetch(`https://localhost:44352/api/User/trainers/pages/${currentPage}`).then(
+          (data) => data.json()
+        );
+      };
+      let mounted = true;
+      getUsers().then((items) => {
+        if (mounted) {
+          setUsers(items.users.filter(a => a.firstname.toUpperCase().includes(term.toUpperCase()) || a.lastname.toUpperCase().includes(term.toUpperCase())));
+          setTotalPages(items.pages);
+        }
+      });
+      return () => (mounted = false);
+    } else {
+      const getUsers = () => {
+        return fetch(`https://localhost:44352/api/User/trainers/pages/${currentPage}`).then(
+          (data) => data.json()
+        );
+      };
+      let mounted = true;
+      getUsers().then((items) => {
+        if (mounted) {
+          setUsers(items.users);
+          setTotalPages(items.pages);
+        }
+      });
+      return () => (mounted = false);
+    }
+  },350)
   return (
     <div className="table-container">
       <div className="table-component">
@@ -101,7 +135,7 @@ function TableStaff() {
           <div className="search-container">
             {/* toggleShow */}
             <div className="search-content">
-              <input type="email" className="form-control" />
+              <input type="text" onChange={handleSearch} className="form-control" />
               <Button variant="contained">
                 <SearchIcon />
               </Button>

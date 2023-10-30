@@ -34,9 +34,9 @@ const items = [
         getItem("ZooTrainer", "/staff/1", <AlertOutlined />),
         getItem("Animal", "2", <AlertOutlined />),
 
-        getItem("Area", "/staff/area", <AppstoreOutlined />),
-        getItem("Cage", "/staff/cage", <AppstoreOutlined />),
-        getItem("Food", "/staff/food", <AppstoreOutlined />),
+        getItem("Area", "/staff/area", <AlertOutlined />),
+        getItem("Cage", "/staff/cage", <AlertOutlined />),
+        getItem("Food", "/staff/food", <AlertOutlined />),
       ],
       "group"
     ),

@@ -19,6 +19,8 @@ import AddPage from "./User/AddPage";
 import EditPage from "./User/EditPage";
 import { toast, ToastContainer } from "react-toastify";
 import ViewUser from "./User/ViewUser";
+import _ from "lodash";
+import { debounce } from "lodash";
 function TableUser() {
   // const [isAdded, setIsAdded] = useState(
   //   localStorage.getItem("isAdded") === "true"
@@ -63,7 +65,7 @@ function TableUser() {
   //   return axios.get("https://reqres.in/api/users?page=2");
   //   // return axios.get("https://localhost:44352/api/User/users");
   // };
-  const handlePageClick = () => {};
+  const handlePageClick = () => { };
   const handleEditUser = (item) => {
     // setDataUserEdit(item);
     console.log(item);
@@ -105,6 +107,29 @@ function TableUser() {
   const handleClick = () => {
     navigate("/admin/add");
   };
+  const handleSearch = debounce((e) => {
+    console.log(e.target.value);
+    let term = e.target.value;
+    if (term) {
+      let cloneListUser = _.cloneDeep(users);
+      cloneListUser = cloneListUser.filter(a => a.firstname.includes(term) || a.lastname.includes(term))
+      setUsers(cloneListUser);
+    } else {
+      const getUsers = () => {
+        return fetch(`https://localhost:44352/api/User/staffs/pages/${currentPage}`).then(
+          (data) => data.json()
+        );
+      };
+      let mounted = true;
+      getUsers().then((items) => {
+        if (mounted) {
+          setUsers(items.users);
+          setTotalPages(items.pages);
+        }
+      });
+      return () => (mounted = false);
+    }
+  }, 350)
   return (
     <div className="table-container">
       <div className="table-component">
@@ -115,7 +140,7 @@ function TableUser() {
           <div className="search-container">
             {/* toggleShow */}
             <div className="search-content">
-              <input type="email" className="form-control" />
+              <input type="text" onChange={handleSearch} className="form-control" />
               <Button variant="contained">
                 <SearchIcon />
               </Button>

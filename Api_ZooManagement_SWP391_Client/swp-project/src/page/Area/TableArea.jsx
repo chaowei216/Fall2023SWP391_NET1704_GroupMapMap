@@ -12,6 +12,8 @@ import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import AddArea from "./AddArea";
 import { Pagination } from "antd";
+import { debounce } from "lodash";
+
 function TableArea() {
     const role = localStorage.getItem("role");
     const [showModalAdd, setShowmodalAdd] = useState(false);
@@ -30,12 +32,12 @@ function TableArea() {
         console.log(current);
         setCurrentPage(current);
     };
-    const getList = () => {
-        return fetch(`https://localhost:44352/api/Area/pages/${currentPage}`).then((data) =>
-            data.json()
-        );
-    };
     useEffect(() => {
+        const getList = () => {
+            return fetch(`https://localhost:44352/api/Area/pages/${currentPage}`).then((data) =>
+                data.json()
+            );
+        };
         let mounted = true;
         getList().then((items) => {
             if (mounted) {
@@ -79,6 +81,39 @@ function TableArea() {
         setDataCageView(cage);
         setShowmodalView(true);
     };
+    const handleSearch = debounce((e) => {
+        console.log(e.target.value);
+        let term = e.target.value;
+        if (term) {
+            const getList = () => {
+                return fetch(`https://localhost:44352/api/Area/pages/${currentPage}`).then((data) =>
+                    data.json()
+                );
+            };
+            let mounted = true;
+            getList().then((items) => {
+                if (mounted) {
+                    setListArea(items.areas.filter(item => item.areaName.toUpperCase().includes(term.toUpperCase())));
+                    setTotalPages(items.pages);
+                }
+            });
+            return () => (mounted = false);
+        } else {
+            const getList = () => {
+                return fetch(`https://localhost:44352/api/Area/pages/${currentPage}`).then((data) =>
+                    data.json()
+                );
+            };
+            let mounted = true;
+            getList().then((items) => {
+                if (mounted) {
+                    setListArea(items.areas);
+                    setTotalPages(items.pages);
+                }
+            });
+            return () => (mounted = false);
+        }
+    }, 350)
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
@@ -92,7 +127,7 @@ function TableArea() {
                     <div className="search-container">
                         {/* toggleShow */}
                         <div className="search-content">
-                            <input type="email" className="form-control" />
+                            <input type="text" onChange={handleSearch} className="form-control" />
                             <Button variant="contained">
                                 <SearchIcon />
                             </Button>

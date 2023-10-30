@@ -20,12 +20,12 @@ function OrderTable() {
   const [dataFoodEdit, setDataFoodEdit] = useState({});
   const [dataFoodView, setDataFoodView] = useState({});
 
-  const getList = () => {
-    return fetch("https://localhost:44352/api/Order").then((data) =>
-      data.json()
-    );
-  };
   useEffect(() => {
+    const getList = () => {
+      return fetch("https://localhost:44352/api/Order").then((data) =>
+        data.json()
+      );
+    };
     let mounted = true;
     getList().then((items) => {
       if (mounted) {

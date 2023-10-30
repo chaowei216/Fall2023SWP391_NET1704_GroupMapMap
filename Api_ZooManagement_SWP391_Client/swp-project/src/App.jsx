@@ -57,22 +57,34 @@ import TableScheduleFeed from './page/FeedScheduleAnimal/TableScheduleFeed';
 const secretKey = 'your_secret_key';
 
 function App() {
-  // const userRole = localStorage.getItem("role");
+  const userRole = localStorage.getItem("role");
   // console.log(userRole);
+  function checkRole() {
+    return localStorage.getItem('role');
+  }
+  function RequireStaffRole({ children }) {
+    const role = checkRole();
+
+    if (role !== 'ADMIN') {
+      return <Navigate to="/" />
+    }
+
+    return <>{children}</>;
+  }
   return (
     <>
       <Router>
         <Routes>
           <Route path="/admin" element={<HeaderLayout />} >
-            <Route path="" element={<Dashboard />}></Route>
-            <Route path="1" element={<TableUser />}></Route>
-            <Route path="add" element={<AddPage />}></Route>
-            <Route path="2" element={<TableAnimal />}></Route>
-            <Route path="3" element={<OrderTable />}></Route>
-            <Route path="news" element={<TableNewsByAdmin />}></Route>
-            <Route path="cage" element={<TableCage />}></Route>
-            <Route path="area" element={<TableArea />}></Route>
-            <Route path="feedback" element={<TableFeedBack />}></Route>
+            <Route path="" element={<RequireStaffRole><Dashboard /></RequireStaffRole>}></Route>
+            <Route path="1" element={<RequireStaffRole><TableUser /></RequireStaffRole> }></Route>
+            <Route path="add" element={<RequireStaffRole><AddPage /></RequireStaffRole>}></Route>
+            <Route path="2" element={<RequireStaffRole><TableAnimal /></RequireStaffRole>}></Route>
+            <Route path="3" element={<RequireStaffRole><OrderTable /></RequireStaffRole>}></Route>
+            <Route path="news" element={<RequireStaffRole><TableNewsByAdmin /></RequireStaffRole>}></Route>
+            <Route path="cage" element={<RequireStaffRole><TableCage /></RequireStaffRole>}></Route>
+            <Route path="area" element={<RequireStaffRole><TableArea /></RequireStaffRole>}></Route>
+            <Route path="feedback" element={<RequireStaffRole><TableFeedBack /></RequireStaffRole>}></Route>
             {/* <Route path="3" element={<TableFood />}></Route> */}
           </Route>
           <Route path="/staff" element={<HeaderLayoutStaff />} >
@@ -103,8 +115,8 @@ function App() {
           <Route path="/" element={<Index />}></Route>
           <Route path="/new" element={<New />} />
           <Route path="/contact" element={<Contact />} />
-         
-          
+
+
 
         </Routes>
       </Router>
