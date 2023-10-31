@@ -216,7 +216,7 @@ function TableAnimal() {
                       <td style={{ textAlign: "center" }}>{items.sex === true ? "Male" : "Female"}</td>
                       <td style={{ textAlign: "center" }}>{items.region}</td>
                       <td style={{ textAlign: "center" }}>{items.rarity === true ? "Rarity" : "None"}</td>
-                      <td style={{ width: "208px" }}>
+                      <td style={{ width: "220px" }}>
                         <Button
                           variant="text"
                           style={{ padding: 0 }}

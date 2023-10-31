@@ -101,6 +101,7 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<AnimalFood, AnimalFoodCreateDto>();  
             CreateMap<AnimalSpecies, SpeciesDto>();
             CreateMap<FoodCategory, FoodCategoryPaginationDto>();
+            CreateMap<WorkExperience, ExperienceDetailDto>();
         }
 
     }

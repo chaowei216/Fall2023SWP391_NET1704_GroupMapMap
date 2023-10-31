@@ -14,7 +14,7 @@ import { Pagination } from "antd";
 import { debounce } from "lodash";
 import AddSpecies from "./addSpecies";
 
-function TableCategory() {
+function TableSpecies() {
   const role = localStorage.getItem("role");
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
@@ -215,4 +215,4 @@ function TableCategory() {
     </div>
   );
 }
-export default TableCategory;
+export default TableSpecies;

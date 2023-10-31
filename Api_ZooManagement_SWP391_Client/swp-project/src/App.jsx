@@ -52,6 +52,9 @@ import TableArea from './page/Area/TableArea';
 import TableNewsByAdmin from './page/News/TableNewsByAdmin';
 import TableFeedBack from './page/FeedBack/TableFeedBack';
 import TableScheduleFeed from './page/FeedScheduleAnimal/TableScheduleFeed';
+import TableSpecies from './page/Species/tableSpecies';
+import TableExperience from './page/WorkExperience/TableExperience';
+import TableCategory from './page/Category/TableCategory';
 
 
 const secretKey = 'your_secret_key';
@@ -98,6 +101,9 @@ function App() {
             <Route path="cage" element={<TableCage />}></Route>
             <Route path="area" element={<TableArea />}></Route>
             <Route path="food" element={<TableFood />}></Route>
+            <Route path="species" element={<TableSpecies />}></Route>
+            <Route path="experience" element={<TableExperience />}></Route>
+            <Route path="category" element={<TableCategory />}></Route>
             {/* <Route path="3" element={<TableFood />}></Route> */}
           </Route>
           <Route path="/ZooTrainer" element={<HeaderLayOutTrainer />}>

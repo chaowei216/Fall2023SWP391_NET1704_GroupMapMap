@@ -12,7 +12,7 @@ import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import { Pagination } from "antd";
 import { debounce } from "lodash";
-import AddSpecies from "./addSpecies";
+import AddExperience from "./AddExperience";
 
 function TableExperience() {
   const role = localStorage.getItem("role");
@@ -35,13 +35,13 @@ function TableExperience() {
   useEffect(() => {
     const getList = () => {
       return fetch(
-        `https://localhost:44352/api/AnimalSpecies/pages/${currentPage}`
+        `https://localhost:44352/api/Experience/pages/${currentPage}`
       ).then((data) => data.json());
     };
     let mounted = true;
     getList().then((items) => {
       if (mounted) {
-        setListExperience(items.species);
+        setListExperience(items.experiences);
         setTotalPages(items.pages);
       }
     });
@@ -87,15 +87,15 @@ function TableExperience() {
     if (term) {
       const getList = () => {
         return fetch(
-          `https://localhost:44352/api/AnimalSpecies/pages/${currentPage}`
+          `https://localhost:44352/api/Experience/pages/${currentPage}`
         ).then((data) => data.json());
       };
       let mounted = true;
       getList().then((items) => {
         if (mounted) {
           setListExperience(
-            items.species.filter((item) =>
-              item.speciesName.toUpperCase().includes(term.toUpperCase())
+            items.experiences.filter((item) =>
+              item.position.toUpperCase().includes(term.toUpperCase())
             )
           );
           setTotalPages(items.pages);
@@ -105,13 +105,13 @@ function TableExperience() {
     } else {
       const getList = () => {
         return fetch(
-          `https://localhost:44352/api/AnimalSpecies/pages/${currentPage}`
+          `https://localhost:44352/api/Experience/pages/${currentPage}`
         ).then((data) => data.json());
       };
       let mounted = true;
       getList().then((items) => {
         if (mounted) {
-          setListExperience(items.species);
+          setListExperience(items.experiences);
           setTotalPages(items.pages);
         }
       });
@@ -126,7 +126,7 @@ function TableExperience() {
       <div className="table-component">
         <div className="my-3 add-new">
           <span>
-            <b>View Species</b>
+            <b>View Experience</b>
           </span>
           <div className="search-container">
             {/* toggleShow */}
@@ -159,26 +159,15 @@ function TableExperience() {
               </tr>
             </thead>
             <tbody>
-              {listSpecies &&
-                listSpecies.length > 0 &&
-                listSpecies.map((items, index) => {
+              {listExperience &&
+                listExperience.length > 0 &&
+                listExperience.map((items, index) => {
                   return (
-                    <tr key={`species-${index}`}>
-                      <td>{items.speciesId}</td>
-                      <td>{items.speciesName}</td>
+                    <tr key={`experience-${index}`}>
+                      <td>{items.experienceId}</td>
+                      <td>{items.position}</td>
                       <td style={{ width: "220px" }}>
                         {role && role === "STAFF" && (
-                          <Button
-                            variant="text"
-                            style={{ padding: 0, textAlign: "center" }}
-                            onClick={() => {
-                              handleViewArea(items);
-                            }}
-                          >
-                            <VisibilityIcon />
-                          </Button>
-                        )}
-                        {role && role === "ADMIN" && (
                           <Button
                             variant="text"
                             style={{ padding: 0, textAlign: "center" }}
@@ -205,7 +194,7 @@ function TableExperience() {
           </div>
         </div>
       </div>
-      <AddSpecies show={showModalAdd} handleClose={handleClose} />
+      <AddExperience show={showModalAdd} handleClose={handleClose} />
       {/*
             <ViewFood
                 show={showModalView}
