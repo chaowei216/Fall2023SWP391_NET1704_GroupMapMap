@@ -51,7 +51,7 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             var response = new FoodCategoryResponseDto
             {
-                FoodCategorys = result,
+                FoodCategories = result,
                 CurrentPage = page,
                 Pages = (int)pageCount
             };
