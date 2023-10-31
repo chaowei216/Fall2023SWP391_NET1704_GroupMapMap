@@ -35,22 +35,14 @@ const menuItems = [
   { text: 'Feedback', link: '/contact' },
 ];
 function Cart() {
-  // const { shoppingCart, handleSetShoppingCart } = useShopping();
-  // let ShoppingCart = localStorage.getItem("shoppingCart"); 
-  // useEffect(() => {
+  const { shoppingCart, handleSetShoppingCart } = useShopping();
+  let ShoppingCart = JSON.parse(localStorage.getItem("shoppingCart")); 
+  useEffect(() => {
    
-  // if (ShoppingCart) {  
-  //   try {
-  //     ShoppingCart = JSON.parse(ShoppingCart);
-  //   } catch (error) {
-  //     console.error("Lỗi khi chuyển đổi dữ liệu từ localStorage:", error);
-  //     ShoppingCart = null; 
-  //   }
-  // }
-  // if(ShoppingCart) {
-  //   handleSetShoppingCart(ShoppingCart);
-  // }
-  // }, [ShoppingCart]);
+  if(ShoppingCart) {
+    handleSetShoppingCart(ShoppingCart);
+  }
+  }, []);
   return (
     <div>
         <Header menuItems={menuItems} />

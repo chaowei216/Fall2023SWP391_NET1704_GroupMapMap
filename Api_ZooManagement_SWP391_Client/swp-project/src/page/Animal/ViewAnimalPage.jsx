@@ -387,7 +387,7 @@ export default function ViewAnimal(pros) {
                       <div className="mb-3 Animal_Infomation">
                         <div className="row mb-3">
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label">Name Animal</label>
+                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Name Animal</label>
                             <Form.Control
                               id="name"
                               type="text"
@@ -407,7 +407,7 @@ export default function ViewAnimal(pros) {
                           </Form.Control.Feedback> */}
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label">Region</label>
+                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Region</label>
                             <Form.Control
                               type="text"
                               id="region"
@@ -429,7 +429,7 @@ export default function ViewAnimal(pros) {
                           </Form.Control.Feedback> */}
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label">Species Animal</label>
+                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Species Animal</label>
                             <Form.Control
                               type="string"
                               id="species"
@@ -451,7 +451,7 @@ export default function ViewAnimal(pros) {
                         <div className="row mb-3">
                           <div className="mb-3" style={{ width: "33%" }}>
                             <div>
-                              <label className="form-label">Gender</label>
+                              <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Gender</label>
                               <br />
                               <Radio.Group
                                 id="gender"
@@ -493,7 +493,7 @@ export default function ViewAnimal(pros) {
                             <div>
                               <label
                                 className="form-label"
-                                style={{ verticalAlign: "middle" }}
+                                style={{ verticalAlign: "middle",color: "#813528", fontWeight: "bolder" }}
                               >
                                 Is Animal Rarity
                               </label>
@@ -536,7 +536,7 @@ export default function ViewAnimal(pros) {
                             </div>
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label">Birthday</label>
+                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Birthday</label>
                             <br />
                             <Space
                               direction="vertical"
@@ -556,7 +556,7 @@ export default function ViewAnimal(pros) {
                           </div>
                         </div>
                         <div className="row mb-3">
-                          <label className="form-label">Health Check</label>
+                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Health Check</label>
                           <Form.Control
                             as="textarea"
                             style={{ height: "85px" }}
@@ -581,7 +581,7 @@ export default function ViewAnimal(pros) {
                         </div>
                         {animalImage == "" && (
                           <div className="row mb-3">
-                            <label className="form-label">Health Check</label>
+                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Health Check</label>
                             <Form.Control
                               as="textarea"
                               style={{ height: "85px" }}
@@ -666,7 +666,7 @@ export default function ViewAnimal(pros) {
                           )}
                         </div>
                         <div className="mb-3">
-                          <label className="form-label">Cage for Animal</label>
+                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Cage for Animal</label>
                           <Table striped bordered hover>
                             <thead>
                               <tr>
@@ -698,7 +698,7 @@ export default function ViewAnimal(pros) {
                         >
                           <div className="mb-3" style={{ width: "40%" }}>
                             <div>
-                              <label className="form-label">
+                              <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
                                 Entry Cage Date
                               </label>
                               <br />
@@ -797,7 +797,7 @@ export default function ViewAnimal(pros) {
                           )}
                         </div>
                         <div className="mb-2">
-                          <label className="form-label">
+                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
                             ZooTrainer for Animal
                           </label>
                           <Table striped bordered hover>
@@ -861,7 +861,7 @@ export default function ViewAnimal(pros) {
                         >
                           <div className="mb-3" style={{ width: "40%" }}>
                             <div>
-                              <label className="form-label">
+                              <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
                                 StartTraining Date
                               </label>
                               <br />
@@ -903,14 +903,14 @@ export default function ViewAnimal(pros) {
                       </div>
                       <div className="Food-Information mb-3">
                         <div className="mb-3" style={{ paddingRight: "25px" }}>
-                          <label className="form-label">Food For Animal</label>
+                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Food For Animal</label>
                           <Table striped bordered hover>
                             <thead>
                               <tr>
                                 <th>ID</th>
                                 <th>Food Name</th>
                                 <th>Category</th>
-                                <th>Amount</th>
+                                <th>Amount (KG)</th>
                                 <th>Start Eating</th>
                                 <th>End Eating</th>
                               </tr>
@@ -945,7 +945,7 @@ export default function ViewAnimal(pros) {
                       </div>
                       <div className="Food-Information">
                         <div className="mb-3" style={{ paddingRight: "25px" }}>
-                          <label className="form-label">
+                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
                             Schedule For Animal
                           </label>
                           <Table striped bordered hover>

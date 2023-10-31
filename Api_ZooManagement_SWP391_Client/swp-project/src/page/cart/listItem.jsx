@@ -17,17 +17,7 @@ function ListItem() {
       return total + calculateProductTotal(product);
     }, 0);
   };
-  const a=[
-    {
-      id:1,
-      day:"2"
-    },
-    {
-      id:2,
-      day:"3"
-    }
-  ]
-  console.log(a[1].id);
+
 
   const Store = (cartData) => {
     // Chuyển dữ liệu giỏ hàng thành chuỗi JSON
@@ -58,7 +48,9 @@ function ListItem() {
       handleUpdateItemQuantity(productId, newQuantity);
     }
   };
-
+  const handleDeleteCart = () =>{
+    localStorage.removeItem('shoppingCart');
+  }
   // Hàm để giảm số lượng sản phẩm
   const handleDecrease = (productId) => {
     // Tìm sản phẩm có productId trong giỏ hàng
@@ -78,15 +70,19 @@ function ListItem() {
     console.log(day);
 
   };
-  const checkDay = () => {
-    console.log(shoppingCart);
-    console.log( getCurrentDate());
-    // if (shoppingCart.day >= getCurrentDate()) {
-    //   return true;
-    // }
-    // return ;
-  }
-
+    const checkDay = () => {
+      // shoppingCart.map((item)=>{
+      //   console.log(item.day);
+      // })
+      if (shoppingCart.length > 0) {
+        console.log(getCurrentDate());
+        if (shoppingCart[0].day >= getCurrentDate()) {
+          return true;
+        }
+      }
+      return false;
+    }
+    console.log(checkDay());
   function getCurrentDate() {
     const today = new Date();
     const year = today.getFullYear();
@@ -173,6 +169,7 @@ function ListItem() {
                           <p>DAY</p>
                           <input
                             type="date"
+                            value={shoppingCart.length > 0 ? shoppingCart[0].day : null}
                             onChange={(e) => {
                               updateDay(e.target.value)
                               // const selectedDate = ;
@@ -192,7 +189,7 @@ function ListItem() {
                           name="update_cart"
                           className="update-cart"
                           value="Delete Cart"
-                          // onClick={handleDeleteCart}
+                          onClick={handleDeleteCart}
                           disabled=""
                           aria-disabled="true"
                         >

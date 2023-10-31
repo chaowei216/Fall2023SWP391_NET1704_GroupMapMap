@@ -88,27 +88,29 @@ function TableFood() {
     let term = e.target.value;
     if (term) {
       const getList = () => {
-        return fetch("https://localhost:44352/api/Food").then((data) =>
+        return fetch(`https://localhost:44352/api/Food/pages/${currentPage}`).then((data) =>
           data.json()
         );
       };
       let mounted = true;
       getList().then((items) => {
         if (mounted) {
-          setListFood(items.filter(item => item.fName.toUpperCase().includes(term.toUpperCase())));
+          setListFood(items.foods.filter(food => food.fName.toUpperCase().includes(term.toUpperCase())));
+          setTotalPages(items.pages)
         }
       });
       return () => (mounted = false);
     } else {
       const getList = () => {
-        return fetch("https://localhost:44352/api/Food").then((data) =>
+        return fetch(`https://localhost:44352/api/Food/pages/${currentPage}`).then((data) =>
           data.json()
         );
       };
       let mounted = true;
       getList().then((items) => {
         if (mounted) {
-          setListFood(items);
+          setListFood(items.foods);
+          setTotalPages(items.pages)
         }
       });
       return () => (mounted = false);
@@ -217,8 +219,8 @@ function TableFood() {
             <Pagination
               onChange={onShowSizeChange}
               defaultCurrent={currentPage}
-              defaultPageSize={7}
-              total={totalPages * 7}
+              defaultPageSize={10}
+              total={totalPages * 10}
             />
           </div>
         </div>

@@ -9,18 +9,19 @@ import {
   MDBModalBody,
   MDBModalFooter,
 } from "mdb-react-ui-kit";
+import { Navigate, json, useNavigate } from "react-router-dom";
 import { DatePicker, Radio, Select, Space } from "antd";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "../../assets/css/dashboard.css";
 import { ToastContainer } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-
-export default function EditAnimalByZooTrainer(pros) {
+import { MDBIcon } from "mdb-react-ui-kit";
+export default function EditAnimal(pros) {
   const role = localStorage.getItem("role");
+  const navigate = useNavigate();
   const { show, handleClose, dataAnimalEdit } = pros;
-  const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [isNew, setIsNew] = useState(false);
+  const [isNew2, setIsNew2] = useState(false);
   const [region, setRegion] = useState("");
   const [animalId, setAnimalId] = useState("");
   const [name, setName] = useState("");
@@ -40,20 +41,25 @@ export default function EditAnimalByZooTrainer(pros) {
   const [listCage, setListCage] = useState([]);
   const [listZooTrainer, setListZooTrainer] = useState([]);
   const [options, setOptions] = useState([]);
-  const [fields, setFields] = useState([
-    {
-      id: "",
-      quantity: "",
-    },
-  ]);
+  const [scheduleList, setScheduleList] = useState([]);
   const [status, setStatus] = useState(true);
   const [foods, setFoods] = useState([]);
+  const [schedules, setSchedules] = useState([]);
   const [error, setErros] = useState("");
   const [isValidOutCage, setIsValidOutCage] = useState(true);
   const [isValidTrainerDate, setIsValidTrainerDate] = useState(true);
   const [isValidAmount, setIsValidAmount] = useState(true);
-  const [selectedFoodId, setSelectedFoodId] = useState("");
-
+  const [isValidDescription, setIsValidDescription] = useState(true);
+  const [isValidStartEat, setIsValidStartEat] = useState(true);
+  const [isValidEndEat, setIsValidEndEat] = useState(true);
+  // const [selectedFoodId, setSelectedFoodId] = useState("");
+  const [selectedFoodIds, setSelectedFoodIds] = useState([]);
+  const [selectedScheduleIds, setSelectedScheduleIds] = useState([]);
+  const [listTrainerOld, setListTrainerOld] = useState([]);
+  const [listCageOld, setListCageOld] = useState([]);
+  const [list3, setList3] = useState([]);
+  const [availableTrainer, setAvailableTrainer] = useState([]);
+  const [availableCage, setAvailableCage] = useState([]);
   const validateOutCageDate = (dateString) => {
     const selectedDate = new Date(dateString);
     const currentDate = new Date();
@@ -70,6 +76,10 @@ export default function EditAnimalByZooTrainer(pros) {
       setIsValidOutCage(false);
       // Xử lý logic khi ngày không hợp lệ
     }
+  };
+  const handle = () => {
+    handleClose;
+    window.location.reload();
   };
   const validateTrainerDate = (dateString) => {
     const selectedDate = new Date(dateString);
@@ -96,6 +106,36 @@ export default function EditAnimalByZooTrainer(pros) {
       setIsValidAmount(false);
     }
   };
+  const validateStartEat = (value) => {
+    const startEatDate = new Date(value);
+    const entryCageDate = new Date(entryCage);
+    console.log(startEatDate > entryCageDate);
+    if (startEatDate > entryCageDate) {
+      // valid
+      setIsValidStartEat(true)
+    } else {
+      setIsValidStartEat(false)
+    }
+  };
+  const validateEndEat = (value) => {
+    const EndEatDate = new Date(value);
+    foods.forEach(food => {
+      const startEatDate = new Date(food.startEat);
+      if (!(EndEatDate >= startEatDate)) {
+        setIsValidEndEat(false)
+      } else {
+        setIsValidEndEat(true)
+      }
+    })
+  };
+  const validateDescription = (value) => {
+    const description = String(value);
+    if (description.trim().length === 0 && description.length <= 2) {
+      setIsValidDescription(false);
+    } else {
+      setIsValidDescription(true);
+    }
+  };
   const handleOutCageChange = (event) => {
     setOutCage(event.target.value);
     validateOutCageDate(event.target.value);
@@ -104,7 +144,6 @@ export default function EditAnimalByZooTrainer(pros) {
     setEndTraining(event.target.value);
     validateTrainerDate(event.target.value);
   };
-  const navigate = useNavigate();
   const handleFoodChange = (id, event) => {
     validateAmountFood(event.target.value);
     const newFood = foods.map((food) => {
@@ -115,20 +154,74 @@ export default function EditAnimalByZooTrainer(pros) {
     });
     setFoods(newFood);
   };
-  const handleDescriptionFoodChange = (id, event) => {
+  const handleStartEatDateChange = (id, event) => {
+    validateStartEat(event.target.value);
     const newFood = foods.map((food) => {
       if (food.foodId === id) {
-        food.description = event.target.value;
+        food.startEat = event.target.value;
       }
       return food;
     });
     setFoods(newFood);
   };
+  const handleEndEatDateChange = (id, event) => {
+    validateEndEat(event.target.value);
+    const newFood = foods.map((food) => {
+      if (food.foodId === id) {
+        food.endEat = event.target.value;
+      }
+      return food;
+    });
+    setFoods(newFood);
+  };
+  const handleTimeEatChange = (id, event) => {
+    const newSchedule = schedules.map((schedule) => {
+      if (schedule.scheduleId === id) {
+        schedule.time = event.target.value;
+      }
+      return schedule;
+    });
+    setSchedules(newSchedule);
+  };
+  const handleDescriptionChange = (id, event) => {
+    validateDescription(event.target.value);
+    const newSchedule = schedules.map((schedule) => {
+      if (schedule.scheduleId === id) {
+        schedule.description = event.target.value;
+      }
+      return schedule;
+    });
+    setSchedules(newSchedule);
+  };
+  useEffect(() => {
+    const array = [];
+    const foodIds1 = foods.map((food) => food.foodId);
+    array.push(foodIds1);
+    console.log(array);
+    setSelectedFoodIds(foodIds1);
+    console.log(foodIds1);
+    console.log(selectedFoodIds);
+  }, [dataAnimalEdit, foods]);
 
+  useEffect(() => {
+    const array = [];
+    const scheduleIds1 = schedules.map((schedule) => schedule.scheduleId);
+    array.push(scheduleIds1);
+    console.log(array);
+    setSelectedScheduleIds(scheduleIds1);
+  }, [dataAnimalEdit, schedules]);
   const handleFoodSelect = (e, index) => {
     // setSelectedFoodId(e.target.value);
-
+    console.log(e.target.value);
     // Lấy ra food object từ options
+    const selectedFoodId = e.target.value;
+    // setSelectedFoodIds((prevSelectedFoodIds) => [
+    //   ...prevSelectedFoodIds,
+    //   selectedFoodId,
+    // ]);
+    setSelectedFoodIds([...selectedFoodIds, e.target.value]);
+    console.log(selectedFoodIds);
+
     const selectedFood = options.find((o) => o.foodId === e.target.value);
     console.log(selectedFood.foodId);
     console.log(e.target.value);
@@ -140,6 +233,29 @@ export default function EditAnimalByZooTrainer(pros) {
     setFoods([...foods]);
   };
 
+  const handleScheduleSelect = (e, index) => {
+    // setSelectedFoodId(e.target.value);
+    console.log(e.target.value);
+    // Lấy ra food object từ options
+    const selectedFoodId = e.target.value;
+    // setSelectedFoodIds((prevSelectedFoodIds) => [
+    //   ...prevSelectedFoodIds,
+    //   selectedFoodId,
+    // ]);
+    setSelectedScheduleIds([...selectedScheduleIds, e.target.value]);
+    console.log(selectedScheduleIds);
+
+    const selectedSchedule = scheduleList.find((o) => o.scheduleId === e.target.value);
+    console.log(selectedSchedule.scheduleId);
+    console.log(e.target.value);
+    console.log(index);
+    // Cập nhật lại cho food hiện tại
+    const currentFood = schedules[index];
+    currentFood.scheduleId = selectedSchedule.scheduleId;
+    console.log(currentFood);
+    setSchedules([...schedules]);
+  };
+
   const handleAdd = () => {
     setIsNew(true);
     // Thêm mới object vào cuối mảng
@@ -148,11 +264,23 @@ export default function EditAnimalByZooTrainer(pros) {
       {
         foodId: "",
         amount: "",
+        startEat: "",
+        endEat: "",
+      },
+    ]);
+  };
+  const handleAdd2 = () => {
+    setIsNew2(true);
+    // Thêm mới object vào cuối mảng
+    setSchedules([
+      ...schedules,
+      {
+        scheduleId: "",
+        time: "",
         description: "",
       },
     ]);
   };
-
   const getList = () => {
     return fetch("https://localhost:44352/api/Food").then((data) =>
       data.json()
@@ -163,6 +291,21 @@ export default function EditAnimalByZooTrainer(pros) {
     getList().then((items) => {
       if (mounted) {
         setOptions(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
+
+  useEffect(() => {
+    const getScheduleList = () => {
+      return fetch("https://localhost:44352/api/Schedule").then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getScheduleList().then((items) => {
+      if (mounted) {
+        setScheduleList(items);
       }
     });
     return () => (mounted = false);
@@ -193,8 +336,21 @@ export default function EditAnimalByZooTrainer(pros) {
         setSpecies(dataAnimalEdit.species),
         setRarity(dataAnimalEdit.rarity);
       setFoods(dataAnimalEdit.foods);
+      setSchedules(dataAnimalEdit.schedules);
     }
   }, [dataAnimalEdit]);
+
+  useEffect(() => {
+    const list3 = [];
+    const foodIds1 = foods.map((food) => food.foodId);
+    options.forEach((food) => {
+      if (!foodIds1.includes(food.foodId)) {
+        list3.push(food);
+      }
+    });
+    console.log(list3);
+    setList3(list3);
+  }, [dataAnimalEdit, foods]);
   const getCageList = () => {
     return fetch("https://localhost:44352/api/Cage").then((data) =>
       data.json()
@@ -223,18 +379,58 @@ export default function EditAnimalByZooTrainer(pros) {
     });
     return () => (mounted = false);
   }, []);
-  const ZooTrainerList = listZooTrainer.filter((user) => user.role === 3);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(
+        `https://localhost:44352/api/Animal/${animalId}/oldtrainers`
+      );
+      const data = await response.json();
+      setListTrainerOld(data);
+    };
+    if (animalId) {
+      fetchData();
+    }
+  }, [animalId, userID]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(
+        `https://localhost:44352/api/Animal/${animalId}/oldcages`
+      );
+      const data = await response.json();
+      setListCageOld(data);
+    };
+    if (animalId) {
+      fetchData();
+    }
+  }, [animalId, cageID]);
+
+  useEffect(() => {
+    const ZooTrainerList = listZooTrainer.filter((user) => user.role === 3);
+    const oldTrainerId = listTrainerOld.map((user) => user.userId);
+    const test1 = [];
+    const test = ZooTrainerList.map((value) => {
+      if (!oldTrainerId.includes(value.userId)) {
+        test1.push(value);
+        setAvailableTrainer(test1);
+      }
+    });
+  }, [listZooTrainer, listTrainerOld, userID]);
+  console.log(availableTrainer);
+  useEffect(() => {
+    const oldCageId = listCageOld.map((cage) => cage.cId);
+    const test2 = [];
+    const test = listCage.map((value) => {
+      if (!oldCageId.includes(value.cId)) {
+        test2.push(value);
+        setAvailableCage(test2);
+      }
+    });
+  }, [listCage, listCageOld, cageID]);
+  console.log(availableCage);
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    if (
-      healthCheck === dataAnimalEdit.healthCheck &&
-      description === dataAnimalEdit.description &&
-      outCage === null &&
-      endTraining === null
-    ) {
-      setErros("Data Dupplicated");
-      window.location.href("/ZooTrainer/2");
-    } else if (healthCheck === "") {
+     if (healthCheck === "") {
       setErros("HealthCheck can't be null");
       return;
     } else if (healthCheck != "") {
@@ -250,6 +446,12 @@ export default function EditAnimalByZooTrainer(pros) {
       return;
     } else if (isValidAmount === false) {
       return;
+    } else if (isValidDescription === false){
+      return;
+    } else if (isValidStartEat ===  false){
+      return;
+    } else if (isValidEndEat ===  false){
+      return;
     }
     console.log(dataAnimalEdit);
     console.log(event);
@@ -264,6 +466,7 @@ export default function EditAnimalByZooTrainer(pros) {
       endTrainDate: null,
       outCageDate: null,
       animalFoods: foods,
+      animalSchedules: schedules,
     };
     console.log("OK");
     console.log(animalEdit);
@@ -282,18 +485,18 @@ export default function EditAnimalByZooTrainer(pros) {
       // localStorage.setItem("isAdded", true);
       // handleClose()
       // window.location.href = "/staff/2";
-      if (role === "ZOOTRAINER") {
-        navigate("/ZooTrainer/2");
-      } else {
-        navigate("/staff/2");
-      }
-      window.location.reload();
+      // if (role === "ZOOTRAINER") {
+      //   navigate("/ZooTrainer/2");
+      // } else {
+      //   navigate("/staff/2");
+      // }
+      // window.location.reload();
     }
   };
 
   return (
     <>
-      <MDBModal staticBackdrop tabIndex="-1" show={show} onHide={handleClose}>
+      <MDBModal show={show} onHide={handleClose}>
         <MDBModalDialog size="xl">
           <MDBModalContent>
             <MDBModalHeader>
@@ -329,7 +532,7 @@ export default function EditAnimalByZooTrainer(pros) {
                       <div className="mb-3 Animal_Infomation">
                         <div className="row mb-3">
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label">Name Animal</label>
+                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Name Animal</label>
                             <Form.Control
                               id="name"
                               type="text"
@@ -339,17 +542,17 @@ export default function EditAnimalByZooTrainer(pros) {
                               name="name"
                               value={name}
                               onChange={(event) => setName(event.target.value)}
-                              // isInvalid={
-                              //   formik.errors.first_name &&
-                              //   formik.touched.first_name
-                              // }
+                            // isInvalid={
+                            //   formik.errors.first_name &&
+                            //   formik.touched.first_name
+                            // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
                           </Form.Control.Feedback> */}
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label">Region</label>
+                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Region</label>
                             <Form.Control
                               type="text"
                               id="region"
@@ -361,17 +564,17 @@ export default function EditAnimalByZooTrainer(pros) {
                               onChange={(event) =>
                                 setRegion(event.target.value)
                               }
-                              // isInvalid={
-                              //   formik.errors.last_name &&
-                              //   formik.touched.last_name
-                              // }
+                            // isInvalid={
+                            //   formik.errors.last_name &&
+                            //   formik.touched.last_name
+                            // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
                           </Form.Control.Feedback> */}
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label">Species Animal</label>
+                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Species Animal</label>
                             <Form.Control
                               type="string"
                               id="species"
@@ -380,10 +583,10 @@ export default function EditAnimalByZooTrainer(pros) {
                               aria-describedby="inputGroupPrepend"
                               name="species"
                               value={species}
-                              // value={formik.values.species}
-                              // onChange={formik.handleChange}
-                              // onBlur={formik.handleBlur}
-                              // isInvalid={phone == nul}
+                            // value={formik.values.species}
+                            // onChange={formik.handleChange}
+                            // onBlur={formik.handleBlur}
+                            // isInvalid={phone == nul}
                             />
                             <Form.Control.Feedback type="invalid">
                               Haha
@@ -393,7 +596,7 @@ export default function EditAnimalByZooTrainer(pros) {
                         <div className="row mb-3">
                           <div className="mb-3" style={{ width: "25%" }}>
                             <div>
-                              <label className="form-label">Gender</label>
+                              <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Gender</label>
                               <br />
                               <Radio.Group
                                 id="gender"
@@ -431,11 +634,12 @@ export default function EditAnimalByZooTrainer(pros) {
                           </div>
                           <div className="mb-3" style={{ width: "25%" }}>
                             <div>
-                              <label className="form-label">Status</label>
+                              <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Status</label>
                               <br />
                               <Radio.Group
                                 id="status"
                                 name="status"
+                                disabled
                                 style={{ height: "33%", width: "100%" }}
                                 onChange={(e) => {
                                   setStatus(e.target.value);
@@ -470,7 +674,7 @@ export default function EditAnimalByZooTrainer(pros) {
                             <div>
                               <label
                                 className="form-label"
-                                style={{ verticalAlign: "middle" }}
+                                style={{ verticalAlign: "middle",color: "#813528", fontWeight: "bolder" }}
                               >
                                 Is Animal Rarity
                               </label>
@@ -513,7 +717,7 @@ export default function EditAnimalByZooTrainer(pros) {
                             </div>
                           </div>
                           <div className="mb-3" style={{ width: "25%" }}>
-                            <label className="form-label">Birthday</label>
+                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Birthday</label>
                             <br />
                             <Space
                               direction="vertical"
@@ -533,10 +737,10 @@ export default function EditAnimalByZooTrainer(pros) {
                           </div>
                         </div>
                         <div className="mb-3">
-                          <label className="form-label">HealthCheck</label>
+                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>HealthCheck</label>
                           <Form.Control
-                            type="textarea"
-                            style={{ height: "56px" }}
+                            as="textarea"
+                            style={{ height: "90px", width: "98%" }}
                             id="healthCheck"
                             placeholder="healthCheck"
                             aria-describedby="inputGroupPrepend"
@@ -545,38 +749,47 @@ export default function EditAnimalByZooTrainer(pros) {
                             onChange={(event) =>
                               setHealthCheck(event.target.value)
                             }
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.address && formik.touched.address
-                            // }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.address && formik.touched.address
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
                         </Form.Control.Feedback> */}
                         </div>
                         <div className="mb-3">
-                          <label className="form-label">Description</label>
+                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Description</label>
                           <Form.Control
-                            type="text"
+                            as="textarea"
                             id="description"
                             placeholder="description"
                             aria-describedby="inputGroupPrepend"
                             name="description"
-                            style={{ height: "56px" }}
+                            style={{ height: "90px", width: "98%" }}
                             value={description}
                             onChange={(event) =>
                               setDescription(event.target.value)
                             }
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.address && formik.touched.address
-                            // }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.address && formik.touched.address
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
                         </Form.Control.Feedback> */}
+                        </div>
+                        <div style={{ textAlign: "end" }}>
+                          <Button
+                            type="submit"
+                            variant="text"
+                            style={{ padding: 0, marginRight: "18px" }}
+                          >
+                            <MDBIcon fas icon="edit" size="2x" />
+                          </Button>
                         </div>
                       </div>
 
@@ -588,7 +801,7 @@ export default function EditAnimalByZooTrainer(pros) {
                         style={{ paddingRight: "25px" }}
                       >
                         <div className="mb-3">
-                          <label className="form-label">
+                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
                             Choose Cage for Animal
                           </label>
                           <Form.Select
@@ -599,19 +812,19 @@ export default function EditAnimalByZooTrainer(pros) {
                             name="cageId"
                             style={{ width: "85%" }}
                             onChange={(event) => setCageID(event.target.value)}
-                            // onChange={handleChange}
+                          // onChange={handleChange}
                           >
                             {/* <option value="">Choose Cage</option> */}
                             {/* Render các option từ API */}
-                            {listCage.map((option) => (
+                            {availableCage.map((option) => (
                               <option
                                 key={option.cId}
                                 value={option.cId}
                                 selected={option.cId === cageID}
                               >
-                                {option.cId} - MaxCapacity :{" "}
-                                {option.maxCapacity} - AnimalQuantity :{" "}
-                                {option.animalQuantity}
+                                {option.cId} - Cage Name : {option.name} -
+                                MaxCapacity : {option.maxCapacity} -
+                                AnimalQuantity : {option.animalQuantity}
                               </option>
                             ))}
                           </Form.Select>
@@ -624,7 +837,7 @@ export default function EditAnimalByZooTrainer(pros) {
                           }}
                         >
                           <div style={{ width: "40%" }}>
-                            <label className="form-label">
+                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
                               Choose Entry Cage
                             </label>
                             <br />
@@ -636,16 +849,16 @@ export default function EditAnimalByZooTrainer(pros) {
                               onChange={(event) =>
                                 setEntryCage(event.target.value)
                               }
-                              // isInvalid={
-                              //   formik.errors.entryCageDate &&
-                              //   formik.touched.entryCageDate
-                              // }
+                            // isInvalid={
+                            //   formik.errors.entryCageDate &&
+                            //   formik.touched.entryCageDate
+                            // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                                 {formik.errors.entryCageDate}
                               </Form.Control.Feedback> */}
                           </div>
-                          <div className="mb-3" style={{ width: "40%" }}>
+                          {/* <div className="mb-3" style={{ width: "40%" }}>
                             <label className="form-label">
                               Choose Out Cage
                             </label>
@@ -655,51 +868,58 @@ export default function EditAnimalByZooTrainer(pros) {
                               aria-describedby="inputGroupPrepend"
                               name="outCage"
                               value={outCage}
-                              disabled
                               // onChange={(event) =>
                               //   setOutCage(event.target.value)
                               // }
                               onChange={handleOutCageChange}
                               isInvalid={!isValidOutCage}
-                              // isInvalid={
-                              //   formik.errors.last_name &&
-                              //   formik.touched.last_name
-                              // }
+                            // isInvalid={
+                            //   formik.errors.last_name &&
+                            //   formik.touched.last_name
+                            // }
                             />
                             <Form.Control.Feedback type="invalid">
                               Ngày không hợp lệ hoặc lớn hơn ngày hiện tại.
                             </Form.Control.Feedback>
-                          </div>
+                          </div> */}
+                        </div>
+                        <div style={{ textAlign: "end" }}>
+                          <Button
+                            type="submit"
+                            variant="text"
+                            style={{ padding: 0 }}
+                          >
+                            <MDBIcon fas icon="edit" size="2x" />
+                          </Button>
                         </div>
                       </div>
                       <div className="label-info">
-                        <label>ZooTrainer Information</label>
+                        <label>Zoo Trainer Information</label>
                       </div>
                       <div className="mb-3 ZooTrainer-Information">
                         <div className="mb-3">
-                          <label className="form-label">
-                            Choose ZooTrainer for Animal
+                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
+                            Choose Zoo Trainer for Animal
                           </label>
                           <Form.Select
                             size="lg"
-                            disabled
                             id="userId"
+                            disabled
                             name="userId"
                             placeholder="Chọn món ăn"
                             style={{ width: "85%" }}
                             onChange={(evnet) => setUserID(evnet.target.value)}
                           >
                             {/* Render các option từ API */}
-                            {ZooTrainerList.map((option) => (
+                            {availableTrainer.map((option) => (
                               <option
                                 key={option.userId}
                                 value={option.userId}
                                 selected={option.userId === userID}
                               >
-                                ZooTrainerID : {option.userId} - FirstName :{" "}
-                                {option.firstname} - LastName :{" "}
-                                {option.lastname} - Training Animal:{" "}
-                                {option.countAnimal}
+                                ZooTrainerID : {option.userId} - FullName :{" "}
+                                {option.firstname + " " + option.lastname} -
+                                Training Animal: {option.countAnimal}
                               </option>
                             ))}
                           </Form.Select>
@@ -713,7 +933,7 @@ export default function EditAnimalByZooTrainer(pros) {
                             }}
                           >
                             <div style={{ width: "40%" }}>
-                              <label className="form-label">
+                              <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
                                 Choose Start Train
                               </label>
                               <br />
@@ -728,38 +948,46 @@ export default function EditAnimalByZooTrainer(pros) {
                                 onChange={(event) =>
                                   setStartTrain(event.target.value)
                                 }
-                                // isInvalid={
-                                //   formik.errors.startTrainDate &&
-                                //   formik.touched.startTrainDate
-                                // }
+                              // isInvalid={
+                              //   formik.errors.startTrainDate &&
+                              //   formik.touched.startTrainDate
+                              // }
                               />
                             </div>
                             {/* <Form.Control.Feedback type="invalid">
                                 {formik.errors.startTrainDate}
                               </Form.Control.Feedback> */}
-                            <div style={{ width: "40%" }}>
+                            {/* <div style={{ width: "40%" }}>
                               <label className="form-label">
                                 Choose End Training
                               </label>
                               <Form.Control
                                 id="endTraining"
                                 type="date"
-                                disabled
                                 aria-describedby="inputGroupPrepend"
                                 name="endTraining"
                                 value={endTraining}
                                 onChange={handleEndTrainingDate}
                                 isInvalid={!isValidTrainerDate}
-                                // isInvalid={
-                                //   formik.errors.first_name &&
-                                //   formik.touched.first_name
-                                // }
+                              // isInvalid={
+                              //   formik.errors.first_name &&
+                              //   formik.touched.first_name
+                              // }
                               />
                               <Form.Control.Feedback type="invalid">
                                 Ngày không hợp lệ hoặc lớn hơn ngày hiện tại.
                               </Form.Control.Feedback>
-                            </div>
+                            </div> */}
                           </div>
+                        </div>
+                        <div style={{ textAlign: "end" }}>
+                          <Button
+                            type="submit"
+                            variant="text"
+                            style={{ padding: 0, marginRight: "24px" }}
+                          >
+                            <MDBIcon fas icon="edit" size="2x" />
+                          </Button>
                         </div>
                       </div>
                       <div className="label-info">
@@ -789,9 +1017,9 @@ export default function EditAnimalByZooTrainer(pros) {
                                   value={food.foodId}
                                 />
                               </div> */}
-                              <div style={{ width: "30%" }}>
-                                <label className="form-label">
-                                  Choose Food For Animal
+                              <div style={{ width: "25%" }}>
+                                <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
+                                  Edit Food For Animal
                                 </label>
                                 <Form.Control
                                   as="select"
@@ -813,18 +1041,18 @@ export default function EditAnimalByZooTrainer(pros) {
                                     <option
                                       key={option.foodId}
                                       value={option.foodId}
-                                      // disabled={selectedFoodIds.includes(
-                                      //   option.foodId
-                                      // )}
+                                      disabled={selectedFoodIds.includes(
+                                        option.foodId
+                                      )}
                                     >
                                       {option.fName}
                                     </option>
                                   ))}
                                 </Form.Control>
                               </div>
-                              <div style={{ width: "30%" }}>
-                                <label className="form-label">
-                                  Enter Amount Food For Animal
+                              <div style={{ width: "25%" }}>
+                                <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
+                                  Enter Amount Food (KG)
                                 </label>
                                 <Form.Control
                                   type="number"
@@ -841,23 +1069,47 @@ export default function EditAnimalByZooTrainer(pros) {
                                   Amount is a positive number
                                 </Form.Control.Feedback>
                               </div>
-                              <div style={{ width: "30%" }}>
-                                <label className="form-label">
-                                  Edit Description Food For Animal
+                              <div style={{ width: "25%" }}>
+                                <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
+                                  Edit Start Eat Date
                                 </label>
                                 <Form.Control
-                                  type="text"
+                                  type="date"
                                   className="mb-3"
                                   aria-describedby="inputGroupPrepend"
+                                  isInvalid={!isValidStartEat}
                                   style={{ width: "90%" }}
-                                  value={food.description}
+                                  value={food.startEat != null ? food.startEat.slice(0, 10) : null}
                                   onChange={(e) =>
-                                    handleDescriptionFoodChange(food.foodId, e)
+                                    handleStartEatDateChange(food.foodId, e)
+                                  }
+                                />
+                              </div>
+                              <div style={{ width: "25%" }}>
+                                <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
+                                  Edit End Eat Date
+                                </label>
+                                <Form.Control
+                                  type="date"
+                                  className="mb-3"
+                                  isInvalid={!isValidEndEat}
+                                  aria-describedby="inputGroupPrepend"
+                                  style={{ width: "90%" }}
+                                  value={food.endEat != null ? food.endEat.slice(0, 10) : null}
+                                  onChange={(e) =>
+                                    handleEndEatDateChange(food.foodId, e)
                                   }
                                 />
                               </div>
                             </div>
                           ))}
+                          {!isValidStartEat &&
+                            <div className="mb-3" style={{ color: "red" }}>StartEatDate must be after EntryCageDate</div>
+                          }
+                          {!isValidEndEat &&
+                            <div className="mb-3" style={{ color: "red" }}>EndEatDate must be after StartEatDate</div>
+                          }
+
                           {foods.length && foods.length < options.length && (
                             <div
                               style={{
@@ -869,7 +1121,140 @@ export default function EditAnimalByZooTrainer(pros) {
                             </div>
                           )}
                         </div>
+                        <div style={{ textAlign: "end" }}>
+                          <Button
+                            type="submit"
+                            variant="text"
+                            style={{ padding: 0, marginRight: "24px" }}
+                          >
+                            <MDBIcon fas icon="edit" size="2x" />
+                          </Button>
+                        </div>
                       </div>
+                      {schedules.length > 0 &&
+                        <div className="label-info">
+                          <label>Schedule Information</label>
+                        </div>
+                      }
+                      {schedules.length > 0 && (
+                        <div className="mb-3 Schedule-Information">
+                          <div className="mb-1">
+                            {schedules && schedules.map((schedule, index) => (
+                              <div
+                                key={schedule.scheduleId}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  width: "95%",
+                                }}
+                              >
+                                {/* <div style={{ width: "30%" }}>
+                                <label className="form-label">
+                                  ID Food Of Animal
+                                </label>
+                                <Form.Control
+                                  type="text"
+                                  className="mb-3"
+                                  aria-describedby="inputGroupPrepend"
+                                  disabled
+                                  style={{ width: "90%" }}
+                                  value={food.foodId}
+                                />
+                              </div> */}
+                                <div style={{ width: "30%" }}>
+                                  <label className="form-label">
+                                    Edit Schedule For Animal
+                                  </label>
+                                  <Form.Control
+                                    as="select"
+                                    style={{
+                                      width: "95%",
+                                      marginRight: "20px",
+                                    }}
+                                    value={schedule.scheduleId}
+                                    onChange={
+                                      isNew2
+                                        ? (e) => handleScheduleSelect(e, index)
+                                        : null
+                                    }
+                                    placeholder="Chọn món ăn"
+                                  >
+                                    <option value="">Choose Schedule</option>
+                                    {/* Render các option từ API */}
+                                    {scheduleList.map((option) => (
+                                      <option
+                                        key={option.scheduleId}
+                                        value={option.scheduleId}
+                                        disabled={selectedScheduleIds.includes(
+                                          option.scheduleId
+                                        )}
+                                      >
+                                        {option.scheduleName}
+                                      </option>
+                                    ))}
+                                  </Form.Control>
+                                </div>
+                                <div style={{ width: "30%" }}>
+                                  <label className="form-label">
+                                    Edit Time Eat
+                                  </label>
+                                  <Form.Control
+                                    type="time"
+                                    className="mb-3"
+                                    aria-describedby="inputGroupPrepend"
+                                    style={{ width: "90%" }}
+                                    value={schedule.time}
+                                    onChange={(e) =>
+                                      handleTimeEatChange(schedule.scheduleId, e)
+                                    }
+                                  />
+                                </div>
+                                <div style={{ width: "30%" }}>
+                                  <label className="form-label">
+                                    Edit Description
+                                  </label>
+                                  <Form.Control
+                                    type="text"
+                                    className="mb-3"
+                                    aria-describedby="inputGroupPrepend"
+                                    style={{ width: "90%" }}
+                                    value={schedule.description}
+                                    isInvalid={!isValidDescription}
+                                    onChange={(e) =>
+                                      handleDescriptionChange(schedule.scheduleId, e)
+                                    }
+                                  />
+
+                                </div>
+                              </div>
+                            ))}
+                            {!isValidDescription &&
+                              <div className="mb-3" style={{ color: "red" }}>Description must be 2 characters</div>
+                            }
+                            {schedules.length && schedules.length < scheduleList.length && (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                }}
+                              >
+                                <Button onClick={handleAdd2}>Add</Button>
+                              </div>
+                            )}
+
+                          </div>
+                          <div style={{ textAlign: "end" }}>
+                            <Button
+                              type="submit"
+                              variant="text"
+                              style={{ padding: 0, marginRight: "24px" }}
+                            >
+                              <MDBIcon fas icon="edit" size="2x" />
+                            </Button>
+                          </div>
+
+                        </div>
+                      )}
 
                       <div className="btn-footer">
                         <div
@@ -880,14 +1265,14 @@ export default function EditAnimalByZooTrainer(pros) {
                         >
                           <Button
                             variant="secondary"
-                            onClick={handleClose}
+                            onClick={handle}
                             active
                             style={{ width: "80px" }}
                           >
                             Close
                           </Button>
                         </div>
-                        <div>
+                        {/* <div>
                           <Button
                             style={{ background: "blue" }}
                             variant="primary"
@@ -896,7 +1281,7 @@ export default function EditAnimalByZooTrainer(pros) {
                           >
                             Edit animal
                           </Button>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
