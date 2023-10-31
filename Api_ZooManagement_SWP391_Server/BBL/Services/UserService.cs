@@ -143,6 +143,7 @@ namespace BBL.Services
                         foreach (var exp in exps)
                         {
                             var expDetail = _mapper.Map<ExperienceDetailDto>(exp);
+                            expDetail.Position = _workExpRepository.GetById(exp.ExperienceId).Position;
                             userDto.Experiences.Add(expDetail);
                         }
                     }
