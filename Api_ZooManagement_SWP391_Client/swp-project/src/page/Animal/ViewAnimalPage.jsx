@@ -347,16 +347,17 @@ export default function ViewAnimal(pros) {
                     <div className="form">
                       <div style={{ display: "flex" }} className="mb-3 mt-3">
                         {animalImage != "" && (
-                          <div className="mb-3" style={{width: "50%"}}>
-                            <div>
-                              <img
-                                className="rounded"
-                                width={390}
-                                style={{ width: "100%", height: "226px" }}
-                                src={"/" + animalImage}
-                              ></img>
-                            </div>
-                            {/* <MDBCol lg="4" md="12" className="mb-4">
+                          <>
+                            <div className="mb-3" style={{ width: "50%" }}>
+                              <div>
+                                <img
+                                  className="rounded"
+                                  width={390}
+                                  style={{ width: "100%", height: "226px" }}
+                                  src={"/" + animalImage}
+                                ></img>
+                              </div>
+                              {/* <MDBCol lg="4" md="12" className="mb-4">
                               <img
                                 src={"/" + animalImage}
                                 className="img-fluid rounded"
@@ -364,20 +365,21 @@ export default function ViewAnimal(pros) {
                                 alt="#"
                               />
                             </MDBCol> */}
-                          </div>
+                            </div>
+                            <div style={{ marginLeft: "30px", width: "50%" }}>
+                              <div
+                                style={{
+                                  fontWeight: "bolder",
+                                  fontSize: "30px",
+                                  marginBottom: "10px",
+                                }}
+                              >
+                                Description
+                              </div>
+                              <div style={{ paddingLeft: "10px" }}>{description}</div>
+                            </div>
+                          </>
                         )}
-                        <div style={{ marginLeft: "30px", width: "50%" }}>
-                          <div
-                            style={{
-                              fontWeight: "bolder",
-                              fontSize: "30px",
-                              marginBottom: "10px",
-                            }}
-                          >
-                            Description 
-                          </div>
-                          <div style={{paddingLeft: "10px"}}>{description}</div>
-                        </div>
                       </div>
                       <div className="label-info">
                         <label>Animal Information Basic</label>
@@ -395,10 +397,10 @@ export default function ViewAnimal(pros) {
                               name="name"
                               value={name}
                               onChange={(event) => setName(event.target.value)}
-                              // isInvalid={
-                              //   formik.errors.first_name &&
-                              //   formik.touched.first_name
-                              // }
+                            // isInvalid={
+                            //   formik.errors.first_name &&
+                            //   formik.touched.first_name
+                            // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
@@ -417,10 +419,10 @@ export default function ViewAnimal(pros) {
                               onChange={(event) =>
                                 setRegion(event.target.value)
                               }
-                              // isInvalid={
-                              //   formik.errors.last_name &&
-                              //   formik.touched.last_name
-                              // }
+                            // isInvalid={
+                            //   formik.errors.last_name &&
+                            //   formik.touched.last_name
+                            // }
                             />
                             {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
@@ -436,10 +438,10 @@ export default function ViewAnimal(pros) {
                               aria-describedby="inputGroupPrepend"
                               name="species"
                               value={species}
-                              // value={formik.values.species}
-                              // onChange={formik.handleChange}
-                              // onBlur={formik.handleBlur}
-                              // isInvalid={phone == nul}
+                            // value={formik.values.species}
+                            // onChange={formik.handleChange}
+                            // onBlur={formik.handleBlur}
+                            // isInvalid={phone == nul}
                             />
                             <Form.Control.Feedback type="invalid">
                               Haha
@@ -567,16 +569,42 @@ export default function ViewAnimal(pros) {
                             onChange={(event) =>
                               setHealthCheck(event.target.value)
                             }
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.address && formik.touched.address
-                            // }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.address && formik.touched.address
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
                         </Form.Control.Feedback> */}
                         </div>
+                        {animalImage == "" && (
+                          <div className="row mb-3">
+                            <label className="form-label">Health Check</label>
+                            <Form.Control
+                              as="textarea"
+                              style={{ height: "85px" }}
+                              id="healthCheck"
+                              placeholder="healthCheck"
+                              disabled
+                              aria-describedby="inputGroupPrepend"
+                              name="healthCheck"
+                              value={healthCheck}
+                              onChange={(event) =>
+                                setHealthCheck(event.target.value)
+                              }
+                            // onChange={formik.handleChange}
+                            // onBlur={formik.handleBlur}
+                            // isInvalid={
+                            //   formik.errors.address && formik.touched.address
+                            // }
+                            />
+                            {/* <Form.Control.Feedback type="invalid">
+                          {formik.errors.address}
+                        </Form.Control.Feedback> */}
+                          </div>
+                        )}
                       </div>
                       <div className="label-info">
                         <label>Cage Information</label>
@@ -615,9 +643,9 @@ export default function ViewAnimal(pros) {
                                             {value.entryCageDate === null
                                               ? null
                                               : value.entryCageDate.slice(
-                                                  0,
-                                                  10
-                                                )}
+                                                0,
+                                                10
+                                              )}
                                           </td>
                                           <td>
                                             {value.outCageDate === null
@@ -695,10 +723,10 @@ export default function ViewAnimal(pros) {
                                 onChange={(event) =>
                                   setRegion(event.target.value)
                                 }
-                                // isInvalid={
-                                //   formik.errors.last_name &&
-                                //   formik.touched.last_name
-                                // }
+                              // isInvalid={
+                              //   formik.errors.last_name &&
+                              //   formik.touched.last_name
+                              // }
                               />
                               {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
@@ -746,9 +774,9 @@ export default function ViewAnimal(pros) {
                                             {value.startDate === null
                                               ? "Empty"
                                               : value.startTrainDate.slice(
-                                                  0,
-                                                  10
-                                                )}
+                                                0,
+                                                10
+                                              )}
                                           </td>
                                           <td>
                                             {value.endDate === null
@@ -858,10 +886,10 @@ export default function ViewAnimal(pros) {
                                 onChange={(event) =>
                                   setName(event.target.value)
                                 }
-                                // isInvalid={
-                                //   formik.errors.first_name &&
-                                //   formik.touched.first_name
-                                // }
+                              // isInvalid={
+                              //   formik.errors.first_name &&
+                              //   formik.touched.first_name
+                              // }
                               />
                               {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}

@@ -45,7 +45,7 @@ export default function ViewFood(pros) {
   };
   return (
     <>
-      <MDBModal staticBackdrop tabIndex="-1" show={show} onHide={handleClose}>
+      <MDBModal  show={show} onHide={handleClose}>
         <MDBModalDialog size="lg">
           <MDBModalContent>
             <MDBModalHeader>

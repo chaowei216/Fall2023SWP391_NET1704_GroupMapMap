@@ -14,6 +14,7 @@ import AddFood from "./AddFood";
 import EditFood from "./EditFood";
 import ViewFood from "./ViewFood";
 import { debounce } from "lodash";
+import { Pagination } from "antd";
 
 function TableFood() {
   const role = localStorage.getItem("role");
@@ -27,17 +28,20 @@ function TableFood() {
   const [dataAnimalView, setDataAnimalView] = useState({});
   const [dataFoodEdit, setDataFoodEdit] = useState({});
   const [dataFoodView, setDataFoodView] = useState({});
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const getList = () => {
-      return fetch("https://localhost:44352/api/Food").then((data) =>
+      return fetch(`https://localhost:44352/api/Food/pages/${currentPage}`).then((data) =>
         data.json()
       );
     };
     let mounted = true;
     getList().then((items) => {
       if (mounted) {
-        setListFood(items);
+        setListFood(items.foods);
+        setTotalPages(items.pages)
       }
     });
     return () => (mounted = false);
@@ -64,7 +68,10 @@ function TableFood() {
     setShowmodalFood(false);
     setAnchorEl(null);
   };
-
+  const onShowSizeChange = (current) => {
+    console.log(current);
+    setCurrentPage(current);
+  };
   const handleEditFood = (item) => {
     // setDataUserEdit(item);
     const food = item;
@@ -206,6 +213,14 @@ function TableFood() {
                 })}
             </tbody>
           </Table>
+          <div className="pagination-container">
+            <Pagination
+              onChange={onShowSizeChange}
+              defaultCurrent={currentPage}
+              defaultPageSize={7}
+              total={totalPages * 7}
+            />
+          </div>
         </div>
       </div>
       <AddFood show={showModalAdd} handleClose={handleClose} />

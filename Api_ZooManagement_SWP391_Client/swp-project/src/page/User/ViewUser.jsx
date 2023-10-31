@@ -385,6 +385,7 @@ export default function ViewUser(pros) {
                             <thead>
                               <tr>
                                 <th>Experience ID</th>
+                                <th>Position</th>
                                 <th>Description</th>
                               </tr>
                             </thead>
@@ -395,13 +396,15 @@ export default function ViewUser(pros) {
                                   return (
                                     <tr>
                                       <td>{value.experienceId}</td>
+                                      <td>{value.position}</td>
                                       <td>{value.company}</td>
+                                      {console.log(value.position)}
                                     </tr>
                                   );
                                 })}
                               {experienceOption.length === 0 &&
                                 <tr>
-                                  <td colSpan={2}>Empty</td>
+                                  <td colSpan={3}>Empty</td>
                                 </tr>
                               }
                             </tbody>
