@@ -57,7 +57,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         {
             var cages = _mapper.Map<List<CageDto>>(_cageService.GetAll());
 
-            var pageResults = 5f;
+            var pageResults = 10f;
             var pageCount = Math.Ceiling(cages.Count / pageResults);
 
             var result = cages

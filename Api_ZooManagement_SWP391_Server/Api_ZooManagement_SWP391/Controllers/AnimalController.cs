@@ -108,7 +108,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         {
             var animals = _animalService.GetAll();
 
-            var pageResults = 7f;
+            var pageResults = 10f;
             var pageCount = Math.Ceiling(animals.Count() / pageResults);
             if (animals != null && animals.Count > 0)
             {

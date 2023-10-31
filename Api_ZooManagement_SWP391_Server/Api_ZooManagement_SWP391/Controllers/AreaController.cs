@@ -37,7 +37,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         {
             var areas = _mapper.Map<List<AreaDto>>(_areaService.GetAll());
 
-            var pageResults = 5f;
+            var pageResults = 10f;
             var pageCount = Math.Ceiling(areas.Count / pageResults);
 
             var result = areas

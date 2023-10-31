@@ -142,7 +142,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 allNews[index].AuthorName = user.Firstname + " " + user.Lastname;
             }
 
-            var pageResults = 5f;
+            var pageResults = 10f;
             var pageCount = Math.Ceiling(news.Count / pageResults);
 
             var result = allNews

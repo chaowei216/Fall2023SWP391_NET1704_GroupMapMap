@@ -37,7 +37,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         {
             var reviews = _mapper.Map<List<ReviewDto>>(_reviewService.GetAllReview());
 
-            var pageResults = 5f;
+            var pageResults = 10f;
             var pageCount = Math.Ceiling(reviews.Count / pageResults);
 
             var result = reviews

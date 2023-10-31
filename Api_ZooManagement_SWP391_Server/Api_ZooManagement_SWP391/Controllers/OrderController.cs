@@ -52,7 +52,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         {
             var orders = _mapper.Map<List<OrderDto>>(_orderService.GetAllOrders());
 
-            var pageResults = 5f;
+            var pageResults = 10f;
             var pageCount = Math.Ceiling(orders.Count / pageResults);
 
             var result = orders

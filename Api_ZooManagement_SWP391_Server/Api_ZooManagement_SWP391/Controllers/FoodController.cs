@@ -47,6 +47,32 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(foods);
         }
 
+        [HttpGet("pages/{page}")]
+        [ProducesResponseType(200, Type = typeof(FoodResponseDto))]
+        public IActionResult GetAllFood(int page)
+        {
+            var foods = _mapper.Map<List<FoodDto>>(_foodService.GetAllFood());
+
+            var pageResults = 10f;
+            var pageCount = Math.Ceiling(foods.Count / pageResults);
+
+            var result = foods
+                        .Skip((page - 1) * (int)pageResults)
+                        .Take((int)pageResults).ToList();
+
+            var response = new FoodResponseDto
+            {
+                Foods = result,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(response);
+        }
+
         [HttpGet("foodId")]
         [ProducesResponseType(200, Type = typeof(Food))]
         [ProducesResponseType(400)]
@@ -77,6 +103,14 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             var foodMap = _mapper.Map<Food>(foodDto);
             var cate = _foodCategoryService.GetByCateName(foodDto.CategoryName);
+            var food = _foodService.GetByFoodName(foodDto.FName);
+
+            if (food != null)
+                return BadRequest("Food existed!!");
+
+            if (cate == null)
+                return BadRequest("Category not found");
+
             if (foodMap.Quantity == 0)
                 return BadRequest("Fail to Add");
             int count = _foodService.GetAllFood().Count() + 1;
