@@ -73,6 +73,9 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult CreateArea([FromBody] AreaCreateDto areaDto)
         {
             if (areaDto == null)
@@ -102,6 +105,34 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             return Ok("Successfully");
         }
+        [HttpPut("{areaId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        //[Authorize(Roles = "STAFF")]
+        public IActionResult UpdateArea(string areaId, [FromBody] AreaUpdateDto areaUpdateDto)
+        {
+            if (areaUpdateDto == null)
+                return BadRequest(ModelState);
 
+            if (areaId != areaUpdateDto.AreaId)
+                return BadRequest(ModelState);
+
+            if (!_areaService.AreaExists(areaId))
+                return NotFound();
+
+            var areaMap = _mapper.Map<Area>(areaUpdateDto);
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            if (!_areaService.UpdateArea(areaMap))
+            {
+                ModelState.AddModelError("", "Error when updating area!!");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
     }
 }

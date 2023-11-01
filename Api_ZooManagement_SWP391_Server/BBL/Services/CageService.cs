@@ -38,8 +38,12 @@ namespace BBL.Services
             return _cageRepository.GetById(id);
         }
 
-        public bool UpdateCage(Cage cage)
+        public bool UpdateCage(Cage cageMap)
         {
+            var cage = _cageRepository.GetById(cageMap.CId);
+            if (cage == null) return false;
+            cage.Name = cageMap.Name;
+            cage.MaxCapacity = cageMap.MaxCapacity;
             return _cageRepository.Update(cage);
         }
 

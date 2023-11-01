@@ -62,6 +62,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(500)]
         [ProducesResponseType(400)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult AddExperience([FromBody] ExperienceCreateDto expCreate)
         {
             if (expCreate == null)

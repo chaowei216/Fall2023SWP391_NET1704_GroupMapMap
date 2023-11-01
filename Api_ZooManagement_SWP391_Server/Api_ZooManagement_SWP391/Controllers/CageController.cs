@@ -78,6 +78,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         }
 
         [HttpPost]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult CreateCage([FromQuery] string areaId, [FromBody] CageCreateDto cageDto)
         {
             if (cageDto == null)
@@ -116,11 +117,34 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok("Successfully");
         }
 
-        [HttpPut]
-        public IActionResult UpdateCage()
+        [HttpPut("{cageId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        //[Authorize(Roles = "STAFF")]
+        public IActionResult UpdateCage(string cageId, [FromBody] CageUpdateDto cageUpdateDto)
         {
+            if (cageUpdateDto == null)
+                return BadRequest(ModelState);
 
-            return Ok();
+            if (cageId != cageUpdateDto.CId)
+                return BadRequest(ModelState);
+
+            if (!_cageService.CageExists(cageId))
+                return NotFound();
+
+            var cageMap = _mapper.Map<Cage>(cageUpdateDto);
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            if (!_cageService.UpdateCage(cageMap))
+            {
+                ModelState.AddModelError("", "Error when updating cage!!");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
         }
     }
 }

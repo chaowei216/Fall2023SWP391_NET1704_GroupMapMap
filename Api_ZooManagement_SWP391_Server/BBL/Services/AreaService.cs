@@ -39,8 +39,11 @@ namespace BBL.Services
             return _areaRepository.GetAll().FirstOrDefault(a => a.AreaName == name);
         }
 
-        public bool UpdateArea(Area area)
+        public bool UpdateArea(Area areaMap)
         {
+            var area = _areaRepository.GetById(areaMap.AreaId);
+            area.Description = areaMap.Description;
+
             return _areaRepository.Update(area);
         }
 

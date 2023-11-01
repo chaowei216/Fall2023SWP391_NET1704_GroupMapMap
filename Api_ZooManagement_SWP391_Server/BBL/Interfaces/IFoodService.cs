@@ -1,4 +1,5 @@
 ﻿using DAL.Entities;
+using DTO.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace BBL.Interfaces
         bool DeleteFood(string foodId);
         List<Animal> GetAnimalsByFoodId(string foodId);
         ICollection<AnimalFood> GetFoodsByAnimalId(string animalId);
-        ICollection<Food> GetAllFood();
+        ICollection<FoodDto> GetAllFood();
         Food GetByFoodId(string id);
         Food GetByFoodName(string name);
         bool FoodExists(string id);

@@ -2,6 +2,7 @@
 using DAL.Data;
 using DAL.Entities;
 using DAL.Repositories;
+using DTO.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +16,16 @@ namespace BBL.Services
     {
         private readonly IGenericRepository<Food> _foodRepository;
         private readonly IGenericRepository<AnimalFood> _animalFoodRepo;
+        private readonly IGenericRepository<FoodCategory> _foodCategoryRepository;
         private readonly DataContext _context;
 
         public FoodService(IGenericRepository<Food> foodRepository,
-            IGenericRepository<AnimalFood> animalFoodRepo, DataContext context)
+            IGenericRepository<AnimalFood> animalFoodRepo, DataContext context, IGenericRepository<FoodCategory> foodCategoryRepository)
         {
             _foodRepository = foodRepository;
             _animalFoodRepo = animalFoodRepo;
             _context = context;
+            _foodCategoryRepository = foodCategoryRepository;
         }
 
         public bool AddFood(Food food)
@@ -44,9 +47,24 @@ namespace BBL.Services
             return _foodRepository.GetById(id) != null ? true : false;
         }
 
-        public ICollection<Food> GetAllFood()
+        public ICollection<FoodDto> GetAllFood()
         {
-            return _foodRepository.GetAll();
+            var getFoods = _foodRepository.GetAll().ToList();
+            var allFoods = new List<FoodDto>();
+            foreach (var getFood in getFoods)
+            {
+                var f = new FoodDto();
+                f.FoodId = getFood.FoodId;
+                f.FName = getFood.FName;
+                f.Quantity = getFood.Quantity;
+                f.ImportDate = getFood.ImportDate;
+                f.ExpiredDate = getFood.ExpiredDate;
+                var food = _foodCategoryRepository.GetById(getFood.CategoryId);
+                f.CategoryName = food.CategoryName;
+                    
+                allFoods.Add(f);
+            }
+            return allFoods;
         }
 
         public List<Animal> GetAnimalsByFoodId(string foodId)
