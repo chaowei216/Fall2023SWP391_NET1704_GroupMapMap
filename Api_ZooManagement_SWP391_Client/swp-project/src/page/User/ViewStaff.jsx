@@ -102,9 +102,10 @@ function ViewStaff() {
                 <div className="form-view form-style">
                   <div className="row mb-3">
                     <div className="mb-3" style={{ width: "45%" }}>
-                      <label className="form-label">UserId</label>
+                      <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>UserId</label>
                       <Form.Control
                         id="userId"
+                        style={{border: 'white'}}
                         type="text"
                         placeholder="name of the animal"
                         disabled
@@ -114,10 +115,11 @@ function ViewStaff() {
                       />
                     </div>
                     <div className="mb-3" style={{ width: "45%" }}>
-                      <label className="form-label">Phone</label>
+                      <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Phone</label>
                       <Form.Control
                         type="text"
                         id="phone"
+                        style={{border: 'white'}}
                         aria-describedby="inputGroupPrepend"
                         name="phone"
                         disabled
@@ -127,11 +129,12 @@ function ViewStaff() {
                   </div>
                   <div className="row mb-3">
                     <div className="mb-3" style={{ width: "45%" }}>
-                      <label className="form-label">Full Name</label>
+                      <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Full Name</label>
                       <Form.Control
                         type="string"
                         id="firstname"
                         disabled
+                        style={{border: 'white'}}
                         placeholder="First Name"
                         aria-describedby="inputGroupPrepend"
                         name="species"
@@ -143,11 +146,12 @@ function ViewStaff() {
                       />
                     </div>
                     <div className="mb-3" style={{ width: "45%" }}>
-                      <label className="form-label">Email</label>
+                      <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Email</label>
                       <Form.Control
                         type="text"
                         id="email"
                         placeholder="region"
+                        style={{border: 'white'}}
                         aria-describedby="inputGroupPrepend"
                         disabled
                         name="email"
@@ -158,18 +162,19 @@ function ViewStaff() {
                   </div>
                   <div className="row mb-3">
                     <div className="mb-3 row-content">
-                      <label className="form-label">Address</label>
+                      <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Address</label>
                       <Form.Control
                         placeholder="email"
                         aria-describedby="inputGroupPrepend"
                         disabled
+                        style={{border: 'white'}}
                         value={staffProfile[0].address}
                       />
                     </div>
                   </div>
                   <div className="row mb-3">
                     <div className="mb-3" style={{ width: "33%" }}>
-                      <label className="form-label">Role</label>
+                      <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Role</label>
                       <Radio.Group
                         id="status"
                         name="status"
@@ -218,7 +223,7 @@ function ViewStaff() {
                       </Radio.Group>
                     </div>
                     <div className="mb-3" style={{ width: "33%" }}>
-                      <label className="form-label">Status</label>
+                      <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Status</label>
                       <Radio.Group
                         id="status"
                         name="status"
@@ -268,7 +273,7 @@ function ViewStaff() {
                     </div>
                     <div className="mb-3" style={{ width: "33%" }}>
                       <div>
-                        <label className="form-label">Gender</label>
+                        <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Gender</label>
                         <br />
                         <Radio.Group
                           id="sex"
@@ -321,7 +326,7 @@ function ViewStaff() {
                   </div>
                   <div className="row mt-4">
                     <div className="mb-3" style={{ width: "45%" }}>
-                      <label className="form-label">Start Date</label>
+                      <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Start Date</label>
                       <br />
                       <Form.Control
                         type="date"
@@ -329,6 +334,7 @@ function ViewStaff() {
                         placeholder="address"
                         aria-describedby="inputGroupPrepend"
                         disabled
+                        style={{border: 'white'}}
                         name="startTrainDate"
                         value={staffProfile[0].startDate.slice(0, 10)}
                         // onBlur={formik.handleBlur}

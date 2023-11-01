@@ -18,6 +18,7 @@ function ListItem() {
     }, 0);
   };
 
+
   const Store = (cartData) => {
     // Chuyển dữ liệu giỏ hàng thành chuỗi JSON
     const cartDataJSON = JSON.stringify(cartData);
@@ -47,7 +48,9 @@ function ListItem() {
       handleUpdateItemQuantity(productId, newQuantity);
     }
   };
-
+  const handleDeleteCart = () =>{
+    localStorage.removeItem('shoppingCart');
+  }
   // Hàm để giảm số lượng sản phẩm
   const handleDecrease = (productId) => {
     // Tìm sản phẩm có productId trong giỏ hàng
@@ -63,10 +66,30 @@ function ListItem() {
     }
   };
   const updateDay = (day) => {
-    console.log(day);
     handleUpdateDay(day);
-  };
+    console.log(day);
 
+  };
+    const checkDay = () => {
+      // shoppingCart.map((item)=>{
+      //   console.log(item.day);
+      // })
+      if (shoppingCart.length > 0) {
+        console.log(getCurrentDate());
+        if (shoppingCart[0].day >= getCurrentDate()) {
+          return true;
+        }
+      }
+      return false;
+    }
+    console.log(checkDay());
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
   return (
     <div>
       <section className="gap">
@@ -146,8 +169,18 @@ function ListItem() {
                           <p>DAY</p>
                           <input
                             type="date"
+                            value={shoppingCart.length > 0 ? shoppingCart[0].day : null}
                             onChange={(e) => {
-                              updateDay(e.target.value);
+                              updateDay(e.target.value)
+                              // const selectedDate = ;
+                              // const currentDate = getCurrentDate();
+
+                              // if (selectedDate >= currentDate) {
+
+                              // } else {
+                              //   // Hiển thị thông báo hoặc thực hiện xử lý phù hợp nếu ngày không hợp lệ
+                              //   alert("Vui lòng chọn một ngày trong tương lai hoặc ngày hiện tại.");
+                              // }
                             }}
                           />
                         </td>
@@ -156,7 +189,7 @@ function ListItem() {
                           name="update_cart"
                           className="update-cart"
                           value="Delete Cart"
-                          // onClick={handleDeleteCart}
+                          onClick={handleDeleteCart}
                           disabled=""
                           aria-disabled="true"
                         >
@@ -220,9 +253,16 @@ function ListItem() {
                   </div>
                   <div className="wc-proceed-to-checkout">
                     <Link
-                      to="/checkout"
+                      to={checkDay() ? "/checkout" : "/cart"}
                       className="button"
-                      onClick={Store(shoppingCart)}
+                      onClick={() => {
+                        console.log(checkDay());
+                        if (checkDay()) {
+                          Store(shoppingCart);
+                        } else {
+                          alert("Không thể thanh toán với ngày không hợp lệ.Vui lòng chọn ngày hiện tại hoặc trong tương lai");
+                        }
+                      }}
                     >
                       <span>Proceed to checkout</span>
                     </Link>

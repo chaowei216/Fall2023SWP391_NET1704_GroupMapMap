@@ -532,7 +532,7 @@ export default function EditAnimal(pros) {
                       <div className="mb-3 Animal_Infomation">
                         <div className="row mb-3">
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label">Name Animal</label>
+                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Name Animal</label>
                             <Form.Control
                               id="name"
                               type="text"
@@ -552,7 +552,7 @@ export default function EditAnimal(pros) {
                           </Form.Control.Feedback> */}
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label">Region</label>
+                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Region</label>
                             <Form.Control
                               type="text"
                               id="region"
@@ -574,7 +574,7 @@ export default function EditAnimal(pros) {
                           </Form.Control.Feedback> */}
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label">Species Animal</label>
+                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Species Animal</label>
                             <Form.Control
                               type="string"
                               id="species"
@@ -596,7 +596,7 @@ export default function EditAnimal(pros) {
                         <div className="row mb-3">
                           <div className="mb-3" style={{ width: "25%" }}>
                             <div>
-                              <label className="form-label">Gender</label>
+                              <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Gender</label>
                               <br />
                               <Radio.Group
                                 id="gender"
@@ -1050,7 +1050,7 @@ export default function EditAnimal(pros) {
                               </div>
                               <div style={{ width: "25%" }}>
                                 <label className="form-label">
-                                  Enter Amount Food
+                                  Enter Amount Food (KG)
                                 </label>
                                 <Form.Control
                                   type="number"

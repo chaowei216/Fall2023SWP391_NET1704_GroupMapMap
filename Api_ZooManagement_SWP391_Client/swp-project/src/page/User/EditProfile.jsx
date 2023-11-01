@@ -195,7 +195,8 @@ export default function EditProfile(pros) {
                         style={{
                           width: "80px",
                           marginRight: "20px",
-                          background: "gainsboro",
+                          color: "white",
+                          background: "red",
                         }}
                       >
                         Close
