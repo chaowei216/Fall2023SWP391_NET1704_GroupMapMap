@@ -49,7 +49,7 @@ function Header(props) {
  
       }
     };
-    window.addEventListener('scroll', setFix);
+    window.addEventListener('scroll', handleScroll);
 
  
   return (
