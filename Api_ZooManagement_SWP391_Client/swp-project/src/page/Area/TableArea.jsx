@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import AddArea from "./AddArea";
 import { Pagination } from "antd";
 import { debounce } from "lodash";
+import EditArea from "./EditArea";
 
 function TableArea() {
     const role = localStorage.getItem("role");
@@ -148,7 +149,9 @@ function TableArea() {
                                 <th>Area ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
-                                <th style={{ textAlign: "center" }}>Action</th>
+                                {role && role === 'STAFF' &&
+                                    <th style={{ textAlign: "center" }}>Action</th>
+                                }
                             </tr>
                         </thead>
                         <tbody>
@@ -160,30 +163,8 @@ function TableArea() {
                                             <td>{items.areaId}</td>
                                             <td>{items.areaName}</td>
                                             <td>{items.description}</td>
-                                            <td style={{ width: "220px" }}>
-                                                {role && role === 'STAFF' && (
-                                                    <Button
-                                                        variant="text"
-                                                        style={{ padding: 0 }}
-                                                        onClick={() => {
-                                                            handleViewArea(items);
-                                                        }}
-                                                    >
-                                                        <VisibilityIcon />
-                                                    </Button>
-                                                )}
-                                                {role && role === 'ADMIN' && (
-                                                    <Button
-                                                        variant="text"
-                                                        style={{ padding: 0, textAlign: "center" }}
-                                                        onClick={() => {
-                                                            handleViewArea(items);
-                                                        }}
-                                                    >
-                                                        <VisibilityIcon />
-                                                    </Button>
-                                                )}
-                                                {role && role === 'STAFF' &&
+                                            {role && role === 'STAFF' &&
+                                                <td style={{ width: "180px", textAlign: "center" }}>
                                                     <Button
                                                         onClick={() => {
                                                             handleEditArea(items);
@@ -193,13 +174,8 @@ function TableArea() {
                                                     >
                                                         <EditIcon />
                                                     </Button>
-                                                }
-                                                {role && role === 'STAFF' &&
-                                                    <Button variant="text" style={{ padding: 0 }}>
-                                                        <DeleteIcon />
-                                                    </Button>
-                                                }
-                                            </td>
+                                                </td>
+                                            }
                                         </tr>
                                     );
                                 })}
@@ -216,11 +192,12 @@ function TableArea() {
                 </div>
             </div>
             <AddArea show={showModalAdd} handleClose={handleClose} />
-            {/* <EditFood
+            <EditArea
                 show={showModalEdit}
                 handleClose={handleClose}
                 dataAreaEdit={dataAreaEdit}
             />
+            {/*
             <ViewFood
                 show={showModalView}
                 handleClose={handleClose}

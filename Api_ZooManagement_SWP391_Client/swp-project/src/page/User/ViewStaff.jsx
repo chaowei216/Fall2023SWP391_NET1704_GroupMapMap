@@ -33,7 +33,6 @@ function ViewStaff() {
   // const [Password, setPassword] = useState("123456");
   // const location = useLocation();
   // const {setListUsers} =  location.state;
-  const emailInfo = localStorage.getItem("email");
   const [staffProfile, setStaffProfile] = useState([]);
   const [userId, setUserId] = useState("");
   const [email, setEmail] = useState("");
@@ -62,8 +61,8 @@ function ViewStaff() {
     setShowmodalEdit(true);
   };
   const [test, setTest] = useState("");
-  console.log(emailInfo);
   const role = localStorage.getItem("role");
+  const emailInfo = localStorage.getItem("email");
   // dùng API real
   useEffect(() => {
     const getList = () => {
@@ -100,6 +99,7 @@ function ViewStaff() {
             <Form noValidate>
               <div className="form-content">
                 <div className="form-view form-style">
+                  
                   <div className="row mb-3">
                     <div className="mb-3" style={{ width: "45%" }}>
                       <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>UserId</label>

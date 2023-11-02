@@ -82,7 +82,7 @@ export default function AddArea(pros) {
                                                 <label className="form-label">Enter Area Name</label>
                                                 <Form.Control
                                                     type="text"
-                                                    style={{ width: "85%", height: "50px" }}
+                                                    style={{ width: "100%", height: "50px" }}
                                                     id="areaName"
                                                     placeholder="areaName"
                                                     aria-describedby="inputGroupPrepend"
@@ -106,7 +106,7 @@ export default function AddArea(pros) {
                                                     placeholder="description"
                                                     aria-describedby="inputGroupPrepend"
                                                     name="description"
-                                                    style={{ width: "85%", height: "50px" }}
+                                                    style={{ width: "100%", height: "50px" }}
                                                     value={formik.values.description}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
