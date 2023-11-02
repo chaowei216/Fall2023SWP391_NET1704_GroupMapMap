@@ -24,7 +24,7 @@ function TableArea() {
     const [listArea, setListArea] = useState([]);
     const [dataAnimalEdit, setDataAnimalEdit] = useState({});
     const [dataAnimalView, setDataAnimalView] = useState({});
-    const [dataCageEdit, setDataCageEdit] = useState({});
+    const [dataAreaEdit, setDataAreaEdit] = useState({});
     const [dataCageView, setDataCageView] = useState({});
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
@@ -72,8 +72,8 @@ function TableArea() {
 
     const handleEditArea = (item) => {
         // setDataUserEdit(item);
-        const cage = item;
-        setDataCageEdit(cage);
+        const area = item;
+        setDataAreaEdit(area);
         setShowmodalEdit(true);
     };
     const handleViewArea = (item) => {
@@ -209,8 +209,8 @@ function TableArea() {
                         <Pagination
                             onChange={onShowSizeChange}
                             defaultCurrent={currentPage}
-                            defaultPageSize={5}
-                            total={totalPages * 5}
+                            defaultPageSize={10}
+                            total={totalPages * 10}
                         />
                     </div>
                 </div>
@@ -219,7 +219,7 @@ function TableArea() {
             {/* <EditFood
                 show={showModalEdit}
                 handleClose={handleClose}
-                dataFoodEdit={dataCageEdit}
+                dataAreaEdit={dataAreaEdit}
             />
             <ViewFood
                 show={showModalView}
