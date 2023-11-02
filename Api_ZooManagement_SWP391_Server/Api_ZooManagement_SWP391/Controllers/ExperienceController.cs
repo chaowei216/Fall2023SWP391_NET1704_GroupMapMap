@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BBL.Interfaces;
+using BBL.Services;
 using DAL.Entities;
 using DTO.Dtos;
 using Microsoft.AspNetCore.Http;
@@ -31,10 +32,37 @@ namespace Api_ZooManagement_SWP391.Controllers
             
         }
 
+        [HttpGet("pages/{page}")]
+        [ProducesResponseType(200, Type = typeof(ExperienceResponseDto))]
+        public IActionResult GetAllExperience(int page)
+        {
+            var exps = _mapper.Map<List<ExperienceDetailDto>>(_experienceService.GetExperiences());
+
+            var pageResults = 10f;
+            var pageCount = Math.Ceiling(exps.Count / pageResults);
+
+            var result = exps
+                        .Skip((page - 1) * (int)pageResults)
+                        .Take((int)pageResults).ToList();
+
+            var response = new ExperienceResponseDto
+            {
+                Experiences = result,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(response);
+        }
+
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(500)]
         [ProducesResponseType(400)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult AddExperience([FromBody] ExperienceCreateDto expCreate)
         {
             if (expCreate == null)

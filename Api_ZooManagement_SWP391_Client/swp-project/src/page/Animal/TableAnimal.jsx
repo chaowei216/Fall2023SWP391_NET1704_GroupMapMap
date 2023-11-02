@@ -212,11 +212,11 @@ function TableAnimal() {
                     <tr key={`animal-${index}`}>
                       <td>{items.animalId}</td>
                       <td width={130}>{items.name}</td>
-                      <td width={370} style={{ textAlign: "justify" }}>{items.description}</td>
+                      <td width={340} style={{ textAlign: "justify" }}>{items.description}</td>
                       <td style={{ textAlign: "center" }}>{items.sex === true ? "Male" : "Female"}</td>
-                      <td style={{ textAlign: "center" }}>{items.region}</td>
+                      <td width={160} style={{ textAlign: "center" }}>{items.region}</td>
                       <td style={{ textAlign: "center" }}>{items.rarity === true ? "Rarity" : "None"}</td>
-                      <td style={{ width: "208px" }}>
+                      <td style={{ width: "265px", textAlign: "center" }}>
                         <Button
                           variant="text"
                           style={{ padding: 0 }}

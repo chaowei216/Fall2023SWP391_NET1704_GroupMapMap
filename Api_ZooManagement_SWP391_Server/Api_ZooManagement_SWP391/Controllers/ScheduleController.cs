@@ -46,6 +46,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult CreateSchedule([FromBody] ScheduleCreateDto scheduleDto)
         {
             if (scheduleDto == null)
@@ -77,6 +78,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPut("{scheduleId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult UpdateSchedule(string scheduleId, [FromBody] ScheduleDto scheduleDto)
         {
             if(!_scheduleService.ScheduleExists(scheduleId))
@@ -111,6 +113,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpDelete("{scheduleId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult DeleteSchedule(string scheduleId)
         {
             if (!_scheduleService.ScheduleExists(scheduleId))

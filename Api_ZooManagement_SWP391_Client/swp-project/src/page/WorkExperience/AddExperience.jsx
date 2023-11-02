@@ -15,52 +15,50 @@ import { ToastContainer } from "react-toastify";
 import { useFormik } from "formik";
 import { DatePicker, Radio, Select, Space } from "antd";
 import { South } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
-export default function EditArea(pros) {
+export default function AddExperience(pros) {
   const [staticModal, setStaticModal] = useState(false);
-  const { show, handleClose, dataAreaEdit } = pros;
-
-  const [areaId, setAreaId] = useState("");
-  const [description, setDescription] = useState("");
-  const [releaseDate, setReleaseDate] = useState("");
-  const [newsTitle, setNewsTitle] = useState("");
-  const [newsContent, setNewsContent] = useState("");
-  const [newsImage, setNewsImage] = useState("");
-  useEffect(() => {
-    if (show) {
-      setAreaId(dataAreaEdit.areaId);
-      setDescription(dataAreaEdit.description);
-    }
-  }, [dataAreaEdit]);
-  console.log(dataAreaEdit);
+  const { show, handleClose } = pros;
+  const [listArea, setListArea] = useState([]);
+  const navigate = useNavigate();
   const handleSave = () => {
     console.log("haha");
   };
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    const Area = {
-      areaId: areaId,
-      description: description,
+
+  const submitForm = async (values) => {
+    console.log(values);
+    console.log(formik.errors);
+    const experience = {
+      position: values.position,
     };
-    const response = await fetch(`https://localhost:44352/api/Area/${areaId}`, {
-      method: "PUT",
+    const url = "https://localhost:44352/api/Experience";
+    const request = {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(Area),
-    });
+      body: JSON.stringify(experience),
+    };
+    const response = await fetch(url, request);
     if (response.ok) {
       console.log("Success");
-      // localStorage.setItem("isAdded", true);
-      // handleClose()
+      navigate("/staff/species");
       window.location.reload();
-      // navigate("/staff/1")
     }
   };
+  const formik = useFormik({
+    initialValues: {
+      position: "",
+    },
+    onSubmit: (values) => {
+      submitForm(values);
+    },
+  });
   return (
     <>
       <MDBModal staticBackdrop tabIndex="-1" show={show} onHide={handleClose}>
-        <MDBModalDialog size="lg">
+        <MDBModalDialog>
           <MDBModalContent>
             <MDBModalHeader>
               <MDBModalTitle>Modal title</MDBModalTitle>
@@ -73,50 +71,61 @@ export default function EditArea(pros) {
             <MDBModalBody>
               <div className="form-container-1">
                 <div className="form-header">
-                  <p className="fw-bold fs-2">Edit News</p>
+                  <p className="fw-bold fs-2">Add Experience</p>
                 </div>
-                <Form noValidate onSubmit={handleFormSubmit}>
+                <Form noValidate onSubmit={formik.handleSubmit}>
                   <div className="form-content">
                     <div className="form">
                       <div className="mb-3">
-                        <label className="form-label">Edit Title of News</label>
+                        <label className="form-label">Enter Position</label>
                         <Form.Control
                           type="text"
-                          style={{ height: "56px" }}
-                          id="description"
-                          placeholder="description"
+                          style={{ width: "100%", height: "50px" }}
+                          id="position"
+                          placeholder="position"
                           aria-describedby="inputGroupPrepend"
-                          name="description"
-                          value={description}
-                          onChange={(e) => setDescription(e.target.value)}
-                          //   isInvalid={
-                          //     formik.errors.fName && formik.touched.fName
-                          //   }
+                          name="position"
+                          value={formik.values.position}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //     formik.errors.category && formik.touched.category
+                          // }
                         />
                         {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.fName}
-                        </Form.Control.Feedback> */}
+                                                    {formik.errors.category}
+                                                </Form.Control.Feedback> */}
                       </div>
-                      <MDBModalFooter>
+                      <MDBModalFooter
+                        style={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <Button
+                          style={{
+                            background: "blue",
+                            color: "white",
+                            marginRight: "34px",
+                          }}
+                          variant="primary"
+                          type="submit"
+                          onClick={() => {
+                            handleSave();
+                          }}
+                          active
+                        >
+                          Create
+                        </Button>
+
                         <Button
                           variant="secondary"
                           onClick={handleClose}
                           active
                           style={{
                             width: "80px",
-                            marginRight: "20px",
                             background: "red",
+                            color: "white",
                           }}
                         >
                           Close
-                        </Button>
-                        <Button
-                          style={{ background: "blue", color: "white" }}
-                          variant="primary"
-                          type="submit"
-                          active
-                        >
-                          Edit Area
                         </Button>
                       </MDBModalFooter>
                     </div>

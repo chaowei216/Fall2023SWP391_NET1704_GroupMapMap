@@ -7,6 +7,7 @@ using DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api_ZooManagement_SWP391.Controllers
 {
@@ -270,6 +271,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost("Animal")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult CreateAnimal([FromQuery] string? userId, [FromQuery] string? cageId,
                                           [FromBody] AnimalCreateDto animalDto)
         {
@@ -339,6 +341,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost("AnimalSchedule")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult CreateAnimalSchedule(string animalId, [FromBody] AnimalScheduleDto animalScheduleDto)
         {
             if (animalId == null)
@@ -380,6 +383,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult UpdateAnimal(string animalId, [FromBody] UpdateAnimalDto updateAnimalDto)
         {
             if (updateAnimalDto == null)
@@ -473,6 +477,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult DeleteAnimal(string animalId)
         {
             var animal = _animalService.GetByAnimalId(animalId);

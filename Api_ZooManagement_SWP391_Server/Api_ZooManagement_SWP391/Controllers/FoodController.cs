@@ -30,28 +30,14 @@ namespace Api_ZooManagement_SWP391.Controllers
         public IActionResult GetFood()
         {
             var getFoods = _foodService.GetAllFood().ToList();
-            var foods = _mapper.Map<List<FoodDto>>(_foodService.GetAllFood());
-            if (getFoods.Count > 0)
-            {
-                for (int index = 0; index < foods.Count; index++)
-                {
-                    var food = _foodCategoryService.GetByCateId(getFoods[index].CategoryId);
-
-                    foods[index].CategoryName = food.CategoryName;
-                }
-            }
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            return Ok(foods);
+            return Ok(getFoods);
         }
 
         [HttpGet("pages/{page}")]
         [ProducesResponseType(200, Type = typeof(FoodResponseDto))]
         public IActionResult GetAllFood(int page)
         {
-            var foods = _mapper.Map<List<FoodDto>>(_foodService.GetAllFood());
+            var foods = _foodService.GetAllFood();
 
             var pageResults = 10f;
             var pageCount = Math.Ceiling(foods.Count / pageResults);
@@ -94,6 +80,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult CreateFood([FromBody] FoodCreateDto foodDto)
         {
             if (foodDto == null)
@@ -136,6 +123,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult UpdateFood(string foodId, [FromBody] FoodUpdateDto foodUpdate)
         {
             if (foodUpdate == null)
@@ -165,6 +153,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult DeleteFood(string foodId)
         {
             if (!_foodService.FoodExists(foodId))
@@ -191,6 +180,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult UpdateFoodEat(string animalId)
         {
             if (!_animalService.AnimalExists(animalId))

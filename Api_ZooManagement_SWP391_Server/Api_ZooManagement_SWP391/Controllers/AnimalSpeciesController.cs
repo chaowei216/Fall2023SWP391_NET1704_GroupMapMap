@@ -78,6 +78,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult CreateArea([FromBody] AnimalSpeciesDto speciesDto)
         {
             if (speciesDto == null)

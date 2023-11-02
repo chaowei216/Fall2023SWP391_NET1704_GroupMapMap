@@ -182,6 +182,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult CreateNews([FromQuery] string userId, [FromBody] NewsCreateDto newsCreate)
         {
             if(!_userService.UserExists(userId))
@@ -223,6 +224,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult UpdateNews(string newsId, [FromBody] NewsUpdateDto newsUpdate)
         {
             if (newsUpdate == null)

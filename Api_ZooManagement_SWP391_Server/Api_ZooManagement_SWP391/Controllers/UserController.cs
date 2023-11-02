@@ -176,6 +176,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult CreateUser([FromBody] UserCreateDto userCreate)
         {
             if (userCreate == null)
@@ -232,6 +233,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult UpdateUser(string userId, [FromBody] UserUpdateDto updateUser)
         {
             if (updateUser == null)
@@ -271,6 +273,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        //[Authorize(Roles = "STAFF")]
         public IActionResult DeleteUser(string userId)
         {
             if (!_userService.UserExists(userId))
