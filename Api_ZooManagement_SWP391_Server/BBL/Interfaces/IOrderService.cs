@@ -12,6 +12,7 @@ namespace BBL.Interfaces
     {
         bool AddOrder(List<OrderTicket> ordTickets, Order order);
         ICollection<Order> GetAllOrders();
+        ICollection<StatisticDto> GetStatistics();
         Order GetOrder(string id);
         bool OrderExists(string id);
 
