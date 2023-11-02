@@ -5,6 +5,7 @@ using MailKit.Security;
 using MimeKit.Text;
 using MimeKit;
 using Microsoft.Extensions.Configuration;
+using DTO.Dtos;
 
 namespace BBL.Services
 {
@@ -65,6 +66,29 @@ namespace BBL.Services
         public Order GetOrder(string id)
         {
             return _orderRepo.GetById(id);
+        }
+
+        public ICollection<StatisticDto> GetStatistics()
+        {
+            List<StatisticDto> staList = new List<StatisticDto>();
+            for (int i = 1; i <= 12; i++)
+            {
+                staList.Add(new StatisticDto()
+                {
+                    Month = i,
+                    TotalPrice = 0,
+                    TotalTicket = 0
+                });
+            }
+            var ordDetails = _ordTicketRepo.GetAll();
+            foreach(var ord in ordDetails)
+            {
+                int month = ord.StartDate.Month;
+                var order = _orderRepo.GetById(ord.OrderId);
+                staList[month - 1].TotalPrice += order.TotalPrice;
+                staList[month - 1].TotalTicket += ord.TicketQuantity;
+            }
+            return staList.ToList();
         }
 
         public bool OrderExists(string id)
