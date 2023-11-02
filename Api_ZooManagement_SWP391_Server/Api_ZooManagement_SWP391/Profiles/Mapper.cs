@@ -11,6 +11,7 @@ namespace Api_ZooManagement_SWP391.Profiles
 
         public Mapper()
         {
+            #region
             CreateMap<Order, OrderDto>();
             CreateMap<Ticket, TicketDto>();
             CreateMap<News, NewsDto>();
@@ -104,6 +105,7 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<WorkExperience, ExperienceDetailDto>();
             CreateMap<CageUpdateDto, Cage>();
             CreateMap<AreaUpdateDto, Area>();
+            #endregion
         }
 
     }
