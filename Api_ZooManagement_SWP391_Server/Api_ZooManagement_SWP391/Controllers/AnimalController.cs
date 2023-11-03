@@ -494,5 +494,16 @@ namespace Api_ZooManagement_SWP391.Controllers
             }
             return NoContent();
         }
+
+        [HttpGet("animalSpecies")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetSpeciesAnimalDto>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetAnimalSpecies(string speciesId)
+        {
+            var animalSpecies = _animalService.GetAnimalBySpecies(speciesId);
+            foreach(var animalSpe in animalSpecies) { 
+            }
+            return Ok(animalSpecies);
+        }
     }
 }

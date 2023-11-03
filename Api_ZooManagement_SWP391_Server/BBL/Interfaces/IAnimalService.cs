@@ -19,12 +19,13 @@ namespace BBL.Interfaces
         GetAnimalDto? GetById(string id);
         bool AnimalExists(string id);
         bool DeleteAnimal(string id);
-        
+
         ICollection<OldUsersDto>? GetOldTrainersOfAnimal(string animalId);
         ICollection<OldCagesDto>? GetOldCagesOfAnimal(string animalId);
         ICollection<AnimalCage> GetAnimalCageByAnimalId(string animalId);
         ICollection<AnimalCage> GetAnimalCages();
         ICollection<AnimalTrainer> GetAnimalTrainers();
         ICollection<Animal> GetAnimalByTrainerId(string trainerId);
+        ICollection<GetSpeciesAnimalDto> GetAnimalBySpecies(string speciesId);
     }
 }

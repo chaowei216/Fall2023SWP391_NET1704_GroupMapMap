@@ -18,6 +18,7 @@
         public DateTime? EndTrainDate { get; set; }
         public string? AnimalImage { get; set; }
         public string SpeciesName { get; set; }
+        public bool Status { get; set; }
         public List<FoodAmountDto>? Foods { get; set; }
         public List<GetAnimalScheduleDto> Schedules { get; set; }
     }

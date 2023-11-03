@@ -83,6 +83,7 @@ namespace BBL.Services
                     a.Sex = animal.Sex;
                     a.HealthCheck = animal.HealthCheck;
                     a.SpeciesName = _animalSpeRepo.GetById(animal.SpeciesId).SpeciesName;
+                    a.Status = animal.Status;
 
                     allAnimals.Add(a);
                 }
@@ -253,6 +254,28 @@ namespace BBL.Services
             }
 
             return null;
+        }
+
+        public ICollection<Animal> GetAnimalBySpeciesId(string speciesId)
+        {
+            var animal = _animalRepo.GetAll().Where(a => a.SpeciesId == speciesId).ToList();
+            return animal;
+        }
+        public ICollection<GetSpeciesAnimalDto> GetAnimalBySpecies(string speciesId)
+        {
+            var animalSpes = _animalSpeRepo.GetAll().Where(asp => asp.SpeciesId == speciesId).ToList() ;
+            var allAnimalsSpe = new List<GetSpeciesAnimalDto>();
+            if (animalSpes != null && animalSpes.Count > 0)
+            {
+                foreach (var animalSpe in animalSpes)
+                {
+                    var asp = new GetSpeciesAnimalDto();
+                    asp.SpeciesId = animalSpe.SpeciesId;
+                    asp.SpeciesName = animalSpe.SpeciesName;
+                    allAnimalsSpe.Add(asp);
+                }
+            }
+            return allAnimalsSpe;
         }
     }
 }
