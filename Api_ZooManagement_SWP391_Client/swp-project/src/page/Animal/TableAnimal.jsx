@@ -38,7 +38,7 @@ function TableAnimal() {
   const [dataAnimalView, setDataAnimalView] = useState({});
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [listFilter, setA] = useState("All");
   useEffect(() => {
     const getList = () => {
       return fetch(
@@ -116,6 +116,7 @@ function TableAnimal() {
   };
   const handleFilterChange = (item) => {
     console.log(item.target.value);
+    setA(item.target.value)
     let term = item.target.value;
     if (term != "All") {
       const getList = () => {
@@ -151,39 +152,59 @@ function TableAnimal() {
     console.log(e.target.value);
     let term = e.target.value;
     if (term) {
-      const getList = () => {
-        return fetch(
-          `https://localhost:44352/api/Animal/page/${currentPage}`
-        ).then((data) => data.json());
-      };
-      let mounted = true;
-      getList().then((items) => {
-        if (mounted) {
-          setListAnimal(
-            items.animals.filter((a) =>
-              a.name.toUpperCase().includes(term.toUpperCase())
-            )
-          );
-          setTotalPages(items.pages);
-        }
-      });
-      return () => (mounted = false);
-    } else {
-      const getList = () => {
-        return fetch(
-          `https://localhost:44352/api/Animal/page/${currentPage}`
-        ).then((data) => data.json());
-      };
-      let mounted = true;
-      getList().then((items) => {
-        if (mounted) {
-          setListAnimal(items.animals);
-          setTotalPages(items.pages);
-        }
-      });
-      return () => (mounted = false);
+      // const getList = () => {
+      //   return fetch(
+      //     `https://localhost:44352/api/Animal/page/${currentPage}`
+      //   ).then((data) => data.json());
+      // };
+      // let mounted = true;
+      // getList().then((items) => {
+      //   if (mounted) {
+      //     setListAnimal(
+      //       items.animals.filter((a) =>
+      //         a.name.toUpperCase().includes(term.toUpperCase())
+      //       )
+      //     );
+      //     setTotalPages(items.pages);
+      //   }
+      // });
+      // return () => (mounted = false);
+      setListAnimal(listAnimal.filter((a) => a.name.toUpperCase().includes(term.toUpperCase())))
     }
-  }, 350);
+    else if (term === "") {
+      const list = listFilter
+      console.log(list);
+      if (list != "All") {
+        const getList = () => {
+          return fetch(
+            `https://localhost:44352/api/Animal/page/${currentPage}`
+          ).then((data) => data.json());
+        };
+        let mounted = true;
+        getList().then((items) => {
+          if (mounted) {
+            setListAnimal(items.animals.filter((a) => a.speciesName === list));
+            setTotalPages(items.pages);
+          }
+        });
+        return () => (mounted = false);
+      } else {
+        const getList = () => {
+          return fetch(
+            `https://localhost:44352/api/Animal/page/${currentPage}`
+          ).then((data) => data.json());
+        };
+        let mounted = true;
+        getList().then((items) => {
+          if (mounted) {
+            setListAnimal(items.animals);
+            setTotalPages(items.pages);
+          }
+        });
+        return () => (mounted = false);
+      }
+    }
+  }, 400);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -349,8 +370,8 @@ function TableAnimal() {
             <Pagination
               onChange={onShowSizeChange}
               defaultCurrent={currentPage}
-              defaultPageSize={7}
-              total={totalPages * 7}
+              defaultPageSize={10}
+              total={totalPages * 10}
             />
           </div>
         </div>

@@ -44,18 +44,6 @@ function AddStaff() {
   const [test, setTest] = useState("");
   const [experienceOption, setExperienceOption] = useState([]);
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
-  const handleRadioChange = (value) => {
-    // setSex(value.target.value);
-    formik.values.sex = value.target.value;
-  };
-  const handleRoleChange = (value) => {
-    formik.values.role = value.target.value;
-  };
-  const handleChange1 = (value) => {
-    // console.log(`selected ${value}`);
-    // setRole(value);
-    formik.values.wID = value;
-  };
   useEffect(() => {
     const getExpList = () => {
       return fetch("https://localhost:44352/api/Experience").then((data) =>
@@ -120,6 +108,8 @@ function AddStaff() {
       console.log("Success");
       localStorage.setItem("isAdded", true);
       navigate("/staff/1");
+    }else{
+      toast.error("Create Error");
     }
   };
   return (
@@ -366,7 +356,7 @@ function AddStaff() {
                     <Button onClick={addField}>More Information</Button>
                   </div>
                 </div>
-                <div className="btn-footer">
+                <div className="btn-footer mt-3 mb-3" style={{marginRight: "0px"}}>
                   <Button
                     type="submit"
                     variant="contained"

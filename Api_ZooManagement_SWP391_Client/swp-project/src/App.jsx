@@ -56,6 +56,7 @@ import TableSpecies from './page/Species/tableSpecies';
 import TableExperience from './page/WorkExperience/TableExperience';
 import TableCategory from './page/Category/TableCategory';
 import PersonalProfile from './page/User/Profile';
+import { ToastContainer, Zoom, toast } from "react-toastify";
 
 
 const secretKey = 'your_secret_key';
@@ -92,14 +93,14 @@ function App() {
     }
 
     return <>{children}</>;
-  } 
+  }
   return (
     <>
       <Router>
         <Routes>
           <Route path="/admin" element={<HeaderLayout />} >
             <Route path="" element={<RequireStaffRole><Dashboard /></RequireStaffRole>}></Route>
-            <Route path="1" element={<RequireStaffRole><TableUser /></RequireStaffRole> }></Route>
+            <Route path="1" element={<RequireStaffRole><TableUser /></RequireStaffRole>}></Route>
             <Route path="add" element={<RequireStaffRole><AddPage /></RequireStaffRole>}></Route>
             <Route path="2" element={<RequireStaffRole><TableAnimal /></RequireStaffRole>}></Route>
             <Route path="3" element={<RequireStaffRole><OrderTable /></RequireStaffRole>}></Route>
@@ -147,6 +148,18 @@ function App() {
 
         </Routes>
       </Router>
+      <ToastContainer
+        position="top-right"
+        autoClose={900}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }

@@ -45,18 +45,6 @@ function AddPage() {
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [experienceOption, setExperienceOption] = useState([]);
 
-  const handleRadioChange = (value) => {
-    // setSex(value.target.value);
-    formik.values.sex = value.target.value;
-  };
-  const handleRoleChange = (value) => {
-    formik.values.role = value.target.value;
-  };
-  const handleChange1 = (value) => {
-    // console.log(`selected ${value}`);
-    // setRole(value);
-    formik.values.wID = value;
-  };
   useEffect(() => {
     const getExpList = () => {
       return fetch("https://localhost:44352/api/Experience").then((data) =>
@@ -121,6 +109,8 @@ function AddPage() {
       console.log("Success");
       localStorage.setItem("isAdded", true);
       navigate("/admin/1");
+    }else{
+      toast.error("Create Error");
     }
   };
   return (

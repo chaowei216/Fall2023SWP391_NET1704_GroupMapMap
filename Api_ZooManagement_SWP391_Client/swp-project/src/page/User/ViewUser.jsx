@@ -312,24 +312,26 @@ export default function ViewUser(pros) {
                             />
                           </Space>
                         </div>
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <div>
-                            <label className="form-label">End Date</label>
-                            <br />
-                            <Space
-                              direction="vertical"
-                              size={20}
-                              style={{ width: "100%" }}
-                            >
-                              <Form.Control
-                                type="date"
-                                name="entryCageDate"
-                                value={endDate}
-                                disabled
-                              />
-                            </Space>
+                        {endDate && (
+                          <div className="mb-3" style={{ width: "33%" }}>
+                            <div>
+                              <label className="form-label">End Date</label>
+                              <br />
+                              <Space
+                                direction="vertical"
+                                size={20}
+                                style={{ width: "100%" }}
+                              >
+                                <Form.Control
+                                  type="date"
+                                  name="entryCageDate"
+                                  value={endDate}
+                                  disabled
+                                />
+                              </Space>
+                            </div>
                           </div>
-                        </div>
+                        )}
                         <div className="mb-3" style={{ width: "33%" }}>
                           <label className="form-label">Status</label>
                           <Radio.Group
@@ -430,20 +432,6 @@ export default function ViewUser(pros) {
                     </div>
                   </div>
                 </Form>
-                <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="light"
-                />
-                {/* Same as */}
-                <ToastContainer />
               </div>
             </MDBModalBody>
           </MDBModalContent>

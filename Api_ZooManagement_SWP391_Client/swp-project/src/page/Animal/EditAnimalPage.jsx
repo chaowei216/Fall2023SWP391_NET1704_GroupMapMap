@@ -14,7 +14,7 @@ import { DatePicker, Radio, Select, Space } from "antd";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "../../assets/css/dashboard.css";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, Zoom, toast } from "react-toastify";
 import { MDBIcon } from "mdb-react-ui-kit";
 export default function EditAnimal(pros) {
   const role = localStorage.getItem("role");
@@ -333,7 +333,7 @@ export default function EditAnimal(pros) {
             ? null
             : dataAnimalEdit.outCageDate.slice(0, 10)
         ),
-        setSpecies(dataAnimalEdit.species),
+        setSpecies(dataAnimalEdit.speciesName),
         setRarity(dataAnimalEdit.rarity);
       setFoods(dataAnimalEdit.foods);
       setSchedules(dataAnimalEdit.schedules);
@@ -390,7 +390,7 @@ export default function EditAnimal(pros) {
     if (animalId) {
       fetchData();
     }
-  }, [animalId, userID]);
+  }, [animalId, userID, show]);
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
@@ -402,7 +402,7 @@ export default function EditAnimal(pros) {
     if (animalId) {
       fetchData();
     }
-  }, [animalId, cageID]);
+  }, [animalId, cageID, show]);
 
   useEffect(() => {
     const ZooTrainerList = listZooTrainer.filter((user) => user.role === 3);
@@ -414,7 +414,7 @@ export default function EditAnimal(pros) {
         setAvailableTrainer(test1);
       }
     });
-  }, [listZooTrainer, listTrainerOld, userID]);
+  }, [listZooTrainer, listTrainerOld, userID, show]);
   console.log(availableTrainer);
   useEffect(() => {
     const oldCageId = listCageOld.map((cage) => cage.cId);
@@ -425,12 +425,12 @@ export default function EditAnimal(pros) {
         setAvailableCage(test2);
       }
     });
-  }, [listCage, listCageOld, cageID]);
+  }, [listCage, listCageOld, cageID, show]);
   console.log(availableCage);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-     if (healthCheck === "") {
+    if (healthCheck === "") {
       setErros("HealthCheck can't be null");
       return;
     } else if (healthCheck != "") {
@@ -446,11 +446,11 @@ export default function EditAnimal(pros) {
       return;
     } else if (isValidAmount === false) {
       return;
-    } else if (isValidDescription === false){
+    } else if (isValidDescription === false) {
       return;
-    } else if (isValidStartEat ===  false){
+    } else if (isValidStartEat === false) {
       return;
-    } else if (isValidEndEat ===  false){
+    } else if (isValidEndEat === false) {
       return;
     }
     console.log(dataAnimalEdit);
@@ -482,6 +482,7 @@ export default function EditAnimal(pros) {
     );
     if (response.ok) {
       console.log("Success");
+      toast.success("Success");
       // localStorage.setItem("isAdded", true);
       // handleClose()
       // window.location.href = "/staff/2";
@@ -491,9 +492,10 @@ export default function EditAnimal(pros) {
       //   navigate("/staff/2");
       // }
       // window.location.reload();
+    } else {
+      toast.error("Error")
     }
   };
-
   return (
     <>
       <MDBModal show={show} onHide={handleClose}>
@@ -532,7 +534,7 @@ export default function EditAnimal(pros) {
                       <div className="mb-3 Animal_Infomation">
                         <div className="row mb-3">
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Name Animal</label>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Name Animal</label>
                             <Form.Control
                               id="name"
                               type="text"
@@ -552,7 +554,7 @@ export default function EditAnimal(pros) {
                           </Form.Control.Feedback> */}
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Region</label>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Region</label>
                             <Form.Control
                               type="text"
                               id="region"
@@ -574,7 +576,7 @@ export default function EditAnimal(pros) {
                           </Form.Control.Feedback> */}
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Species Animal</label>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Species Animal</label>
                             <Form.Control
                               type="string"
                               id="species"
@@ -596,7 +598,7 @@ export default function EditAnimal(pros) {
                         <div className="row mb-3">
                           <div className="mb-3" style={{ width: "25%" }}>
                             <div>
-                              <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Gender</label>
+                              <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Gender</label>
                               <br />
                               <Radio.Group
                                 id="gender"
@@ -1284,20 +1286,7 @@ export default function EditAnimal(pros) {
                     </div>
                   </div>
                 </Form>
-                <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="light"
-                />
-                {/* Same as */}
-                <ToastContainer />
+               
               </div>
             </MDBModalBody>
             <MDBModalFooter></MDBModalFooter>

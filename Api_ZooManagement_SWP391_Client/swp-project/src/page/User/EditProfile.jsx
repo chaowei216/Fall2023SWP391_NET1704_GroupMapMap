@@ -92,13 +92,9 @@ export default function EditProfile(pros) {
       <MDBModal staticBackdrop tabIndex="-1" show={show} onHide={handleClose}>
         <MDBModalDialog size="lg">
           <MDBModalContent>
-            <MDBModalHeader>
-              <MDBModalTitle>Modal title</MDBModalTitle>
-              <MDBBtn
-                className="btn-close"
-                color="none"
-                onClick={handleClose}
-              ></MDBBtn>
+            <MDBModalHeader className="modal-header text-white d-flex justify-content-center"
+              style={{ background: "cadetblue" }}>
+              <MDBModalTitle style={{ fontSize: "xx-large" }}>Edit Profile</MDBModalTitle>
             </MDBModalHeader>
             <MDBModalBody>
               <Form noValidate onSubmit={handleFormSubmit}>
@@ -110,14 +106,14 @@ export default function EditProfile(pros) {
                         type="text"
                         style={{ height: "56px" }}
                         id="firstname"
-                        placeholder="newsTitle"
+                        placeholder="First Name"
                         aria-describedby="inputGroupPrepend"
                         name="firstname"
                         value={firstname}
                         onChange={(e) => setFirstName(e.target.value)}
-                        //   isInvalid={
-                        //     formik.errors.fName && formik.touched.fName
-                        //   }
+                      //   isInvalid={
+                      //     formik.errors.fName && formik.touched.fName
+                      //   }
                       />
                       {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.fName}
@@ -129,16 +125,16 @@ export default function EditProfile(pros) {
                         type="text"
                         style={{ height: "56px" }}
                         id="newsContent"
-                        placeholder="newsContent"
+                        placeholder="Last Name"
                         aria-describedby="inputGroupPrepend"
                         name="newsContent"
                         value={lastname}
                         onChange={(e) => setLastName(e.target.value)}
-                        // onChange={formik.handleChange}
-                        // onBlur={formik.handleBlur}
-                        //   isInvalid={
-                        //     formik.errors.category && formik.touched.category
-                        //   }
+                      // onChange={formik.handleChange}
+                      // onBlur={formik.handleBlur}
+                      //   isInvalid={
+                      //     formik.errors.category && formik.touched.category
+                      //   }
                       />
                       {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.category}
@@ -149,18 +145,18 @@ export default function EditProfile(pros) {
                       <Form.Control
                         type="input"
                         id="newsImage"
-                        placeholder="newsImage"
+                        placeholder="Phone"
                         aria-describedby="inputGroupPrepend"
                         name="newsImage"
                         style={{ height: "56px" }}
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         readonly
-                        // onChange={formik.handleChange}
-                        // onBlur={formik.handleBlur}
-                        //   isInvalid={
-                        //     formik.errors.quantity && formik.touched.quantity
-                        //   }
+                      // onChange={formik.handleChange}
+                      // onBlur={formik.handleBlur}
+                      //   isInvalid={
+                      //     formik.errors.quantity && formik.touched.quantity
+                      //   }
                       />
                       {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.quantity}
@@ -171,23 +167,23 @@ export default function EditProfile(pros) {
                       <Form.Control
                         type="input"
                         id="newsImage"
-                        placeholder="newsImage"
+                        placeholder="Address"
                         aria-describedby="inputGroupPrepend"
                         name="newsImage"
                         style={{ height: "56px" }}
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
-                        // onChange={formik.handleChange}
-                        // onBlur={formik.handleBlur}
-                        //   isInvalid={
-                        //     formik.errors.quantity && formik.touched.quantity
-                        //   }
+                      // onChange={formik.handleChange}
+                      // onBlur={formik.handleBlur}
+                      //   isInvalid={
+                      //     formik.errors.quantity && formik.touched.quantity
+                      //   }
                       />
                       {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.quantity}
                         </Form.Control.Feedback> */}
                     </div>
-                    <MDBModalFooter>
+                    <MDBModalFooter style={{ paddingRight: "0px" }}>
                       <Button
                         variant="secondary"
                         onClick={handleClose}

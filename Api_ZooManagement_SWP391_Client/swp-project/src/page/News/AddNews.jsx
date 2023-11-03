@@ -9,6 +9,8 @@ import {
   MDBModalBody,
   MDBModalFooter,
 } from "mdb-react-ui-kit";
+import { toast } from "react-toastify";
+
 import Form from "react-bootstrap/Form";
 import Button from "@mui/material/Button";
 import { ToastContainer } from "react-toastify";
@@ -43,6 +45,9 @@ export default function AddNews(pros) {
   let a = {}
   a = user[0];
   const submitForm = async (values) => {
+
+    console.log(formik.errors);
+    console.log(values);
     const userStaff = a;
     console.log(userStaff.userId);
     const news = {
@@ -62,8 +67,10 @@ export default function AddNews(pros) {
     const response = await fetch(url, request);
     if (response.ok) {
       console.log("Success");
-      navigate("/staff/news");
-      window.location.reload();
+      handleClose();
+      toast.success("Create Success");
+    } else {
+      toast.error("Error");
     }
   };
   const formik = useFormik({
@@ -158,45 +165,31 @@ export default function AddNews(pros) {
                           {formik.errors.newsImage}
                         </Form.Control.Feedback>
                       </div>
-                      <MDBModalFooter>
+                      <MDBModalFooter style={{ paddingRight: "0px" }}>
                         <Button
-                          variant="secondary"
-                          onClick={handleClose}
-                          active
-                          style={{
-                            width: "80px",
-                            marginRight: "20px",
-                            background: "gainsboro",
-                          }}
-                        >
-                          Close
-                        </Button>
-                        <Button
-                          style={{ background: "blue", color: "white" }}
+                          style={{ background: "blue", color: "white", marginRight: "20px" }}
                           variant="primary"
                           type="submit"
                           active
                         >
                           Create
                         </Button>
+                        <Button
+                          variant="secondary"
+                          onClick={handleClose}
+                          active
+                          style={{
+                            width: "80px",
+                            background: "red",
+                            color: "white"
+                          }}
+                        >
+                          Close
+                        </Button>
                       </MDBModalFooter>
                     </div>
                   </div>
                 </Form>
-                <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="light"
-                />
-                {/* Same as */}
-                <ToastContainer />
               </div>
             </MDBModalBody>
           </MDBModalContent>

@@ -77,7 +77,7 @@ export default function EditPage(pros) {
   console.log(dataUserEdit);
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    let end = "";
+    let end = null;
     if (endDate != "") {
       end = endDate;
     } else {
@@ -96,12 +96,6 @@ export default function EditPage(pros) {
       endDate: end,
     };
     console.log(user.firstname === dataUserEdit.firstname);
-    if (user.firstname === dataUserEdit.firstname) {
-      console.log("Nothing changed");
-      console.log(user);
-      setError("Nothing changed");
-      return;
-    }
     console.log("OK");
     console.log(user);
     const response = await fetch(`https://localhost:44352/api/User/${uID}`, {
@@ -117,9 +111,13 @@ export default function EditPage(pros) {
       // handleClose()
       const role = localStorage.getItem("role");
       if (role === "ADMIN") {
-        window.location.href = "/admin/1";
+        //window.location.href = "/admin/1";
+        handleClose();
+        toast.success("Update successful");
       } else if (role === "STAFF") {
-        window.location.href = "/staff/1";
+        //window.location.href = "/staff/1";
+        handleClose();
+        toast.success("Update successful");
       }
       // navigate("/staff/1")
     }
@@ -203,11 +201,11 @@ export default function EditPage(pros) {
                             name="firstname"
                             value={firstname}
                             onChange={(e) => setFirstName(e.target.value)}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.first_name &&
-                            //   formik.touched.first_name
-                            // }
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.first_name &&
+                          //   formik.touched.first_name
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.first_name}
@@ -223,12 +221,12 @@ export default function EditPage(pros) {
                             name="lastname"
                             value={lastname}
                             onChange={(e) => setLastName(e.target.value)}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.last_name &&
-                            //   formik.touched.last_name
-                            // }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.last_name &&
+                          //   formik.touched.last_name
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.last_name}
@@ -247,11 +245,11 @@ export default function EditPage(pros) {
                             name="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={
-                            //   formik.errors.email && formik.touched.email
-                            // }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          // isInvalid={
+                          //   formik.errors.email && formik.touched.email
+                          // }
                           />
                           {/* <Form.Control.Feedback type="invalid">
                             {formik.errors.email}
@@ -282,16 +280,16 @@ export default function EditPage(pros) {
                               </Radio>
                             )}
                             {role === 'STAFF' && (
-                            <Radio
-                              style={{
-                                textAlign: "center ",
-                              }}
-                              value={3}
-                            >
-                              <span style={{ verticalAlign: "middle" }}>
-                                ZooTrainer
-                              </span>
-                            </Radio>
+                              <Radio
+                                style={{
+                                  textAlign: "center ",
+                                }}
+                                value={3}
+                              >
+                                <span style={{ verticalAlign: "middle" }}>
+                                  ZooTrainer
+                                </span>
+                              </Radio>
                             )}
                           </Radio.Group>
                         </div>
@@ -346,23 +344,24 @@ export default function EditPage(pros) {
                         <label className="form-label">Enter Address</label>
                         <Form.Control
                           type="text"
+                          style={{ width: '97%' }}
                           id="address"
                           placeholder="address"
                           aria-describedby="inputGroupPrepend"
                           name="address"
                           value={address}
                           onChange={(e) => setAddress(e.target.value)}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.address && formik.touched.address
-                          // }
+                        // onChange={formik.handleChange}
+                        // onBlur={formik.handleBlur}
+                        // isInvalid={
+                        //   formik.errors.address && formik.touched.address
+                        // }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.address}
                         </Form.Control.Feedback> */}
                       </div>
-                      <div className="row mb-3 mt-5">
+                      {/* <div className="row mb-3 mt-5">
                         <div className="mb-3" style={{ width: "33%" }}>
                           <label className="form-label">Enter EndDate</label>
                           <br />
@@ -374,10 +373,10 @@ export default function EditPage(pros) {
                             name="endDate"
                             value={endDate}
                             onChange={(event) => setEndDate(event.target.value)}
-                            // onBlur={formik.handleBlur}
+                          // onBlur={formik.handleBlur}
                           />
                         </div>
-                      </div>
+                      </div> */}
                       <div className="btn-footer">
                         <div style={{ marginRight: "20px" }}>
                           <Button
@@ -403,20 +402,6 @@ export default function EditPage(pros) {
                     </div>
                   </div>
                 </Form>
-                <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="light"
-                />
-                {/* Same as */}
-                <ToastContainer />
               </div>
             </MDBModalBody>
             <MDBModalFooter></MDBModalFooter>

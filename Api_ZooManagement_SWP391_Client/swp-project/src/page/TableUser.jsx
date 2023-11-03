@@ -61,7 +61,7 @@ function TableUser() {
       }
     });
     return () => (mounted = false);
-  }, [currentPage]);
+  }, [currentPage, showModalEdit]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);

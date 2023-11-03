@@ -11,7 +11,7 @@ import {
 } from "mdb-react-ui-kit";
 import Form from "react-bootstrap/Form";
 import Button from "@mui/material/Button";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { useFormik } from "formik";
 import { DatePicker, Radio, Select, Space } from "antd";
 import { South } from "@mui/icons-material";
@@ -63,8 +63,11 @@ export default function EditNews(pros) {
       console.log("Success");
       // localStorage.setItem("isAdded", true);
       // handleClose()
-      window.location.href = '/staff/news'
+      handleClose();
+      toast.success("Update Success");
       // navigate("/staff/1")
+    }else{
+      toast.error("Update Error");
     }
   };
   return (
@@ -196,45 +199,31 @@ export default function EditNews(pros) {
                           {formik.errors.quantity}
                         </Form.Control.Feedback> */}
                       </div>
-                      <MDBModalFooter>
+                      <MDBModalFooter style={{ paddingRight: "0px" }}>
                         <Button
-                          variant="secondary"
-                          onClick={handleClose}
-                          active
-                          style={{
-                            width: "80px",
-                            marginRight: "20px",
-                            background: "gainsboro",
-                          }}
-                        >
-                          Close
-                        </Button>
-                        <Button
-                          style={{ background: "blue", color: "white" }}
+                          style={{ background: "blue", color: "white", marginRight: "20px" }}
                           variant="primary"
                           type="submit"
                           active
                         >
                           Edit News
                         </Button>
+                        <Button
+                          variant="secondary"
+                          onClick={handleClose}
+                          active
+                          style={{
+                            width: "80px",
+                            background: "red",
+                            color: "white"
+                          }}
+                        >
+                          Close
+                        </Button>
                       </MDBModalFooter>
                     </div>
                   </div>
                 </Form>
-                <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="light"
-                />
-                {/* Same as */}
-                <ToastContainer />
               </div>
             </MDBModalBody>
           </MDBModalContent>

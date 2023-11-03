@@ -118,7 +118,10 @@ export const schemaAnimal = yup.object().shape({
           message: 'Ngày bắt đầu ăn phải sau ngày vào lồng',
           test: function (value) {
             const entryCageDate = this.options.context.entryCageDate; // Lấy giá trị của trường entryCageDate từ context
-            return moment(value).isAfter(entryCageDate); // Sử dụng moment.js hoặc thư viện tương tự để so sánh ngày
+            const entry = new Date(entryCageDate)
+            const selectedDate = new Date(value)
+            //return moment(value).isAfter(entryCageDate); // Sử dụng moment.js hoặc thư viện tương tự để so sánh ngày
+            return selectedDate >= entry
           }
         }),
       endEat: yup.string()

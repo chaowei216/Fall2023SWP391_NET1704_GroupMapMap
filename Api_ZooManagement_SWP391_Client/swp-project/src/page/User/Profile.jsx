@@ -188,7 +188,7 @@ export default function PersonalProfile() {
                                                     <hr className="mt-0 mb-4" />
                                                     <MDBRow className="pt-1">
                                                         <MDBCol size="6" className="mb-3">
-                                                            <MDBTypography tag="h6" style={{ color: "#813528", fontWeight: "bolder" }}>Email</MDBTypography>
+                                                            <MDBTypography tag="h6" style={{ color: "#813528", fontWeight: "bolder" }}>Role</MDBTypography>
                                                             <MDBCardText className="text-muted">{staffProfile[0].role == 2 ? "Staff" : "Zoo Trainer"}</MDBCardText>
                                                         </MDBCol>
                                                         <MDBCol size="6" className="mb-3">
@@ -198,7 +198,7 @@ export default function PersonalProfile() {
                                                     </MDBRow>
                                                     <MDBRow className="pt-3">
                                                         <MDBCol size="6" className="mb-3">
-                                                            <MDBTypography tag="h6" style={{ color: "#813528", fontWeight: "bolder" }}>Role</MDBTypography>
+                                                            <MDBTypography tag="h6" style={{ color: "#813528", fontWeight: "bolder" }}>Status</MDBTypography>
                                                             {staffProfile[0].status == true &&
                                                                 <MDBCardText className="text-muted" style={{ color: "green" }}>On Working</MDBCardText>
                                                             }

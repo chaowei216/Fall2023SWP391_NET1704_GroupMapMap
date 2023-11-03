@@ -8,7 +8,8 @@ import {
   MDBModalTitle,
   MDBModalBody,
   MDBModalFooter,
-  MDBCardText
+  MDBCardText,
+  MDBIcon
 } from "mdb-react-ui-kit";
 import Form from "react-bootstrap/Form";
 import Button from "@mui/material/Button";
@@ -95,7 +96,7 @@ export default function ViewNews(pros) {
 
                           <div className="mb-3 mt-3" style={{ width: "33%"}}>
                             <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Status:</label>
-                            <MDBCardText className="text-muted mt-2">{status === true ? "Ok" : "Not Ok"}</MDBCardText>
+                            <MDBCardText className="text-muted mt-2">{status === true ? <MDBIcon fas icon="check" /> : <MDBIcon fas icon="times" />}</MDBCardText>
                           </div>
                           <hr></hr>
 
@@ -107,15 +108,15 @@ export default function ViewNews(pros) {
                           />
                         </div>
                       </div>
-                      <MDBModalFooter>
+                      <MDBModalFooter style={{paddingRight: "0px"}}>
                         <Button
                           variant="secondary"
                           onClick={handleClose}
                           active
                           style={{
                             width: "80px",
-                            marginRight: "20px",
-                            background: "gainsboro",
+                            background: "red",
+                            color: "white"
                           }}
                         >
                           Close
@@ -124,20 +125,6 @@ export default function ViewNews(pros) {
                     </div>
                   </div>
                 </Form>
-                <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="light"
-                />
-                {/* Same as */}
-                <ToastContainer />
               </div>
             </MDBModalBody>
           </MDBModalContent>

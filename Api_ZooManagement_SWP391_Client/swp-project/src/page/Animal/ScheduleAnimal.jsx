@@ -102,7 +102,9 @@ export default function ScheduleAnimal(pros) {
     if (response.ok) {
       console.log("Success");
       // navigate("/staff/2");
-      // window.location.reload();
+      window.location.reload();
+    } else {
+      toastr.error("Create error");
     }
   };
   return (
@@ -152,7 +154,7 @@ export default function ScheduleAnimal(pros) {
                               placeholder="Chọn món ăn"
                               id="animalId"
                               name="animalId"
-                              style={{ width: "73%"}}
+                              style={{ width: "73%" }}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               isInvalid={errors.animalId && touched.animalId}
@@ -295,20 +297,6 @@ export default function ScheduleAnimal(pros) {
                     </Form>
                   )}
                 </Formik>
-                <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="light"
-                />
-                {/* Same as */}
-                <ToastContainer />
               </div>
             </MDBModalBody>
           </MDBModalContent>

@@ -16,6 +16,7 @@ import { useFormik } from "formik";
 import { DatePicker, Radio, Select, Space } from "antd";
 import { South } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function AddCage(pros) {
     const [staticModal, setStaticModal] = useState(false);
@@ -60,6 +61,8 @@ export default function AddCage(pros) {
             console.log("Success");
             navigate("/staff/cage");
             window.location.reload();
+        }else{
+            toast.error("Create Error");
         }
     };
     const formik = useFormik({
@@ -167,21 +170,9 @@ export default function AddCage(pros) {
                                                     {formik.errors.quantity}
                                                 </Form.Control.Feedback> */}
                                             </div>
-                                            <MDBModalFooter>
+                                            <MDBModalFooter style={{paddingRight: "0px"}}>
                                                 <Button
-                                                    variant="secondary"
-                                                    onClick={handleClose}
-                                                    active
-                                                    style={{
-                                                        width: "80px",
-                                                        marginRight: "20px",
-                                                        background: "gainsboro",
-                                                    }}
-                                                >
-                                                    Close
-                                                </Button>
-                                                <Button
-                                                    style={{ background: "blue", color: "white" }}
+                                                    style={{ background: "blue", color: "white", marginRight: "20px" }}
                                                     variant="primary"
                                                     type="submit"
                                                     onClick={() => {
@@ -191,24 +182,22 @@ export default function AddCage(pros) {
                                                 >
                                                     Create New Cage
                                                 </Button>
+                                                <Button
+                                                    variant="secondary"
+                                                    onClick={handleClose}
+                                                    active
+                                                    style={{
+                                                        width: "80px",
+                                                        background: "red",
+                                                        color: "white",
+                                                    }}
+                                                >
+                                                    Close
+                                                </Button>
                                             </MDBModalFooter>
                                         </div>
                                     </div>
                                 </Form>
-                                <ToastContainer
-                                    position="top-right"
-                                    autoClose={5000}
-                                    hideProgressBar={false}
-                                    newestOnTop={false}
-                                    closeOnClick
-                                    rtl={false}
-                                    pauseOnFocusLoss
-                                    draggable
-                                    pauseOnHover
-                                    theme="light"
-                                />
-                                {/* Same as */}
-                                <ToastContainer />
                             </div>
                         </MDBModalBody>
                     </MDBModalContent>

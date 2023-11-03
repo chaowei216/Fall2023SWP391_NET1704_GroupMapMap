@@ -13,10 +13,13 @@ import Typography from "@mui/material/Typography";
 import ViewNews from "./ViewNews";
 import EditNews from "./EditNews";
 import AddNews from "./AddNews";
+import DeleteNews from "./DeleteNews";
 function TableNews() {
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
   const [showModalView, setShowmodalView] = useState(false);
+  const [showModalDelete, setShowmodalDelete] = useState(false);
+
   const [showModalFodd, setShowmodalFood] = useState(false);
   const [showModalFoodAnimal, setShowmodalFoodAnimal] = useState(false);
   const [listNews, setListNews] = useState([]);
@@ -24,13 +27,15 @@ function TableNews() {
   const [dataAnimalView, setDataAnimalView] = useState({});
   const [dataNewsEdit, setDataNewsEdit] = useState({});
   const [dataNewsView, setDataNewsView] = useState({});
+  const [dataNewsDelete, setDataNewsDelete] = useState({});
 
-  const getList = () => {
-    return fetch("https://localhost:44352/api/News").then((data) =>
-      data.json()
-    );
-  };
+
   useEffect(() => {
+    const getList = () => {
+      return fetch("https://localhost:44352/api/News").then((data) =>
+        data.json()
+      );
+    };
     let mounted = true;
     getList().then((items) => {
       if (mounted) {
@@ -38,7 +43,7 @@ function TableNews() {
       }
     });
     return () => (mounted = false);
-  }, []);
+  }, [showModalEdit, showModalAdd]);
   const handleClick = () => {
     setShowmodalAdd(true);
   };
@@ -59,6 +64,7 @@ function TableNews() {
     setShowmodalAdd(false);
     setShowmodalView(false);
     setShowmodalFood(false);
+    setShowmodalDelete(false);
     setAnchorEl(null);
   };
 
@@ -74,14 +80,17 @@ function TableNews() {
     setShowmodalView(true);
   };
   const handleDeleteNews = async (item) => {
-    const id = item.newsId;
-    const response = await fetch(`https://localhost:44352/api/News/${id}`, {
-      method: "DELETE",
-    });
-    if (response.ok) {
-      console.log("Success");
-      window.location.reload();
-    }
+    const news = item;
+    setDataNewsDelete(news);
+    setShowmodalDelete(true);
+    // const id = item.newsId;
+    // const response = await fetch(`https://localhost:44352/api/News/${id}`, {
+    //   method: "DELETE",
+    // });
+    // if (response.ok) {
+    //   console.log("Success");
+    //   window.location.reload();
+    // }
   }
   //   const handleViewUser = (item) => {
   //     // setDataUserEdit(item);
@@ -208,6 +217,11 @@ function TableNews() {
         show={showModalView}
         handleClose={handleClose}
         dataNewsView={dataNewsView}
+      />
+      <DeleteNews
+        show={showModalDelete}
+        handleClose={handleClose}
+        dataNewsDelete={dataNewsDelete}
       />
     </div>
   );

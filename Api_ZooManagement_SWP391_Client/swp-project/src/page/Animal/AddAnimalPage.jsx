@@ -60,7 +60,6 @@ function AddAnimal(pros) {
   const [selectedSpecies, setSelectedSpecies] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("North America");
   const [selectedCage, setSelectedCage] = useState();
-
   const addField = () => {
     setFields([
       ...fields,
@@ -200,10 +199,15 @@ function AddAnimal(pros) {
       speciesName: values.species,
       animalFoods: values.fields,
     };
+    const params = {
+      userId: values.userId,
+      cageId: values.cageId
+    }
+    console.log(params);
     console.log(animal);
-    // const url = `https://localhost:44352/api/Animal?${new URLSearchParams(
-    //   params
-    // )}`;
+    const url = `https://localhost:44352/api/Animal/Animal?${new URLSearchParams(
+      params
+    )}`;
     const request = {
       method: "POST",
       headers: {
@@ -211,14 +215,22 @@ function AddAnimal(pros) {
       },
       body: JSON.stringify(animal),
     };
-    const response = await fetch(
-      `https://localhost:44352/api/Animal/Animal?userId=${userId}&cageId=${cageId}`,
-      request
-    );
-    if (response.ok) {
-      console.log("Success");
-      navigator("/staff/2");
-      window.location.reload();
+    // const response = await fetch(
+    //   `https://localhost:44352/api/Animal/Animal?userId=${values.userId}&cageId=${values.cageId}`,
+    //   request
+    // );
+    if (values.userId != undefined && values.cageId != undefined) {
+      const response = await fetch(url, request);
+      if (response.ok) {
+        console.log("Success");
+        navigator("/staff/2");
+        window.location.reload();
+      } else {
+        toast.error("Create fail")
+      }
+    }
+    if (isNaN(animal)) {
+      toast.error("Create fail")
     }
   };
   const a = "huhu";
@@ -259,8 +271,8 @@ function AddAnimal(pros) {
                     userId: "",
                   }}
                   validationSchema={schemaAnimal}
-                  onSubmit={(values) => {
-                    submitForm(values);
+                  onSubmit={(values, errors) => {
+                    submitForm(values, errors);
                   }}
                 >
                   {({
@@ -588,9 +600,9 @@ function AddAnimal(pros) {
                                 {/* Render các option từ API */}
                                 {CageListFilter.map((option) => (
                                   <option key={option.cId} value={option.cId}>
-                                    {option.cId} - MaxCapacity :{" "}
-                                    {option.maxCapacity} - AnimalQuantity :{" "}
-                                    {option.animalQuantity}
+                                    {option.cId} - Cage Name : {option.name} -
+                                    MaxCapacity : {option.maxCapacity} -
+                                    AnimalQuantity : {option.animalQuantity}
                                   </option>
                                 ))}
                               </Form.Select>
@@ -647,10 +659,9 @@ function AddAnimal(pros) {
                                     value={option.userId}
                                   >
                                     <div style={{ height: "50px" }}>
-                                      {option.email} - FirstName :{" "}
-                                      {option.firstname} - LastName :{" "}
-                                      {option.lastname} - Training Animal:{" "}
-                                      {option.countAnimal}
+                                      ZooTrainerID : {option.userId} - FullName :{" "}
+                                      {option.firstname + " " + option.lastname} -
+                                      Training Animal: {option.countAnimal}
                                     </div>
                                   </option>
                                 ))}
@@ -718,13 +729,13 @@ function AddAnimal(pros) {
                                       {({ field, form }) => (
                                         <Form.Select
                                           {...field}
+                                          value={field.foodId}
                                           placeholder="Chọn món ăn"
                                           onChange={(event) =>
                                             handleFoodSelect(event, field, form)
                                           }
                                         >
                                           <option value="">Choose Food</option>
-                                          {/* Render các option từ API */}
                                           {options.map((option) => (
                                             <option
                                               key={option.foodId}
@@ -876,20 +887,6 @@ function AddAnimal(pros) {
                     </Form>
                   )}
                 </Formik>
-                <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="light"
-                />
-                {/* Same as */}
-                <ToastContainer />
               </div>
             </MDBModalBody>
             <MDBModalFooter></MDBModalFooter>
