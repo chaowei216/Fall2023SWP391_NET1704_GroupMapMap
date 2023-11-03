@@ -19,6 +19,7 @@ import ViewUser from "./ViewUser";
 import EditPage from "./EditPage";
 import _ from "lodash";
 import { debounce } from "lodash";
+import DeleteUser from "./DeleteUser";
 function TableStaff() {
   useEffect(() => {
     if (localStorage.getItem("isAdded") === "true") {
@@ -30,15 +31,17 @@ function TableStaff() {
   const [dataUserEdit, setDataUserEdit] = useState({});
   const [dataUserView, setDataUserView] = useState({});
   const [showModalEdit, setShowmodalEdit] = useState(false);
+  const [dataUserDelete, setDataUserDelete] = useState({});
+  const [showModalDelete, setShowmodalDelete] = useState(false);
   const [showModalView, setShowmodalView] = useState(false);
   const [users, setUsers] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     const getUsers = () => {
-      return fetch(`https://localhost:44352/api/User/trainers/pages/${currentPage}`).then(
-        (data) => data.json()
-      );
+      return fetch(
+        `https://localhost:44352/api/User/trainers/pages/${currentPage}`
+      ).then((data) => data.json());
     };
     let mounted = true;
     getUsers().then((items) => {
@@ -63,6 +66,12 @@ function TableStaff() {
   const handleClose = () => {
     setShowmodalEdit(false);
     setShowmodalView(false);
+    setShowmodalDelete(false);
+  };
+  const handleDeleteUser = (item) => {
+    const user = item;
+    setDataUserDelete(user);
+    setShowmodalDelete(true);
   };
   // const email = localStorage.getItem("email");
   // const zooTrainerList = users.filter((user) => user.role === 3);
@@ -97,23 +106,29 @@ function TableStaff() {
     let term = e.target.value;
     if (term) {
       const getUsers = () => {
-        return fetch(`https://localhost:44352/api/User/trainers/pages/${currentPage}`).then(
-          (data) => data.json()
-        );
+        return fetch(
+          `https://localhost:44352/api/User/trainers/pages/${currentPage}`
+        ).then((data) => data.json());
       };
       let mounted = true;
       getUsers().then((items) => {
         if (mounted) {
-          setUsers(items.users.filter(a => a.firstname.toUpperCase().includes(term.toUpperCase()) || a.lastname.toUpperCase().includes(term.toUpperCase())));
+          setUsers(
+            items.users.filter(
+              (a) =>
+                a.firstname.toUpperCase().includes(term.toUpperCase()) ||
+                a.lastname.toUpperCase().includes(term.toUpperCase())
+            )
+          );
           setTotalPages(items.pages);
         }
       });
       return () => (mounted = false);
     } else {
       const getUsers = () => {
-        return fetch(`https://localhost:44352/api/User/trainers/pages/${currentPage}`).then(
-          (data) => data.json()
-        );
+        return fetch(
+          `https://localhost:44352/api/User/trainers/pages/${currentPage}`
+        ).then((data) => data.json());
       };
       let mounted = true;
       getUsers().then((items) => {
@@ -124,7 +139,7 @@ function TableStaff() {
       });
       return () => (mounted = false);
     }
-  },350)
+  }, 350);
   return (
     <div className="table-container">
       <div className="table-component">
@@ -135,7 +150,11 @@ function TableStaff() {
           <div className="search-container">
             {/* toggleShow */}
             <div className="search-content">
-              <input type="text" onChange={handleSearch} className="form-control" />
+              <input
+                type="text"
+                onChange={handleSearch}
+                className="form-control"
+              />
               <Button variant="contained">
                 <SearchIcon />
               </Button>
@@ -189,7 +208,13 @@ function TableStaff() {
                         >
                           <EditIcon />
                         </Button>
-                        <Button variant="text" style={{ padding: 0 }}>
+                        <Button
+                          onClick={() => {
+                            handleDeleteUser(item);
+                          }}
+                          variant="text"
+                          style={{ padding: 0 }}
+                        >
                           <DeleteIcon />
                         </Button>
                       </td>
@@ -217,6 +242,11 @@ function TableStaff() {
         show={showModalView}
         handleClose={handleClose}
         dataUserView={dataUserView}
+      />
+      <DeleteUser
+        show={showModalDelete}
+        handleClose={handleClose}
+        dataUserDelete={dataUserDelete}
       />
       <ToastContainer
         position="top-right"
