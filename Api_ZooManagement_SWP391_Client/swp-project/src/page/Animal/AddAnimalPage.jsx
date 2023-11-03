@@ -100,7 +100,7 @@ function AddAnimal(pros) {
     console.log(event.target.value);
   };
   const getCageList = () => {
-    return fetch("https://localhost:44352/api/Cage").then((data) =>
+    return fetch("https://localhost:44352/api/Cage/AvailableCage").then((data) =>
       data.json()
     );
   };
@@ -114,7 +114,7 @@ function AddAnimal(pros) {
     return () => (mounted = false);
   }, []);
   const getZooTrainerList = () => {
-    return fetch("https://localhost:44352/api/User/users").then((data) =>
+    return fetch("https://localhost:44352/api/User/AvailableTrainers").then((data) =>
       data.json()
     );
   };
@@ -185,6 +185,7 @@ function AddAnimal(pros) {
     if (values.animalImage != "") {
       img = values.animalImage;
     }
+    const date = new Date();
     const animal = {
       name: values.name,
       description: values.description,
@@ -193,8 +194,8 @@ function AddAnimal(pros) {
       healthCheck: values.healthCheck,
       birthday: values.birthday,
       rarity: values.rarity,
-      entryCageDate: values.entryCageDate,
-      startTrainDate: values.startTrainDate,
+      entryCageDate: date,
+      startTrainDate: date,
       animalImage: img,
       speciesName: values.species,
       animalFoods: values.fields,
@@ -225,8 +226,6 @@ function AddAnimal(pros) {
         console.log("Success");
         navigator("/staff/2");
         window.location.reload();
-      } else {
-        toast.error("Create fail")
       }
     }
     if (isNaN(animal)) {
@@ -610,7 +609,7 @@ function AddAnimal(pros) {
                                 {errors.cageId}
                               </Form.Control.Feedback>
                             </div>
-                            <div className="mb-3" style={{ width: "33%" }}>
+                            {/* <div className="mb-3" style={{ width: "33%" }}>
                               <div>
                                 <label className="form-label">
                                   Choose Entry Cage
@@ -631,7 +630,7 @@ function AddAnimal(pros) {
                                   {errors.entryCageDate}
                                 </Form.Control.Feedback>
                               </div>
-                            </div>
+                            </div> */}
                           </div>
                           <div className="label-info">
                             <label>Zoo Trainer Information</label>
@@ -671,7 +670,7 @@ function AddAnimal(pros) {
                               </Form.Control.Feedback>
                               {values.userId && console.log(values.userId)}
                             </div>
-                            <div className="row mb-3 mt-4">
+                            {/* <div className="row mb-3 mt-4">
                               <div className="mb-3" style={{ width: "33%" }}>
                                 <label className="form-label">
                                   Choose Start Train
@@ -695,7 +694,7 @@ function AddAnimal(pros) {
                                   {errors.startTrainDate}
                                 </Form.Control.Feedback>
                               </div>
-                            </div>
+                            </div> */}
                           </div>
                           <div className="label-info">
                             <label>Food Information</label>
@@ -834,7 +833,7 @@ function AddAnimal(pros) {
                                     Amount must be positive
                                   </div>
                                   <div style={{ color: "red" }}>
-                                    Start Eat must be after Entry Cage Date
+                                    Start Eat must be after or equal Day Now
                                   </div>
                                   <div style={{ color: "red" }}>
                                     End Eat must be after Start Eat Date
@@ -855,6 +854,7 @@ function AddAnimal(pros) {
                             )}
                           </div>
                         </div>
+
                       </div>
                       <div className="btn-footer">
                         <div
@@ -867,14 +867,14 @@ function AddAnimal(pros) {
                             variant="secondary"
                             onClick={handleClose}
                             active
-                            style={{ width: "80px" }}
+                            style={{ width: "80px", color: "white", backgroundColor: "red"}}
                           >
                             Close
                           </Button>
                         </div>
                         <div>
                           <Button
-                            style={{ background: "gainsboro" }}
+                            style={{ background: "blue", color: "white", marginRight: "60px"}}
                             variant="primary"
                             type="submit"
                             onClick={submitForm}

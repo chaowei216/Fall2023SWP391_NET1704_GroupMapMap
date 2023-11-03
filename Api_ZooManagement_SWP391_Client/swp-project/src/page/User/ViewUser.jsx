@@ -8,6 +8,7 @@ import {
   MDBModalTitle,
   MDBModalBody,
   MDBModalFooter,
+  MDBCardText
 } from "mdb-react-ui-kit";
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
@@ -51,7 +52,7 @@ export default function ViewUser(pros) {
       setExperienceOption(dataUserView.experiences);
     }
   }, [dataUserView]);
-
+  console.log(dataUserView);
   const handleSave = () => {
     console.log("haha");
   };
@@ -61,7 +62,7 @@ export default function ViewUser(pros) {
   };
   return (
     <>
-      <MDBModal staticBackdrop tabIndex="-1" show={show} onHide={handleClose}>
+      <MDBModal show={show} onHide={handleClose}>
         <MDBModalDialog size="lg">
           <MDBModalContent>
             <MDBModalHeader>
@@ -81,305 +82,62 @@ export default function ViewUser(pros) {
                   <div className="form-content">
                     <div className="form">
                       <div className="row mb-3">
-                        <div className="mb-3 row-content">
-                          <label className="form-label">UserId</label>
-                          <Form.Control
-                            id="userId"
-                            type="text"
-                            placeholder="name of the animal"
-                            disabled
-                            aria-describedby="inputGroupPrepend"
-                            name="userId"
-                            value={userId}
-                          // isInvalid={
-                          //   formik.errors.first_name &&
-                          //   formik.touched.first_name
-                          // }
-                          />
-                          {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.first_name}
-                          </Form.Control.Feedback> */}
+                        <div className="mb-3 mt-3" style={{ width: "33%" }}>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>User Id:</label>
+                          <MDBCardText className="text-muted mt-2">{userId}</MDBCardText>
                         </div>
-                        <div className="mb-3 row-content">
-                          <label className="form-label">Email</label>
-                          <Form.Control
-                            type="text"
-                            id="email"
-                            placeholder="region"
-                            aria-describedby="inputGroupPrepend"
-                            disabled
-                            name="email"
-                            value={email}
-                            onChange={(event) => setRegion(event.target.value)}
-                          // isInvalid={
-                          //   formik.errors.last_name &&
-                          //   formik.touched.last_name
-                          // }
-                          />
-                          {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.last_name}
-                          </Form.Control.Feedback> */}
+                        <div className="mb-3 mt-3" style={{ width: "33%" }}>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Email:</label>
+                          <MDBCardText className="text-muted mt-2">{email}</MDBCardText>
                         </div>
                       </div>
+                      <hr></hr>
+                      <div className="row mb-3">
+                        <div className="mb-3 mt-3" style={{ width: "33%" }}>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Full Name:</label>
+                          <MDBCardText className="text-muted mt-2">{firstName + " " + lastName}</MDBCardText>
+                        </div>
+                        <div className="mb-3 mt-2" style={{ width: "33%" }}>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Address:</label>
+                          <MDBCardText className="text-muted mt-2">{address}</MDBCardText>
+                        </div>
+                      </div>
+                      <hr></hr>
                       <div className="row mb-3">
                         <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">First Name</label>
-                          <Form.Control
-                            type="string"
-                            id="species"
-                            disabled
-                            placeholder="Species Animal"
-                            aria-describedby="inputGroupPrepend"
-                            name="species"
-                            value={firstName}
-                          // value={formik.values.species}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={phone == nul}
-                          />
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Phone:</label>
+                          <MDBCardText className="text-muted mt-2">{phone}</MDBCardText>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Last Name</label>
-                          <Form.Control
-                            type="text"
-                            id="lastName"
-                            aria-describedby="inputGroupPrepend"
-                            name="lastName"
-                            disabled
-                            value={lastName}
-                          // value={formik.values.entryDate}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.email && formik.touched.email
-                          // }
-                          />
-                          {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.email}
-                          </Form.Control.Feedback> */}
-                        </div>
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Address</label>
-                          <Form.Control
-                            type="text"
-                            id="address"
-                            aria-describedby="inputGroupPrepend"
-                            name="address"
-                            disabled
-                            value={address}
-                          // value={formik.values.entryDate}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.email && formik.touched.email
-                          // }
-                          />
-                          {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.email}
-                          </Form.Control.Feedback> */}
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Role:</label>
+                          <MDBCardText className="text-muted mt-2">{role}</MDBCardText>
                         </div>
                       </div>
+                      <hr></hr>
                       <div className="row mb-3">
                         <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Phone</label>
-                          <Form.Control
-                            type="string"
-                            id="cageId"
-                            disabled
-                            placeholder="phone"
-                            aria-describedby="inputGroupPrepend"
-                            name="cageId"
-                            value={phone}
-                            onChange={(event) => setCageID(event.target.value)}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={phone == nul}
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            Haha
-                          </Form.Control.Feedback>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Sex:</label>
+                          <MDBCardText className="text-muted mt-2">{sex}</MDBCardText>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Role</label>
-                          <Radio.Group
-                            id="role"
-                            name="role"
-                            style={{ height: "33%", width: "100%" }}
-                            // onChange={(e) => {
-                            //   handleRoleChange(e);
-                            // }}
-                            value={role}
-                            buttonStyle="solid"
-                            disabled
-                          >
-                            {role === "Staff" && (
-                              <Radio.Button
-                                style={{
-                                  width: "100%",
-                                  fontWeight: "bolder",
-                                  color: "red",
-                                  height: "37px",
-                                }}
-                                value="Staff"
-                              >
-                                <span style={{ verticalAlign: "middle" }}>
-                                  Staff
-                                </span>
-                              </Radio.Button>
-                            )}
-                            {role === "ZooTrainer" && (
-                              <Radio.Button
-                                style={{
-                                  width: "100%",
-                                  color: "green",
-                                  height: "37px",
-                                  fontWeight: "bolder",
-                                }}
-                                value="ZooTrainer"
-                              >
-                                <span style={{ verticalAlign: "middle" }}>
-                                  ZooTrainer
-                                </span>
-                              </Radio.Button>
-                            )}
-                          </Radio.Group>
-                        </div>
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <div>
-                            <label className="form-label">Gender</label>
-                            <Radio.Group
-                              id="sex"
-                              name="sex"
-                              style={{ height: "33%", width: "100%" }}
-                              // onChange={(e) => {
-                              //   handleRoleChange(e);
-                              // }}
-                              value={sex}
-                              buttonStyle="solid"
-                              disabled
-                            >
-                              {sex === "male" && (
-                                <Radio.Button
-                                  style={{
-                                    width: "100%",
-                                    color: "blue",
-                                    height: "37px",
-                                    fontWeight: "bolder",
-                                  }}
-                                  value="male"
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    Male
-                                  </span>
-                                </Radio.Button>
-                              )}
-                              {sex === "female" && (
-                                <Radio.Button
-                                  style={{
-                                    width: "100%",
-                                    color: "pink",
-                                    height: "37px",
-                                  }}
-                                  value="female"
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    Female
-                                  </span>
-                                </Radio.Button>
-                              )}
-                            </Radio.Group>
-                          </div>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Start Date:</label>
+                          <MDBCardText className="text-muted mt-2">{startDate}</MDBCardText>
                         </div>
                       </div>
-                      <div className="row mt-4">
+
+                      {endDate && (
                         <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Start Date</label>
-                          <br />
-                          <Space
-                            direction="vertical"
-                            size={20}
-                            style={{ width: "100%" }}
-                          >
-                            <Form.Control
-                              type="date"
-                              id="startTrainDate"
-                              placeholder="address"
-                              aria-describedby="inputGroupPrepend"
-                              disabled
-                              name="startTrainDate"
-                              value={startDate}
-                            // onBlur={formik.handleBlur}
-                            />
-                          </Space>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>End Date:</label>
+                          <MDBCardText className="text-muted mt-2">{endDate}</MDBCardText>
                         </div>
-                        {endDate && (
-                          <div className="mb-3" style={{ width: "33%" }}>
-                            <div>
-                              <label className="form-label">End Date</label>
-                              <br />
-                              <Space
-                                direction="vertical"
-                                size={20}
-                                style={{ width: "100%" }}
-                              >
-                                <Form.Control
-                                  type="date"
-                                  name="entryCageDate"
-                                  value={endDate}
-                                  disabled
-                                />
-                              </Space>
-                            </div>
-                          </div>
-                        )}
-                        <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label">Status</label>
-                          <Radio.Group
-                            id="status"
-                            name="status"
-                            style={{ height: "33%", width: "100%" }}
-                            // onChange={(e) => {
-                            //   handleRoleChange(e);
-                            // }}
-                            value={status}
-                            buttonStyle="solid"
-                            disabled
-                          >
-                            {status === true && (
-                              <Radio.Button
-                                style={{
-                                  width: "100%",
-                                  color: "green",
-                                  fontWeight: "bolder",
-                                  height: "37px",
-                                }}
-                                value={true}
-                              >
-                                <span style={{ verticalAlign: "middle" }}>
-                                  On Working
-                                </span>
-                              </Radio.Button>
-                            )}
-                            {status === false && (
-                              <Radio.Button
-                                style={{
-                                  width: "100%",
-                                  color: "red",
-                                  fontWeight: "bolder",
-                                  height: "37px",
-                                }}
-                                value={false}
-                              >
-                                <span style={{ verticalAlign: "middle" }}>
-                                  Out of Job
-                                </span>
-                              </Radio.Button>
-                            )}
-                          </Radio.Group>
-                        </div>
+                      )}
+                      <div className="mb-3" style={{ width: "33%" }}>
+                        <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Status:</label>
+                        <MDBCardText className="text-muted mt-2">{status === true ? "On Working" : "Out Work"}</MDBCardText>
                       </div>
+                      <hr></hr>
                       <div className="label-info mb-2">
-                        <label>Experience Information</label>
+                        <label style={{color: "#813528"}}>Experience Information</label>
                       </div>
                       <div className="Food-Information mb-4" style={{ width: "97%" }}>
                         <div className="mb-3" style={{ paddingRight: "25px" }}>

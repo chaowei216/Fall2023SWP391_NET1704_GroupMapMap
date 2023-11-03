@@ -78,8 +78,8 @@ export default function EditAnimal(pros) {
     }
   };
   const handle = () => {
-    handleClose;
-    window.location.reload();
+    handleClose();
+    // window.location.reload();
   };
   const validateTrainerDate = (dateString) => {
     const selectedDate = new Date(dateString);
@@ -352,7 +352,7 @@ export default function EditAnimal(pros) {
     setList3(list3);
   }, [dataAnimalEdit, foods]);
   const getCageList = () => {
-    return fetch("https://localhost:44352/api/Cage").then((data) =>
+    return fetch("https://localhost:44352/api/Cage/AvailableCage").then((data) =>
       data.json()
     );
   };
@@ -427,7 +427,6 @@ export default function EditAnimal(pros) {
     });
   }, [listCage, listCageOld, cageID, show]);
   console.log(availableCage);
-
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     if (healthCheck === "") {
@@ -435,7 +434,8 @@ export default function EditAnimal(pros) {
       return;
     } else if (healthCheck != "") {
       setErros(null);
-    } else if (description === "") {
+    }
+    if (description === "") {
       setErros("Description can't be null");
       return;
     } else if (description != "") {
@@ -636,7 +636,7 @@ export default function EditAnimal(pros) {
                           </div>
                           <div className="mb-3" style={{ width: "25%" }}>
                             <div>
-                              <label className="form-label">Status</label>
+                              <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Status</label>
                               <br />
                               <Radio.Group
                                 id="status"
@@ -676,7 +676,7 @@ export default function EditAnimal(pros) {
                             <div>
                               <label
                                 className="form-label"
-                                style={{ verticalAlign: "middle" }}
+                                style={{ color: "#813528", fontWeight: "bolder", verticalAlign: "middle"  }}
                               >
                                 Is Animal Rarity
                               </label>
@@ -719,7 +719,7 @@ export default function EditAnimal(pros) {
                             </div>
                           </div>
                           <div className="mb-3" style={{ width: "25%" }}>
-                            <label className="form-label">Birthday</label>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Birthday</label>
                             <br />
                             <Space
                               direction="vertical"
@@ -739,7 +739,7 @@ export default function EditAnimal(pros) {
                           </div>
                         </div>
                         <div className="mb-3">
-                          <label className="form-label">HealthCheck</label>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>HealthCheck</label>
                           <Form.Control
                             as="textarea"
                             style={{ height: "90px", width: "98%" }}
@@ -762,7 +762,7 @@ export default function EditAnimal(pros) {
                         </Form.Control.Feedback> */}
                         </div>
                         <div className="mb-3">
-                          <label className="form-label">Description</label>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Description</label>
                           <Form.Control
                             as="textarea"
                             id="description"
@@ -803,7 +803,7 @@ export default function EditAnimal(pros) {
                         style={{ paddingRight: "25px" }}
                       >
                         <div className="mb-3">
-                          <label className="form-label">
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
                             Choose Cage for Animal
                           </label>
                           <Form.Select
@@ -838,8 +838,8 @@ export default function EditAnimal(pros) {
                           }}
                         >
                           <div style={{ width: "40%" }}>
-                            <label className="form-label">
-                              Choose Entry Cage
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
+                               Entry Cage
                             </label>
                             <br />
                             <Form.Control
@@ -899,7 +899,7 @@ export default function EditAnimal(pros) {
                       </div>
                       <div className="mb-3 ZooTrainer-Information">
                         <div className="mb-3">
-                          <label className="form-label">
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
                             Choose ZooTrainer for Animal
                           </label>
                           <Form.Select
@@ -933,8 +933,8 @@ export default function EditAnimal(pros) {
                             }}
                           >
                             <div style={{ width: "40%" }}>
-                              <label className="form-label">
-                                Choose Start Train
+                              <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
+                                Start Train
                               </label>
                               <br />
                               <Form.Control
@@ -1018,7 +1018,7 @@ export default function EditAnimal(pros) {
                                 />
                               </div> */}
                               <div style={{ width: "25%" }}>
-                                <label className="form-label">
+                                <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
                                   Edit Food For Animal
                                 </label>
                                 <Form.Control
@@ -1051,7 +1051,7 @@ export default function EditAnimal(pros) {
                                 </Form.Control>
                               </div>
                               <div style={{ width: "25%" }}>
-                                <label className="form-label">
+                                <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
                                   Enter Amount Food (KG)
                                 </label>
                                 <Form.Control
@@ -1070,7 +1070,7 @@ export default function EditAnimal(pros) {
                                 </Form.Control.Feedback>
                               </div>
                               <div style={{ width: "25%" }}>
-                                <label className="form-label">
+                                <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
                                   Edit Start Eat Date
                                 </label>
                                 <Form.Control
@@ -1086,7 +1086,7 @@ export default function EditAnimal(pros) {
                                 />
                               </div>
                               <div style={{ width: "25%" }}>
-                                <label className="form-label">
+                                <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
                                   Edit End Eat Date
                                 </label>
                                 <Form.Control
@@ -1256,10 +1256,9 @@ export default function EditAnimal(pros) {
                         </div>
                       )}
 
-                      <div className="btn-footer">
+                      <div className="btn-footer" style={{marginRight: "0px"}}>
                         <div
                           style={{
-                            marginRight: "20px",
                             background: "gainsboro",
                           }}
                         >
@@ -1267,7 +1266,7 @@ export default function EditAnimal(pros) {
                             variant="secondary"
                             onClick={handle}
                             active
-                            style={{ width: "80px" }}
+                            style={{ width: "80px",color: "white",backgroundColor: "red" }}
                           >
                             Close
                           </Button>

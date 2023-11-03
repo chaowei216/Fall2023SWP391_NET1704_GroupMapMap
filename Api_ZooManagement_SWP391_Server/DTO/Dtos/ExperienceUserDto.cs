@@ -9,6 +9,6 @@ namespace DTO.Dtos
     public class ExperienceUserDto
     {
         public string ExperienceId { get; set; } = string.Empty;
-        public string Position { get; set; }
+        public string Company { get; set; }
     }
 }

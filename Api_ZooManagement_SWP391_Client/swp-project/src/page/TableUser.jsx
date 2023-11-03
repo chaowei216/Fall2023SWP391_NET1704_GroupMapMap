@@ -246,8 +246,8 @@ function TableUser() {
             <Pagination
               onChange={onShowSizeChange}
               defaultCurrent={currentPage}
-              defaultPageSize={7}
-              total={totalPages * 7}
+              defaultPageSize={10}
+              total={totalPages * 10}
             />
           </div>
         </div>
@@ -267,20 +267,7 @@ function TableUser() {
         handleClose={handleClose}
         dataUserDelete={dataUserDelete}
       />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      {/* Same as */}
-      <ToastContainer />
+     
     </div>
   );
 }

@@ -244,46 +244,48 @@ function TableAnimal() {
                 <SearchIcon />
               </Button>
             </div>
-            <div>
-              <Button
-                aria-describedby={id}
-                variant="contained"
-                onClick={handleClickPop}
-              >
-                <PlusOutlined></PlusOutlined> Create Animal
-              </Button>
-              <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-              >
-                <Typography sx={{ p: 2 }}>
-                  <div className="btn-header">
-                    <div
-                      className="mb-3 mt-1"
-                      style={{ background: "aliceblue" }}
-                    >
-                      <Button variant="outlined" onClick={handleClick}>
-                        Add New Animal
-                      </Button>
+            {role != "ADMIN" && (
+              <div>
+                <Button
+                  aria-describedby={id}
+                  variant="contained"
+                  onClick={handleClickPop}
+                >
+                  <PlusOutlined></PlusOutlined> Create Animal
+                </Button>
+                <Popover
+                  id={id}
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                >
+                  <Typography sx={{ p: 2 }}>
+                    <div className="btn-header">
+                      <div
+                        className="mb-3 mt-1"
+                        style={{ background: "aliceblue" }}
+                      >
+                        <Button variant="outlined" onClick={handleClick}>
+                          Add New Animal
+                        </Button>
+                      </div>
+                      <div
+                        className="mb-3 mt-1"
+                        style={{ background: "aliceblue" }}
+                      >
+                        <Button variant="outlined" onClick={handleClick2}>
+                          Add New Schedule
+                        </Button>
+                      </div>
                     </div>
-                    <div
-                      className="mb-3 mt-1"
-                      style={{ background: "aliceblue" }}
-                    >
-                      <Button variant="outlined" onClick={handleClick2}>
-                        Add New Schedule
-                      </Button>
-                    </div>
-                  </div>
-                </Typography>
-              </Popover>
-            </div>
+                  </Typography>
+                </Popover>
+              </div>
+            )}
           </div>
         </div>
         <div className="table-content">

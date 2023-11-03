@@ -227,8 +227,8 @@ function TableStaff() {
             <Pagination
               onChange={onShowSizeChange}
               defaultCurrent={currentPage}
-              defaultPageSize={7}
-              total={totalPages * 7}
+              defaultPageSize={10}
+              total={totalPages * 10}
             />
           </div>
         </div>

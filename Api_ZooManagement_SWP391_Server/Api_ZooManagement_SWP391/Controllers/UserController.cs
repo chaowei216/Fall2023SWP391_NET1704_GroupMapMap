@@ -132,7 +132,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             if (users == null || users.Count() == 0)
                 return NotFound();
 
-            var pageResults = 7f;
+            var pageResults = 10f;
             var pageCount = Math.Ceiling(users.Count() / pageResults);
 
             var result = users
@@ -160,7 +160,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             if (users == null || users.Count() == 0)
                 return NotFound();
 
-            var pageResults = 7f;
+            var pageResults = 10f;
             var pageCount = Math.Ceiling(users.Count() / pageResults);
 
             var result = users

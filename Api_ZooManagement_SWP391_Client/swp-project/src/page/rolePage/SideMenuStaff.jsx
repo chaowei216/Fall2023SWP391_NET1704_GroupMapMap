@@ -8,6 +8,8 @@ import {
 } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, Switch, Divider } from "antd";
+import { MDBIcon } from 'mdb-react-ui-kit';
+
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -23,7 +25,7 @@ const items = [
       "Information",
       "g1",
       null,
-      [getItem("Profile", "profile", <AlertOutlined />)],
+      [getItem("Profile", "profile", <MDBIcon fas icon="user-cog" />)],
       "group"
     ),
     getItem(
@@ -31,19 +33,19 @@ const items = [
       "g2",
       null,
       [
-        getItem("ZooTrainer", "/staff/1", <AlertOutlined />),
-        getItem("Animal", "2", <AlertOutlined />),
+        getItem("ZooTrainer", "/staff/1", <MDBIcon fas icon="chalkboard-teacher" />),
+        getItem("Animal", "2", <MDBIcon fas icon="paw" />),
 
-        getItem("Area", "/staff/area", <AlertOutlined />),
-        getItem("Cage", "/staff/cage", <AlertOutlined />),
-        getItem("Food", "/staff/food", <AlertOutlined />),
+        getItem("Area", "/staff/area", <MDBIcon fas icon="map-marked-alt" />),
+        getItem("Cage", "/staff/cage", <MDBIcon fas icon="archive" />),
+        getItem("Food", "/staff/food", <MDBIcon fas icon="carrot" />),
       ],
       "group"
     ),
   ]),
   getItem("Other", "sub2", <AppstoreOutlined />, [
-    getItem("Order", "4", <AlertOutlined />),
-    getItem("News", "news", <AlertOutlined />),
+    getItem("Order", "4", <MDBIcon fas icon="cash-register" />),
+    getItem("News", "news", <MDBIcon far icon="newspaper" />),
   ]),
   {
     type: "divider",
@@ -57,7 +59,7 @@ const items = [
 ];
 const SideMenuStaff = ({ openSidebarToggle, OpenSidebar }) => {
   const [theme, setTheme] = useState("light");
-  const [current, setCurrent] = useState("1");
+  const [current, setCurrent] = useState("profile");
   const [selectedKeys, setSelectedKeys] = useState("/");
   useEffect(() => {
     const pathName = location.pathname;
@@ -96,8 +98,8 @@ const SideMenuStaff = ({ openSidebarToggle, OpenSidebar }) => {
             navigate(item.key);
             setCurrent(item.key);
           }}
-          // selectedKeys={[current]}
-          // defaultSelectedKeys={["1"]}
+          selectedKeys={[current]}
+          defaultSelectedKeys={["profile"]}
           defaultOpenKeys={["sub1"]}
           mode="inline"
           items={items}

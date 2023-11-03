@@ -45,7 +45,7 @@ function TableFood() {
       }
     });
     return () => (mounted = false);
-  }, []);
+  }, [showModalEdit,showModalAdd]);
   const handleClick = () => {
     setShowmodalAdd(true);
   };

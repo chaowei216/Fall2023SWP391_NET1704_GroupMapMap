@@ -145,7 +145,6 @@ export default function PersonalProfile() {
                                                   </Space>
                                                 )}
                                                 <MDBCardText className="pt-4" style={{color: "white", fontSize: "large"}}>{role === "STAFF" ? "Staff" : "Zoo Trainer"} Manager</MDBCardText>
-                                                <MDBIcon far icon="edit mb-5" />
                                             </MDBCol>
                                             <MDBCol md="8">
                                                 <MDBCardBody className="p-4">
@@ -227,12 +226,6 @@ export default function PersonalProfile() {
                                                             </ul></MDBCardText>
                                                         </MDBCol>
                                                     </MDBRow>
-
-                                                    <div className="d-flex justify-content-start">
-                                                        <a href="#!"><MDBIcon fab icon="facebook me-3" size="lg" /></a>
-                                                        <a href="#!"><MDBIcon fab icon="twitter me-3" size="lg" /></a>
-                                                        <a href="#!"><MDBIcon fab icon="instagram me-3" size="lg" /></a>
-                                                    </div>
                                                 </MDBCardBody>
                                                 <div className="btn-footer mb-4">
                                                     <Button

@@ -17,41 +17,19 @@ function getItem(label, key, icon, children, type) {
     type,
   };
 }
+import { MDBIcon } from 'mdb-react-ui-kit';
+
 const items = [
   getItem("Zoo Management", "sub1", <AlertOutlined />, [
     getItem(
       "Manage",
       "g1",
       null,
-      [getItem("Profile", "profile"), getItem("Animal", "2")],
+      [getItem("Profile", "profile",<MDBIcon fas icon="user-cog" />), getItem("Animal", "2",<MDBIcon fas icon="paw" />)],
       "group"
     ),
-    getItem("Item 2", "g2", null, [getItem("Food", "food"),getItem("Schedule Feed Animal", "feed")], "group"),
+    getItem("Other", "g2", null, [getItem("Food", "food",<MDBIcon fas icon="carrot" />),getItem("Feed & Schedule", "feed",<MDBIcon fas icon="utensils" />)], "group"),
   ]),
-  getItem("Navigation Two", "sub2", <AppstoreOutlined />, [
-    getItem("Option 5", "/staff/2"),
-    getItem("Option 6", "5"),
-    getItem("Submenu", "sub3", null, [
-      getItem("Option 7", "7"),
-      getItem("Option 8", "8"),
-    ]),
-  ]),
-  {
-    type: "divider",
-  },
-  getItem("Navigation Three", "sub4", <SettingOutlined />, [
-    getItem("Option 9", "9"),
-    getItem("Option 10", "10"),
-    getItem("Option 11", "11"),
-    getItem("Option 12", "12"),
-  ]),
-  getItem(
-    "Group",
-    "grp",
-    null,
-    [getItem("Option 13", "13"), getItem("Option 14", "14")],
-    "group"
-  ),
 ];
 const SideMenuZooTrainer = ({ openSidebarToggle, OpenSidebar }) => {
   const [theme, setTheme] = useState("light");
@@ -79,7 +57,7 @@ const SideMenuZooTrainer = ({ openSidebarToggle, OpenSidebar }) => {
       <Menu
         // theme="blue"
         style={{
-          height: "128vh",
+          height: "148vh",
           backgroundColor: "wheat",
           borderRadius: "10px 10px 10px 10px",
         }}

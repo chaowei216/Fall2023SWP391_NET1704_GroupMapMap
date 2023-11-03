@@ -11,7 +11,7 @@ import {
 } from "mdb-react-ui-kit";
 import Form from "react-bootstrap/Form";
 import Button from "@mui/material/Button";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { useFormik } from "formik";
 import { DatePicker, Radio, Select, Space } from "antd";
 import { South } from "@mui/icons-material";
@@ -64,8 +64,10 @@ export default function AddFood(pros) {
     const response = await fetch(url, request);
     if (response.ok) {
       console.log("Success");
-      navigate("/staff/food");
-      window.location.reload();
+      handleClose();
+      toast.success("Create Success");
+    }else{
+      toast.error("Error creating")
     }
   };
   const formik = useFormik({
@@ -247,20 +249,6 @@ export default function AddFood(pros) {
                     </div>
                   </div>
                 </Form>
-                <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="light"
-                />
-                {/* Same as */}
-                <ToastContainer />
               </div>
             </MDBModalBody>
           </MDBModalContent>

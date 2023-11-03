@@ -66,11 +66,11 @@ function LoginForm() {
         localStorage.setItem("name", name);
         if (role === "STAFF") {
           setTimeout(() => {
-            navigate('/staff');
+            navigate('/staff/profile');
           }, 1000);
         } else if (role === "ZOOTRAINER") {
           setTimeout(() => {
-            navigate('/ZooTrainer');
+            navigate('/ZooTrainer/profile');
           }, 1000);
         } else if (role === "ADMIN") {
           setTimeout(() => {

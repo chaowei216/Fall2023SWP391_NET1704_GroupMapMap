@@ -70,42 +70,43 @@ export const schemaAnimal = yup.object().shape({
     .required("Vui lòng nhập ngày")
     .test({
       name: "start-date-valid",
-      message: "Birthday must be before Entry Cage Date",
+      message: "Birthday must be before Day Now",
       test: function (value) {
         const currentDate = new Date();
-        const entryCageDate = new Date(this.parent.entryCageDate);
         const selectedDate = new Date(value);
 
-        return selectedDate <= currentDate && selectedDate <= entryCageDate;
+        return selectedDate <= currentDate;
       },
     }),
   // entryCageDate: yup.string().required("Choose cage date"),
-  entryCageDate: yup
-    .string()
-    .required("Vui lòng nhập ngày")
-    .test({
-      name: "start-date-valid",
-      message: "Date must be before Date Now",
-      test: function (value) {
-        const date = new Date(value);
-        return date <= new Date();
-      },
-    }),
+  // entryCageDate: yup
+  //   .string()
+  //   .required("Vui lòng nhập ngày")
+  //   .test({
+  //     name: "start-date-valid",
+  //     message: "Date must be before Date Now",
+  //     test: function (value) {
+  //       const date = new Date(value);
+  //       return date <= new Date();
+  //     },
+  //   }),
   // startTrainDate: yup.string().required("Choose date to train animal"),
-  startTrainDate: yup
-    .string()
-    .required("Vui lòng nhập ngày")
-    .test({
-      name: "start-date-valid",
-      message: "Date must be after Entry Cage Date",
-      test: function (value) {
-        const currentDate = new Date();
-        const entryCageDate = new Date(this.parent.entryCageDate);
-        const selectedDate = new Date(value);
 
-        return selectedDate <= currentDate && selectedDate >= entryCageDate;
-      },
-    }),
+  // startTrainDate: yup
+  //   .string()
+  //   .required("Vui lòng nhập ngày")
+  //   .test({
+  //     name: "start-date-valid",
+  //     message: "Date must be after Entry Cage Date",
+  //     test: function (value) {
+  //       const currentDate = new Date();
+  //       const entryCageDate = new Date(this.parent.entryCageDate);
+  //       const selectedDate = new Date(value);
+
+  //       return selectedDate <= currentDate && selectedDate >= entryCageDate;
+  //     },
+  //   }),
+
   // entryDate: yup.string().required(),
   // image: yup.mixed().required('Please choose the image')
   fields: yup.array().of(
@@ -117,11 +118,13 @@ export const schemaAnimal = yup.object().shape({
           name: 'date-after',
           message: 'Ngày bắt đầu ăn phải sau ngày vào lồng',
           test: function (value) {
-            const entryCageDate = this.options.context.entryCageDate; // Lấy giá trị của trường entryCageDate từ context
-            const entry = new Date(entryCageDate)
+            // const entryCageDate = this.options.context.entryCageDate; // Lấy giá trị của trường entryCageDate từ context
+            // const entry = new Date(entryCageDate)
             const selectedDate = new Date(value)
+            const currentDate = new Date();
+
             //return moment(value).isAfter(entryCageDate); // Sử dụng moment.js hoặc thư viện tương tự để so sánh ngày
-            return selectedDate >= entry
+            return selectedDate >= currentDate
           }
         }),
       endEat: yup.string()

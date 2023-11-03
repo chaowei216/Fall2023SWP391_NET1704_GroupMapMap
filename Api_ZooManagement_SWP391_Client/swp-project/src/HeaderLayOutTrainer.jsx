@@ -20,7 +20,7 @@ function HeaderLayOutTrainer() {
                     <AppHeader  style={{position: "sticky", top: 0}}  OpenSidebar={OpenSidebar} />
                 <div
                     className="SideMenuAndPageContent"
-                    style={{ "background-color": 'ghostwhite', paddingTop: "50px" }}
+                    style={{ "background-color": 'ghostwhite'}}
                 >
                     <SideMenuZooTrainer
                         openSidebarToggle={openSidebarToggle}
