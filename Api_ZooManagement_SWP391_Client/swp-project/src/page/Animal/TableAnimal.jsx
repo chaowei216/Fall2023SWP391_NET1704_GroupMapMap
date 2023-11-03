@@ -21,6 +21,8 @@ import ScheduleAnimal from "./ScheduleAnimal";
 import _ from "lodash";
 import { debounce } from "lodash";
 import DeleteAnimal from "./DeleteAnimal";
+import { ListGroup, Form } from "react-bootstrap";
+
 function TableAnimal() {
   const role = localStorage.getItem("role");
   const [showModalAdd, setShowmodalAdd] = useState(false);
@@ -30,6 +32,7 @@ function TableAnimal() {
   const [showModalFodd, setShowmodalFood] = useState(false);
   const [showModalFoodAnimal, setShowmodalFoodAnimal] = useState(false);
   const [listAnimal, setListAnimal] = useState([]);
+  const [listSpecies, setListSpecies] = useState([]);
   const [dataAnimalEdit, setDataAnimalEdit] = useState({});
   const [dataAnimalDelete, setDataAnimalDelete] = useState({});
   const [dataAnimalView, setDataAnimalView] = useState({});
@@ -51,6 +54,20 @@ function TableAnimal() {
     });
     return () => (mounted = false);
   }, [showModalEdit === false, currentPage]);
+  useEffect(() => {
+    const getSpeciesList = () => {
+      return fetch("https://localhost:44352/api/AnimalSpecies").then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getSpeciesList().then((items) => {
+      if (mounted) {
+        setListSpecies(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
   const onShowSizeChange = (current) => {
     console.log(current);
     setCurrentPage(current);
@@ -97,7 +114,39 @@ function TableAnimal() {
     setDataAnimalView(animal);
     setShowmodalView(true);
   };
-
+  const handleFilterChange = (item) => {
+    console.log(item.target.value);
+    let term = item.target.value;
+    if (term != "All") {
+      const getList = () => {
+        return fetch(
+          `https://localhost:44352/api/Animal/page/${currentPage}`
+        ).then((data) => data.json());
+      };
+      let mounted = true;
+      getList().then((items) => {
+        if (mounted) {
+          setListAnimal(items.animals.filter((a) => a.speciesName === term));
+          setTotalPages(items.pages);
+        }
+      });
+      return () => (mounted = false);
+    } else {
+      const getList = () => {
+        return fetch(
+          `https://localhost:44352/api/Animal/page/${currentPage}`
+        ).then((data) => data.json());
+      };
+      let mounted = true;
+      getList().then((items) => {
+        if (mounted) {
+          setListAnimal(items.animals);
+          setTotalPages(items.pages);
+        }
+      });
+      return () => (mounted = false);
+    }
+  };
   const handleSearch = debounce((e) => {
     console.log(e.target.value);
     let term = e.target.value;
@@ -145,10 +194,26 @@ function TableAnimal() {
         <div className="my-3 add-new">
           <span>
             <b>View Animal</b>
+            <Form.Select
+              // value={values.species}
+              // onBlur={handleBlur}
+              className="mt-3"
+              onChange={(e) => {
+                handleFilterChange(e);
+              }}
+            >
+              <option value={null}>All</option>
+              {/* Render các option từ API */}
+              {listSpecies.map((option) => (
+                <option key={option.speciesName} value={option.speciesName}>
+                  <div style={{ height: "50px" }}>{option.speciesName}</div>
+                </option>
+              ))}
+            </Form.Select>
           </span>
-          <div className="search-container">
+          <div className="search-container" style={{ paddingTop: "50px" }}>
             {/* toggleShow */}
-            <div className="search-content">
+            <div className="search-content" style={{ height: "40px" }}>
               <input
                 type="text"
                 onChange={handleSearch}

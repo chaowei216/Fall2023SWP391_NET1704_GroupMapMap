@@ -409,7 +409,6 @@ export default function ViewAnimal(pros) {
                               <MDBCardText className="text-muted ms-3">{rarity === true ? "Rarity" : "None"}</MDBCardText>
                           </div>
                       </div>
-                      <hr className="mt-0 mb-4" />
                       <div className="label-info">
                         <label>Cage Information</label>
                       </div>
@@ -529,7 +528,6 @@ export default function ViewAnimal(pros) {
                           )}
                         </div>
                       </div>
-                      <hr className="mt-0 mb-4" />
                       <div className="label-info">
                         <label>ZooTrainer Information</label>
                       </div>
@@ -685,7 +683,6 @@ export default function ViewAnimal(pros) {
                           )}
                         </div>
                       </div>
-                      <hr className="mt-0 mb-4" />
 
                       <div className="label-info">
                         <label>Food Information</label>
@@ -728,7 +725,6 @@ export default function ViewAnimal(pros) {
                           </Table>
                         </div>
                       </div>
-                      <hr className="mt-0 mb-4" />
 
                       <div className="label-info">
                         <label>Schedule Information</label>
