@@ -64,7 +64,7 @@ namespace BBL.Services
             return _animalRepo.GetById(id) != null ? true : false;
         }
 
-        public ICollection<GetAnimalDto> GetAll()
+        public ICollection<GetAnimalDto> GetAllActive()
         {
             var animals = _animalRepo.GetAll().Where(a=>a.Status == true).ToList();
             var allAnimals = new List<GetAnimalDto>();
@@ -90,7 +90,32 @@ namespace BBL.Services
             }
             return allAnimals;
         }
+        public ICollection<GetAnimalDto> GetAll()
+        {
+            var animals = _animalRepo.GetAll().ToList();
+            var allAnimals = new List<GetAnimalDto>();
+            if (animals != null && animals.Count > 0)
+            {
+                foreach (var animal in animals)
+                {
+                    var a = new GetAnimalDto();
+                    a.AnimalId = animal.AnimalId;
+                    a.AnimalImage = animal.AnimalImage;
+                    a.Birthday = animal.Birthday;
+                    a.Description = animal.Description;
+                    a.Name = animal.Name;
+                    a.Rarity = animal.Rarity;
+                    a.Region = animal.Region;
+                    a.Sex = animal.Sex;
+                    a.HealthCheck = animal.HealthCheck;
+                    a.SpeciesName = _animalSpeRepo.GetById(animal.SpeciesId).SpeciesName;
+                    a.Status = animal.Status;
 
+                    allAnimals.Add(a);
+                }
+            }
+            return allAnimals;
+        }
         public Animal? GetByAnimalId(string id)
         {
             return _animalRepo.GetById(id);
