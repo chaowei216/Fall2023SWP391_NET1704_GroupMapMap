@@ -41,7 +41,7 @@ namespace BBL.Services
             _mapper = mapper;
         }
 
-        public bool Add(List<ExperienceDetailDto> experiences, User user)
+        public bool Add(List<ExperienceUserDto> experiences, User user)
         {
             if(_userRepository.Add(user))
             {
@@ -55,7 +55,6 @@ namespace BBL.Services
                         {
                             User = user,
                             WorkExperience = workExp,
-                            Company = experience.Company,
                         };
 
                         _expDetailRepository.Add(expDetail);

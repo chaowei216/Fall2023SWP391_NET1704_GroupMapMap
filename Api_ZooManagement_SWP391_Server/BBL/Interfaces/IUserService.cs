@@ -6,7 +6,7 @@ namespace BBL.Interfaces
 {
     public interface IUserService
     {
-        bool Add(List<ExperienceDetailDto> experiences, User user);
+        bool Add(List<ExperienceUserDto> experiences, User user);
         bool Update(User user, User? userMap);
         bool UserExists(string id);
         bool DeleteUser(string id);

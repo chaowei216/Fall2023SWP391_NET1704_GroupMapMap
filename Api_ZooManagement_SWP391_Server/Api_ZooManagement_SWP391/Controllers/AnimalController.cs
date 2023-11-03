@@ -226,6 +226,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return NotFound();
 
             var animal = _animalService.GetById(animalId);
+            if(animal.Status != true) return BadRequest("Animal deleted!!!");
             if(animal != null)
             {
                 animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;
@@ -409,6 +410,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest();
 
             var animal = _animalService.GetByAnimalId(animalId);
+            if (animal.Status != true) return BadRequest("Animal deleted!!!");
             var animalMap = _mapper.Map<Animal>(updateAnimalDto);
             var trainerMap = _mapper.Map<AnimalTrainer>(updateAnimalDto);
             var cageMap = _mapper.Map<AnimalCage>(updateAnimalDto);
