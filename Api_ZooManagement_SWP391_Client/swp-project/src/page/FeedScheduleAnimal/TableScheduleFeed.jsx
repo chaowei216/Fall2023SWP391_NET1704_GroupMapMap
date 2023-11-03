@@ -90,12 +90,20 @@ function TableScheduleFeed() {
     setAnchorEl(null);
   };
 
-  const handleEditUser = (item) => {
+  const handleEditUser = async (item) => {
     // setDataUserEdit(item);
-    console.log(item);
-    const animal = item;
-    setDataAnimalEdit(animal);
-    setShowmodalEdit(true);
+    const feedAnimal = item.animalId;
+    const response = await fetch(`https://localhost:44352/api/Food/animalId?animalId=${feedAnimal}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) {
+      console.log("Success");
+      localStorage.setItem("isAdded", true);
+      navigate("/ZooTrainer/feed");
+    }
   };
   const handleViewUser = (item) => {
     // setDataUserEdit(item);

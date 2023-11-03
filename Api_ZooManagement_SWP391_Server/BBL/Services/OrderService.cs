@@ -6,6 +6,7 @@ using MimeKit.Text;
 using MimeKit;
 using Microsoft.Extensions.Configuration;
 using DTO.Dtos;
+using System.Globalization;
 
 namespace BBL.Services
 {
@@ -38,16 +39,17 @@ namespace BBL.Services
                 _ordTicketRepo.Add(ticket);
             }
             var trans = order.Transaction;
+            string s = trans.TransactionDate.ToString("dd/mm/yyyy");
             var email = new MimeMessage();
             email.From.Add(MailboxAddress.Parse("mapmapzoofpt@gmail.com"));
             email.To.Add(MailboxAddress.Parse(order.Email));
-            email.Subject = "Reset Password";
-            email.Body = new TextPart(TextFormat.Text) { Text = "This is your order details:\n" + order.OrderId  +"\n"
-                                                                                                + order.Email + "\n"
-                                                                                                + order.FullName + "\n"
-                                                                                                + order.TotalPrice + "\n"
-                                                                                                + trans.TransactionInfo.ToString() + "\n"
-                                                                                                + trans.TransactionDate.ToString() + "\n"
+            email.Subject = "Your order";
+            email.Body = new TextPart(TextFormat.Html) { Text = " <h3>This is your order details: </h3>\br" + "Your order id: " + "<b>" + order.OrderId + "</b>" +"\br"
+                                                                                                + "Your email is: " + order.Email + "\br"
+                                                                                                + "Your fullnme is: " + order.FullName + "\br"
+                                                                                                + "Your total price: " + order.TotalPrice + "\br"
+                                                                                                + trans.TransactionInfo.ToString() + "\br"
+                                                                                                + s + "\br"
                                                                                                 + "\n\nMapMap Zoo thank you for join with us!!!" };
 
             using var smtp = new MailKit.Net.Smtp.SmtpClient();

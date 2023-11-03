@@ -79,7 +79,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         //[Authorize(Roles = "STAFF")]
-        public IActionResult CreateArea([FromBody] AnimalSpeciesDto speciesDto)
+        public IActionResult CreateAnimalSpecies([FromBody] AnimalSpeciesDto speciesDto)
         {
             if (speciesDto == null)
             {

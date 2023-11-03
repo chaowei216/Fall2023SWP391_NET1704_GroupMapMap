@@ -22,14 +22,12 @@ export default function EditArea(pros) {
 
   const [areaId, setAreaId] = useState("");
   const [description, setDescription] = useState("");
-  const [releaseDate, setReleaseDate] = useState("");
-  const [newsTitle, setNewsTitle] = useState("");
-  const [newsContent, setNewsContent] = useState("");
-  const [newsImage, setNewsImage] = useState("");
+  const [areaName, setAreaName] = useState("");
   useEffect(() => {
     if (show) {
       setAreaId(dataAreaEdit.areaId);
       setDescription(dataAreaEdit.description);
+      setAreaName(dataAreaEdit.areaName);
     }
   }, [dataAreaEdit]);
   console.log(dataAreaEdit);
@@ -73,13 +71,39 @@ export default function EditArea(pros) {
             <MDBModalBody>
               <div className="form-container-1">
                 <div className="form-header">
-                  <p className="fw-bold fs-2">Edit News</p>
+                  <p className="fw-bold fs-2">Edit Area</p>
                 </div>
                 <Form noValidate onSubmit={handleFormSubmit}>
                   <div className="form-content">
                     <div className="form">
                       <div className="mb-3">
-                        <label className="form-label">Edit Title of News</label>
+                        <label className="form-label">Area ID</label>
+                        <Form.Control
+                          type="text"
+                          style={{ height: "56px" }}
+                          id="areaId"
+                          placeholder="areaId"
+                          aria-describedby="inputGroupPrepend"
+                          name="areaId"
+                          value={areaId}
+                          disabled
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Area Name</label>
+                        <Form.Control
+                          type="text"
+                          style={{ height: "56px" }}
+                          id="areaName"
+                          placeholder="areaName"
+                          aria-describedby="inputGroupPrepend"
+                          name="areaName"
+                          value={areaName}
+                          disabled
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Edit Description of Area</label>
                         <Form.Control
                           type="text"
                           style={{ height: "56px" }}
@@ -89,9 +113,9 @@ export default function EditArea(pros) {
                           name="description"
                           value={description}
                           onChange={(e) => setDescription(e.target.value)}
-                          //   isInvalid={
-                          //     formik.errors.fName && formik.touched.fName
-                          //   }
+                        //   isInvalid={
+                        //     formik.errors.fName && formik.touched.fName
+                        //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.fName}
@@ -106,6 +130,7 @@ export default function EditArea(pros) {
                             width: "80px",
                             marginRight: "20px",
                             background: "red",
+                            color: "white",
                           }}
                         >
                           Close

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
+using System.Globalization;
 
 namespace Api_ZooManagement_SWP391.Controllers
 {
@@ -51,7 +52,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetAllAnimal()
         {
-            var animals = _animalService.GetAll().ToList();
+            var animals = _animalService.GetAllActive().ToList();
             foreach (var animal in animals)
             {
                 animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;
@@ -114,7 +115,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetAnimals(int page)
         {
-            var animals = _animalService.GetAll();
+            var animals = _animalService.GetAllActive();
 
             var pageResults = 10f;
             var pageCount = Math.Ceiling(animals.Count() / pageResults);
@@ -500,6 +501,65 @@ namespace Api_ZooManagement_SWP391.Controllers
                 ModelState.AddModelError("", "Something wrong while deleting animal!!!");
             }
             return NoContent();
+        }
+
+        [HttpGet("animalSpecies")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetSpeciesAnimalDto>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetAnimalSpecies(string speciesId)
+        {
+            var animalSpecies = _animalService.GetAnimalBySpecies(speciesId);
+            foreach(var animalSpecie in  animalSpecies)
+            {
+                var animals = animalSpecie.Animals.Where(a => a.Status == true);
+                foreach (var animal in animals)
+                {
+                    animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;
+                    animal.EntryCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).EntryCageDate;
+                    animal.OutCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).OutCageDate;
+                    animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
+                    animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
+                    animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
+                    var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
+
+                    if (foods != null && foods.Count > 0)
+                    {
+                        animal.Foods = new List<FoodAmountDto>();
+                        foreach (var food in foods)
+                        {
+                            var foodDetail = _foodService.GetByFoodId(food.FoodId);
+                            var foodCate = _foodService.GetByFoodId(food.FoodId).CategoryId;
+                            animal.Foods.Add(new FoodAmountDto
+                            {
+                                FoodId = food.FoodId,
+                                FName = foodDetail.FName,
+                                CategoryName = _foodCategoryService.GetByCateId(foodCate).CategoryName,
+                                Amount = food.Amount,
+                                StartEat = food.StartEat,
+                                EndEat = food.EndEat,
+                            });
+                        }
+                    }
+
+                    var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
+                    if (schedules != null)
+                    {
+                        animal.Schedules = new List<GetAnimalScheduleDto>();
+                        foreach (var schedule in schedules)
+                        {
+                            var scheduleDetail = _scheduleService.GetSchedule(schedule.ScheduleId);
+                            animal.Schedules.Add(new GetAnimalScheduleDto
+                            {
+                                ScheduleId = schedule.ScheduleId,
+                                ScheduleName = scheduleDetail.ScheduleName,
+                                Description = schedule.Description,
+                                Time = schedule.Time,
+                            });
+                        }
+                    }
+                }
+            }
+            return Ok(animalSpecies);
         }
     }
 }
