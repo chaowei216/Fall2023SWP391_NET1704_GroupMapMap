@@ -366,7 +366,7 @@ export default function EditAnimal(pros) {
     return () => (mounted = false);
   }, []);
   const getZooTrainerList = () => {
-    return fetch("https://localhost:44352/api/User/users").then((data) =>
+    return fetch("https://localhost:44352/api/User/AvailableTrainers").then((data) =>
       data.json()
     );
   };

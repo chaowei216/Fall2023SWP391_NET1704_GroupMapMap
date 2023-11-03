@@ -74,6 +74,7 @@ export default function EditPage(pros) {
       setWID(dataUserEdit.wID === null ? "2" : `${wID}`);
     }
   }, [dataUserEdit]);
+  console.log(dataUserEdit);
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     let end = "";
@@ -123,7 +124,7 @@ export default function EditPage(pros) {
       // navigate("/staff/1")
     }
   };
-  const [Role, setRole] = useState("");
+  const [Role, setRole] = useState(null);
   const handleRadioChange = (value) => {
     setSex(value.target.value);
   };
@@ -257,7 +258,7 @@ export default function EditPage(pros) {
                           </Form.Control.Feedback> */}
                         </div>
                         <div className="mb-3 row-content">
-                          <label className="form-label">Choose Role</label>
+                          <label className="form-label">Role</label>
                           <br />
                           <Radio.Group
                             id="role"
@@ -266,10 +267,9 @@ export default function EditPage(pros) {
                               handleRoleChange(e);
                             }}
                             value={Role}
-                            defaultValue={Role}
                             buttonStyle="solid"
                           >
-                            {role === "ADMIN " && (
+                            {role === 'ADMIN' && (
                               <Radio
                                 style={{
                                   textAlign: "center",
@@ -281,6 +281,7 @@ export default function EditPage(pros) {
                                 </span>
                               </Radio>
                             )}
+                            {role === 'STAFF' && (
                             <Radio
                               style={{
                                 textAlign: "center ",
@@ -291,6 +292,7 @@ export default function EditPage(pros) {
                                 ZooTrainer
                               </span>
                             </Radio>
+                            )}
                           </Radio.Group>
                         </div>
                       </div>

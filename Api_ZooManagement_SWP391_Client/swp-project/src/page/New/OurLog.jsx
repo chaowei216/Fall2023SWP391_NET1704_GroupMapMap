@@ -4,6 +4,7 @@ import ReactPaginate from "react-paginate";
 function OurLog() {
   const [listPages, setListPages] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [img, setImg] = useState("");
   const getPages = async (page) => {
     let res = await axios.get(`https://localhost:44352/api/News/pages/${page}`);
     if (res && res.data) {
@@ -18,34 +19,33 @@ function OurLog() {
         `https://localhost:44352/api/News/pages/${page}`
       );
       if (res && res.data) {
-        console.log(res);
         setTotalPages(res.data.pages);
         setListPages(res.data.news);
       }
     };
     getPages(0);
   }, []);
-  const customPrevious =(
-  
-   
+  const customPrevious = (
     <li style={{ top: "-30px" }} className="prev">
-     
-        <i className="fa-solid fa-angles-left"></i>
-     
+      <i className="fa-solid fa-angles-left"></i>
     </li>
-    
   );
 
   const customNext = (
-    <li style={{ top: "-30px",padding:"0" }} className="next">
-      
-        <i className="fa-solid fa-angles-right"></i>
-      
+    <li style={{ top: "-30px", padding: "0" }} className="next">
+      <i className="fa-solid fa-angles-right"></i>
     </li>
   );
   const handlePageClick = (event) => {
     getPages(+event.selected + 1);
   };
+  const editImg = (img) => {
+    const path = img;
+    const secondSlashIndex = path.indexOf("\\", path.indexOf("\\") + 1);
+    const substring = path.substring(secondSlashIndex + 1);
+    return substring;
+  };
+  console.log(editImg("C:\\fakepath\\caheo.jpg"));
   return (
     <div>
       <style>
@@ -61,7 +61,7 @@ function OurLog() {
             <div className="col-xl-8">
               {listPages.map((news) => (
                 <div key={news.newsId} className="recent-news-two">
-                  <img alt="recent-news-img" src={news.newsImage} />
+                  <img alt="recent-news-img" src={editImg(news.newsImage)} />
                   <div className="recent-news mt-3">
                     <div>
                       <a href="#">
@@ -70,7 +70,7 @@ function OurLog() {
                       <a href="blog-details.html">
                         <h2>{news.newsTitle}</h2>
                       </a>
-                      <div className="d-flex align-items-center">
+                      <div className="d-flex align-items-center fix-img">
                         <img
                           alt="img"
                           className="me-3"
@@ -299,14 +299,14 @@ function OurLog() {
           </div>
         </div>
       </section>
-     
+
       <ReactPaginate
         nextLabel={customNext}
         previousLabel={customPrevious}
         onPageChange={handlePageClick}
         pageRangeDisplayed={3}
         marginPagesDisplayed={2}
-        pageCount={5}
+        pageCount={totalPages}
         pageClassName="page-item"
         pageLinkClassName="page-link"
         previousClassName="page-item"
@@ -320,8 +320,6 @@ function OurLog() {
         activeClassName="active"
         renderOnZeroPageCount={null}
       />
-     
-     
     </div>
   );
 }

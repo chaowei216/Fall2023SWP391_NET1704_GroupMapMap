@@ -40,6 +40,13 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(users);
         }
 
+        [HttpGet("total")]
+        [ProducesResponseType(200, Type = typeof(int))]
+        public IActionResult GetNumOfEmployee()
+        {
+            return Ok(_userService.GetAllUsers().Count());
+        }
+
         [HttpGet("users/active")]
         [ProducesResponseType(200, Type= typeof(IEnumerable<UserDto>))]
         [ProducesResponseType(400)]

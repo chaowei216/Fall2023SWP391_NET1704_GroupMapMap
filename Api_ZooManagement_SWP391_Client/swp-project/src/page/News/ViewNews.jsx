@@ -8,6 +8,7 @@ import {
   MDBModalTitle,
   MDBModalBody,
   MDBModalFooter,
+  MDBCardText
 } from "mdb-react-ui-kit";
 import Form from "react-bootstrap/Form";
 import Button from "@mui/material/Button";
@@ -46,138 +47,64 @@ export default function ViewNews(pros) {
 
   return (
     <>
-      <MDBModal staticBackdrop tabIndex="-1" show={show} onHide={handleClose}>
+      <MDBModal show={show} onHide={handleClose}>
         <MDBModalDialog size="lg">
           <MDBModalContent>
-            <MDBModalHeader>
-              <MDBModalTitle>Modal title</MDBModalTitle>
-              <MDBBtn
+            <MDBModalHeader className="modal-header text-white d-flex justify-content-center"
+              style={{ background: "cadetblue" }}>
+              <MDBModalTitle style={{fontSize: "xx-large"}}>News Information</MDBModalTitle>
+              {/* <MDBBtn
                 className="btn-close"
                 color="none"
                 onClick={handleClose}
-              ></MDBBtn>
+              ></MDBBtn> */}
             </MDBModalHeader>
             <MDBModalBody>
               <div className="form-container-1">
-                <div className="form-header">
-                  <p className="fw-bold fs-2">View News</p>
-                </div>
                 <Form noValidate>
                   <div className="form-content">
                     <div className="form">
-                      <div className="mb-3">
-                        <label className="form-label">ID</label>
-                        <Form.Control
-                          type="text"
-                          style={{ height: "56px", backgroundColor: "none" }}
-                          id="fName"
-                          placeholder="fName"
-                          aria-describedby="inputGroupPrepend"
-                          name="fName"
-                          value={newsID}
-                          disabled
-                          //   isInvalid={
-                          //     formik.errors.fName && formik.touched.fName
-                          //   }
-                        />
-                        {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.fName}
-                        </Form.Control.Feedback> */}
-                      </div>
-                      <div className="mb-3">
-                        <label className="form-label">Title</label>
-                        <Form.Control
-                          type="text"
-                          style={{ height: "56px" }}
-                          id="category"
-                          placeholder="category"
-                          aria-describedby="inputGroupPrepend"
-                          name="category"
-                          disabled
-                          value={newsTitle}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          //   isInvalid={
-                          //     formik.errors.category && formik.touched.category
-                          //   }
-                        />
-                        {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.category}
-                        </Form.Control.Feedback> */}
-                      </div>
-                      <div className="mb-3">
-                        <label className="form-label">Content</label>
-                        <Form.Control
-                          type="text"
-                          id="content"
-                          placeholder="content"
-                          aria-describedby="inputGroupPrepend"
-                          name="content"
-                          disabled
-                          style={{ height: "56px" }}
-                          value={content}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          //   isInvalid={
-                          //     formik.errors.quantity && formik.touched.quantity
-                          //   }
-                        />
-                        {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.quantity}
-                        </Form.Control.Feedback> */}
-                      </div>
-                      <div className="mb-3">
-                        <label className="form-label">Status</label>
-                        <Form.Control
-                          type="text"
-                          id="content"
-                          placeholder="content"
-                          aria-describedby="inputGroupPrepend"
-                          name="content"
-                          disabled
-                          style={{ height: "56px" }}
-                          value={status}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          //   isInvalid={
-                          //     formik.errors.quantity && formik.touched.quantity
-                          //   }
-                        />
-                        {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.quantity}
-                        </Form.Control.Feedback> */}
-                      </div>
-                      <div className="row mb-5 mt-4">
-                        <div className="mb-3">
-                          <div>
-                            <label className="form-label">Release Date</label>
-                            <br />
-                            <Space
-                              direction="vertical"
-                              size={20}
-                              style={{ width: "40%" }}
-                            >
-                              <Form.Control
-                                type="date"
-                                id="releaseDay"
-                                name="releaseDay"
-                                disabled
-                                value={releaseDay}
-                                // isInvalid={
-                                //   formik.errors.importDate &&
-                                //   formik.touched.importDate
-                                // }
-                              />
-                            </Space>
-                            {/* <Form.Control.Feedback type="invalid">
-                              {formik.errors.quantity}
-                            </Form.Control.Feedback> */}
+                    <div className="mb-3 mt-3" style={{ width: "33%"}}>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>ID:</label>
+                            <MDBCardText className="text-muted mt-2">{newsID}</MDBCardText>
                           </div>
-                        </div>
-                        <div className="mb-3">
-                          <div>
-                            <img src={"/"+ newsImage} />
+                          <hr></hr>
+                          <div className="mb-3 mt-3" style={{ width: "33%"}}>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Title:</label>
+                            <MDBCardText className="text-muted mt-2">{newsTitle}</MDBCardText>
                           </div>
+                          <hr></hr>
+
+                          <div className="mb-3 mt-3" style={{ width: "33%"}}>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Author Name:</label>
+                            <MDBCardText className="text-muted mt-2">{authorName}</MDBCardText>
+                          </div>
+                          <hr></hr>
+
+                          <div className="mb-3 mt-3" style={{ width: "33%"}}>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Content:</label>
+                            <MDBCardText className="text-muted mt-2">{content}</MDBCardText>
+                          </div>
+                          <hr></hr>
+
+                          <div className="mb-3 mt-3" style={{ width: "33%"}}>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Release Date:</label>
+                            <MDBCardText className="text-muted mt-2">{releaseDay}</MDBCardText>
+                          </div>
+                          <hr></hr>
+
+                          <div className="mb-3 mt-3" style={{ width: "33%"}}>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Status:</label>
+                            <MDBCardText className="text-muted mt-2">{status === true ? "Ok" : "Not Ok"}</MDBCardText>
+                          </div>
+                          <hr></hr>
+
+                      <div className="mb-3">
+                        <div>
+                          <img
+                            style={{ width: "100%" }}
+                            src={"/" + newsImage}
+                          />
                         </div>
                       </div>
                       <MDBModalFooter>
