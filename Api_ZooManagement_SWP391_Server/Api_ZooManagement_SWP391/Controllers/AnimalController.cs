@@ -102,6 +102,13 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(animals);
         }
 
+        [HttpGet("total")]
+        [ProducesResponseType(200, Type = typeof(int))]
+        public IActionResult GetNumOfAnimal()
+        {
+            return Ok(_animalService.GetAll().Count());
+        }
+
         [HttpGet("page/{page}")]
         [ProducesResponseType(200, Type = typeof(AnimalResponseDto))]
         [ProducesResponseType(400)]
