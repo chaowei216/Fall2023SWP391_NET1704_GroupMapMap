@@ -30,6 +30,16 @@ namespace BBL.Services
             return _animalRepo.Update(animal);
         }
 
+        public bool AnimalScheduleExisted(string animalId, string scheduleId)
+        {
+            return _animalScheduleRepo.GetAll().Where(schedule => schedule.AnimalId == animalId && schedule.ScheduleId == scheduleId) != null ? true : false;
+        }
+
+        public ICollection<AnimalSchedule> GetAll()
+        {
+            return _animalScheduleRepo.GetAll();
+        }
+
         public ICollection<AnimalSchedule> GetScheduleByAnimalId(string animalId)
         {
             return _animalScheduleRepo.GetAll().Where(schedule => schedule.AnimalId == animalId).ToList();

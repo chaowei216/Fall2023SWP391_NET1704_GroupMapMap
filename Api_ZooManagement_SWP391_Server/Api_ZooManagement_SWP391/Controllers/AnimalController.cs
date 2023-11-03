@@ -226,6 +226,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return NotFound();
 
             var animal = _animalService.GetById(animalId);
+            if(animal.Status != true) return BadRequest("Animal deleted!!!");
             if(animal != null)
             {
                 animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;
@@ -360,7 +361,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest(ModelState);
             if (!_animalService.AnimalExists(animalId))
                 return NotFound();
-
+            
             var animalScheduleMap = _mapper.Map<Animal>(animalScheduleDto);
             var animal = _animalService.GetByAnimalId(animalId);
             var schedules = animalScheduleDto.AnimalSchedules;
@@ -370,7 +371,9 @@ namespace Api_ZooManagement_SWP391.Controllers
             foreach (var schedule in schedules)
             {
                 var getSchedule = _scheduleService.GetSchedule(schedule.ScheduleId);
-                if (getSchedule == null) return BadRequest("Food not found!!!");
+                if (_animalScheduleService.AnimalScheduleExisted(animalId, schedule.ScheduleId)) return BadRequest("This schedule has existed for this animal!!!");
+
+                if (getSchedule == null) return BadRequest("Schedule not found!!!");
                 list.Add(new AnimalScheduleCreateDto()
                 {
                     ScheduleId = schedule.ScheduleId,
@@ -407,6 +410,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest();
 
             var animal = _animalService.GetByAnimalId(animalId);
+            if (animal.Status != true) return BadRequest("Animal deleted!!!");
             var animalMap = _mapper.Map<Animal>(updateAnimalDto);
             var trainerMap = _mapper.Map<AnimalTrainer>(updateAnimalDto);
             var cageMap = _mapper.Map<AnimalCage>(updateAnimalDto);

@@ -12,5 +12,7 @@ namespace BBL.Interfaces
     {
         bool AddAnimalSchedule(Animal animal, Animal? animalMap);
         ICollection<AnimalSchedule> GetScheduleByAnimalId(string animalId);
+        ICollection<AnimalSchedule> GetAll();
+        bool AnimalScheduleExisted(string animalId, string scheduleId);
     }
 }

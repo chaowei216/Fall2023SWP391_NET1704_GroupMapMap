@@ -77,6 +77,16 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(response);
         }
 
+        [HttpGet("AvailableCage")]
+        [ProducesResponseType(200, Type = typeof(CageDto))]
+        public IActionResult GetAvailableCage()
+        {
+            var cages = _mapper.Map<List<CageDto>>(_cageService.GetAllAvailableCage());
+            if (!ModelState.IsValid)
+                return BadRequest();
+            return Ok(cages);
+        }
+
         [HttpPost]
         //[Authorize(Roles = "STAFF")]
         public IActionResult CreateCage([FromQuery] string areaId, [FromBody] CageCreateDto cageDto)

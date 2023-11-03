@@ -41,7 +41,7 @@ namespace BBL.Services
             _mapper = mapper;
         }
 
-        public bool Add(List<ExperienceDetailDto> experiences, User user)
+        public bool Add(List<ExperienceUserDto> experiences, User user)
         {
             if(_userRepository.Add(user))
             {
@@ -55,7 +55,6 @@ namespace BBL.Services
                         {
                             User = user,
                             WorkExperience = workExp,
-                            Company = experience.Company,
                         };
 
                         _expDetailRepository.Add(expDetail);
@@ -107,7 +106,7 @@ namespace BBL.Services
         }
         public ICollection<User> GetTrainersCanTrain()
         {
-            var userAvailables = _userRepository.GetAll().Where(u => u.CountAnimal < 10 && u.UserId.Contains("ZT")).ToList();
+            var userAvailables = _userRepository.GetAll().Where(u => u.CountAnimal < 10 && u.UserId.Contains("ZT") && u.Status == true).ToList();
 
             return userAvailables;
         }

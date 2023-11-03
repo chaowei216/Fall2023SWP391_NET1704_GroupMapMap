@@ -38,19 +38,25 @@ namespace BBL.Services
             {
                 _ordTicketRepo.Add(ticket);
             }
+            var ticketAldult = _ordTicketRepo.GetAll().Where(ot => ot.OrderId == order.OrderId && ot.TicketId == "TK0001").FirstOrDefault();
+            var ticketChild = _ordTicketRepo.GetAll().Where(ot => ot.OrderId == order.OrderId && ot.TicketId == "TK0002").FirstOrDefault();
+            
             var trans = order.Transaction;
-            string s = trans.TransactionDate.ToString("dd/mm/yyyy");
+            DateTime s = trans.TransactionDate;
             var email = new MimeMessage();
             email.From.Add(MailboxAddress.Parse("mapmapzoofpt@gmail.com"));
             email.To.Add(MailboxAddress.Parse(order.Email));
             email.Subject = "Your order";
-            email.Body = new TextPart(TextFormat.Html) { Text = " <h3>This is your order details: </h3>\br" + "Your order id: " + "<b>" + order.OrderId + "</b>" +"\br"
-                                                                                                + "Your email is: " + order.Email + "\br"
-                                                                                                + "Your fullnme is: " + order.FullName + "\br"
-                                                                                                + "Your total price: " + order.TotalPrice + "\br"
-                                                                                                + trans.TransactionInfo.ToString() + "\br"
-                                                                                                + s + "\br"
-                                                                                                + "\n\nMapMap Zoo thank you for join with us!!!" };
+            email.Body = new TextPart(TextFormat.Html) { Text = " <h3>This is your order details: </h3>" 
+                                                                                                + "<div> Your order id: " + "<b>" + order.OrderId + "</b>" + "</div>" 
+                                                                                                + "<div>Your email is: " + order.Email + "<div>"
+                                                                                                + "<div>Your fullname is: " + order.FullName + "<div>"
+                                                                                                + "<div style ='color: 'black''>Your Adult ticket: " + ticketAldult.TicketQuantity +"</div>"
+                                                                                                + "<div>Your Child ticket: " + ticketChild.TicketQuantity + "</div>"
+                                                                                                + "<div>Your total price: " + totalPrice + " VND" + "</div>"
+                                                                                                + "<div>Transaction infor: " + trans.TransactionInfo.ToString() + "</div>"
+                                                                                                + "<div>Transaction date: " + s.ToString().Substring(0, 10) + "</div>"
+                                                                                                + "MapMap Zoo thank you for join with us!!!" };
 
             using var smtp = new MailKit.Net.Smtp.SmtpClient();
             smtp.Connect(_config.GetSection("EmailHost").Value, 587, SecureSocketOptions.StartTls);

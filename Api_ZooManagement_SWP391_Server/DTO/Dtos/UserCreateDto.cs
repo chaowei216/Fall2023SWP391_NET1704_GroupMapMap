@@ -10,6 +10,6 @@
         public bool Sex { get; set; }
         public Role Role { get; set; }
         public string UserImage { get; set; }
-        public List<ExperienceDetailDto> Experiences { get; set; }
+        public List<ExperienceUserDto> Experiences { get; set; }
     }
 }
