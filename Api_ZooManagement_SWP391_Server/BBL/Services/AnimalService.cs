@@ -274,6 +274,27 @@ namespace BBL.Services
                     asp.SpeciesName = animalSpe.SpeciesName;
                     allAnimalsSpe.Add(asp);
                 }
+                foreach (var animalSpe in allAnimalsSpe)
+                {
+                    animalSpe.Animals = new List<GetAnimalDto>();
+                    var animals = GetAnimalBySpeciesId(animalSpe.SpeciesId);
+                    foreach (var animal in animals)
+                    {
+                        animalSpe.Animals.Add(new GetAnimalDto
+                        {
+                            AnimalId = animal.AnimalId,
+                            AnimalImage = animal.AnimalImage,
+                            Birthday = animal.Birthday,
+                            Description = animal.Description,
+                            Name = animal.Name,
+                            Rarity = animal.Rarity,
+                            Region = animal.Region,
+                            Sex = animal.Sex,
+                            HealthCheck = animal.HealthCheck,
+                            Status = animal.Status,
+                        });
+                    }
+                }
             }
             return allAnimalsSpe;
         }

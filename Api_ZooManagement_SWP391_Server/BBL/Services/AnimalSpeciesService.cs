@@ -30,7 +30,12 @@ namespace BBL.Services
 
         /*public AnimalSpecies GetByAnimalId(string animalId)
         {
-            return _animalRepo.GetAll().Where(animal => animal.AnimalId == animal);
+            var animals = _animalRepo.GetAll();
+            foreach(var c in animals)
+            {
+                _
+            }
+            return _speciesRepo.GetAll().Where(animal => animal. == animalId);
         }*/
 
         public AnimalSpecies GetBySpeciesId(string id)

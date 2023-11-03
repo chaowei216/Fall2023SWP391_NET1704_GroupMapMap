@@ -47,7 +47,7 @@ namespace BBL.Services
                                                                                                 + order.FullName + "\n"
                                                                                                 + order.TotalPrice + "\n"
                                                                                                 + trans.TransactionInfo.ToString() + "\n"
-                                                                                                + trans.TransactionDate.ToString() + "\n"
+                                                                                                + trans.TransactionDate.Date + "\n"
                                                                                                 + "\n\nMapMap Zoo thank you for join with us!!!" };
 
             using var smtp = new MailKit.Net.Smtp.SmtpClient();

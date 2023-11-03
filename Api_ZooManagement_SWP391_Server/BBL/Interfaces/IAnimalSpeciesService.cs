@@ -14,6 +14,6 @@ namespace BBL.Interfaces
         AnimalSpecies GetBySpeciesId(string id);
         bool SpeciesExists(string id);
         AnimalSpecies GetBySpeciesName(string name);
-        /*AnimalSpecies GetByAnimalId(string animalId);*/
+       
     }
 }

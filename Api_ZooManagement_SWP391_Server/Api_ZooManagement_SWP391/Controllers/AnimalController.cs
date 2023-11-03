@@ -501,7 +501,55 @@ namespace Api_ZooManagement_SWP391.Controllers
         public IActionResult GetAnimalSpecies(string speciesId)
         {
             var animalSpecies = _animalService.GetAnimalBySpecies(speciesId);
-            foreach(var animalSpe in animalSpecies) { 
+            foreach(var animalSpecie in  animalSpecies)
+            {
+                var animals = animalSpecie.Animals.Where(a => a.Status == true);
+                foreach (var animal in animals)
+                {
+                    animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;
+                    animal.EntryCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).EntryCageDate;
+                    animal.OutCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).OutCageDate;
+                    animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
+                    animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
+                    animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
+                    var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
+
+                    if (foods != null && foods.Count > 0)
+                    {
+                        animal.Foods = new List<FoodAmountDto>();
+                        foreach (var food in foods)
+                        {
+                            var foodDetail = _foodService.GetByFoodId(food.FoodId);
+                            var foodCate = _foodService.GetByFoodId(food.FoodId).CategoryId;
+                            animal.Foods.Add(new FoodAmountDto
+                            {
+                                FoodId = food.FoodId,
+                                FName = foodDetail.FName,
+                                CategoryName = _foodCategoryService.GetByCateId(foodCate).CategoryName,
+                                Amount = food.Amount,
+                                StartEat = food.StartEat,
+                                EndEat = food.EndEat,
+                            });
+                        }
+                    }
+
+                    var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
+                    if (schedules != null)
+                    {
+                        animal.Schedules = new List<GetAnimalScheduleDto>();
+                        foreach (var schedule in schedules)
+                        {
+                            var scheduleDetail = _scheduleService.GetSchedule(schedule.ScheduleId);
+                            animal.Schedules.Add(new GetAnimalScheduleDto
+                            {
+                                ScheduleId = schedule.ScheduleId,
+                                ScheduleName = scheduleDetail.ScheduleName,
+                                Description = schedule.Description,
+                                Time = schedule.Time,
+                            });
+                        }
+                    }
+                }
             }
             return Ok(animalSpecies);
         }
