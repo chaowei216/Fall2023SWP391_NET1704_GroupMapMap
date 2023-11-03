@@ -107,7 +107,7 @@ namespace BBL.Services
         }
         public ICollection<User> GetTrainersCanTrain()
         {
-            var userAvailables = _userRepository.GetAll().Where(u => u.CountAnimal < 10 && u.UserId.Contains("ZT")).ToList();
+            var userAvailables = _userRepository.GetAll().Where(u => u.CountAnimal < 10 && u.UserId.Contains("ZT") && u.Status == true).ToList();
 
             return userAvailables;
         }
