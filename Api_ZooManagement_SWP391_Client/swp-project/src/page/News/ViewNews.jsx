@@ -73,22 +73,32 @@ export default function ViewNews(pros) {
                             <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Title:</label>
                             <MDBCardText className="text-muted mt-2">{newsTitle}</MDBCardText>
                           </div>
+                          <hr></hr>
+
                           <div className="mb-3 mt-3" style={{ width: "33%"}}>
                             <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Author Name:</label>
                             <MDBCardText className="text-muted mt-2">{authorName}</MDBCardText>
                           </div>
+                          <hr></hr>
+
                           <div className="mb-3 mt-3" style={{ width: "33%"}}>
                             <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Content:</label>
                             <MDBCardText className="text-muted mt-2">{content}</MDBCardText>
                           </div>
+                          <hr></hr>
+
                           <div className="mb-3 mt-3" style={{ width: "33%"}}>
                             <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Release Date:</label>
                             <MDBCardText className="text-muted mt-2">{releaseDay}</MDBCardText>
                           </div>
+                          <hr></hr>
+
                           <div className="mb-3 mt-3" style={{ width: "33%"}}>
                             <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Status:</label>
                             <MDBCardText className="text-muted mt-2">{status === true ? "Ok" : "Not Ok"}</MDBCardText>
                           </div>
+                          <hr></hr>
+
                       <div className="mb-3">
                         <div>
                           <img

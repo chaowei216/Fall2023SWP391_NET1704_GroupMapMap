@@ -113,6 +113,7 @@ export default function ViewAnimal(pros) {
       }
     }
   }, [dataAnimalView]);
+  console.log(dataAnimalView);
   const date = new Date();
   useEffect(() => {
     const getZooTrainerList = () => {

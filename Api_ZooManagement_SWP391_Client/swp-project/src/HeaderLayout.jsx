@@ -6,6 +6,7 @@ import "../src/assets/css/dashboard.css";
 import AddFood from "./page/Food/AddFood";
 import SliderHero from "./page/sliderHero";
 import SideMenu from "./page/rolePage/test";
+import { MDBIcon } from 'mdb-react-ui-kit';
 function HeaderLayout() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
   const OpenSidebar = () => {
