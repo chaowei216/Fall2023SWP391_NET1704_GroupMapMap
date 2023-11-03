@@ -21,6 +21,7 @@ import { toast, ToastContainer } from "react-toastify";
 import ViewUser from "./User/ViewUser";
 import _ from "lodash";
 import { debounce } from "lodash";
+import DeleteUser from "./User/DeleteUser";
 function TableUser() {
   // const [isAdded, setIsAdded] = useState(
   //   localStorage.getItem("isAdded") === "true"
@@ -35,8 +36,12 @@ function TableUser() {
 
   const [dataUserEdit, setDataUserEdit] = useState({});
   const [dataUserView, setDataUserView] = useState({});
+  const [dataUserDelete, setDataUserDelete] = useState({});
+
   const [showModalEdit, setShowmodalEdit] = useState(false);
   const [showModalView, setShowmodalView] = useState(false);
+  const [showModalDelete, setShowmodalDelete] = useState(false);
+
   const [listUsers, setListUsers] = useState([]);
   const [users, setUsers] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
@@ -44,9 +49,9 @@ function TableUser() {
 
   useEffect(() => {
     const getUsers = () => {
-      return fetch(`https://localhost:44352/api/User/staffs/pages/${currentPage}`).then(
-        (data) => data.json()
-      );
+      return fetch(
+        `https://localhost:44352/api/User/staffs/pages/${currentPage}`
+      ).then((data) => data.json());
     };
     let mounted = true;
     getUsers().then((items) => {
@@ -65,7 +70,7 @@ function TableUser() {
   //   return axios.get("https://reqres.in/api/users?page=2");
   //   // return axios.get("https://localhost:44352/api/User/users");
   // };
-  const handlePageClick = () => { };
+  const handlePageClick = () => {};
   const handleEditUser = (item) => {
     // setDataUserEdit(item);
     console.log(item);
@@ -81,9 +86,13 @@ function TableUser() {
   const handleClose = () => {
     setShowmodalEdit(false);
     setShowmodalView(false);
+    setShowmodalDelete(false);
   };
-
-
+  const handleDeleteUser = (item) => {
+    const user = item;
+    setDataUserDelete(user);
+    setShowmodalDelete(true);
+  };
   //dùng API để Test
   // useEffect(() => {
   //   //call API
@@ -112,13 +121,15 @@ function TableUser() {
     let term = e.target.value;
     if (term) {
       let cloneListUser = _.cloneDeep(users);
-      cloneListUser = cloneListUser.filter(a => a.firstname.includes(term) || a.lastname.includes(term))
+      cloneListUser = cloneListUser.filter(
+        (a) => a.firstname.includes(term) || a.lastname.includes(term)
+      );
       setUsers(cloneListUser);
     } else {
       const getUsers = () => {
-        return fetch(`https://localhost:44352/api/User/staffs/pages/${currentPage}`).then(
-          (data) => data.json()
-        );
+        return fetch(
+          `https://localhost:44352/api/User/staffs/pages/${currentPage}`
+        ).then((data) => data.json());
       };
       let mounted = true;
       getUsers().then((items) => {
@@ -129,7 +140,7 @@ function TableUser() {
       });
       return () => (mounted = false);
     }
-  }, 350)
+  }, 350);
   return (
     <div className="table-container">
       <div className="table-component">
@@ -140,7 +151,11 @@ function TableUser() {
           <div className="search-container">
             {/* toggleShow */}
             <div className="search-content">
-              <input type="text" onChange={handleSearch} className="form-control" />
+              <input
+                type="text"
+                onChange={handleSearch}
+                className="form-control"
+              />
               <Button variant="contained">
                 <SearchIcon />
               </Button>
@@ -194,7 +209,13 @@ function TableUser() {
                         >
                           <EditIcon />
                         </Button>
-                        <Button variant="text" style={{ padding: 0 }}>
+                        <Button
+                          onClick={() => {
+                            handleDeleteUser(item);
+                          }}
+                          variant="text"
+                          style={{ padding: 0 }}
+                        >
                           <DeleteIcon />
                         </Button>
                       </td>
@@ -240,6 +261,11 @@ function TableUser() {
         show={showModalView}
         handleClose={handleClose}
         dataUserView={dataUserView}
+      />
+      <DeleteUser
+        show={showModalDelete}
+        handleClose={handleClose}
+        dataUserDelete={dataUserDelete}
       />
       <ToastContainer
         position="top-right"

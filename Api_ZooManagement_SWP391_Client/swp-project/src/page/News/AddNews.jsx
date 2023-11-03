@@ -177,7 +177,7 @@ export default function AddNews(pros) {
                           type="submit"
                           active
                         >
-                          Create Food
+                          Create
                         </Button>
                       </MDBModalFooter>
                     </div>

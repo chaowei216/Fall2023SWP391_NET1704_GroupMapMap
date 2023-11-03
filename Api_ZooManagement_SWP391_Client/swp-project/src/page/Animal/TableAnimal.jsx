@@ -20,15 +20,18 @@ import axios from "axios";
 import ScheduleAnimal from "./ScheduleAnimal";
 import _ from "lodash";
 import { debounce } from "lodash";
+import DeleteAnimal from "./DeleteAnimal";
 function TableAnimal() {
   const role = localStorage.getItem("role");
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
   const [showModalView, setShowmodalView] = useState(false);
+  const [showModalDelete, setShowmodalDelete] = useState(false);
   const [showModalFodd, setShowmodalFood] = useState(false);
   const [showModalFoodAnimal, setShowmodalFoodAnimal] = useState(false);
   const [listAnimal, setListAnimal] = useState([]);
   const [dataAnimalEdit, setDataAnimalEdit] = useState({});
+  const [dataAnimalDelete, setDataAnimalDelete] = useState({});
   const [dataAnimalView, setDataAnimalView] = useState({});
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -70,6 +73,7 @@ function TableAnimal() {
     setShowmodalAdd(false);
     setShowmodalView(false);
     setShowmodalFood(false);
+    setShowmodalDelete(false);
     setAnchorEl(null);
   };
   const handleEditUser = (item) => {
@@ -81,13 +85,10 @@ function TableAnimal() {
   };
 
   const handleDeleteAnimal = async (item) => {
-    try {
-      console.log(item.animalId);
-      await axios.delete(`https://localhost:44352/api/Animal/${item.animalId}`);
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
+    console.log(item);
+    const animal = item;
+    setDataAnimalDelete(animal);
+    setShowmodalDelete(true);
   };
 
   const handleViewUser = (item) => {
@@ -109,7 +110,11 @@ function TableAnimal() {
       let mounted = true;
       getList().then((items) => {
         if (mounted) {
-          setListAnimal(items.animals.filter(a => a.name.toUpperCase().includes(term.toUpperCase())));
+          setListAnimal(
+            items.animals.filter((a) =>
+              a.name.toUpperCase().includes(term.toUpperCase())
+            )
+          );
           setTotalPages(items.pages);
         }
       });
@@ -129,7 +134,7 @@ function TableAnimal() {
       });
       return () => (mounted = false);
     }
-  }, 350)
+  }, 350);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -144,7 +149,11 @@ function TableAnimal() {
           <div className="search-container">
             {/* toggleShow */}
             <div className="search-content">
-              <input type="text" onChange={handleSearch} className="form-control" />
+              <input
+                type="text"
+                onChange={handleSearch}
+                className="form-control"
+              />
               <Button variant="contained">
                 <SearchIcon />
               </Button>
@@ -176,11 +185,11 @@ function TableAnimal() {
                       <Button variant="outlined" onClick={handleClick}>
                         Add New Animal
                       </Button>
-
                     </div>
                     <div
                       className="mb-3 mt-1"
-                      style={{ background: "aliceblue" }}>
+                      style={{ background: "aliceblue" }}
+                    >
                       <Button variant="outlined" onClick={handleClick2}>
                         Add New Schedule
                       </Button>
@@ -204,22 +213,39 @@ function TableAnimal() {
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
             </thead>
-            <tbody style={{verticalAlign: "middle"}}>
+            <tbody style={{ verticalAlign: "middle" }}>
               {listAnimal &&
                 listAnimal.length > 0 &&
                 listAnimal.map((items, index) => {
                   return (
                     <tr key={`animal-${index}`}>
-                      <td width={140}> <img
-                        className="rounded"
-                        style={{ width: "100%" }}
-                        src={"/" + items.animalImage.substring(items.animalImage.indexOf("\\", items.animalImage.indexOf("\\") + 1) + 1)}
-                      ></img></td>
+                      <td width={140}>
+                        {" "}
+                        <img
+                          className="rounded"
+                          style={{ width: "100%" }}
+                          src={
+                            "/" +
+                            items.animalImage.substring(
+                              items.animalImage.indexOf(
+                                "\\",
+                                items.animalImage.indexOf("\\") + 1
+                              ) + 1
+                            )
+                          }
+                        ></img>
+                      </td>
                       <td width={100}>{items.animalId}</td>
                       <td width={110}>{items.name}</td>
-                      <td width={320} style={{ textAlign: "justify" }}>{items.description}</td>
-                      <td style={{ textAlign: "center" }}>{items.sex === true ? "Male" : "Female"}</td>
-                      <td width={160} style={{ textAlign: "center" }}>{items.region}</td>
+                      <td width={320} style={{ textAlign: "justify" }}>
+                        {items.description}
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        {items.sex === true ? "Male" : "Female"}
+                      </td>
+                      <td width={160} style={{ textAlign: "center" }}>
+                        {items.region}
+                      </td>
                       <td width={370} style={{ textAlign: "center" }}>
                         <Button
                           variant="text"
@@ -274,6 +300,11 @@ function TableAnimal() {
         show={showModalView}
         handleClose={handleClose}
         dataAnimalView={dataAnimalView}
+      />
+      <DeleteAnimal
+        show={showModalDelete}
+        handleClose={handleClose}
+        dataAnimalDelete={dataAnimalDelete}
       />
       {/* <AddAnimalFood show={showModalFoodAnimal} handleClose={handleClose} /> */}
       {/* <YourComponent

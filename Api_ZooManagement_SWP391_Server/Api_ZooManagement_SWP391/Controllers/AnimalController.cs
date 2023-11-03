@@ -51,7 +51,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetAllAnimal()
         {
-            var animals = _animalService.GetAll().ToList();
+            var animals = _animalService.GetAll().Where(a=> a.Status == true).ToList();
             foreach (var animal in animals)
             {
                 animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;

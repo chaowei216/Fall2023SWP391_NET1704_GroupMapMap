@@ -66,7 +66,7 @@ namespace BBL.Services
 
         public ICollection<GetAnimalDto> GetAll()
         {
-            var animals = _animalRepo.GetAll();
+            var animals = _animalRepo.GetAll().Where(a=>a.Status == true).ToList();
             var allAnimals = new List<GetAnimalDto>();
             if (animals != null && animals.Count > 0)
             {

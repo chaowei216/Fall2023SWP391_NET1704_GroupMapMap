@@ -129,7 +129,7 @@ namespace BBL.Services
 
         public ICollection<UserDto> GetAllUsers()
         {
-            var users = _userRepository.GetAll();
+            var users = _userRepository.GetAll().Where(u=>u.Status == true).ToList();
             var allUsers = new List<UserDto>();
             if (users != null && users.Count > 0)
             {
@@ -269,7 +269,7 @@ namespace BBL.Services
 
         public ICollection<UserDto> GetTrainers()
         {
-            var users = _userRepository.GetAll();
+            var users = _userRepository.GetAll().Where(u=> u.Status == true).ToList();
             var allUsers = new List<UserDto>();
             if (users != null && users.Count > 0)
             {
@@ -295,7 +295,7 @@ namespace BBL.Services
 
         public ICollection<UserDto> GetStaffs()
         {
-            var users = _userRepository.GetAll();
+            var users = _userRepository.GetAll().Where(u=>u.Status == true).ToList();
             var allUsers = new List<UserDto>();
             if (users != null && users.Count > 0)
             {
