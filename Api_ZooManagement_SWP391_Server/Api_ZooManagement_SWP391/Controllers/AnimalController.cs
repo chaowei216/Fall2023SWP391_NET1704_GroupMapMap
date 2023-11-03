@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
+using System.Globalization;
 
 namespace Api_ZooManagement_SWP391.Controllers
 {
@@ -51,7 +52,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetAllAnimal()
         {
-            var animals = _animalService.GetAll().Where(a=> a.Status == true).ToList();
+            var animals = _animalService.GetAllActive().ToList();
             foreach (var animal in animals)
             {
                 animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;
@@ -102,12 +103,19 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(animals);
         }
 
+        [HttpGet("total")]
+        [ProducesResponseType(200, Type = typeof(int))]
+        public IActionResult GetNumOfAnimal()
+        {
+            return Ok(_animalService.GetAll().Count());
+        }
+
         [HttpGet("page/{page}")]
         [ProducesResponseType(200, Type = typeof(AnimalResponseDto))]
         [ProducesResponseType(400)]
         public IActionResult GetAnimals(int page)
         {
-            var animals = _animalService.GetAll();
+            var animals = _animalService.GetAllActive();
 
             var pageResults = 10f;
             var pageCount = Math.Ceiling(animals.Count() / pageResults);

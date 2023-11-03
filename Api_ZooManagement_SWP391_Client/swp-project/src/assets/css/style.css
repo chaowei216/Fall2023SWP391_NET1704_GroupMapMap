@@ -3767,7 +3767,13 @@ img.pata-one {
 .our-blog .recent-news-two {
     padding-bottom: 50px;
 }
-
+.recent-news-two img:nth-child(1)
+{
+    width: 70%;
+}
+.fix-img{
+    width: 50%;
+}
 .our-blog .recent-news-two h2 {
     font-size: 50px;
     padding-top: 15px;
