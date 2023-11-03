@@ -178,7 +178,7 @@ export default function PersonalProfile() {
                                                         </MDBCol>
                                                         <MDBCol size="6" className="mb-3">
                                                             <MDBTypography tag="h6" style={{ color: "#813528", fontWeight: "bolder" }}>Start Date</MDBTypography>
-                                                            <MDBCardText className="text-muted">123 456 789</MDBCardText>
+                                                            <MDBCardText className="text-muted">{staffProfile[0].startDate.slice(0,10)}</MDBCardText>
 
                                                         </MDBCol>
                                                     </MDBRow>
