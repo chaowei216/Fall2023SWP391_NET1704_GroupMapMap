@@ -61,5 +61,10 @@ namespace BBL.Services
         {
             return _cageRepository.GetAll().Where(cage => cage.CId.StartsWith(areaName)).ToList();
         }
+
+        public ICollection<Cage> GetAllAvailableCage()
+        {
+            return _cageRepository.GetAll().Where(c => c.AnimalQuantity < c.MaxCapacity).ToList();
+        }
     }
 }
