@@ -18,7 +18,6 @@ function ListItem() {
     }, 0);
   };
 
-
   const Store = (cartData) => {
     // Chuyển dữ liệu giỏ hàng thành chuỗi JSON
     const cartDataJSON = JSON.stringify(cartData);
@@ -48,9 +47,9 @@ function ListItem() {
       handleUpdateItemQuantity(productId, newQuantity);
     }
   };
-  const handleDeleteCart = () =>{
-    localStorage.removeItem('shoppingCart');
-  }
+  const handleDeleteCart = () => {
+    localStorage.removeItem("shoppingCart");
+  };
   // Hàm để giảm số lượng sản phẩm
   const handleDecrease = (productId) => {
     // Tìm sản phẩm có productId trong giỏ hàng
@@ -68,21 +67,20 @@ function ListItem() {
   const updateDay = (day) => {
     handleUpdateDay(day);
     console.log(day);
-
   };
-    const checkDay = () => {
-      // shoppingCart.map((item)=>{
-      //   console.log(item.day);
-      // })
-      if (shoppingCart.length > 0) {
-        console.log(getCurrentDate());
-        if (shoppingCart[0].day >= getCurrentDate()) {
-          return true;
-        }
+  const checkDay = () => {
+    // shoppingCart.map((item)=>{
+    //   console.log(item.day);
+    // })
+    if (shoppingCart.length > 0) {
+      console.log(getCurrentDate());
+      if (shoppingCart[0].day >= getCurrentDate()) {
+        return true;
       }
-      return false;
     }
-    console.log(checkDay());
+    return false;
+  };
+  console.log(checkDay());
   function getCurrentDate() {
     const today = new Date();
     const year = today.getFullYear();
@@ -156,22 +154,26 @@ function ListItem() {
                   <tr className="coupon">
                     <td colSpan="3">
                       <div className="d-flex align-items-center justify-content-between">
-                        <button
+                        {/* <button
                           type="submit"
                           name="apply_coupon"
                           className="apply-coupon"
                           value="Apply coupon"
                         >
                           Apply coupon
-                        </button>
+                        </button> */}
 
                         <td className="product-day">
                           <p>DAY</p>
                           <input
                             type="date"
-                            value={shoppingCart.length > 0 ? shoppingCart[0].day : null}
+                            value={
+                              shoppingCart.length > 0
+                                ? shoppingCart[0].day
+                                : null
+                            }
                             onChange={(e) => {
-                              updateDay(e.target.value)
+                              updateDay(e.target.value);
                               // const selectedDate = ;
                               // const currentDate = getCurrentDate();
 
@@ -201,8 +203,8 @@ function ListItem() {
                 </tfoot>
               </table>
             </div>
-            <div className="row mt-5">
-              <div className="col-lg-4">
+            <div className="row mt-5 justify-content-center align-item-center">
+              {/* <div className="col-lg-4">
                 <div className="coupon-area">
                   <h3>Apply Coupon</h3>
                   <div className="coupon">
@@ -217,8 +219,8 @@ function ListItem() {
                     </button>
                   </div>
                 </div>
-              </div>
-              <div className="col-lg-8">
+              </div> */}
+              <div className="col-lg-8 ">
                 <div className="cart_totals">
                   <h4>Cart Totals</h4>
                   <div className="shop_table-boder">
@@ -260,7 +262,9 @@ function ListItem() {
                         if (checkDay()) {
                           Store(shoppingCart);
                         } else {
-                          alert("Không thể thanh toán với ngày không hợp lệ.Vui lòng chọn ngày hiện tại hoặc trong tương lai");
+                          alert(
+                            "Không thể thanh toán với ngày không hợp lệ.Vui lòng chọn ngày hiện tại hoặc trong tương lai"
+                          );
                         }
                       }}
                     >

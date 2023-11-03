@@ -106,6 +106,7 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<CageUpdateDto, Cage>();
             CreateMap<AreaUpdateDto, Area>();
             CreateMap<WorkExperience, ExperienceUserDto>();
+            CreateMap<ExperienceDetail, ExperienceUserDto>();
             #endregion
         }
 
