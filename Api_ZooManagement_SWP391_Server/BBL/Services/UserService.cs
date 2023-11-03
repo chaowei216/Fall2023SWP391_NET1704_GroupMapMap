@@ -55,6 +55,7 @@ namespace BBL.Services
                         {
                             User = user,
                             WorkExperience = workExp,
+                            Company = experience.Company,
                         };
 
                         _expDetailRepository.Add(expDetail);
