@@ -4,7 +4,6 @@ import ReactPaginate from "react-paginate";
 function OurLog() {
   const [listPages, setListPages] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
-  const [img, setImg] = useState("");
   const getPages = async (page) => {
     let res = await axios.get(`https://localhost:44352/api/News/pages/${page}`);
     if (res && res.data) {
@@ -45,6 +44,15 @@ function OurLog() {
     const substring = path.substring(secondSlashIndex + 1);
     return substring;
   };
+  const editDay = (dayNews) => {
+    const releaseDate = new Date(dayNews);
+    const day = releaseDate.getDate();
+    const month = releaseDate.getMonth() + 1; // Cộng thêm 1 vào tháng
+    const year = releaseDate.getFullYear();
+    const formattedDate = day + "/" + month + "/" + year;
+    return formattedDate;
+  };
+
   console.log(editImg("C:\\fakepath\\caheo.jpg"));
   return (
     <div>
@@ -85,35 +93,26 @@ function OurLog() {
             </div>
             <div className="col-xl-4">
               <div className="posts recent-posts">
-                <h3>Recent Posts</h3>
+                <h3 style={{ textAlign: "center" }}>Recent Posts</h3>
                 <ul>
-                  <li>
-                    <img alt="img" src="../../src/assets/img/new1.jpeg" />
-                    <div>
-                      <a href="#">29 December, 2022</a>
-                      <h6>
-                        <a href="#">Restaurant Located in on Bank Street</a>
-                      </h6>
-                    </div>
-                  </li>
-                  <li>
-                    <img alt="img" src="../../src/assets/img/new2.jpeg" />
-                    <div>
-                      <a href="#">29 December, 2022</a>
-                      <h6>
-                        <a href="#">There’s only one kind of happiness</a>
-                      </h6>
-                    </div>
-                  </li>
-                  <li>
-                    <img alt="img" src="../../src/assets/img/new3.jpeg" />
-                    <div>
-                      <a href="#">29 December, 2022</a>
-                      <h6>
-                        <a href="#">comes in all shapes and sizes.</a>
-                      </h6>
-                    </div>
-                  </li>
+                  {listPages.map((item) => (
+                    <li key={item.id}>
+                      <div style={{ margin: "10px" }}>
+                        <img
+                          style={{ width: "100%", height: "100%" }}
+                          alt="img"
+                          src={editImg(item.newsImage)}
+                        />
+                      </div>
+
+                      <div>
+                        <p>{editDay(item.releaseDate)}</p>
+                        <h6>
+                          <p>{item.newsTitle}</p>
+                        </h6>
+                      </div>
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="posts">
@@ -151,90 +150,7 @@ function OurLog() {
                   </li>
                 </ul>
               </div>
-              <div className="posts Photo">
-                <h3>Instagram Photos</h3>
-                <ul className="instagram-posts">
-                  <li>
-                    <a
-                      href="https://via.placeholder.com/100x80"
-                      data-fancybox="gallery"
-                    >
-                      <figure>
-                        <img
-                          alt="girl"
-                          src="../../src/assets/img/new100-80.jpeg"
-                        />
-                      </figure>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://via.placeholder.com/100x80"
-                      data-fancybox="gallery"
-                    >
-                      <figure>
-                        <img
-                          alt="girl"
-                          src="./../src/assets/img/new2100-80.jpeg"
-                        />
-                      </figure>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://via.placeholder.com/100x80"
-                      data-fancybox="gallery"
-                    >
-                      <figure>
-                        <img
-                          alt="girl"
-                          src="./../src/assets/img/new3100-80.jpeg"
-                        />
-                      </figure>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://via.placeholder.com/100x80"
-                      data-fancybox="gallery"
-                    >
-                      <figure>
-                        <img
-                          alt="girl"
-                          src="./../src/assets/img/new4100-80.jpeg"
-                        />
-                      </figure>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://via.placeholder.com/100x80"
-                      data-fancybox="gallery"
-                    >
-                      <figure>
-                        <img
-                          alt="girl"
-                          src="./../src/assets/img/new5100-80.jpeg"
-                        />
-                      </figure>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://via.placeholder.com/100x80"
-                      data-fancybox="gallery"
-                    >
-                      <figure>
-                        <img
-                          alt="girl"
-                          src="./../src/assets/img/new6100-80.jpeg"
-                        />
-                      </figure>
-                    </a>
-                  </li>
-                </ul>
-                <a href="#">Follow @winsfolio</a>
-              </div>
+
               <div className="posts">
                 <h3>Trending Dishes</h3>
                 <ul className="trending-dishes-list">
