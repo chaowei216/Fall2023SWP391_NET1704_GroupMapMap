@@ -46,6 +46,13 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(order);
         }
 
+        [HttpGet("statistic")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<StatisticDto>))]
+        public IActionResult GetStatistic()
+        {
+            return Ok(_orderService.GetStatistics());
+        }
+
         [HttpGet("pages/{page}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<OrderDto>))]
         public IActionResult GetAllOrders(int page)

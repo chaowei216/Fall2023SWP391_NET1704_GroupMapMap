@@ -195,28 +195,32 @@ function TableAnimal() {
           <Table size="100px" hover>
             <thead className="table-dark">
               <tr>
+                <th>Image</th>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th style={{ textAlign: "center" }}>Gender</th>
                 <th style={{ textAlign: "center" }}>Region</th>
-                <th style={{ textAlign: "center" }}>Rarity</th>
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody style={{verticalAlign: "middle"}}>
               {listAnimal &&
                 listAnimal.length > 0 &&
                 listAnimal.map((items, index) => {
                   return (
                     <tr key={`animal-${index}`}>
-                      <td>{items.animalId}</td>
-                      <td width={130}>{items.name}</td>
-                      <td width={340} style={{ textAlign: "justify" }}>{items.description}</td>
+                      <td width={140}> <img
+                        className="rounded"
+                        style={{ width: "100%" }}
+                        src={"/" + items.animalImage.substring(items.animalImage.indexOf("\\", items.animalImage.indexOf("\\") + 1) + 1)}
+                      ></img></td>
+                      <td width={100}>{items.animalId}</td>
+                      <td width={110}>{items.name}</td>
+                      <td width={320} style={{ textAlign: "justify" }}>{items.description}</td>
                       <td style={{ textAlign: "center" }}>{items.sex === true ? "Male" : "Female"}</td>
                       <td width={160} style={{ textAlign: "center" }}>{items.region}</td>
-                      <td style={{ textAlign: "center" }}>{items.rarity === true ? "Rarity" : "None"}</td>
-                      <td style={{ width: "265px", textAlign: "center" }}>
+                      <td width={370} style={{ textAlign: "center" }}>
                         <Button
                           variant="text"
                           style={{ padding: 0 }}

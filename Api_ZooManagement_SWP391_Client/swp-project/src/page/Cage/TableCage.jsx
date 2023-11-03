@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import AddCage from "./AddCage";
 import { Pagination } from "antd";
 import { debounce } from "lodash";
+import EditCage from "./EditCage";
 
 function TableCage() {
     const role = localStorage.getItem("role");
@@ -22,10 +23,7 @@ function TableCage() {
     const [showModalFodd, setShowmodalFood] = useState(false);
     const [showModalFoodAnimal, setShowmodalFoodAnimal] = useState(false);
     const [listCage, setListCage] = useState([]);
-    const [dataAnimalEdit, setDataAnimalEdit] = useState({});
-    const [dataAnimalView, setDataAnimalView] = useState({});
     const [dataCageEdit, setDataCageEdit] = useState({});
-    const [dataCageView, setDataCageView] = useState({});
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const onShowSizeChange = (current) => {
@@ -76,11 +74,7 @@ function TableCage() {
         setDataCageEdit(cage);
         setShowmodalEdit(true);
     };
-    const handleViewCage = (item) => {
-        const cage = item;
-        setDataCageView(cage);
-        setShowmodalView(true);
-    };
+
     const handleSearch = debounce((e) => {
         console.log(e.target.value);
         let term = e.target.value;
@@ -147,9 +141,11 @@ function TableCage() {
                             <tr>
                                 <th>Cage ID</th>
                                 <th>Name</th>
-                                <th>Max Capacity</th>
-                                <th>Animal Quantity</th>
-                                <th style={{ textAlign: "center" }}>Action</th>
+                                <th style={{ textAlign: "center" }}>Max Capacity</th>
+                                <th style={{ textAlign: "center" }}>Animal Quantity</th>
+                                {role && role === 'STAFF' &&
+                                    <th style={{ textAlign: "center" }}>Action</th>
+                                }
                             </tr>
                         </thead>
                         <tbody>
@@ -160,32 +156,10 @@ function TableCage() {
                                         <tr key={`food-${index}`}>
                                             <td>{items.cId}</td>
                                             <td>{items.name}</td>
-                                            <td>{items.maxCapacity}</td>
-                                            <td>{items.animalQuantity}</td>
-                                            <td style={{ width: "208px" }}>
-                                                {role && role === 'STAFF' && (
-                                                    <Button
-                                                        variant="text"
-                                                        style={{ padding: 0 }}
-                                                        onClick={() => {
-                                                            handleViewCage(items);
-                                                        }}
-                                                    >
-                                                        <VisibilityIcon />
-                                                    </Button>
-                                                )}
-                                                {role && role === 'ADMIN' && (
-                                                    <Button
-                                                        variant="text"
-                                                        style={{ padding: 0, textAlign: "center" }}
-                                                        onClick={() => {
-                                                            handleViewCage(items);
-                                                        }}
-                                                    >
-                                                        <VisibilityIcon />
-                                                    </Button>
-                                                )}
-                                                {role && role === 'STAFF' &&
+                                            <td style={{ textAlign: "center" }}>{items.maxCapacity}</td>
+                                            <td style={{ textAlign: "center" }}>{items.animalQuantity}</td>
+                                            {role && role === 'STAFF' &&
+                                                <td style={{ textAlign: "center" }}>
                                                     <Button
                                                         onClick={() => {
                                                             handleEditCage(items);
@@ -195,13 +169,8 @@ function TableCage() {
                                                     >
                                                         <EditIcon />
                                                     </Button>
-                                                }
-                                                {role && role === 'STAFF' &&
-                                                    <Button variant="text" style={{ padding: 0 }}>
-                                                        <DeleteIcon />
-                                                    </Button>
-                                                }
-                                            </td>
+                                                </td>
+                                            }
                                         </tr>
                                     );
                                 })}
@@ -218,11 +187,12 @@ function TableCage() {
                 </div>
             </div>
             <AddCage show={showModalAdd} handleClose={handleClose} />
-            {/* <EditFood
+            <EditCage
                 show={showModalEdit}
                 handleClose={handleClose}
-                dataFoodEdit={dataCageEdit}
+                dataCageEdit={dataCageEdit}
             />
+            {/*
             <ViewFood
                 show={showModalView}
                 handleClose={handleClose}

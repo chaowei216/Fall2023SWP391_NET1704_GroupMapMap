@@ -103,7 +103,7 @@ export default function AddCage(pros) {
                                                     id="areaId"
                                                     name="areaId"
                                                     placeholder="Chọn món ăn"
-                                                    style={{ width: "85%" }}
+                                                    style={{ width: "100%" }}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                 // isInvalid={errors.userId && touched.userId}
@@ -131,7 +131,7 @@ export default function AddCage(pros) {
                                                 <label className="form-label">Enter Name</label>
                                                 <Form.Control
                                                     type="text"
-                                                    style={{ width: "85%", height: "50px" }}
+                                                    style={{ width: "100%", height: "50px" }}
                                                     id="name"
                                                     placeholder="name"
                                                     aria-describedby="inputGroupPrepend"
@@ -155,7 +155,7 @@ export default function AddCage(pros) {
                                                     placeholder="maxCapacity"
                                                     aria-describedby="inputGroupPrepend"
                                                     name="maxCapacity"
-                                                    style={{ width: "85%", height: "50px" }}
+                                                    style={{ width: "100%", height: "50px" }}
                                                     value={formik.values.maxCapacity}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}

@@ -8,6 +8,7 @@ import {
   MDBModalTitle,
   MDBModalBody,
   MDBModalFooter,
+  MDBCardText
 } from "mdb-react-ui-kit";
 import Table from "react-bootstrap/Table";
 import { DatePicker, Radio, Select, Space, Image } from "antd";
@@ -372,216 +373,66 @@ export default function ViewAnimal(pros) {
                                   fontWeight: "bolder",
                                   fontSize: "30px",
                                   marginBottom: "10px",
+                                  color: "#813528"
                                 }}
                               >
                                 Description
                               </div>
-                              <div style={{ paddingLeft: "10px" }}>{description}</div>
+                              <MDBCardText style={{ paddingLeft: "10px" }} className="text-muted pt-2">{description}</MDBCardText>
                             </div>
                           </>
                         )}
                       </div>
+                      <hr className="mt-0 mb-4" />
+
                       <div className="label-info">
                         <label>Animal Information Basic</label>
                       </div>
                       <div className="mb-3 Animal_Infomation">
                         <div className="row mb-3">
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Name Animal</label>
-                            <Form.Control
-                              id="name"
-                              type="text"
-                              placeholder="name of the animal"
-                              disabled
-                              aria-describedby="inputGroupPrepend"
-                              name="name"
-                              value={name}
-                              onChange={(event) => setName(event.target.value)}
-                            // isInvalid={
-                            //   formik.errors.first_name &&
-                            //   formik.touched.first_name
-                            // }
-                            />
-                            {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.first_name}
-                          </Form.Control.Feedback> */}
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Name Animal</label>
+                            <MDBCardText className="text-muted pt-2">{name}</MDBCardText>
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Region</label>
-                            <Form.Control
-                              type="text"
-                              id="region"
-                              placeholder="region"
-                              aria-describedby="inputGroupPrepend"
-                              disabled
-                              name="region"
-                              value={region}
-                              onChange={(event) =>
-                                setRegion(event.target.value)
-                              }
-                            // isInvalid={
-                            //   formik.errors.last_name &&
-                            //   formik.touched.last_name
-                            // }
-                            />
-                            {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.last_name}
-                          </Form.Control.Feedback> */}
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Region</label>
+                            <MDBCardText className="text-muted pt-2">{region}</MDBCardText>
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Species Animal</label>
-                            <Form.Control
-                              type="string"
-                              id="species"
-                              disabled
-                              placeholder="Species Animal"
-                              aria-describedby="inputGroupPrepend"
-                              name="species"
-                              value={species}
-                            // value={formik.values.species}
-                            // onChange={formik.handleChange}
-                            // onBlur={formik.handleBlur}
-                            // isInvalid={phone == nul}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                              Haha
-                            </Form.Control.Feedback>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Species Animal</label>
+                            <MDBCardText className="text-muted pt-2">{species}</MDBCardText>
                           </div>
                         </div>
                         <div className="row mb-3">
                           <div className="mb-3" style={{ width: "33%" }}>
                             <div>
-                              <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Gender</label>
-                              <br />
-                              <Radio.Group
-                                id="gender"
-                                name="gender"
-                                style={{ height: "33%", width: "100%" }}
-                                // onChange={(e) => {
-                                //   handleRoleChange(e);
-                                // }}
-                                value={gender}
-                                buttonStyle="solid"
-                                disabled
-                              >
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                    color: "blue",
-                                  }}
-                                  value="male"
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    Male
-                                  </span>
-                                </Radio>
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                    color: "pink",
-                                  }}
-                                  value="female"
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    Female
-                                  </span>
-                                </Radio>
-                              </Radio.Group>
+                              <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Gender</label>
+                              <MDBCardText className="text-muted pt-2">{gender === true ? "Male" : "Female"}</MDBCardText>
                             </div>
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
                             <div>
                               <label
                                 className="form-label"
-                                style={{ verticalAlign: "middle",color: "#813528", fontWeight: "bolder" }}
+                                style={{ verticalAlign: "middle", color: "#813528", fontWeight: "bolder" }}
                               >
                                 Is Animal Rarity
                               </label>
-                              <br />
-                              <Radio.Group
-                                id="rarity"
-                                name="rarity"
-                                style={{ height: "33%", width: "100%" }}
-                                // onChange={(e) => {
-                                //   handleRoleChange(e);
-                                // }}
-                                value={rarity}
-                                buttonStyle="solid"
-                                disabled
-                                onChange={(event) =>
-                                  setRarity(event.target.value)
-                                }
-                              >
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                  }}
-                                  value={true}
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    Rarity
-                                  </span>
-                                </Radio>
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                  }}
-                                  value={false}
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    None
-                                  </span>
-                                </Radio>
-                              </Radio.Group>
+                              <MDBCardText className="text-muted pt-2">{rarity === true ? "Rarity" : "None"}</MDBCardText>
                             </div>
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Birthday</label>
-                            <br />
-                            <Space
-                              direction="vertical"
-                              size={20}
-                              style={{ width: "100%" }}
-                            >
-                              <Form.Control
-                                type="date"
-                                name="birthDay"
-                                value={birthday}
-                                disabled
-                                onChange={(event) =>
-                                  setBirthday(event.target.value)
-                                }
-                              />
-                            </Space>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Birthday</label>
+                            <MDBCardText className="text-muted pt-2">{birthday}</MDBCardText>
                           </div>
                         </div>
                         <div className="row mb-3">
-                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Health Check</label>
-                          <Form.Control
-                            as="textarea"
-                            style={{ height: "85px" }}
-                            id="healthCheck"
-                            placeholder="healthCheck"
-                            disabled
-                            aria-describedby="inputGroupPrepend"
-                            name="healthCheck"
-                            value={healthCheck}
-                            onChange={(event) =>
-                              setHealthCheck(event.target.value)
-                            }
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.address && formik.touched.address
-                          // }
-                          />
-                          {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.address}
-                        </Form.Control.Feedback> */}
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Health Check</label>
+                          <MDBCardText className="text-muted pt-2">{healthCheck}</MDBCardText>
                         </div>
                         {animalImage == "" && (
                           <div className="row mb-3">
-                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Health Check</label>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Health Check</label>
                             <Form.Control
                               as="textarea"
                               style={{ height: "85px" }}
@@ -606,6 +457,7 @@ export default function ViewAnimal(pros) {
                           </div>
                         )}
                       </div>
+                      <hr className="mt-0 mb-4" />
                       <div className="label-info">
                         <label>Cage Information</label>
                       </div>
@@ -666,7 +518,7 @@ export default function ViewAnimal(pros) {
                           )}
                         </div>
                         <div className="mb-3">
-                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Cage for Animal</label>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Cage for Animal</label>
                           <Table striped bordered hover>
                             <thead>
                               <tr>
@@ -698,16 +550,10 @@ export default function ViewAnimal(pros) {
                         >
                           <div className="mb-3" style={{ width: "40%" }}>
                             <div>
-                              <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
+                              <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
                                 Entry Cage Date
                               </label>
-                              <br />
-                              <Form.Control
-                                type="date"
-                                name="entryCageDate"
-                                disabled
-                                value={entryCage}
-                              />
+                              <MDBCardText className="text-muted pt-2" style={{ fontWeight: "bolder" }}>{entryCage}</MDBCardText>
                             </div>
                           </div>
                           {outCage && (
@@ -735,6 +581,7 @@ export default function ViewAnimal(pros) {
                           )}
                         </div>
                       </div>
+                      <hr className="mt-0 mb-4" />
                       <div className="label-info">
                         <label>ZooTrainer Information</label>
                       </div>
@@ -796,8 +643,9 @@ export default function ViewAnimal(pros) {
                             </div>
                           )}
                         </div>
+                        
                         <div className="mb-2">
-                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
                             ZooTrainer for Animal
                           </label>
                           <Table striped bordered hover>
@@ -861,16 +709,10 @@ export default function ViewAnimal(pros) {
                         >
                           <div className="mb-3" style={{ width: "40%" }}>
                             <div>
-                              <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
+                              <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
                                 StartTraining Date
                               </label>
-                              <br />
-                              <Form.Control
-                                type="date"
-                                name="entryCageDate"
-                                disabled
-                                value={startTrain}
-                              />
+                              <MDBCardText className="text-muted pt-2" style={{ fontWeight: "bolder" }}>{startTrain}</MDBCardText>
                             </div>
                           </div>
                           {endTraining && (
@@ -898,12 +740,14 @@ export default function ViewAnimal(pros) {
                           )}
                         </div>
                       </div>
+                      <hr className="mt-0 mb-4" />
+
                       <div className="label-info">
                         <label>Food Information</label>
                       </div>
                       <div className="Food-Information mb-3">
                         <div className="mb-3" style={{ paddingRight: "25px" }}>
-                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Food For Animal</label>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Food For Animal</label>
                           <Table striped bordered hover>
                             <thead>
                               <tr>
@@ -939,13 +783,14 @@ export default function ViewAnimal(pros) {
                           </Table>
                         </div>
                       </div>
+                      <hr className="mt-0 mb-4" />
 
                       <div className="label-info">
                         <label>Schedule Information</label>
                       </div>
                       <div className="Food-Information">
                         <div className="mb-3" style={{ paddingRight: "25px" }}>
-                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
                             Schedule For Animal
                           </label>
                           <Table striped bordered hover>

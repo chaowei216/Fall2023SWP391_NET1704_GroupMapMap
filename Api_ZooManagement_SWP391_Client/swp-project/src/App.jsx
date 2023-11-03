@@ -55,6 +55,7 @@ import TableScheduleFeed from './page/FeedScheduleAnimal/TableScheduleFeed';
 import TableSpecies from './page/Species/tableSpecies';
 import TableExperience from './page/WorkExperience/TableExperience';
 import TableCategory from './page/Category/TableCategory';
+import PersonalProfile from './page/User/Profile';
 
 
 const secretKey = 'your_secret_key';
@@ -74,6 +75,24 @@ function App() {
 
     return <>{children}</>;
   }
+  function RequireZooTrainerRole({ children }) {
+    const role = checkRole();
+
+    if (role !== 'ZOOTRAINER') {
+      return <Navigate to="/" />
+    }
+
+    return <>{children}</>;
+  }
+  function RequireAdminRole({ children }) {
+    const role = checkRole();
+
+    if (role !== 'ADMIN') {
+      return <Navigate to="/" />
+    }
+
+    return <>{children}</>;
+  } 
   return (
     <>
       <Router>
@@ -91,27 +110,29 @@ function App() {
             {/* <Route path="3" element={<TableFood />}></Route> */}
           </Route>
           <Route path="/staff" element={<HeaderLayoutStaff />} >
-            <Route path="" element={<Dashboard />}></Route>
+            {/* <Route path="" element={<Dashboard />}></Route> */}
             <Route path="1" element={<TableStaff />}></Route>
             <Route path="add" element={<AddStaff />}></Route>
             <Route path="2" element={<TableAnimal />}></Route>
             <Route path="4" element={<OrderTable />}></Route>
             <Route path="news" element={<TableNews />}></Route>
-            <Route path="profile" element={<ViewStaff />}></Route>
+            {/* <Route path="profile" element={<ViewStaff />}></Route> */}
             <Route path="cage" element={<TableCage />}></Route>
             <Route path="area" element={<TableArea />}></Route>
             <Route path="food" element={<TableFood />}></Route>
             <Route path="species" element={<TableSpecies />}></Route>
             <Route path="experience" element={<TableExperience />}></Route>
             <Route path="category" element={<TableCategory />}></Route>
+            <Route path="profile" element={<PersonalProfile />}></Route>
             {/* <Route path="3" element={<TableFood />}></Route> */}
           </Route>
           <Route path="/ZooTrainer" element={<HeaderLayOutTrainer />}>
-            <Route path="" element={<Dashboard />}></Route>
-            <Route path="profile" element={<ViewStaff />}></Route>
+            {/* <Route path="profile" element={<ViewStaff />}></Route> */}
             <Route path="food" element={<TableFood />}></Route>
             <Route path="2" element={<TableAnimalDetail />}></Route>
             <Route path="feed" element={<TableScheduleFeed />}></Route>
+            <Route path="profile" element={<PersonalProfile />}></Route>
+
           </Route>
           <Route path="/loading" element={<Loading></Loading>} />
           <Route path="/login" element={<Login />}></Route>
