@@ -10,12 +10,12 @@ import {
   MDBModalFooter,
 } from "mdb-react-ui-kit";
 import Button from "@mui/material/Button";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { DatePicker, Radio, Select, Space } from "antd";
 import { Formik, useFormik, Field, useFormikContext } from "formik";
 import { ListGroup, Form } from "react-bootstrap";
 import { Navigate, json, useNavigate } from "react-router-dom";
-import moment from 'moment';
+import moment from "moment";
 import { South } from "@mui/icons-material";
 import { validationSchedule } from "./validationSchedule";
 
@@ -104,7 +104,7 @@ export default function ScheduleAnimal(pros) {
       // navigate("/staff/2");
       window.location.reload();
     } else {
-      toastr.error("Create error");
+      toast.error("Create error");
     }
   };
   return (
@@ -191,8 +191,8 @@ export default function ScheduleAnimal(pros) {
                                 >
                                   <Field
                                     name={`fields[${index}].scheduleId`}
-                                  // as="select"
-                                  // onChange={(e) => handleChange(e.target.value)}
+                                    // as="select"
+                                    // onChange={(e) => handleChange(e.target.value)}
                                   >
                                     {({ field, form }) => (
                                       <Form.Select
@@ -200,7 +200,7 @@ export default function ScheduleAnimal(pros) {
                                         placeholder="Chọn món ăn"
                                         style={{
                                           width: "80%",
-                                          marginBottom: "30px"
+                                          marginBottom: "30px",
                                         }}
                                         onChange={(event) =>
                                           handleFoodSelect(event, field, form)
@@ -231,7 +231,7 @@ export default function ScheduleAnimal(pros) {
                                     component="input"
                                     style={{
                                       width: "80%",
-                                      marginBottom: "30px"
+                                      marginBottom: "30px",
                                     }}
                                     className="control-field"
                                   />
@@ -241,11 +241,13 @@ export default function ScheduleAnimal(pros) {
                                     component="input"
                                     style={{
                                       width: "80%",
-                                      marginBottom: "30px"
+                                      marginBottom: "30px",
                                     }}
                                     className="control-field"
                                   />
-                                  <div style={{ display: "block", width: "80%" }}>
+                                  <div
+                                    style={{ display: "block", width: "80%" }}
+                                  >
                                     <Button onClick={() => removeField(index)}>
                                       Remove
                                     </Button>

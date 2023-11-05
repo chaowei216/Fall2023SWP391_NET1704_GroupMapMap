@@ -35,7 +35,7 @@ export const schemaAnimal = yup.object().shape({
     .string()
     .required("Description is required")
     .min(2, "Description must be at least 2 characters")
-    .max(50, "Description cannot be more than 50 characters"),
+    .max(2000, "Description cannot be more than 50 characters"),
   // .matches(
   //   /^[a-zA-Z-.']+$/,
   //   "description can only contain letters, dashes, periods, and apostrophes"
@@ -112,34 +112,42 @@ export const schemaAnimal = yup.object().shape({
   fields: yup.array().of(
     yup.object().shape({
       foodId: yup.string().required("Please choose foood"),
-      startEat: yup.string()
+      startEat: yup
+        .string()
         .required("Vui lòng nhập ngày bắt đầu ăn")
         .test({
-          name: 'date-after',
-          message: 'Ngày bắt đầu ăn phải sau ngày vào lồng',
+          name: "date-after",
+          message: "Ngày bắt đầu ăn phải sau ngày vào lồng",
           test: function (value) {
             // const entryCageDate = this.options.context.entryCageDate; // Lấy giá trị của trường entryCageDate từ context
             // const entry = new Date(entryCageDate)
-            const selectedDate = new Date(value)
+            const selectedDate = new Date(value);
             const currentDate = new Date();
 
             //return moment(value).isAfter(entryCageDate); // Sử dụng moment.js hoặc thư viện tương tự để so sánh ngày
-            return selectedDate >= currentDate
-          }
+            return selectedDate >= currentDate;
+          },
         }),
-      endEat: yup.string()
+      endEat: yup
+        .string()
         .required("Vui lòng nhập ngày kết thúc ăn")
         .test({
-          name: 'date-after-startEat',
-          message: 'Ngày kết thúc ăn phải sau ngày bắt đầu ăn',
+          name: "date-after-startEat",
+          message: "Ngày kết thúc ăn phải sau ngày bắt đầu ăn",
           test: function (value) {
             const startEat = this.parent.startEat;
-            return moment(value).isAfter(startEat);
-          }
+            const baby = new Date(startEat);
+            const selected = new Date(value);
+            return selected >= baby;
+          },
         }),
-      amount: yup.string().required("Please enter amount of food").min(1, "Amount must be at least 2 characters").test('positive', 'The amount cannot be negative', value => {
-        return Number(value) >= 1;
-      }),
+      amount: yup
+        .string()
+        .required("Please enter amount of food")
+        .min(1, "Amount must be at least 2 characters")
+        .test("positive", "The amount cannot be negative", (value) => {
+          return Number(value) >= 1;
+        }),
     })
   ),
 });

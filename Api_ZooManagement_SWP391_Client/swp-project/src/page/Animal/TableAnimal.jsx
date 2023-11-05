@@ -27,6 +27,7 @@ function TableAnimal() {
   const role = localStorage.getItem("role");
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
+  const [testShow, setTestShow] = useState(true);
   const [showModalView, setShowmodalView] = useState(false);
   const [showModalDelete, setShowmodalDelete] = useState(false);
   const [showModalFodd, setShowmodalFood] = useState(false);
@@ -116,7 +117,7 @@ function TableAnimal() {
   };
   const handleFilterChange = (item) => {
     console.log(item.target.value);
-    setA(item.target.value)
+    setA(item.target.value);
     let term = item.target.value;
     if (term != "All") {
       const getList = () => {
@@ -152,27 +153,32 @@ function TableAnimal() {
     console.log(e.target.value);
     let term = e.target.value;
     if (term) {
-      // const getList = () => {
-      //   return fetch(
-      //     `https://localhost:44352/api/Animal/page/${currentPage}`
-      //   ).then((data) => data.json());
-      // };
-      // let mounted = true;
-      // getList().then((items) => {
-      //   if (mounted) {
-      //     setListAnimal(
-      //       items.animals.filter((a) =>
-      //         a.name.toUpperCase().includes(term.toUpperCase())
-      //       )
-      //     );
-      //     setTotalPages(items.pages);
-      //   }
-      // });
-      // return () => (mounted = false);
-      setListAnimal(listAnimal.filter((a) => a.name.toUpperCase().includes(term.toUpperCase())))
-    }
-    else if (term === "") {
-      const list = listFilter
+      setTestShow(false);
+      const getList = () => {
+        return fetch(`https://localhost:44352/api/Animal`).then((data) =>
+          data.json()
+        );
+      };
+      let mounted = true;
+      getList().then((items) => {
+        if (mounted) {
+          setListAnimal(
+            items.filter((a) =>
+              a.name.toUpperCase().includes(term.toUpperCase())
+            )
+          );
+          // setTotalPages(items.pages);
+        }
+      });
+      return () => (mounted = false);
+      // setListAnimal(
+      //   listAnimal.filter((a) =>
+      //     a.name.toUpperCase().includes(term.toUpperCase())
+      //   )
+      // );
+    } else if (term === "") {
+      setTestShow(true);
+      const list = listFilter;
       console.log(list);
       if (list != "All") {
         const getList = () => {
@@ -368,14 +374,16 @@ function TableAnimal() {
                 })}
             </tbody>
           </Table>
-          <div className="pagination-container">
-            <Pagination
-              onChange={onShowSizeChange}
-              defaultCurrent={currentPage}
-              defaultPageSize={10}
-              total={totalPages * 10}
-            />
-          </div>
+          {testShow && (
+            <div className="pagination-container">
+              <Pagination
+                onChange={onShowSizeChange}
+                defaultCurrent={currentPage}
+                defaultPageSize={10}
+                total={totalPages * 10}
+              />
+            </div>
+          )}
         </div>
       </div>
       <AddAnimal show={showModalAdd} handleClose={handleClose} />

@@ -4,7 +4,7 @@ import Header from "../../header";
 import Banner from "../loginPage/banner";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 
 function Forget() {
   const [token, setToken] = useState("");
@@ -21,7 +21,9 @@ function Forget() {
     }
 
     try {
-      const response = await axios.post(`https://localhost:44352/api/Login/reset-password?Token=${token}&Password=${password}&PasswordConfirmation=${confirmPassword}`)
+      const response = await axios.post(
+        `https://localhost:44352/api/Login/reset-password?Token=${token}&Password=${password}&PasswordConfirmation=${confirmPassword}`
+      );
       console.log("Reset password success:", response.data);
       navigator("/login");
     } catch (error) {
@@ -30,8 +32,8 @@ function Forget() {
   };
   const menuItems = [
     {
-      text: 'Home',
-      link:"/",
+      text: "Home",
+      link: "/",
       // subMenuItems: [
       //   { text: 'Home 1', link: 'index.html' },
       //   { text: 'Home 2', link: 'index-2.html' },
@@ -39,23 +41,22 @@ function Forget() {
       // ],
     },
     {
-      text: 'News',
-      link:"/new",
+      text: "News",
+      link: "/new",
       // subMenuItems: [
       //   { text: 'Our Blog', link: 'our-blog.html' },
       //   { text: 'Blog Details', link: 'blog-details.html' },
       // ],
     },
     {
-      text: 'Pages',
+      text: "Pages",
       subMenuItems: [
-        { text: 'Ticket',id:"1"  },
-        { text: 'Info Animails', id:"2" },
-        { text: 'Zoo Trainer',id:"3"},
-      
+        { text: "Ticket", id: "1" },
+        { text: "Info Animails", id: "2" },
+        { text: "Zoo Trainer", id: "3" },
       ],
     },
-    { text: 'Contact', link: '/contact' },
+    { text: "Contact", link: "/contact" },
   ];
   return (
     <div>
@@ -102,7 +103,6 @@ function Forget() {
         </section>
       </div>
       <Footer />
-      <ToastContainer/>
     </div>
   );
 }

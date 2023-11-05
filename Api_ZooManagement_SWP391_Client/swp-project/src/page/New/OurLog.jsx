@@ -19,7 +19,7 @@ function OurLog() {
       );
       if (res && res.data) {
         setTotalPages(res.data.pages);
-        setListPages(res.data.news);
+        setListPages(res.data.news.filter((n) => n.checked === true));
       }
     };
     getPages(0);

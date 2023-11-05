@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate, useLocation, Navigate } from 'react-router-dom';
-import useShopping from '../../../hooks/useShopping';
-import jwt_decode from 'jwt-decode';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import useShopping from "../../../hooks/useShopping";
+import jwt_decode from "jwt-decode";
 
 function LoginForm() {
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [token, setToken] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [token, setToken] = useState("");
   const [loadingApi, setLoadingApi] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const [userObject, setUserObject] = useState(null);
 
@@ -31,7 +30,9 @@ function LoginForm() {
   //   }
   // })
   const { shoppingCart } = useShopping();
-  { console.log("discover", shoppingCart) }
+  {
+    console.log("discover", shoppingCart);
+  }
   function setItemToLocalStorage(key, value) {
     return new Promise((resolve, reject) => {
       try {
@@ -47,34 +48,41 @@ function LoginForm() {
 
     try {
       setLoadingApi(true);
-      const res = await axios.post('https://localhost:44352/api/Login/login', {
+      const res = await axios.post("https://localhost:44352/api/Login/login", {
         email,
         password,
       });
-      console.log(res)
+      console.log(res);
       if (res && res.status === 200) {
         const token = res.data;
         console.log(res);
         const decoded = jwt_decode(token);
         console.log(decoded);
         setUserObject(decoded);
-        const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-        const email = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
-        const name = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+        const role =
+          decoded[
+            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+          ];
+        const email =
+          decoded[
+            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+          ];
+        const name =
+          decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
         localStorage.setItem("email", email);
         localStorage.setItem("role", role);
         localStorage.setItem("name", name);
         if (role === "STAFF") {
           setTimeout(() => {
-            navigate('/staff/profile');
+            navigate("/staff/profile");
           }, 1000);
         } else if (role === "ZOOTRAINER") {
           setTimeout(() => {
-            navigate('/ZooTrainer/profile');
+            navigate("/ZooTrainer/profile");
           }, 1000);
         } else if (role === "ADMIN") {
           setTimeout(() => {
-            navigate('/admin');
+            navigate("/admin");
           }, 1000);
         }
         console.log(role);
@@ -94,22 +102,22 @@ function LoginForm() {
     console.log(email);
 
     if (email) {
-
       try {
         setLoadingApi(true);
-        const response = await axios.post(`https://localhost:44352/api/Login/forgot-password?email=${email}`);
+        const response = await axios.post(
+          `https://localhost:44352/api/Login/forgot-password?email=${email}`
+        );
 
         if (response.status === 200) {
           localStorage.setItem("tokenEmail", response.data.token);
           setTimeout(() => {
-            navigate('/reset');
+            navigate("/reset");
           }, 2000);
-
         } else {
-          toast.error('Failed to send password reset email.');
+          toast.error("Failed to send password reset email.");
         }
       } catch (error) {
-        toast.error('Failed to send password reset email.');
+        toast.error("Failed to send password reset email.");
       } finally {
         setLoadingApi(false);
       }
@@ -149,17 +157,14 @@ function LoginForm() {
                   </div>
                   <button type="submit" className="button">
                     {loadingApi && <i className="fas fa-sync fa-spin"></i>}
-                    &nbsp;
-                    Login
+                    &nbsp; Login
                   </button>
                 </form>
-
               </div>
             </div>
           </div>
         </div>
       </section>
-      <ToastContainer />
     </div>
   );
 }

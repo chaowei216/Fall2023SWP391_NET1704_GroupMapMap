@@ -100,8 +100,8 @@ function AddAnimal(pros) {
     console.log(event.target.value);
   };
   const getCageList = () => {
-    return fetch("https://localhost:44352/api/Cage/AvailableCage").then((data) =>
-      data.json()
+    return fetch("https://localhost:44352/api/Cage/AvailableCage").then(
+      (data) => data.json()
     );
   };
   useEffect(() => {
@@ -114,8 +114,8 @@ function AddAnimal(pros) {
     return () => (mounted = false);
   }, []);
   const getZooTrainerList = () => {
-    return fetch("https://localhost:44352/api/User/AvailableTrainers").then((data) =>
-      data.json()
+    return fetch("https://localhost:44352/api/User/AvailableTrainers").then(
+      (data) => data.json()
     );
   };
   useEffect(() => {
@@ -202,8 +202,8 @@ function AddAnimal(pros) {
     };
     const params = {
       userId: values.userId,
-      cageId: values.cageId
-    }
+      cageId: values.cageId,
+    };
     console.log(params);
     console.log(animal);
     const url = `https://localhost:44352/api/Animal/Animal?${new URLSearchParams(
@@ -223,13 +223,12 @@ function AddAnimal(pros) {
     if (values.userId != undefined && values.cageId != undefined) {
       const response = await fetch(url, request);
       if (response.ok) {
-        console.log("Success");
+        toast.success("Create successfully");
         navigator("/staff/2");
         window.location.reload();
+      } else {
+        toast.error("Create fail");
       }
-    }
-    if (isNaN(animal)) {
-      toast.error("Create fail")
     }
   };
   const a = "huhu";
@@ -658,9 +657,10 @@ function AddAnimal(pros) {
                                     value={option.userId}
                                   >
                                     <div style={{ height: "50px" }}>
-                                      ZooTrainerID : {option.userId} - FullName :{" "}
-                                      {option.firstname + " " + option.lastname} -
-                                      Training Animal: {option.countAnimal}
+                                      ZooTrainerID : {option.userId} - FullName
+                                      :{" "}
+                                      {option.firstname + " " + option.lastname}{" "}
+                                      - Training Animal: {option.countAnimal}
                                     </div>
                                   </option>
                                 ))}
@@ -722,8 +722,8 @@ function AddAnimal(pros) {
                                     </label>
                                     <Field
                                       name={`fields[${index}].foodId`}
-                                    // as="select"
-                                    // onChange={(e) => handleChange(e.target.value)}
+                                      // as="select"
+                                      // onChange={(e) => handleChange(e.target.value)}
                                     >
                                       {({ field, form }) => (
                                         <Form.Select
@@ -781,10 +781,10 @@ function AddAnimal(pros) {
                                       type="date"
                                       placeholder="Enter time to feed animal"
                                       className="control-field"
-                                    // `style={{
-                                    //   width: "30%",
-                                    //   marginRight: "20px",
-                                    // }}`
+                                      // `style={{
+                                      //   width: "30%",
+                                      //   marginRight: "20px",
+                                      // }}`
                                     />
                                   </div>
                                   <div
@@ -854,7 +854,6 @@ function AddAnimal(pros) {
                             )}
                           </div>
                         </div>
-
                       </div>
                       <div className="btn-footer">
                         <div
@@ -867,14 +866,22 @@ function AddAnimal(pros) {
                             variant="secondary"
                             onClick={handleClose}
                             active
-                            style={{ width: "80px", color: "white", backgroundColor: "red"}}
+                            style={{
+                              width: "80px",
+                              color: "white",
+                              backgroundColor: "red",
+                            }}
                           >
                             Close
                           </Button>
                         </div>
                         <div>
                           <Button
-                            style={{ background: "blue", color: "white", marginRight: "60px"}}
+                            style={{
+                              background: "blue",
+                              color: "white",
+                              marginRight: "60px",
+                            }}
                             variant="primary"
                             type="submit"
                             onClick={submitForm}

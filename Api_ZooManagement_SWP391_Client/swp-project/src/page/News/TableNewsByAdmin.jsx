@@ -13,10 +13,13 @@ import Typography from "@mui/material/Typography";
 import ViewNews from "./ViewNews";
 import EditNews from "./EditNews";
 import AddNews from "./AddNews";
+import DeleteNews from "./DeleteNews";
 function TableNewsByAdmin() {
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
   const [showModalView, setShowmodalView] = useState(false);
+  const [showModalDelete, setShowmodalDelete] = useState(false);
+
   const [showModalFodd, setShowmodalFood] = useState(false);
   const [showModalFoodAnimal, setShowmodalFoodAnimal] = useState(false);
   const [listNews, setListNews] = useState([]);
@@ -25,6 +28,7 @@ function TableNewsByAdmin() {
 
   const [dataAnimalEdit, setDataAnimalEdit] = useState({});
   const [dataAnimalView, setDataAnimalView] = useState({});
+  const [dataNewsDelete, setDataNewsDelete] = useState({});
   const [dataNewsEdit, setDataNewsEdit] = useState({});
   const [dataNewsView, setDataNewsView] = useState({});
   // const [showRequestList, setShowRequestList] = useState(false);
@@ -39,7 +43,9 @@ function TableNewsByAdmin() {
     let mounted = true;
     getList().then((items) => {
       if (mounted) {
-        setListNews(items === null ? null : items.filter(item => item.status === true));
+        setListNews(
+          items === null ? null : items.filter((item) => item.status === true)
+        );
       }
     });
     return () => (mounted = false);
@@ -96,6 +102,7 @@ function TableNewsByAdmin() {
     setShowmodalAdd(false);
     setShowmodalView(false);
     setShowmodalFood(false);
+    setShowmodalDelete(false);
     setAnchorEl(null);
   };
 
@@ -129,15 +136,18 @@ function TableNewsByAdmin() {
       window.location.reload();
     }
   };
-  const handleDenyNews = async (item) => {
-    const id = item.newsId;
-    const response = await fetch(`https://localhost:44352/api/News/${id}`, {
-      method: "DELETE",
-    });
-    if (response.ok) {
-      console.log("Success");
-      window.location.reload();
-    }
+  const handleDenyNews = (item) => {
+    const news = item;
+    setDataNewsDelete(news);
+    setShowmodalDelete(true);
+    // const id = item.newsId;
+    // const response = await fetch(`https://localhost:44352/api/News/${id}`, {
+    //   method: "DELETE",
+    // });
+    // if (response.ok) {
+    //   console.log("Success");
+    //   window.location.reload();
+    // }
   };
 
   const handleViewNews = (item) => {
@@ -438,6 +448,11 @@ function TableNewsByAdmin() {
         show={showModalView}
         handleClose={handleClose}
         dataNewsView={dataNewsView}
+      />
+      <DeleteNews
+        show={showModalDelete}
+        handleClose={handleClose}
+        dataNewsDelete={dataNewsDelete}
       />
     </div>
   );

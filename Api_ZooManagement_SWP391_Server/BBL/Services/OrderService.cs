@@ -44,6 +44,19 @@ namespace BBL.Services
             var trans = order.Transaction;
             DateTime s = trans.TransactionDate;
             var email = new MimeMessage();
+            string tickAdult = "0";
+            string tickChild = "0";
+            if (ticketAldult != null)
+            {
+                tickAdult = ticketAldult.TicketQuantity.ToString();
+            }
+            if(tickChild != null)
+            {
+                tickChild = ticketChild.TicketQuantity.ToString();
+            }
+
+
+
             email.From.Add(MailboxAddress.Parse("mapmapzoofpt@gmail.com"));
             email.To.Add(MailboxAddress.Parse(order.Email));
             email.Subject = "Your order";
@@ -51,8 +64,8 @@ namespace BBL.Services
                                                                                                 + "<div> Your order id: " + "<b>" + order.OrderId + "</b>" + "</div>" 
                                                                                                 + "<div>Your email is: " + order.Email + "<div>"
                                                                                                 + "<div>Your fullname is: " + order.FullName + "<div>"
-                                                                                                + "<div style ='color: 'black''>Your Adult ticket: " + ticketAldult.TicketQuantity +"</div>"
-                                                                                                + "<div>Your Child ticket: " + ticketChild.TicketQuantity + "</div>"
+                                                                                                + "<div style ='color: 'black''>Your Adult ticket: " + tickAdult + "</div>"
+                                                                                                + "<div>Your Child ticket: " + tickChild + "</div>"
                                                                                                 + "<div>Your total price: " + totalPrice + " VND" + "</div>"
                                                                                                 + "<div>Transaction infor: " + trans.TransactionInfo.ToString() + "</div>"
                                                                                                 + "<div>Transaction date: " + s.ToString().Substring(0, 10) + "</div>"
