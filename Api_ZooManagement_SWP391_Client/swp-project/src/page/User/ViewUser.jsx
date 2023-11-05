@@ -30,6 +30,7 @@ export default function ViewUser(pros) {
   const [phone, setPhone] = useState("");
   const [sex, setSex] = useState("");
   const [role, setRole] = useState("");
+  const [userImage, setUserImage] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [status, setStatus] = useState("");
@@ -43,6 +44,10 @@ export default function ViewUser(pros) {
       setAddress(dataUserView.address);
       setPhone(dataUserView.phone);
       setSex(dataUserView.sex === true ? "male" : "female");
+      const path = dataUserView.userImage;
+      const secondSlashIndex = path.indexOf("\\", path.indexOf("\\") + 1);
+      const substring = path.substring(secondSlashIndex + 1);
+      setUserImage(substring);
       setRole(dataUserView.role === 2 ? "Staff" : "ZooTrainer");
       setStartDate(dataUserView.startDate.slice(0, 10));
       setEndDate(
@@ -52,7 +57,6 @@ export default function ViewUser(pros) {
       setExperienceOption(dataUserView.experiences);
     }
   }, [dataUserView]);
-  console.log(dataUserView);
   const handleSave = () => {
     console.log("haha");
   };
@@ -139,7 +143,7 @@ export default function ViewUser(pros) {
                       <div className="label-info mb-2">
                         <label style={{color: "#813528"}}>Experience Information</label>
                       </div>
-                      <div className="Food-Information mb-4" style={{ width: "97%" }}>
+                      <div className="Food-Information mb-4" style={{ width: "100%" }}>
                         <div className="mb-3" style={{ paddingRight: "25px" }}>
                           <Table striped bordered hover>
                             <thead>
@@ -158,7 +162,6 @@ export default function ViewUser(pros) {
                                       <td>{value.experienceId}</td>
                                       <td>{value.position}</td>
                                       <td>{value.company}</td>
-                                      {console.log(value.position)}
                                     </tr>
                                   );
                                 })}
@@ -169,6 +172,14 @@ export default function ViewUser(pros) {
                               }
                             </tbody>
                           </Table>
+                        </div>
+                      </div>
+                      <div className="mb-3">
+                        <div>
+                          <img
+                            style={{ width: "100%" }}
+                            src={"/" + userImage}
+                          />
                         </div>
                       </div>
                       <div className="btn-footer">

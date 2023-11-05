@@ -14,36 +14,61 @@ import ViewNews from "./ViewNews";
 import EditNews from "./EditNews";
 import AddNews from "./AddNews";
 import DeleteNews from "./DeleteNews";
+import { Pagination } from "antd";
+
 function TableNews() {
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
   const [showModalView, setShowmodalView] = useState(false);
   const [showModalDelete, setShowmodalDelete] = useState(false);
-
   const [showModalFodd, setShowmodalFood] = useState(false);
   const [showModalFoodAnimal, setShowmodalFoodAnimal] = useState(false);
   const [listNews, setListNews] = useState([]);
+  const [user, setUser] = useState({});
   const [dataAnimalEdit, setDataAnimalEdit] = useState({});
   const [dataAnimalView, setDataAnimalView] = useState({});
   const [dataNewsEdit, setDataNewsEdit] = useState({});
   const [dataNewsView, setDataNewsView] = useState({});
   const [dataNewsDelete, setDataNewsDelete] = useState({});
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
-
+  const email = localStorage.getItem('email');
+  
+  const onShowSizeChange = (current) => {
+    console.log(current);
+    setCurrentPage(current);
+  };
+  useEffect(() => {
+    const getUser = () => {
+      return fetch(`https://localhost:44352/api/User/users/${email}`).then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getUser().then((items) => {
+      if (mounted) {
+        setUser(items.userId);
+      }
+    });
+    return () => (mounted = false);
+  }, [email]);
+  console.log(user);
   useEffect(() => {
     const getList = () => {
-      return fetch("https://localhost:44352/api/News").then((data) =>
+      return fetch(`https://localhost:44352/api/News/${user}/pages/${currentPage}`).then((data) =>
         data.json()
       );
     };
     let mounted = true;
     getList().then((items) => {
       if (mounted) {
-        setListNews(items.filter(item => item.status === true));
+        setListNews(items.news.filter(item => item.status === true));
+        setCurrentPage(items.currentPage)
       }
     });
     return () => (mounted = false);
-  }, [showModalEdit, showModalAdd]);
+  }, [showModalEdit, showModalAdd,user]);
   const handleClick = () => {
     setShowmodalAdd(true);
   };
@@ -172,7 +197,7 @@ function TableNews() {
                           </div>
                         )}
                       </td>
-                      <td style={{ width: "208px" }}>
+                      <td style={{ width: "208px",textAlign: "center" }}>
                         <Button
                           variant="text"
                           style={{ padding: 0 }}
@@ -182,6 +207,7 @@ function TableNews() {
                         >
                           <VisibilityIcon />
                         </Button>
+                        {items.checked === true && (
                         <Button
                           onClick={() => {
                             handleEditNews(items);
@@ -191,6 +217,8 @@ function TableNews() {
                         >
                           <EditIcon />
                         </Button>
+                        )}
+                        {items.checked === false && (
                         <Button
                           onClick={() => {
                             handleDeleteNews(items);
@@ -199,12 +227,26 @@ function TableNews() {
                           style={{ padding: 0 }}>
                           <DeleteIcon />
                         </Button>
+                        )}
                       </td>
                     </tr>
                   );
                 })}
+                {listNews.length < 0  && (
+                  <tr>
+                    <td colSpan={6}>No news</td>
+                  </tr>
+                )}
             </tbody>
           </Table>
+          <div className="pagination-container">
+            <Pagination
+              onChange={onShowSizeChange}
+              defaultCurrent={currentPage}
+              defaultPageSize={10}
+              total={totalPages * 10}
+            />
+          </div>
         </div>
       </div>
       <AddNews show={showModalAdd} handleClose={handleClose} />

@@ -44,7 +44,6 @@ const items = [
     ),
   ]),
   getItem("Other", "sub2", <AppstoreOutlined />, [
-    getItem("Order", "4", <MDBIcon fas icon="cash-register" />),
     getItem("News", "news", <MDBIcon far icon="newspaper" />),
   ]),
   {
@@ -59,7 +58,7 @@ const items = [
 ];
 const SideMenuStaff = ({ openSidebarToggle, OpenSidebar }) => {
   const [theme, setTheme] = useState("light");
-  const [current, setCurrent] = useState("profile");
+  const [current, setCurrent] = useState("");
   const [selectedKeys, setSelectedKeys] = useState("/");
   useEffect(() => {
     const pathName = location.pathname;
@@ -99,7 +98,7 @@ const SideMenuStaff = ({ openSidebarToggle, OpenSidebar }) => {
             setCurrent(item.key);
           }}
           selectedKeys={[current]}
-          defaultSelectedKeys={["profile"]}
+          // defaultSelectedKeys={["profile"]}
           defaultOpenKeys={["sub1"]}
           mode="inline"
           items={items}

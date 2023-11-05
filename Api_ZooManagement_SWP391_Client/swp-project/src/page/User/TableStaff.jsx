@@ -170,11 +170,11 @@ function TableStaff() {
           <Table size="100px" hover>
             <thead className="table-dark">
               <tr>
+                <th>Imgae</th>
                 <th>ID</th>
                 <th>Email</th>
                 <th>Role</th>
-                <th>First name</th>
-                <th>Last name</th>
+                <th>Name</th>
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
             </thead>
@@ -184,11 +184,26 @@ function TableStaff() {
                 users.map((item, index) => {
                   return (
                     <tr key={`user-${index}`}>
+                      <td width={140}>
+                        {" "}
+                        <img
+                          className="rounded"
+                          style={{ width: "100%" }}
+                          src={
+                            "/" +
+                            item.userImage.substring(
+                              item.userImage.indexOf(
+                                "\\",
+                                item.userImage.indexOf("\\") + 1
+                              ) + 1
+                            )
+                          }
+                        ></img>
+                      </td>
                       <td>{item.userId}</td>
                       <td>{item.email}</td>
                       <td>{item.role === 2 ? "Staff" : "ZooTrainer"}</td>
-                      <td>{item.firstname}</td>
-                      <td>{item.lastname}</td>
+                      <td>{item.firstname + " " + item.lastname}</td>
                       <td style={{ width: "13rem" }}>
                         <Button
                           variant="text"

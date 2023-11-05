@@ -14,6 +14,8 @@ import ViewNews from "./ViewNews";
 import EditNews from "./EditNews";
 import AddNews from "./AddNews";
 import DeleteNews from "./DeleteNews";
+import { Pagination } from "antd";
+
 function TableNewsByAdmin() {
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
@@ -31,9 +33,15 @@ function TableNewsByAdmin() {
   const [dataNewsDelete, setDataNewsDelete] = useState({});
   const [dataNewsEdit, setDataNewsEdit] = useState({});
   const [dataNewsView, setDataNewsView] = useState({});
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   // const [showRequestList, setShowRequestList] = useState(false);
   // const [showAvailableList, setShowAvailableList] = useState(false);
   const [currentList, setCurrentList] = useState(1);
+  const onShowSizeChange = (current) => {
+    console.log(current);
+    setCurrentPage(current);
+  };
   const getList = () => {
     return fetch("https://localhost:44352/api/News").then((data) =>
       data.json()
@@ -182,6 +190,19 @@ function TableNewsByAdmin() {
             <br />
             <Button
               variant="contained"
+              onClick={() => handleShowNews(1)}
+              style={{
+                marginTop: "20px",
+                marginRight: "20px",
+                backgroundColor: "aquamarine",
+                fontWeight: "bolder",
+                color: "#000080",
+              }}
+            >
+              All
+            </Button>
+            <Button
+              variant="contained"
               onClick={() => handleShowNews(2)}
               style={{
                 marginTop: "20px",
@@ -284,6 +305,18 @@ function TableNewsByAdmin() {
                           }}
                         >
                           <VisibilityIcon />
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            handleDenyNews(items);
+                          }}
+                          variant="text"
+                          style={{
+                            padding: 0,
+                            width: "84px",
+                          }}
+                        >
+                          <DeleteIcon />
                         </Button>
                       </td>
                     </tr>
@@ -436,6 +469,14 @@ function TableNewsByAdmin() {
                 })}
             </tbody>
           </Table>
+          <div className="pagination-container">
+            <Pagination
+              onChange={onShowSizeChange}
+              defaultCurrent={currentPage}
+              defaultPageSize={10}
+              total={totalPages * 10}
+            />
+          </div>
         </div>
       </div>
       <AddNews show={showModalAdd} handleClose={handleClose} />
