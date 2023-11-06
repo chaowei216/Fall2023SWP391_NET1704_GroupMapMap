@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
+import { Link } from "react-router-dom";
 function OurLog() {
   const [listPages, setListPages] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  // phân trang api
   const getPages = async (page) => {
     let res = await axios.get(`https://localhost:44352/api/News/pages/${page}`);
     if (res && res.data) {
@@ -12,12 +14,15 @@ function OurLog() {
       setListPages(res.data.news);
     }
   };
+
+  //render đầu trang
   useEffect(() => {
     const getPages = async (page) => {
       let res = await axios.get(
         `https://localhost:44352/api/News/pages/${page}`
       );
       if (res && res.data) {
+        console.log(res.data);
         setTotalPages(res.data.pages);
         setListPages(res.data.news.filter((n) => n.checked === true));
       }
@@ -69,22 +74,33 @@ function OurLog() {
             <div className="col-xl-8">
               {listPages.map((news) => (
                 <div key={news.newsId} className="recent-news-two">
-                  <img alt="recent-news-img" src={editImg(news.newsImage)} />
-                  <div className="recent-news mt-3">
+                  <div style={{ height: "200px", width: "200px" }}>
+                    <img
+                      alt="recent-news-img"
+                      style={{ height: "100%", width: "100%" }}
+                      src={editImg(news.newsImage)}
+                    />
+                  </div>
+
+                  <div className="recent-news mt-3" style={{ width: "2000px" }}>
                     <div>
-                      <a href="#">
-                        <span>{news.releaseDate}</span>
-                      </a>
-                      <a href="blog-details.html">
-                        <h2>{news.newsTitle}</h2>
-                      </a>
-                      <div className="d-flex align-items-center fix-img">
-                        <img
-                          alt="img"
-                          className="me-3"
-                          src="https://via.placeholder.com/55x55"
-                        />
-                        <h6>by {news.authorName}</h6>
+                      <Link to={`/detail/${news.newsId}`}>
+                        <h3 style={{ color: "#ff8ba7" }}>{news.newsTitle}</h3>
+                      </Link>
+                      <span>
+                        <span style={{ fontWeight: "bold" }}>
+                          Release date:
+                        </span>{" "}
+                        {editDay(news.releaseDate)}
+                      </span>
+
+                      <div
+                        className="d-flex align-items-center fix-img"
+                        style={{ marginTop: "10px" }}
+                      >
+                        <h6 style={{ fontSize: "20px" }}>
+                          by {news.authorName}
+                        </h6>
                       </div>
                     </div>
                   </div>
@@ -96,20 +112,46 @@ function OurLog() {
                 <h3 style={{ textAlign: "center" }}>Recent Posts</h3>
                 <ul>
                   {listPages.map((item) => (
-                    <li key={item.id}>
-                      <div style={{ margin: "10px" }}>
+                    <li
+                      key={item.id}
+                      style={{
+                        alignItems: "center",
+                        display: "grid",
+                        gridTemplateColumns: "1fr 1fr",
+                        gridGap: "20px",
+                        height: "200px",
+                        width: "400px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          // margin: "10px",
+                          width: "150px",
+                          height: "150px",
+                        }}
+                      >
                         <img
                           style={{ width: "100%", height: "100%" }}
                           alt="img"
-                          src={editImg(item.newsImage)}
+                          src={"../../../public/" + editImg(item.newsImage)}
                         />
                       </div>
 
                       <div>
-                        <p>{editDay(item.releaseDate)}</p>
                         <h6>
-                          <p>{item.newsTitle}</p>
+                          <Link
+                            to={`/detail/${item.newsId}`}
+                            style={{
+                              fontWeight: "bolder",
+                              fontSize: "20px",
+                              color: "black",
+                              marginBottom: "0",
+                            }}
+                          >
+                            {item.newsTitle}
+                          </Link>
                         </h6>
+                        <p>{editDay(item.releaseDate)}</p>
                       </div>
                     </li>
                   ))}
@@ -147,67 +189,6 @@ function OurLog() {
                     <a href="#">
                       Hippo<span>08</span>
                     </a>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="posts">
-                <h3>Trending Dishes</h3>
-                <ul className="trending-dishes-list">
-                  <li className="pt-0">
-                    <div className="dishes-list-img">
-                      <img
-                        alt="trending-dishe"
-                        src="./../src/assets/img/sutu80x80.jpeg"
-                      />
-                    </div>
-                    <h5>
-                      <a href="#">Rolls with vermicelli &amp; pickle</a>
-                    </h5>
-                  </li>
-                  <li>
-                    <div className="dishes-list-img">
-                      <img
-                        alt="trending-dishe"
-                        src="./../src/assets/img/casau80x80.jpeg"
-                      />
-                    </div>
-                    <h5>
-                      <a href="#">Spicy salad rolls with enoki</a>
-                    </h5>
-                  </li>
-                  <li>
-                    <div className="dishes-list-img">
-                      <img
-                        alt="trending-dishe"
-                        src="./../src/assets/img/hama80x80.jpeg"
-                      />
-                    </div>
-                    <h5>
-                      <a href="#">chicken wings served with sriracha</a>
-                    </h5>
-                  </li>
-                  <li>
-                    <div className="dishes-list-img">
-                      <img
-                        alt="trending-dishe"
-                        src="./../src/assets/img/vet80x80.jpeg"
-                      />
-                    </div>
-                    <h5>
-                      <a href="#">spicy salad rolls with enoki</a>
-                    </h5>
-                  </li>
-                  <li>
-                    <div className="dishes-list-img">
-                      <img
-                        alt="trending-dishe"
-                        src="./../src/assets/img/nguavan80x80.jpeg"
-                      />
-                    </div>
-                    <h5>
-                      <a href="#">chicken wings served with sriracha</a>
-                    </h5>
                   </li>
                 </ul>
               </div>
