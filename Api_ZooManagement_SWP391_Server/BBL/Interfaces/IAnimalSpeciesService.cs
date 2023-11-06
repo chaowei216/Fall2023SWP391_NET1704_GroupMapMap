@@ -1,4 +1,5 @@
 ﻿using DAL.Entities;
+using DTO.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,6 @@ namespace BBL.Interfaces
         AnimalSpecies GetBySpeciesId(string id);
         bool SpeciesExists(string id);
         AnimalSpecies GetBySpeciesName(string name);
-       
+        ICollection<GetSpeciesDto> GetSpeciesAnimal();
     }
 }

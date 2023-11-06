@@ -62,17 +62,32 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(response);
         }
 
-        [HttpGet("foodCategoryId")]
+        [HttpGet("AnimalSpeciesId")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public IActionResult GetByCateId(string id)
         {
-            var foodCate = _animalSpeciesService.GetBySpeciesId(id);
+            var animalSpecies = _animalSpeciesService.GetBySpeciesId(id);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            return Ok(foodCate);
+            return Ok(animalSpecies);
+        }
+
+        [HttpGet("CountAnimalInSpecies")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult CountAnimalInSpecies()
+        {
+            var animalSpecies = _animalSpeciesService.GetSpeciesAnimal();
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return Ok(animalSpecies);
         }
 
         [HttpPost]
