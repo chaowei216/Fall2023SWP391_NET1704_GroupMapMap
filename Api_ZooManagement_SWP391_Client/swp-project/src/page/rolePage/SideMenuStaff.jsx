@@ -44,7 +44,7 @@ const items = [
     ),
   ]),
   getItem("Other", "sub2", <AppstoreOutlined />, [
-    getItem("News", "news", <MDBIcon far icon="newspaper" />),
+    getItem("News", "news", <MDBIcon far icon="newspaper" />),getItem("Animal Species", "species", <MDBIcon far icon="newspaper" />), getItem("Food Category", "category", <MDBIcon far icon="newspaper" />),
   ]),
   {
     type: "divider",
