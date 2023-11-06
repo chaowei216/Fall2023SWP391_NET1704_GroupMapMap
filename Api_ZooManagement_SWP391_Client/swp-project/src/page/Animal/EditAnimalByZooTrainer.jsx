@@ -14,9 +14,9 @@ import { DatePicker, Radio, Select, Space } from "antd";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "../../assets/css/dashboard.css";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, Zoom, toast } from "react-toastify";
 import { MDBIcon } from "mdb-react-ui-kit";
-export default function EditAnimal(pros) {
+export default function EditAnimalByZooTrainer(pros) {
   const role = localStorage.getItem("role");
   const navigate = useNavigate();
   const { show, handleClose, dataAnimalEdit } = pros;
@@ -78,8 +78,8 @@ export default function EditAnimal(pros) {
     }
   };
   const handle = () => {
-    handleClose;
-    window.location.reload();
+    handleClose();
+    // window.location.reload();
   };
   const validateTrainerDate = (dateString) => {
     const selectedDate = new Date(dateString);
@@ -333,7 +333,7 @@ export default function EditAnimal(pros) {
             ? null
             : dataAnimalEdit.outCageDate.slice(0, 10)
         ),
-        setSpecies(dataAnimalEdit.species),
+        setSpecies(dataAnimalEdit.speciesName),
         setRarity(dataAnimalEdit.rarity);
       setFoods(dataAnimalEdit.foods);
       setSchedules(dataAnimalEdit.schedules);
@@ -352,7 +352,7 @@ export default function EditAnimal(pros) {
     setList3(list3);
   }, [dataAnimalEdit, foods]);
   const getCageList = () => {
-    return fetch("https://localhost:44352/api/Cage").then((data) =>
+    return fetch("https://localhost:44352/api/Cage/AvailableCage").then((data) =>
       data.json()
     );
   };
@@ -366,7 +366,7 @@ export default function EditAnimal(pros) {
     return () => (mounted = false);
   }, []);
   const getZooTrainerList = () => {
-    return fetch("https://localhost:44352/api/User/users").then((data) =>
+    return fetch("https://localhost:44352/api/User/AvailableTrainers").then((data) =>
       data.json()
     );
   };
@@ -390,7 +390,7 @@ export default function EditAnimal(pros) {
     if (animalId) {
       fetchData();
     }
-  }, [animalId, userID]);
+  }, [animalId, userID, show]);
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
@@ -402,7 +402,7 @@ export default function EditAnimal(pros) {
     if (animalId) {
       fetchData();
     }
-  }, [animalId, cageID]);
+  }, [animalId, cageID, show]);
 
   useEffect(() => {
     const ZooTrainerList = listZooTrainer.filter((user) => user.role === 3);
@@ -414,7 +414,7 @@ export default function EditAnimal(pros) {
         setAvailableTrainer(test1);
       }
     });
-  }, [listZooTrainer, listTrainerOld, userID]);
+  }, [listZooTrainer, listTrainerOld, userID, show]);
   console.log(availableTrainer);
   useEffect(() => {
     const oldCageId = listCageOld.map((cage) => cage.cId);
@@ -425,17 +425,17 @@ export default function EditAnimal(pros) {
         setAvailableCage(test2);
       }
     });
-  }, [listCage, listCageOld, cageID]);
+  }, [listCage, listCageOld, cageID, show]);
   console.log(availableCage);
-
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-     if (healthCheck === "") {
+    if (healthCheck === "") {
       setErros("HealthCheck can't be null");
       return;
     } else if (healthCheck != "") {
       setErros(null);
-    } else if (description === "") {
+    }
+    if (description === "") {
       setErros("Description can't be null");
       return;
     } else if (description != "") {
@@ -446,11 +446,11 @@ export default function EditAnimal(pros) {
       return;
     } else if (isValidAmount === false) {
       return;
-    } else if (isValidDescription === false){
+    } else if (isValidDescription === false) {
       return;
-    } else if (isValidStartEat ===  false){
+    } else if (isValidStartEat === false) {
       return;
-    } else if (isValidEndEat ===  false){
+    } else if (isValidEndEat === false) {
       return;
     }
     console.log(dataAnimalEdit);
@@ -482,6 +482,7 @@ export default function EditAnimal(pros) {
     );
     if (response.ok) {
       console.log("Success");
+      toast.success("Success");
       // localStorage.setItem("isAdded", true);
       // handleClose()
       // window.location.href = "/staff/2";
@@ -491,9 +492,10 @@ export default function EditAnimal(pros) {
       //   navigate("/staff/2");
       // }
       // window.location.reload();
+    } else {
+      toast.error("Error")
     }
   };
-
   return (
     <>
       <MDBModal show={show} onHide={handleClose}>
@@ -532,7 +534,7 @@ export default function EditAnimal(pros) {
                       <div className="mb-3 Animal_Infomation">
                         <div className="row mb-3">
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Name Animal</label>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Name Animal</label>
                             <Form.Control
                               id="name"
                               type="text"
@@ -552,7 +554,7 @@ export default function EditAnimal(pros) {
                           </Form.Control.Feedback> */}
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Region</label>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Region</label>
                             <Form.Control
                               type="text"
                               id="region"
@@ -574,7 +576,7 @@ export default function EditAnimal(pros) {
                           </Form.Control.Feedback> */}
                           </div>
                           <div className="mb-3" style={{ width: "33%" }}>
-                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Species Animal</label>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Species Animal</label>
                             <Form.Control
                               type="string"
                               id="species"
@@ -596,7 +598,7 @@ export default function EditAnimal(pros) {
                         <div className="row mb-3">
                           <div className="mb-3" style={{ width: "25%" }}>
                             <div>
-                              <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Gender</label>
+                              <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Gender</label>
                               <br />
                               <Radio.Group
                                 id="gender"
@@ -609,32 +611,36 @@ export default function EditAnimal(pros) {
                                 buttonStyle="solid"
                                 disabled
                               >
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                  }}
-                                  value="male"
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    Male
-                                  </span>
-                                </Radio>
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                  }}
-                                  value="female"
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    Female
-                                  </span>
-                                </Radio>
+                                {gender === "male" && (
+                                  <Radio
+                                    style={{
+                                      width: "40%",
+                                    }}
+                                    value="male"
+                                  >
+                                    <span style={{ verticalAlign: "middle", fontWeight: "bolder" }}>
+                                      Male
+                                    </span>
+                                  </Radio>
+                                )}
+                                {gender === "female" && (
+                                  <Radio
+                                    style={{
+                                      width: "40%",
+                                    }}
+                                    value="female"
+                                  >
+                                    <span style={{ verticalAlign: "middle", fontWeight: "bolder" }}>
+                                      Female
+                                    </span>
+                                  </Radio>
+                                )}
                               </Radio.Group>
                             </div>
                           </div>
                           <div className="mb-3" style={{ width: "25%" }}>
                             <div>
-                              <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Status</label>
+                              <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Status</label>
                               <br />
                               <Radio.Group
                                 id="status"
@@ -647,26 +653,30 @@ export default function EditAnimal(pros) {
                                 value={status}
                                 buttonStyle="solid"
                               >
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                  }}
-                                  value={true}
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    Available
-                                  </span>
-                                </Radio>
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                  }}
-                                  value={false}
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    Deadth
-                                  </span>
-                                </Radio>
+                                {status === true && (
+                                  <Radio
+                                    style={{
+                                      width: "40%",
+                                    }}
+                                    value={true}
+                                  >
+                                    <span style={{ verticalAlign: "middle", fontWeight: "bolder" }}>
+                                      Available
+                                    </span>
+                                  </Radio>
+                                )}
+                                {status === false && (
+                                  <Radio
+                                    style={{
+                                      width: "40%",
+                                    }}
+                                    value={false}
+                                  >
+                                    <span style={{ verticalAlign: "middle", fontWeight: "bolder" }}>
+                                      Deadth
+                                    </span>
+                                  </Radio>
+                                )}
                               </Radio.Group>
                             </div>
                           </div>
@@ -674,7 +684,7 @@ export default function EditAnimal(pros) {
                             <div>
                               <label
                                 className="form-label"
-                                style={{ verticalAlign: "middle",color: "#813528", fontWeight: "bolder" }}
+                                style={{ color: "#813528", fontWeight: "bolder", verticalAlign: "middle" }}
                               >
                                 Is Animal Rarity
                               </label>
@@ -693,31 +703,35 @@ export default function EditAnimal(pros) {
                                   setRarity(event.target.value)
                                 }
                               >
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                  }}
-                                  value={true}
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    Rarity
-                                  </span>
-                                </Radio>
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                  }}
-                                  value={false}
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    None
-                                  </span>
-                                </Radio>
+                                {rarity === true && (
+                                  <Radio
+                                    style={{
+                                      width: "40%",
+                                    }}
+                                    value={true}
+                                  >
+                                    <span style={{ verticalAlign: "middle", fontWeight: "bolder" }}>
+                                      Rarity
+                                    </span>
+                                  </Radio>
+                                )}
+                                {rarity === false && (
+                                  <Radio
+                                    style={{
+                                      width: "40%",
+                                    }}
+                                    value={false}
+                                  >
+                                    <span style={{ verticalAlign: "middle", fontWeight: "bolder" }}>
+                                      None
+                                    </span>
+                                  </Radio>
+                                )}
                               </Radio.Group>
                             </div>
                           </div>
                           <div className="mb-3" style={{ width: "25%" }}>
-                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Birthday</label>
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Birthday</label>
                             <br />
                             <Space
                               direction="vertical"
@@ -737,8 +751,8 @@ export default function EditAnimal(pros) {
                           </div>
                         </div>
                         <div className="mb-3">
-                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>HealthCheck</label>
-                          <Form.Control
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>HealthCheck</label>
+                          {/* <Form.Control
                             as="textarea"
                             style={{ height: "90px", width: "98%" }}
                             id="healthCheck"
@@ -749,22 +763,33 @@ export default function EditAnimal(pros) {
                             onChange={(event) =>
                               setHealthCheck(event.target.value)
                             }
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.address && formik.touched.address
-                          // }
-                          />
-                          {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.address}
-                        </Form.Control.Feedback> */}
+                          /> */}
+                          <Form.Select
+                            className="mt-3"
+                            value={healthCheck}
+                            style={{ height: "45px", width: "28%" }}
+                            onChange={(e) => {
+                              setHealthCheck(e.target.value)
+                            }}
+                          >
+                            <option value="Good">
+                              <div style={{ height: "50px" }}>Good</div>
+                            </option>
+                            <option value="Sickness">
+                              <div style={{ height: "50px" }}>Sickness</div>
+                            </option>
+                            <option value="Being treatment">
+                              <div style={{ height: "50px" }}>Being treatment</div>
+                            </option>
+                          </Form.Select>
                         </div>
                         <div className="mb-3">
-                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>Description</label>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Description</label>
                           <Form.Control
                             as="textarea"
                             id="description"
                             placeholder="description"
+                            disabled
                             aria-describedby="inputGroupPrepend"
                             name="description"
                             style={{ height: "90px", width: "98%" }}
@@ -801,12 +826,11 @@ export default function EditAnimal(pros) {
                         style={{ paddingRight: "25px" }}
                       >
                         <div className="mb-3">
-                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
                             Choose Cage for Animal
                           </label>
                           <Form.Select
                             size="lg"
-                            disabled
                             placeholder="Chọn món ăn"
                             id="cageId"
                             name="cageId"
@@ -837,8 +861,8 @@ export default function EditAnimal(pros) {
                           }}
                         >
                           <div style={{ width: "40%" }}>
-                            <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
-                              Choose Entry Cage
+                            <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
+                              Entry Cage
                             </label>
                             <br />
                             <Form.Control
@@ -894,12 +918,12 @@ export default function EditAnimal(pros) {
                         </div>
                       </div>
                       <div className="label-info">
-                        <label>Zoo Trainer Information</label>
+                        <label>ZooTrainer Information</label>
                       </div>
                       <div className="mb-3 ZooTrainer-Information">
                         <div className="mb-3">
-                          <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
-                            Choose Zoo Trainer for Animal
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
+                            Choose ZooTrainer for Animal
                           </label>
                           <Form.Select
                             size="lg"
@@ -933,8 +957,8 @@ export default function EditAnimal(pros) {
                             }}
                           >
                             <div style={{ width: "40%" }}>
-                              <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
-                                Choose Start Train
+                              <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
+                                Start Train
                               </label>
                               <br />
                               <Form.Control
@@ -980,15 +1004,7 @@ export default function EditAnimal(pros) {
                             </div> */}
                           </div>
                         </div>
-                        <div style={{ textAlign: "end" }}>
-                          <Button
-                            type="submit"
-                            variant="text"
-                            style={{ padding: 0, marginRight: "24px" }}
-                          >
-                            <MDBIcon fas icon="edit" size="2x" />
-                          </Button>
-                        </div>
+                        
                       </div>
                       <div className="label-info">
                         <label>Food Information</label>
@@ -1018,7 +1034,7 @@ export default function EditAnimal(pros) {
                                 />
                               </div> */}
                               <div style={{ width: "25%" }}>
-                                <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
+                                <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
                                   Edit Food For Animal
                                 </label>
                                 <Form.Control
@@ -1051,7 +1067,7 @@ export default function EditAnimal(pros) {
                                 </Form.Control>
                               </div>
                               <div style={{ width: "25%" }}>
-                                <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
+                                <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
                                   Enter Amount Food (KG)
                                 </label>
                                 <Form.Control
@@ -1070,7 +1086,7 @@ export default function EditAnimal(pros) {
                                 </Form.Control.Feedback>
                               </div>
                               <div style={{ width: "25%" }}>
-                                <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
+                                <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
                                   Edit Start Eat Date
                                 </label>
                                 <Form.Control
@@ -1086,7 +1102,7 @@ export default function EditAnimal(pros) {
                                 />
                               </div>
                               <div style={{ width: "25%" }}>
-                                <label className="form-label" style={{color: "#813528", fontWeight: "bolder"}}>
+                                <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
                                   Edit End Eat Date
                                 </label>
                                 <Form.Control
@@ -1256,10 +1272,9 @@ export default function EditAnimal(pros) {
                         </div>
                       )}
 
-                      <div className="btn-footer">
+                      <div className="btn-footer" style={{ marginRight: "0px" }}>
                         <div
                           style={{
-                            marginRight: "20px",
                             background: "gainsboro",
                           }}
                         >
@@ -1267,7 +1282,7 @@ export default function EditAnimal(pros) {
                             variant="secondary"
                             onClick={handle}
                             active
-                            style={{ width: "80px" }}
+                            style={{ width: "80px", color: "white", backgroundColor: "red" }}
                           >
                             Close
                           </Button>
@@ -1286,20 +1301,7 @@ export default function EditAnimal(pros) {
                     </div>
                   </div>
                 </Form>
-                <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="light"
-                />
-                {/* Same as */}
-                <ToastContainer />
+
               </div>
             </MDBModalBody>
             <MDBModalFooter></MDBModalFooter>

@@ -1,6 +1,7 @@
 ﻿using BBL.Interfaces;
 using DAL.Entities;
 using DAL.Repositories;
+using DTO.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,15 +29,6 @@ namespace BBL.Services
             return _speciesRepo.GetAll();
         }
 
-        /*public AnimalSpecies GetByAnimalId(string animalId)
-        {
-            var animals = _animalRepo.GetAll();
-            foreach(var c in animals)
-            {
-                _
-            }
-            return _speciesRepo.GetAll().Where(animal => animal. == animalId);
-        }*/
 
         public AnimalSpecies GetBySpeciesId(string id)
         {
@@ -46,6 +38,21 @@ namespace BBL.Services
         public AnimalSpecies GetBySpeciesName(string name)
         {
             return _speciesRepo.GetAll().Where(species => species.SpeciesName == name).FirstOrDefault();
+        }
+
+        public ICollection<GetSpeciesDto> GetSpeciesAnimal()
+        {
+            var animalSpecies = _speciesRepo.GetAll().ToList();
+            var allSpecies = new List<GetSpeciesDto>();
+            foreach(var animal in animalSpecies)
+            {
+                var species = new GetSpeciesDto();
+                species.SpeciesId = animal.SpeciesId;
+                species.SpeciesName = animal.SpeciesName;
+                species.CountAnimal = _animalRepo.GetAll().Where(a => a.SpeciesId == species.SpeciesId && a.Status == true).Count();
+                allSpecies.Add(species);
+            }
+            return allSpecies;
         }
 
         public bool SpeciesExists(string id)

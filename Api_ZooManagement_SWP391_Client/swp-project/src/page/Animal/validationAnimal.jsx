@@ -44,10 +44,10 @@ export const schemaAnimal = yup.object().shape({
   //   /^[a-zA-Z-.']+$/,
   //   "Region can only contain letters, dashes, periods, and apostrophes"
   // ),
-  healthCheck: yup
-    .string()
-    .required("healthCheck is required")
-    .min(2, "Description must be at least 2 characters"),
+  // healthCheck: yup
+  //   .string()
+  //   .required("healthCheck is required")
+  //   .min(2, "Description must be at least 2 characters"),
 
   // .matches(
   //   /^[a-zA-Z-.']+$/,

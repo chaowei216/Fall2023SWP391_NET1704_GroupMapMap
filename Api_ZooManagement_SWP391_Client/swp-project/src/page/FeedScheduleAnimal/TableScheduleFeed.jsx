@@ -18,6 +18,7 @@ import YourComponent from "../Animal/AnimalFoodTest";
 import EditAnimalByZooTrainer from "../Animal/EditAnimalByZooTrainer";
 import { MDBTypography } from "mdb-react-ui-kit";
 import PetsIcon from "@mui/icons-material/Pets";
+import moment from 'moment'
 function TableScheduleFeed() {
   const emailInfo = localStorage.getItem("email");
   const [showModalAdd, setShowmodalAdd] = useState(false);
@@ -67,8 +68,72 @@ function TableScheduleFeed() {
       setAID(ZooProfileTest[0].userId);
     }
   }, [ZooProfileTest]);
+
   const list = listAnimal.filter((animal) => animal.userId === aID);
   console.log(list);
+  function getPeriod(hour) {
+    if (hour >= 6 && hour < 12) {
+      return 'morning';
+    }
+    if (hour >= 12 && hour < 18) {
+      return 'afternoon';
+    }
+    if (hour >= 18 || hour < 6) {
+      return 'evening';
+    }
+  }
+  function parseTime(time) {
+    // Chuyển thời gian sang đối tượng Date
+    const [hours] = time.split(':');
+    const hour = parseInt(hours);
+    console.log(hour);
+    if (hour >= 6 && hour < 12) {
+      return 'morning';
+    }
+    if (hour >= 12 && hour < 18) {
+      return 'afternoon';
+    }
+    if (hour >= 18 || hour < 6) {
+      return 'evening';
+    }
+  }
+  // Lấy thời gian hiện tại
+  const now = new Date();
+  // const testNow = new Date(now)
+  // console.log(testNow.getHours());
+  // Xác định khung giờ hiện tại
+  const currentPeriod = getPeriod(now.getHours());
+  console.log(currentPeriod);
+  useEffect(() => {
+    const a = list;
+    a.map((item) => {
+      // item.schedules.map((value) =>{
+      //   const matchedSchedules = value.filter(schedule => {
+      //     const schedulePeriod = getPeriod(schedule.time);
+      //     return schedulePeriod === currentPeriod;
+      //   });
+      //   // console.log(matchedSchedules);
+      //   // const schedulePeriod = getPeriod(value.time)
+      //   // console.log(currentPeriod);
+      //   // console.log(schedulePeriod);
+      //   // if (currentPeriod.includes(schedulePeriod)){
+      //   //   console.log(value);
+      //   // }
+      //   // if(value.time >= afternoon.start && value.time < afternoon.end) {
+      //   //   console.log(value);
+      //   // }
+      // })
+      const matchedSchedules = item.schedules.filter(schedule => {
+
+        const schedulePeriod = parseTime(schedule.time);
+        console.log(currentPeriod);
+        console.log(schedulePeriod);
+        return schedulePeriod === currentPeriod;
+
+      })
+      console.log(matchedSchedules);
+    })
+  }, [list])
   const handleClick = () => {
     setShowmodalAdd(true);
     setAnchorEl(null);
@@ -122,7 +187,7 @@ function TableScheduleFeed() {
           className="my-3 add-new"
           style={{ display: "flex", justifyContent: "center" }}
         >
-        {/* <Image
+          {/* <Image
             width={90}
             src="https://img.freepik.com/premium-vector/zoo-logo-design-vector-illustration_742779-149.jpg?w=2000"
           ></Image> */}
@@ -186,53 +251,53 @@ function TableScheduleFeed() {
           </Table> */}
           <MDBTable>
             <MDBTableHead dark
-              // style={{
-              //   borderTop: "white",
-              //   borderRight: "black",
-              //   borderLeft: "black",
-              //   borderBottom: "black",
-              // }}
+            // style={{
+            //   borderTop: "white",
+            //   borderRight: "black",
+            //   borderLeft: "black",
+            //   borderBottom: "black",
+            // }}
             >
               <tr>
                 <th
                   scope="col"
-                  style={{ textAlign: "center"}}
+                  style={{ textAlign: "center" }}
                 >
                   No.
                 </th>
                 <th
                   scope="col"
-                  style={{ textAlign: "center"}}
+                  style={{ textAlign: "center" }}
                 >
                   ANIMAL
                 </th>
                 <th
                   scope="col"
-                  style={{ textAlign: "center"}}
+                  style={{ textAlign: "center" }}
                 >
                   TYPE OF FEED
                 </th>
                 <th
                   scope="col"
-                  style={{ textAlign: "center"}}
+                  style={{ textAlign: "center" }}
                 >
                   FOOD
                 </th>
                 <th
                   scope="col"
-                  style={{ textAlign: "center"}}
+                  style={{ textAlign: "center" }}
                 >
                   AMOUNT OF FEED (KG)
                 </th>
                 <th
                   scope="col"
-                  style={{ textAlign: "center"}}
+                  style={{ textAlign: "center" }}
                 >
                   TIME OF DAY
                 </th>
                 <th
                   scope="col"
-                  style={{ textAlign: "center"}}
+                  style={{ textAlign: "center" }}
                 >
                   ACTION
                 </th>
@@ -283,15 +348,20 @@ function TableScheduleFeed() {
                           })}
                       </td>
                       <td>
+
                         {items.schedules &&
                           items.schedules.map((value) => {
-                            return (
-                              <div>
-                                <span>
-                                  {value.scheduleName + " - " + value.time}
-                                </span>
-                              </div>
-                            );
+                            const schedulePeriod = parseTime(value.time);
+                            const currentPeriod = getPeriod(now.getHours());
+                            if (schedulePeriod === currentPeriod) {
+                              return (
+                                <div>
+                                  <span>
+                                    {value.scheduleName + " - " + value.time}
+                                  </span>
+                                </div>
+                              );
+                            }
                           })}
                       </td>
                       <td style={{ width: "208px", verticalAlign: "middle" }}>

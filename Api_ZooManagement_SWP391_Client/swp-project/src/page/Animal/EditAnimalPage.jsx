@@ -611,26 +611,30 @@ export default function EditAnimal(pros) {
                                 buttonStyle="solid"
                                 disabled
                               >
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                  }}
-                                  value="male"
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    Male
-                                  </span>
-                                </Radio>
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                  }}
-                                  value="female"
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    Female
-                                  </span>
-                                </Radio>
+                                {gender === "male" && (
+                                  <Radio
+                                    style={{
+                                      width: "40%",
+                                    }}
+                                    value="male"
+                                  >
+                                    <span style={{ verticalAlign: "middle", fontWeight: "bolder" }}>
+                                      Male
+                                    </span>
+                                  </Radio>
+                                )}
+                                {gender === "female" && (
+                                  <Radio
+                                    style={{
+                                      width: "40%",
+                                    }}
+                                    value="female"
+                                  >
+                                    <span style={{ verticalAlign: "middle", fontWeight: "bolder" }}>
+                                      Female
+                                    </span>
+                                  </Radio>
+                                )}
                               </Radio.Group>
                             </div>
                           </div>
@@ -649,26 +653,30 @@ export default function EditAnimal(pros) {
                                 value={status}
                                 buttonStyle="solid"
                               >
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                  }}
-                                  value={true}
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    Available
-                                  </span>
-                                </Radio>
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                  }}
-                                  value={false}
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    Deadth
-                                  </span>
-                                </Radio>
+                                {status === true && (
+                                  <Radio
+                                    style={{
+                                      width: "40%",
+                                    }}
+                                    value={true}
+                                  >
+                                    <span style={{ verticalAlign: "middle", fontWeight: "bolder" }}>
+                                      Available
+                                    </span>
+                                  </Radio>
+                                )}
+                                {status === false && (
+                                  <Radio
+                                    style={{
+                                      width: "40%",
+                                    }}
+                                    value={false}
+                                  >
+                                    <span style={{ verticalAlign: "middle", fontWeight: "bolder" }}>
+                                      Deadth
+                                    </span>
+                                  </Radio>
+                                )}
                               </Radio.Group>
                             </div>
                           </div>
@@ -676,7 +684,7 @@ export default function EditAnimal(pros) {
                             <div>
                               <label
                                 className="form-label"
-                                style={{ color: "#813528", fontWeight: "bolder", verticalAlign: "middle"  }}
+                                style={{ color: "#813528", fontWeight: "bolder", verticalAlign: "middle" }}
                               >
                                 Is Animal Rarity
                               </label>
@@ -695,26 +703,30 @@ export default function EditAnimal(pros) {
                                   setRarity(event.target.value)
                                 }
                               >
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                  }}
-                                  value={true}
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    Rarity
-                                  </span>
-                                </Radio>
-                                <Radio
-                                  style={{
-                                    width: "40%",
-                                  }}
-                                  value={false}
-                                >
-                                  <span style={{ verticalAlign: "middle" }}>
-                                    None
-                                  </span>
-                                </Radio>
+                                {rarity === true && (
+                                  <Radio
+                                    style={{
+                                      width: "40%",
+                                    }}
+                                    value={true}
+                                  >
+                                    <span style={{ verticalAlign: "middle", fontWeight: "bolder" }}>
+                                      Rarity
+                                    </span>
+                                  </Radio>
+                                )}
+                                {rarity === false && (
+                                  <Radio
+                                    style={{
+                                      width: "40%",
+                                    }}
+                                    value={false}
+                                  >
+                                    <span style={{ verticalAlign: "middle", fontWeight: "bolder" }}>
+                                      None
+                                    </span>
+                                  </Radio>
+                                )}
                               </Radio.Group>
                             </div>
                           </div>
@@ -740,7 +752,7 @@ export default function EditAnimal(pros) {
                         </div>
                         <div className="mb-3">
                           <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>HealthCheck</label>
-                          <Form.Control
+                          {/* <Form.Control
                             as="textarea"
                             style={{ height: "90px", width: "98%" }}
                             id="healthCheck"
@@ -751,15 +763,25 @@ export default function EditAnimal(pros) {
                             onChange={(event) =>
                               setHealthCheck(event.target.value)
                             }
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          // isInvalid={
-                          //   formik.errors.address && formik.touched.address
-                          // }
-                          />
-                          {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.address}
-                        </Form.Control.Feedback> */}
+                          /> */}
+                          <Form.Select
+                            className="mt-3"
+                            value={healthCheck}
+                            style={{ height: "45px", width: "28%" }}
+                            onChange={(e) => {
+                              setHealthCheck(e.target.value)
+                            }}
+                          >
+                            <option value="Good">
+                              <div style={{ height: "50px" }}>Good</div>
+                            </option>
+                            <option value="Sickness">
+                              <div style={{ height: "50px" }}>Sickness</div>
+                            </option>
+                            <option value="Being treatment">
+                              <div style={{ height: "50px" }}>Being treatment</div>
+                            </option>
+                          </Form.Select>
                         </div>
                         <div className="mb-3">
                           <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Description</label>
@@ -839,7 +861,7 @@ export default function EditAnimal(pros) {
                         >
                           <div style={{ width: "40%" }}>
                             <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
-                               Entry Cage
+                              Entry Cage
                             </label>
                             <br />
                             <Form.Control
@@ -1256,7 +1278,7 @@ export default function EditAnimal(pros) {
                         </div>
                       )}
 
-                      <div className="btn-footer" style={{marginRight: "0px"}}>
+                      <div className="btn-footer" style={{ marginRight: "0px" }}>
                         <div
                           style={{
                             background: "gainsboro",
@@ -1266,7 +1288,7 @@ export default function EditAnimal(pros) {
                             variant="secondary"
                             onClick={handle}
                             active
-                            style={{ width: "80px",color: "white",backgroundColor: "red" }}
+                            style={{ width: "80px", color: "white", backgroundColor: "red" }}
                           >
                             Close
                           </Button>
@@ -1285,7 +1307,7 @@ export default function EditAnimal(pros) {
                     </div>
                   </div>
                 </Form>
-               
+
               </div>
             </MDBModalBody>
             <MDBModalFooter></MDBModalFooter>

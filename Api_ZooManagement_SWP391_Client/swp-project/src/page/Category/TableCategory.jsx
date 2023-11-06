@@ -126,7 +126,7 @@ function TableCategory() {
       <div className="table-component">
         <div className="my-3 add-new">
           <span>
-            <b>View Species</b>
+            <b>View Food Category</b>
           </span>
           <div className="search-container">
             {/* toggleShow */}

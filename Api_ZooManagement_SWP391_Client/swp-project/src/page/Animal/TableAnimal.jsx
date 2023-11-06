@@ -77,6 +77,8 @@ function TableAnimal() {
     setShowmodalAdd(true);
     setAnchorEl(null);
   };
+
+  
   const handleClick2 = () => {
     setShowmodalFoodAnimal(true);
     setAnchorEl(null);
@@ -270,7 +272,7 @@ function TableAnimal() {
                   }}
                 >
                   <Typography sx={{ p: 2 }}>
-                    <div className="btn-header">
+                    <div className="btn-header" style={{width: '185px'}}>
                       <div
                         className="mb-3 mt-1"
                         style={{ background: "aliceblue" }}
