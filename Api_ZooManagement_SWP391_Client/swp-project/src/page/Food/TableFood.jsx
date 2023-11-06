@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import { DashOutlined, PlusOutlined } from "@ant-design/icons";
 import "../../assets/css/dashboard.css";
 import Table from "react-bootstrap/Table";
+import { MDBListGroup, MDBListGroupItem, MDBBadge } from 'mdb-react-ui-kit';
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -30,7 +31,7 @@ function TableFood() {
   const [dataFoodView, setDataFoodView] = useState({});
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [foodNotifications, setFoodNotifications] = useState([]);
   useEffect(() => {
     const getList = () => {
       return fetch(`https://localhost:44352/api/Food/pages/${currentPage}`).then((data) =>
@@ -45,10 +46,23 @@ function TableFood() {
       }
     });
     return () => (mounted = false);
-  }, [showModalEdit,showModalAdd]);
+  }, [showModalEdit, showModalAdd]);
   const handleClick = () => {
     setShowmodalAdd(true);
   };
+  const handleClickPop = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  useEffect(() => {
+    const list = [];
+    listFood.map((food) => {
+      if (food.quantity < 100) {
+        list.push(food);
+      }
+      setFoodNotifications(list);
+    })
+  }, [listFood])
+  console.log(foodNotifications);
   //   const handleClick = () => {
   //     setShowmodalAdd(true);
   //     setAnchorEl(null);
@@ -131,6 +145,51 @@ function TableFood() {
         <div className="my-3 add-new">
           <span>
             <b>View Food</b>
+            <Button
+              variant="contained"
+              onClick={handleClickPop}
+              style={{
+                marginLeft: "20px",
+                marginRight: "20px",
+                backgroundColor: "#d9eef7",
+                fontWeight: "bolder",
+                color: "#000080",
+              }}
+            >
+              Notification
+              <MDBBadge className='ms-2' color='danger' style={{ fontSize: "small" }}>
+                {foodNotifications.length}
+              </MDBBadge>
+            </Button>
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+            >
+              {foodNotifications && foodNotifications.map((value) => {
+                return (
+                  <div key={value.foodId}>
+                    <MDBListGroup style={{ minWidth: '22rem', display: "table" }} light>
+                      <MDBListGroupItem className='d-flex justify-content-between align-items-center'>
+                        <div>
+                          <div className='text-muted'><b>Food ID: </b>{value.foodId}</div>
+                          <div className='text-muted'><b>Food Name: </b>{value.fName}</div>
+                          <div className='text-muted'><b>Quantity: </b>{value.quantity}</div>
+                        </div>
+                        <MDBBadge className='ms-2' color='warning' style={{ fontSize: "medium" }}>
+                          Warning
+                        </MDBBadge>
+                      </MDBListGroupItem>
+                    </MDBListGroup>
+                  </div>
+                )
+              })}
+            </Popover>
           </span>
           <div className="search-container">
             {/* toggleShow */}

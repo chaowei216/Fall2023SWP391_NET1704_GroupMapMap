@@ -105,6 +105,12 @@
 
 }
 
+.MuiPaper-root {
+font-size: medium !important;
+display: table !important;
+max-width: min-content !important;
+}
+
 .row-content {
   width: 50%;
 }

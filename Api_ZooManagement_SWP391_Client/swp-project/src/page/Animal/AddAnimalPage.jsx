@@ -59,6 +59,7 @@ function AddAnimal(pros) {
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("North America");
+  const [selectedHealthCheck, setSelectedHealthCheck] = useState("Good");
   const [selectedCage, setSelectedCage] = useState();
   const addField = () => {
     setFields([
@@ -257,7 +258,7 @@ function AddAnimal(pros) {
                     region: "North America",
                     description: "",
                     gender: true,
-                    healthCheck: "",
+                    healthCheck: "Good",
                     birthday: "",
                     startTrainDate: "",
                     cageId: "",
@@ -367,9 +368,6 @@ function AddAnimal(pros) {
                                     </Form.Select>
                                   )}
                                 </Field>
-                                <Form.Control.Feedback type="invalid">
-                                  {errors.region}
-                                </Form.Control.Feedback>
                               </div>
                               <div className="mb-3" style={{ width: "33%" }}>
                                 <label className="form-label">
@@ -377,32 +375,42 @@ function AddAnimal(pros) {
                                 </label>
                                 <Field name="species">
                                   {() => (
-                                    <Form.Select
-                                      value={values.species}
-                                      onBlur={handleBlur}
-                                      onChange={(e) => {
-                                        setFieldValue(
-                                          "species",
-                                          e.target.value
-                                        );
-                                        setSelectedSpecies(e.target.value);
-                                      }}
-                                    >
-                                      <option value={null}>
-                                        Choose Species
-                                      </option>
-                                      {/* Render các option từ API */}
-                                      {listSpecies.map((option) => (
-                                        <option
-                                          key={option.speciesName}
-                                          value={option.speciesName}
-                                        >
-                                          <div style={{ height: "50px" }}>
-                                            {option.speciesName}
-                                          </div>
+                                    <div>
+                                      <Form.Select
+                                        value={values.species}
+                                        id="species"
+                                        name="species"
+                                        onBlur={handleBlur}
+                                        isInvalid={
+                                          errors.species && touched.species
+                                        }
+                                        onChange={(e) => {
+                                          setFieldValue(
+                                            "species",
+                                            e.target.value
+                                          );
+                                          setSelectedSpecies(e.target.value);
+                                        }}
+                                      >
+                                        <option value={null}>
+                                          Choose Species
                                         </option>
-                                      ))}
-                                    </Form.Select>
+                                        {/* Render các option từ API */}
+                                        {listSpecies.map((option) => (
+                                          <option
+                                            key={option.speciesName}
+                                            value={option.speciesName}
+                                          >
+                                            <div style={{ height: "50px" }}>
+                                              {option.speciesName}
+                                            </div>
+                                          </option>
+                                        ))}
+                                      </Form.Select>
+                                      <Form.Control.Feedback type="invalid">
+                                        {errors.species}
+                                      </Form.Control.Feedback>
+                                    </div>
                                   )}
                                 </Field>
                               </div>
@@ -516,25 +524,27 @@ function AddAnimal(pros) {
                               style={{ marginRight: "20px" }}
                             >
                               <label className="form-label">
-                                Enter Health Check
+                                Choose Health Check
                               </label>
-                              <Form.Control
-                                as="textarea"
-                                style={{ height: "45px" }}
-                                id="healthCheck"
-                                placeholder="Health Check"
-                                aria-describedby="inputGroupPrepend"
-                                name="healthCheck"
-                                value={values.healthCheck}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                isInvalid={
-                                  errors.healthCheck && touched.healthCheck
-                                }
-                              />
-                              <Form.Control.Feedback type="invalid">
-                                {errors.healthCheck}
-                              </Form.Control.Feedback>
+                              <Field name="healthCheck">
+                                {() => (
+                                  <Form.Select
+                                    value={values.healthCheck}
+                                    style={{ height: "45px", width: "28%" }}
+                                    onChange={(e) => {
+                                      setFieldValue("healthCheck", e.target.value);
+                                      setSelectedHealthCheck(e.target.value);
+                                    }}
+                                  >
+                                    <option value="Good">
+                                      <div style={{ height: "50px" }}>Good</div>
+                                    </option>
+                                    <option value="Sickness">
+                                      <div style={{ height: "50px" }}>Sickness</div>
+                                    </option>
+                                  </Form.Select>
+                                )}
+                              </Field>
                             </div>
                             <div
                               className="mb-2"
@@ -722,8 +732,8 @@ function AddAnimal(pros) {
                                     </label>
                                     <Field
                                       name={`fields[${index}].foodId`}
-                                      // as="select"
-                                      // onChange={(e) => handleChange(e.target.value)}
+                                    // as="select"
+                                    // onChange={(e) => handleChange(e.target.value)}
                                     >
                                       {({ field, form }) => (
                                         <Form.Select
@@ -781,10 +791,10 @@ function AddAnimal(pros) {
                                       type="date"
                                       placeholder="Enter time to feed animal"
                                       className="control-field"
-                                      // `style={{
-                                      //   width: "30%",
-                                      //   marginRight: "20px",
-                                      // }}`
+                                    // `style={{
+                                    //   width: "30%",
+                                    //   marginRight: "20px",
+                                    // }}`
                                     />
                                   </div>
                                   <div
