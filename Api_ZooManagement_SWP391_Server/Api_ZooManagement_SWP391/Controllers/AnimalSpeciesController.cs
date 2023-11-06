@@ -62,6 +62,32 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(response);
         }
 
+        [HttpGet("pagesSpecies/{page}")]
+        [ProducesResponseType(200, Type = typeof(SpeciesResponseDto))]
+        public IActionResult GetAllSpeciesPage(int page)
+        {
+            var species = _animalSpeciesService.GetSpeciesAnimal();
+
+            var pageResults = 10f;
+            var pageCount = Math.Ceiling(species.Count / pageResults);
+
+            var result = species
+                        .Skip((page - 1) * (int)pageResults)
+                        .Take((int)pageResults).ToList();
+
+            var response = new SpeciesCountResponseDto
+            {
+                Species = result,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(response);
+        }
+
         [HttpGet("AnimalSpeciesId")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
