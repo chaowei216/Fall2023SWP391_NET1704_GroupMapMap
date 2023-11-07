@@ -50,16 +50,14 @@ namespace BBL.Services
             {
                 tickAdult = ticketAldult.TicketQuantity.ToString();
             }
-            if(tickChild != null)
+            if(ticketChild != null)
             {
                 tickChild = ticketChild.TicketQuantity.ToString();
             }
 
-
-
             email.From.Add(MailboxAddress.Parse("mapmapzoofpt@gmail.com"));
             email.To.Add(MailboxAddress.Parse(order.Email));
-            email.Subject = "Your order";
+            email.Subject = "Order from Mapmap zoo";
             email.Body = new TextPart(TextFormat.Html) { Text = " <h3>This is your order details: </h3>" 
                                                                                                 + "<div> Your order id: " + "<b>" + order.OrderId + "</b>" + "</div>" 
                                                                                                 + "<div>Your email is: " + order.Email + "<div>"

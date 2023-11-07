@@ -58,6 +58,8 @@ import TableCategory from "./page/Category/TableCategory";
 import PersonalProfile from "./page/User/Profile";
 import { ToastContainer, Zoom, toast } from "react-toastify";
 import Detail from "./page/detailNew/detail";
+import ScheduleAnimal from "./page/Animal/ScheduleAnimal";
+import ScheduleAnimalNotFeeding from "./page/ScheduleAnimal/ScheduleAnimalNotFeeding";
 
 const secretKey = "your_secret_key";
 
@@ -196,6 +198,7 @@ function App() {
             <Route path="2" element={<TableAnimalDetail />}></Route>
             <Route path="feed" element={<TableScheduleFeed />}></Route>
             <Route path="profile" element={<PersonalProfile />}></Route>
+            <Route path="scheduleAnimal" element={<ScheduleAnimalNotFeeding />}></Route>
           </Route>
           <Route path="/loading" element={<Loading></Loading>} />
           <Route path="/login" element={<Login />}></Route>

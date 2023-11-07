@@ -751,7 +751,7 @@ export default function EditAnimalByZooTrainer(pros) {
                           </div>
                         </div>
                         <div className="mb-3">
-                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>HealthCheck</label>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Health Check</label>
                           {/* <Form.Control
                             as="textarea"
                             style={{ height: "90px", width: "98%" }}
@@ -765,9 +765,9 @@ export default function EditAnimalByZooTrainer(pros) {
                             }
                           /> */}
                           <Form.Select
-                            className="mt-3"
+                            className="mt-1"
                             value={healthCheck}
-                            style={{ height: "45px", width: "28%" }}
+                            style={{ height: "40px", width: "28%" }}
                             onChange={(e) => {
                               setHealthCheck(e.target.value)
                             }}

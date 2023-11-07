@@ -6,5 +6,6 @@
         bool Update(T entity);
         ICollection<T> GetAll();
         T GetById(string id);
+        bool Delete(T entity);
     }
 }

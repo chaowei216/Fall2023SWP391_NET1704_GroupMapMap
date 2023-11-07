@@ -15,7 +15,7 @@ import {
 } from "react-icons/bs";
 import Popover from "@mui/material/Popover";
 import Button from "@mui/material/Button";
-import { MDBListGroup, MDBListGroupItem, MDBBadge } from 'mdb-react-ui-kit';
+import { MDBListGroup, MDBListGroupItem, MDBBadge } from "mdb-react-ui-kit";
 import "../../assets/css/dashboard.css";
 
 function AppHeader({ OpenSidebar }) {
@@ -27,24 +27,107 @@ function AppHeader({ OpenSidebar }) {
   const dataUser = JSON.parse(localStorage.getItem("dataUser"));
   const [listFood, setListFood] = useState([]);
   const [foodNotifications, setFoodNotifications] = useState([]);
-  const [foodWarning, setFoodWarning] = useState([]);
+  const [scheduleNotifications, setScheduleNotifications] = useState([]);
   const [showLogout, setShowLogout] = useState(false);
   const userName = localStorage.getItem("name");
+  const [aID, setAID] = useState("");
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const [listAnimal, setListAnimal] = useState([]);
+  const emailInfo = localStorage.getItem("email");
+  const [profileZooTrainer, setProfileZooTrainer] = useState({});
+  const [listAnimalFilter, setListAnimalFilter] = useState([]);
+
+  useEffect(() => {
+    const getTrainerList = () => {
+      return fetch("https://localhost:44352/api/User/users").then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getTrainerList().then((items) => {
+      if (mounted) {
+        setProfileZooTrainer(items.filter((user) => user.email === emailInfo));
+      }
+    });
+    return () => (mounted = false);
+  }, []);
+
+  useEffect(() => {
+    const ZooProfileTest = profileZooTrainer;
+    if (ZooProfileTest.length > 0) {
+      setAID(ZooProfileTest[0].userId);
+    }
+  }, [profileZooTrainer]);
+
+  useEffect(() => {
+    const getList = () => {
+      return fetch("https://localhost:44352/api/Animal").then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getList().then((items) => {
+      if (mounted) {
+        setListAnimal(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
+
+  useEffect(() => {
+    const now = new Date();
+    const list = listAnimal.filter((animal) => animal.userId === aID);
+    const currentPeriod = getPeriod(now.getHours());
+    const filteredAnimals = list.filter((animal) => {
+      return animal.schedules.some((schedule) => {
+        const schedulePeriod = parseTime(schedule.time);
+        return (schedulePeriod === currentPeriod && schedule.isDone === false);
+      });
+    });
+    setListAnimalFilter(filteredAnimals);
+  }, [listAnimal]);
+  function getPeriod(hour) {
+    if (hour >= 6 && hour < 12) {
+      return "morning";
+    }
+    if (hour >= 12 && hour < 18) {
+      return "afternoon";
+    }
+    if (hour >= 18 || hour < 6) {
+      return "evening";
+    }
+  }
+  function parseTime(time) {
+    // Chuyển thời gian sang đối tượng Date
+    const [hours] = time.split(":");
+    const hour = parseInt(hours);
+    console.log(hour);
+    if (hour >= 6 && hour < 12) {
+      return "morning";
+    }
+    if (hour >= 12 && hour < 18) {
+      return "afternoon";
+    }
+    if (hour >= 18 || hour < 6) {
+      return "evening";
+    }
+  }
+
   const nativigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("dataUser");
     localStorage.removeItem("name");
     localStorage.removeItem("email");
     localStorage.removeItem("role");
-    nativigate('/')
+    nativigate("/");
   };
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-
+  const clickEdit = localStorage.getItem("click");
   useEffect(() => {
     const getList = () => {
       return fetch(`https://localhost:44352/api/Food`).then((data) =>
@@ -58,7 +141,7 @@ function AppHeader({ OpenSidebar }) {
       }
     });
     return () => (mounted = false);
-  }, []);
+  }, [clickEdit]);
   useEffect(() => {
     const list = [];
     listFood.map((food) => {
@@ -66,34 +149,38 @@ function AppHeader({ OpenSidebar }) {
         list.push(food);
       }
       setFoodNotifications(list);
-    })
-  }, [listFood])
+    });
+  }, [listFood, clickEdit]);
   useEffect(() => {
     const list = [];
     listFood.map((food) => {
       if (food.quantity < 100) {
         list.push(food);
       }
-      setFoodWarning(list);
-    })
-  }, [listFood])
+      setScheduleNotifications(list);
+    });
+  }, [listFood]);
   const handleClickPop = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
-  }
+  };
   const handleClick = () => {
-    nativigate('/staff/food')
-    setAnchorEl(null)
-  }
+    nativigate("/staff/food");
+    setAnchorEl(null);
+    if (role === "ZOOTRAINER") {
+      nativigate("/ZooTrainer/feed");
+      setAnchorEl(null);
+    }
+  };
   const handleChange = () => {
     if (role === "STAFF") {
-      nativigate('/staff/profile')
+      nativigate("/staff/profile");
     } else if (role === "ZOOTRAINER") {
-      nativigate('/ZooTrainer/profile')
+      nativigate("/ZooTrainer/profile");
     }
-  }
+  };
   return (
     <div className="AppHeader">
       <div className="menu-icon">
@@ -118,7 +205,9 @@ function AppHeader({ OpenSidebar }) {
             icon={<UserOutlined />}
             style={{ marginRight: "10px", color: "black" }}
           />
-          <span style={{ marginRight: "20px", cursor: "pointer" }} onClick={handleChange}
+          <span
+            style={{ marginRight: "20px", cursor: "pointer" }}
+            onClick={handleChange}
           >
             {userName && userName != null
               ? `${userName + " ( " + role + " )"}`
@@ -126,98 +215,148 @@ function AppHeader({ OpenSidebar }) {
           </span>
           {showLogout && (
             <span
-              style={{ marginLeft: "8px", cursor: "pointer" }}
+              style={{ marginLeft: "8px",marginRight: "15px", cursor: "pointer" }}
               onClick={handleLogout}
             >
-              Đăng xuất
+              LOG OUT
             </span>
           )}
         </div>
-        <Badge count={foodNotifications.length}>
-          <BellFilled style={{ fontSize: 24 }} onClick={handleClickPop}>
-              <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-              >
-                {foodNotifications && foodNotifications.map((value) => {
+        {role === "STAFF" && (
+          <>
+            <Badge count={foodNotifications.length}>
+              <BellFilled
+                style={{ fontSize: 24 }}
+                onClick={handleClickPop}
+              ></BellFilled>
+            </Badge>
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+            >
+              {foodNotifications &&
+                foodNotifications.map((value) => {
                   return (
                     <div key={value.foodId}>
-                      <MDBListGroup style={{ minWidth: '22rem', display: "table" }} light>
-                        <MDBListGroupItem className='d-flex justify-content-between align-items-center'>
+                      <MDBListGroup
+                        style={{ minWidth: "22rem", display: "table" }}
+                        light
+                      >
+                        <MDBListGroupItem className="d-flex justify-content-between align-items-center">
                           <div>
-                            <div className='text-muted'><b>Food ID: </b>{value.foodId}</div>
-                            <div className='text-muted'><b>Food Name: </b>{value.fName}</div>
-                            <div className='text-muted'><b>Quantity: </b>{value.quantity}</div>
+                            <div className="text-muted">
+                              <b>Food ID: </b>
+                              {value.foodId}
+                            </div>
+                            <div className="text-muted">
+                              <b>Food Name: </b>
+                              {value.fName}
+                            </div>
+                            <div className="text-muted">
+                              <b>Quantity: </b>
+                              {value.quantity}
+                            </div>
                           </div>
-                          <MDBBadge className='ms-2' color='warning' style={{ fontSize: "medium" }}>
+                          <MDBBadge
+                            className="ms-2"
+                            color="warning"
+                            style={{ fontSize: "medium" }}
+                          >
                             Warning Food
                           </MDBBadge>
                         </MDBListGroupItem>
                       </MDBListGroup>
                     </div>
-                  )
+                  );
                 })}
-              </Popover>
-          </BellFilled>
-        </Badge>
-        <Button
-          variant="contained"
-          onClick={handleClickPop}
-          style={{
-            marginLeft: "20px",
-            marginRight: "20px",
-            // backgroundColor: "#d9eef7",
-            background: "#F3D099",
-            fontWeight: "bolder",
-            color: "#000080",
-          }}
-        >
-          <Badge count={foodNotifications.length}>
-            <BellFilled style={{ fontSize: 24 }}></BellFilled>
-          </Badge>
-          <MDBBadge className='ms-2' color='danger' style={{ fontSize: "medium" }}>
-            {foodNotifications.length}
-          </MDBBadge>
-        </Button>
-        <Popover
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-        >
-          {foodNotifications && foodNotifications.map((value) => {
-            return (
-              <div key={value.foodId}>
-                <MDBListGroup style={{ minWidth: '22rem', display: "table" }} light>
-                  <MDBListGroupItem className='d-flex justify-content-between align-items-center'>
-                    <div>
-                      <div className='text-muted'><b>Food ID: </b>{value.foodId}</div>
-                      <div className='text-muted'><b>Food Name: </b>{value.fName}</div>
-                      <div className='text-muted'><b>Quantity: </b>{value.quantity}</div>
-                    </div>
-                    <MDBBadge className='ms-2' color='warning' style={{ fontSize: "medium" }}>
-                      Warning Food
-                    </MDBBadge>
-                  </MDBListGroupItem>
-                </MDBListGroup>
+              <div style={{ textAlign: "center" }} onClick={handleClick}>
+                <Button>View Problem</Button>
               </div>
-            )
-          })}
-          <div style={{ textAlign: "center" }} onClick={handleClick}>
-            <Button>View Problem</Button>
-          </div>
-        </Popover>
-
+            </Popover>
+          </>
+        )}
+        {role === "ZOOTRAINER" && (
+          <>
+            <Badge count={listAnimalFilter.length}>
+              <BellFilled
+                style={{ fontSize: 24 }}
+                onClick={handleClickPop}
+              ></BellFilled>
+            </Badge>
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+            >
+              {listAnimalFilter &&
+                listAnimalFilter.map((value) => {
+                  return (
+                    <div key={value.animalId}>
+                      <MDBListGroup
+                        style={{ minWidth: "22rem", display: "table" }}
+                        light
+                      >
+                        <MDBListGroupItem className="d-flex justify-content-between align-items-center">
+                          <div>
+                            <div className="text-muted">
+                              <b>ID: </b>
+                              {value.animalId}
+                            </div>
+                            <div className="text-muted">
+                              <b>Name: </b>
+                              {value.name}
+                            </div>
+                            <div className="text-muted">
+                              <b>Schedule: </b>
+                              {value.schedules &&
+                                value.schedules.map((value) => {
+                                  const now = new Date();
+                                  const schedulePeriod = parseTime(value.time);
+                                  const currentPeriod = getPeriod(
+                                    now.getHours()
+                                  );
+                                  if (schedulePeriod === currentPeriod && value.isDone === false) {
+                                    return (
+                                      <div className="text-muted">
+                                        {value.scheduleName +
+                                          " - " +
+                                          value.time}
+                                      </div>
+                                    );
+                                  }
+                                })}
+                              {console.log(value.schedules)}
+                            </div>
+                          </div>
+                          <MDBBadge
+                            className="ms-2"
+                            color="warning"
+                            style={{ fontSize: "medium" }}
+                          >
+                            Schedule
+                          </MDBBadge>
+                        </MDBListGroupItem>
+                      </MDBListGroup>
+                    </div>
+                  );
+                })}
+              <div style={{ textAlign: "center" }} onClick={handleClick}>
+                <Button>View Problem</Button>
+              </div>
+            </Popover>
+          </>
+        )}
       </Space>
     </div>
   );

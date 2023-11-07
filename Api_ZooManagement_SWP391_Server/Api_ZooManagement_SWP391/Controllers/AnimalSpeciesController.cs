@@ -26,13 +26,15 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult GetAllCategory()
+        public IActionResult GetAllSpecies()
         {
             var foodCate = _animalSpeciesService.GetAll();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
             return Ok(foodCate);
         }
 
@@ -91,13 +93,15 @@ namespace Api_ZooManagement_SWP391.Controllers
         [HttpGet("AnimalSpeciesId")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult GetByCateId(string id)
+        public IActionResult GetBySpeciesId(string id)
         {
             var animalSpecies = _animalSpeciesService.GetBySpeciesId(id);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
             return Ok(animalSpecies);
         }
 

@@ -20,7 +20,7 @@ import { schema } from "./validationFood";
 export default function EditFood(pros) {
   const [staticModal, setStaticModal] = useState(false);
   const { show, handleClose, dataFoodEdit } = pros;
-  const role = localStorage.getItem('role');
+  const role = localStorage.getItem("role");
   const [foodId, setFoodId] = useState("");
   const [foodName, setFoodName] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -28,7 +28,7 @@ export default function EditFood(pros) {
   const [expiredDate, setExpiredDate] = useState("");
   const [category, setCategory] = useState("");
   const [animalFood, setAnimalFood] = useState("");
-
+  const [click, setClick] = useState(true);
   useEffect(() => {
     if (show) {
       setFoodId(dataFoodEdit.foodId);
@@ -43,6 +43,11 @@ export default function EditFood(pros) {
 
   const handleSave = () => {
     console.log("haha");
+    setClick(!click);
+    const a = localStorage.getItem("click");
+    if (a != undefined) {
+      localStorage.setItem("click", !click);
+    }
   };
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -52,8 +57,8 @@ export default function EditFood(pros) {
       quantity: quantity,
       importDate: importDate,
       expiredDate: expiredDate,
-      category: category
-    }
+      category: category,
+    };
     console.log(food);
     const response = await fetch(`https://localhost:44352/api/Food/${foodId}`, {
       method: "PUT",
@@ -68,14 +73,16 @@ export default function EditFood(pros) {
       // handleClose()
       if (role === "STAFF") {
         //window.location.href = '/staff/food'
-        handleClose();
-        toast.success("Update Success")
+        // handleClose();
+        toast.success("Update Success");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       }
-      if (role === "ZOOTRAINER"){
+      if (role === "ZOOTRAINER") {
         //window.location.href = '/ZooTrainer/food'
         handleClose();
-        toast.success("Update Success")
-
+        toast.success("Update Success");
       }
       // navigate("/staff/1")
     }
@@ -113,9 +120,9 @@ export default function EditFood(pros) {
                           name="fName"
                           value={foodName}
                           onChange={(e) => setFoodName(e.target.value)}
-                        //   isInvalid={
-                        //     formik.errors.fName && formik.touched.fName
-                        //   }
+                          //   isInvalid={
+                          //     formik.errors.fName && formik.touched.fName
+                          //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.fName}
@@ -133,11 +140,11 @@ export default function EditFood(pros) {
                           name="category"
                           value={category}
                           onChange={(e) => setCategory(e.target.value)}
-                        // onChange={formik.handleChange}
-                        // onBlur={formik.handleBlur}
-                        //   isInvalid={
-                        //     formik.errors.category && formik.touched.category
-                        //   }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          //   isInvalid={
+                          //     formik.errors.category && formik.touched.category
+                          //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.category}
@@ -154,11 +161,11 @@ export default function EditFood(pros) {
                           style={{ height: "56px" }}
                           value={quantity}
                           onChange={(e) => setQuantity(e.target.value)}
-                        // onChange={formik.handleChange}
-                        // onBlur={formik.handleBlur}
-                        //   isInvalid={
-                        //     formik.errors.quantity && formik.touched.quantity
-                        //   }
+                          // onChange={formik.handleChange}
+                          // onBlur={formik.handleBlur}
+                          //   isInvalid={
+                          //     formik.errors.quantity && formik.touched.quantity
+                          //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.quantity}
@@ -182,10 +189,10 @@ export default function EditFood(pros) {
                                 name="importDate"
                                 value={importDate}
                                 onChange={(e) => setImportDate(e.target.value)}
-                              // isInvalid={
-                              //   formik.errors.importDate &&
-                              //   formik.touched.importDate
-                              // }
+                                // isInvalid={
+                                //   formik.errors.importDate &&
+                                //   formik.touched.importDate
+                                // }
                               />
                             </Space>
                             {/* <Form.Control.Feedback type="invalid">
@@ -209,10 +216,10 @@ export default function EditFood(pros) {
                               name="expiredDate"
                               value={expiredDate}
                               onChange={(e) => setExpiredDate(e.target.value)}
-                            //   isInvalid={
-                            //     formik.errors.expiredDate &&
-                            //     formik.touched.expiredDate
-                            //   }
+                              //   isInvalid={
+                              //     formik.errors.expiredDate &&
+                              //     formik.touched.expiredDate
+                              //   }
                             />
                           </Space>
                           {/* <Form.Control.Feedback type="invalid">

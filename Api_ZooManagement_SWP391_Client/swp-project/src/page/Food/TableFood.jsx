@@ -214,7 +214,7 @@ function TableFood() {
               <tr>
                 <th>Food ID</th>
                 <th>Food Name</th>
-                <th>Food Quantity</th>
+                <th>Food Quantity (KG) </th>
                 <th>Category</th>
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
@@ -252,7 +252,7 @@ function TableFood() {
                             <VisibilityIcon />
                           </Button>
                         }
-                        {role && role === 'ZOOTRAINER' &&
+                        {role && role === 'STAFF' &&
                           <Button
                             onClick={() => {
                               handleEditFood(items);

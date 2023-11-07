@@ -12,5 +12,6 @@ namespace DTO.Dtos
         public string ScheduleName { get; set; }
         public string Time { get; set; }
         public string Description { get; set; }
+        public bool IsDone { get; set; }
     }
 }

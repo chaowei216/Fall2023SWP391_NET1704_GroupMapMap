@@ -20,7 +20,7 @@ import { MDBTypography } from "mdb-react-ui-kit";
 import PetsIcon from "@mui/icons-material/Pets";
 import moment from "moment";
 import { toast } from "react-toastify";
-function TableScheduleFeed() {
+function ScheduleAnimalNotFeeding() {
   const emailInfo = localStorage.getItem("email");
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
@@ -103,42 +103,6 @@ function TableScheduleFeed() {
   // console.log(testNow.getHours());
   // Xác định khung giờ hiện tại
   const currentPeriod = getPeriod(now.getHours());
-  // useEffect(() => {
-  //   const a = list;
-  //   const currentPeriod = getPeriod(now.getHours());
-  //   // a.map((item) => {
-  //   //   // item.schedules.map((value) =>{
-  //   //   //   const matchedSchedules = value.filter(schedule => {
-  //   //   //     const schedulePeriod = getPeriod(schedule.time);
-  //   //   //     return schedulePeriod === currentPeriod;
-  //   //   //   });
-  //   //   //   // console.log(matchedSchedules);
-  //   //   //   // const schedulePeriod = getPeriod(value.time)
-  //   //   //   // console.log(currentPeriod);
-  //   //   //   // console.log(schedulePeriod);
-  //   //   //   // if (currentPeriod.includes(schedulePeriod)){
-  //   //   //   //   console.log(value);
-  //   //   //   // }
-  //   //   //   // if(value.time >= afternoon.start && value.time < afternoon.end) {
-  //   //   //   //   console.log(value);
-  //   //   //   // }
-  //   //   // })
-  //   //   const matchedSchedules = item.schedules.filter((schedule) => {
-  //   //     const schedulePeriod = parseTime(schedule.time);
-  //   //     console.log(currentPeriod);
-  //   //     console.log(schedulePeriod);
-  //   //     return schedulePeriod === currentPeriod;
-  //   //   });
-  //   //   console.log(matchedSchedules);
-  //   // });
-  //   const filteredAnimals = list.filter((animal) => {
-  //     return animal.schedules.some((schedule) => {
-  //       const schedulePeriod = parseTime(schedule.time);
-  //       return schedulePeriod === currentPeriod;
-  //     });
-  //   });
-  //   setListAnimalFilter(filteredAnimals)
-  // }, [list]);
   useEffect(() => {
     const list = listAnimal.filter((animal) => animal.userId === aID);
     const currentPeriod = getPeriod(now.getHours());
@@ -147,9 +111,9 @@ function TableScheduleFeed() {
         const schedulePeriod = parseTime(schedule.time);
         return (
           schedulePeriod === currentPeriod &&
-          (schedule.scheduleName === "Breakfast" ||
-            schedule.scheduleName === "Lunch" ||
-            schedule.scheduleName === "Dinner")
+          schedule.scheduleName != "Breakfast" &&
+          schedule.scheduleName != "Lunch" &&
+          schedule.scheduleName != "Dinner"
         );
       });
     });
@@ -211,46 +175,37 @@ function TableScheduleFeed() {
     }
   };
 
+  const handleEditUser2 = async (item) => {
+    // setDataUserEdit(item);
+    console.log(item);
+    const animalId = item.animalId;
+    const response = await fetch(
+      `https://localhost:44352/api/Schedule/UpdateScheduleHealth?animalId=${animalId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.ok) {
+      console.log("Success");
+      toast.success("Take care successfully");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } else {
+      toast.error("Error");
+    }
+  };
+
   const handleViewUser = (item) => {
     // setDataUserEdit(item);
     const animal = item;
     setDataAnimalView(animal);
     setShowmodalView(true);
   };
-  const hours = now.getHours();
-  const minutes = now.getMinutes();
-  console.log(hours);
-  console.log(minutes);
-  async function resetSchedule() {
-    try {
-      await fetch(`https://localhost:44352/api/Schedule/ResetSchedule`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    } catch (error) {
-      console.log("Error resetting schedule");
-    }
-  }
-  function checkResetTime() {
-    const now = new Date();
-    const hours = now.getHours();
 
-    // So sánh với thời điểm reset
-    if (hours > 0 && hours < 7) {
-      resetSchedule();
-    }
-  }
-  // setInterval(() => {
-  //   checkResetTime();
-  // }, 1000); // 1 hour
-  function runDailyReset() {
-    setInterval(() => {
-      checkResetTime();
-    }, 1000 * 60 * 30); // Chạy mỗi 1 giây
-  }
-  runDailyReset();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   let count = 0;
@@ -267,7 +222,7 @@ function TableScheduleFeed() {
             src="https://img.freepik.com/premium-vector/zoo-logo-design-vector-illustration_742779-149.jpg?w=2000"
           ></Image> */}
           <MDBTypography tag="h2" color="secondary" noteColor="secondary">
-            <i> Animal Feeding Chart</i>
+            <i> Animal Schedule Chart</i>
           </MDBTypography>
         </div>
         <div className="table-content">
@@ -283,19 +238,13 @@ function TableScheduleFeed() {
             >
               <tr>
                 <th scope="col" style={{ textAlign: "center" }}>
-                  No.
+                  ID
                 </th>
                 <th scope="col" style={{ textAlign: "center" }}>
                   ANIMAL
                 </th>
                 <th scope="col" style={{ textAlign: "center" }}>
-                  PERIOD
-                </th>
-                <th scope="col" style={{ textAlign: "center" }}>
-                  FOOD
-                </th>
-                <th scope="col" style={{ textAlign: "center" }}>
-                  AMOUNT OF FEED (KG)
+                  Name
                 </th>
                 <th scope="col" style={{ textAlign: "center" }}>
                   TIME OF DAY
@@ -318,7 +267,7 @@ function TableScheduleFeed() {
                         fontWeight: "500",
                       }}
                     >
-                      <th scope="row">{(count += 1)}</th>
+                      <th scope="row">{items.animalId}</th>
                       <td>{items.name}</td>
                       <td style={{ width: "105px" }}>
                         {items.schedules &&
@@ -327,9 +276,9 @@ function TableScheduleFeed() {
                             const currentPeriod = getPeriod(now.getHours());
                             if (
                               schedulePeriod === currentPeriod &&
-                              (value.scheduleName === "Breakfast" ||
-                                value.scheduleName === "Lunch" ||
-                                value.scheduleName === "Dinner")
+                              value.scheduleName != "Breakfast" &&
+                              value.scheduleName != "Lunch" &&
+                              value.scheduleName != "Dinner"
                             ) {
                               return (
                                 <div>
@@ -340,39 +289,19 @@ function TableScheduleFeed() {
                           })}
                       </td>
                       <td>
-                        {items.foods &&
-                          items.foods.map((value) => {
-                            return (
-                              <div key={value.fName}>
-                                <span>{value.fName}</span>
-                              </div>
-                            );
-                          })}
-                      </td>
-                      <td>
-                        {items.foods &&
-                          items.foods.map((value) => {
-                            return (
-                              <div key={value.amount}>
-                                <span>{value.amount}</span>
-                              </div>
-                            );
-                          })}
-                      </td>
-                      <td>
                         {items.schedules &&
                           items.schedules.map((value) => {
                             const schedulePeriod = parseTime(value.time);
                             const currentPeriod = getPeriod(now.getHours());
                             if (
                               schedulePeriod === currentPeriod &&
-                              (value.scheduleName === "Breakfast" ||
-                                value.scheduleName === "Lunch" ||
-                                value.scheduleName === "Dinner")
+                              value.scheduleName != "Breakfast" &&
+                              value.scheduleName != "Lunch" &&
+                              value.scheduleName != "Dinner"
                             ) {
                               return (
                                 <div>
-                                  <span>{value.time}</span>
+                                  <span style={{marginTop: "20px"}}>{value.time}</span>
                                 </div>
                               );
                             }
@@ -398,14 +327,15 @@ function TableScheduleFeed() {
                             if (
                               schedulePeriod === currentPeriod &&
                               value.isDone === false &&
-                              (value.scheduleName === "Breakfast" ||
-                                value.scheduleName === "Lunch" ||
-                                value.scheduleName === "Dinner")
+                              value.scheduleName != "Breakfast" &&
+                              value.scheduleName != "Lunch" &&
+                              value.scheduleName != "Dinner" &&
+                              value.scheduleName === "Train"
                             ) {
                               return (
                                 <Button
                                   onClick={() => {
-                                    handleEditUser(items, value);
+                                    handleEditUser(items,value);
                                   }}
                                   variant="text"
                                   style={{
@@ -414,6 +344,32 @@ function TableScheduleFeed() {
                                     color: "white",
                                     width: "84px",
                                     marginRight: "15px",
+                                  }}
+                                >
+                                  Not Yet
+                                </Button>
+                              );
+                            } else if (
+                              schedulePeriod === currentPeriod &&
+                              value.isDone === false &&
+                              value.scheduleName != "Breakfast" &&
+                              value.scheduleName != "Lunch" &&
+                              value.scheduleName != "Dinner" &&
+                              value.scheduleName != "Train"
+                            ) {
+                              return (
+                                <Button
+                                  onClick={() => {
+                                    handleEditUser2(items);
+                                  }}
+                                  variant="text"
+                                  style={{
+                                    padding: 0,
+                                    backgroundColor: "gray",
+                                    color: "white",
+                                    width: "84px",
+                                    marginTop: "20px",
+                                    marginLeft: "48px"
                                   }}
                                 >
                                   Not Yet
@@ -428,15 +384,13 @@ function TableScheduleFeed() {
                             if (
                               schedulePeriod === currentPeriod &&
                               value.isDone === true &&
-                              (value.scheduleName === "Breakfast" ||
-                                value.scheduleName === "Lunch" ||
-                                value.scheduleName === "Dinner")
+                              value.scheduleName != "Breakfast" &&
+                              value.scheduleName != "Lunch" &&
+                              value.scheduleName != "Dinner" &&
+                              value.scheduleName === "Train"
                             ) {
                               return (
                                 <Button
-                                  onClick={() => {
-                                    handleEditUser(items);
-                                  }}
                                   variant="text"
                                   disabled
                                   style={{
@@ -480,4 +434,4 @@ function TableScheduleFeed() {
   );
 }
 
-export default TableScheduleFeed;
+export default ScheduleAnimalNotFeeding;

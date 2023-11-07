@@ -32,7 +32,7 @@ namespace BBL.Services
 
         public bool AnimalScheduleExisted(string animalId, string scheduleId)
         {
-            return _animalScheduleRepo.GetAll().Where(schedule => schedule.AnimalId == animalId && schedule.ScheduleId == scheduleId) != null ? true : false;
+            return _animalScheduleRepo.GetAll().Where(schedule => schedule.AnimalId == animalId && schedule.ScheduleId == scheduleId).FirstOrDefault() != null ? true : false;
         }
 
         public ICollection<AnimalSchedule> GetAll()
@@ -43,6 +43,52 @@ namespace BBL.Services
         public ICollection<AnimalSchedule> GetScheduleByAnimalId(string animalId)
         {
             return _animalScheduleRepo.GetAll().Where(schedule => schedule.AnimalId == animalId).ToList();
+        }
+        public bool ResetIsDone()
+        {
+            var animalSchedule = _animalScheduleRepo.GetAll().ToList();
+            foreach (var schedule in animalSchedule)
+            {
+                if (schedule.ScheduleId == "SC0001" || schedule.ScheduleId == "SC0002" || schedule.ScheduleId == "SC0003")
+                {
+                    schedule.IsDone = false;
+                    _animalScheduleRepo.Update(schedule);
+                }
+            }
+            return false;
+        }
+
+        public bool UpdateHealth(string animalId)
+        {
+            var animalSchedule = _animalScheduleRepo.GetAll().Where(asc => asc.AnimalId == animalId && asc.ScheduleId == "SC0005").ToList();
+            var animal = _animalRepo.GetById(animalId);
+            foreach (var schedule in animalSchedule)
+            {
+                animal.HealthCheck = "Being treatment";
+                _animalRepo.Update(animal);
+                _animalScheduleRepo.Delete(schedule);
+
+            }
+
+            return false;
+        }
+
+        public bool UpdateIsDone(string animalId, string scheduleId)
+        {
+            var animalSchedule = _animalScheduleRepo.GetAll().Where(asc => asc.AnimalId == animalId && asc.ScheduleId == scheduleId).ToList();
+            foreach (var schedule in animalSchedule)
+            {
+                if (scheduleId == "SC0001" || scheduleId == "SC0002" || scheduleId == "SC0003" || scheduleId == "SC0004")
+                {
+                    schedule.IsDone = true;
+                    _animalScheduleRepo.Update(schedule);
+                }
+                else
+                {
+                    _animalScheduleRepo.Delete(schedule);
+                }
+            }
+            return false;
         }
     }
 }
