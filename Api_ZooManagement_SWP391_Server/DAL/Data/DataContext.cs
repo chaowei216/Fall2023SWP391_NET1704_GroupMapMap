@@ -198,6 +198,7 @@ namespace DAL.Data
             {
                 entity.Property(ash => ash.Time).IsRequired();
                 entity.Property(ash => ash.Description).HasMaxLength(50).IsRequired();
+                entity.Property(ash => ash.IsDone).IsRequired();
             });
 
             modelBuilder.Entity<AnimalFood>(entity =>

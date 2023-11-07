@@ -395,6 +395,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                     ScheduleId = schedule.ScheduleId,
                     Time = schedule.Time,
                     Description = schedule.Description,
+                    Status = false,
                 });
             }
 

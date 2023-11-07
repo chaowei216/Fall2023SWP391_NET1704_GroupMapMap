@@ -14,5 +14,8 @@ namespace BBL.Interfaces
         ICollection<AnimalSchedule> GetScheduleByAnimalId(string animalId);
         ICollection<AnimalSchedule> GetAll();
         bool AnimalScheduleExisted(string animalId, string scheduleId);
+        bool UpdateIsDone(string animalId, string scheduleId);
+        bool ResetIsDone();
+        bool UpdateHealth(string animalId);
     }
 }

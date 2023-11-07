@@ -37,5 +37,11 @@ namespace DAL.Repositories
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
+        public bool Delete(T entity)
+        {
+            _dbSet.Remove(entity);
+            var deleted = _context.SaveChanges();
+            return deleted > 0 ? true : false;
+        }
     }
 }
