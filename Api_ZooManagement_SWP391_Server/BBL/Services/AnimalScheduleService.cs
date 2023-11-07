@@ -78,7 +78,7 @@ namespace BBL.Services
             var animalSchedule = _animalScheduleRepo.GetAll().Where(asc => asc.AnimalId == animalId && asc.ScheduleId == scheduleId).ToList();
             foreach (var schedule in animalSchedule)
             {
-                if (scheduleId == "SC0001" || scheduleId == "SC0002" || scheduleId == "SC0003")
+                if (scheduleId == "SC0001" || scheduleId == "SC0002" || scheduleId == "SC0003" || scheduleId == "SC0004")
                 {
                     schedule.IsDone = true;
                     _animalScheduleRepo.Update(schedule);

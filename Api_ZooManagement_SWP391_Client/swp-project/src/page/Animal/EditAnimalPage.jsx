@@ -751,7 +751,7 @@ export default function EditAnimal(pros) {
                           </div>
                         </div>
                         <div className="mb-3">
-                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>HealthCheck</label>
+                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Health Check</label>
                           {/* <Form.Control
                             as="textarea"
                             style={{ height: "90px", width: "98%" }}
@@ -767,7 +767,7 @@ export default function EditAnimal(pros) {
                           <Form.Select
                             className="mt-3"
                             value={healthCheck}
-                            style={{ height: "45px", width: "28%" }}
+                            style={{ height: "40px", width: "28%" }}
                             onChange={(e) => {
                               setHealthCheck(e.target.value)
                             }}

@@ -30,11 +30,14 @@ export default function ScheduleAnimal(pros) {
       scheduleId: "",
       time: "",
       description: "",
-      status: false
+      isDone: false,
     },
   ]);
   const addField = () => {
-    setFields([...fields, { scheduleId: "", time: "", description: "", status: false }]);
+    setFields([
+      ...fields,
+      { scheduleId: "", time: "", description: "", isDone: false },
+    ]);
   };
   const removeField = (index) => {
     setFields(fields.filter((_, i) => i !== index));

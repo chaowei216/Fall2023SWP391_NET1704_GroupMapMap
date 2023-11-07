@@ -84,7 +84,7 @@ function AppHeader({ OpenSidebar }) {
     const filteredAnimals = list.filter((animal) => {
       return animal.schedules.some((schedule) => {
         const schedulePeriod = parseTime(schedule.time);
-        return schedulePeriod === currentPeriod;
+        return (schedulePeriod === currentPeriod && schedule.isDone === false);
       });
     });
     setListAnimalFilter(filteredAnimals);
@@ -215,10 +215,10 @@ function AppHeader({ OpenSidebar }) {
           </span>
           {showLogout && (
             <span
-              style={{ marginLeft: "8px", cursor: "pointer" }}
+              style={{ marginLeft: "8px",marginRight: "15px", cursor: "pointer" }}
               onClick={handleLogout}
             >
-              Đăng xuất
+              LOG OUT
             </span>
           )}
         </div>
@@ -283,7 +283,7 @@ function AppHeader({ OpenSidebar }) {
         )}
         {role === "ZOOTRAINER" && (
           <>
-            <Badge count={foodNotifications.length}>
+            <Badge count={listAnimalFilter.length}>
               <BellFilled
                 style={{ fontSize: 24 }}
                 onClick={handleClickPop}
@@ -326,7 +326,7 @@ function AppHeader({ OpenSidebar }) {
                                   const currentPeriod = getPeriod(
                                     now.getHours()
                                   );
-                                  if (schedulePeriod === currentPeriod) {
+                                  if (schedulePeriod === currentPeriod && value.isDone === false) {
                                     return (
                                       <div className="text-muted">
                                         {value.scheduleName +
@@ -344,7 +344,7 @@ function AppHeader({ OpenSidebar }) {
                             color="warning"
                             style={{ fontSize: "medium" }}
                           >
-                            Feeding
+                            Schedule
                           </MDBBadge>
                         </MDBListGroupItem>
                       </MDBListGroup>

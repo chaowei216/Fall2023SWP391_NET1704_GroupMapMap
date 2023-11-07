@@ -28,7 +28,7 @@ const items = [
       [getItem("Profile", "profile",<MDBIcon fas icon="user-cog" />), getItem("Animal", "2",<MDBIcon fas icon="paw" />)],
       "group"
     ),
-    getItem("Other", "g2", null, [getItem("Food", "food",<MDBIcon fas icon="carrot" />),getItem("Feed & Schedule", "feed",<MDBIcon fas icon="utensils" />)], "group"),
+    getItem("Other", "g2", null, [getItem("Food", "food",<MDBIcon fas icon="carrot" />),getItem("Feed & Schedule", "feed",<MDBIcon fas icon="utensils" />),getItem("Schedule Animal", "scheduleAnimal",<MDBIcon fas icon="utensils" />)], "group"),
   ]),
 ];
 const SideMenuZooTrainer = ({ openSidebarToggle, OpenSidebar }) => {
