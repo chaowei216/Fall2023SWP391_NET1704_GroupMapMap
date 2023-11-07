@@ -107,7 +107,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(200, Type = typeof(int))]
         public IActionResult GetNumOfAnimal()
         {
-            return Ok(_animalService.GetAll().Count());
+            return Ok(_animalService.GetAllActive().Count());
         }
 
         [HttpGet("page/{page}")]
@@ -217,6 +217,22 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(cages);
         }
 
+        [HttpGet("{animalId}/oldFood")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<OldFoodDto>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetOldFoodOfAnimal(string animalId)
+        {
+            if (!_animalService.AnimalExists(animalId))
+                return NotFound();
+
+            var foods = _animalService.GetOldFoodOfAnimal(animalId);
+
+            if(ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(foods);
+        }
+
         [HttpGet("{animalId}")]
         [ProducesResponseType(200, Type = typeof(GetAnimalDto))]
         [ProducesResponseType(400)]
@@ -226,7 +242,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return NotFound();
 
             var animal = _animalService.GetById(animalId);
-            if(animal.Status != true) return BadRequest("Animal deleted!!!");
+            if (animal.Status != true) { return BadRequest("Animal deleted!!!"); }
             if(animal != null)
             {
                 animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;

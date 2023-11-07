@@ -55,8 +55,6 @@ namespace BBL.Services
                 tickChild = ticketChild.TicketQuantity.ToString();
             }
 
-
-
             email.From.Add(MailboxAddress.Parse("mapmapzoofpt@gmail.com"));
             email.To.Add(MailboxAddress.Parse(order.Email));
             email.Subject = "Your order";

@@ -29,5 +29,6 @@ namespace BBL.Interfaces
         ICollection<Animal> GetAnimalByTrainerId(string trainerId);
         ICollection<GetSpeciesAnimalDto> GetAnimalBySpecies(string speciesId);
         ICollection<Animal> GetAnimalBySpeciesId(string speciesId);
+        ICollection<OldFoodDto> GetOldFoodOfAnimal(string animalId);
     }
 }

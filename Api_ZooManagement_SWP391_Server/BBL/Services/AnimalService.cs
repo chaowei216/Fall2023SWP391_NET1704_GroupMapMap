@@ -11,6 +11,7 @@ namespace BBL.Services
         private readonly IGenericRepository<Animal> _animalRepo;
         private readonly IGenericRepository<User> _userRepo;
         private readonly IGenericRepository<Cage> _cageRepo;
+        private readonly IGenericRepository<Food> _foodRepo;
         private readonly IGenericRepository<AnimalTrainer> _animalTrainerRepo;
         private readonly IGenericRepository<AnimalCage> _animalCageRepo;
         private readonly IGenericRepository<AnimalFood> _animalFoodRepo;
@@ -22,7 +23,8 @@ namespace BBL.Services
                              IGenericRepository<AnimalCage> animalCageRepo,
                              IGenericRepository<AnimalTrainer> animalTrainerRepo, 
                              IGenericRepository<AnimalFood> animalFoodRepo,
-                             IGenericRepository<AnimalSpecies> animalSpeRepo)
+                             IGenericRepository<AnimalSpecies> animalSpeRepo,
+                             IGenericRepository<Food> foodRepo)
         {
             _animalRepo = animalRepo;
             _cageRepo = cageRepo;
@@ -31,6 +33,7 @@ namespace BBL.Services
             _animalTrainerRepo = animalTrainerRepo;
             _animalFoodRepo = animalFoodRepo;
             _animalSpeRepo = animalSpeRepo;
+            _foodRepo = foodRepo;
         }
         public bool AddAnimal(string? userId, string? cageId, Animal animal)
         {
@@ -275,6 +278,7 @@ namespace BBL.Services
                 animalDto.Region = animal.Region;
                 animalDto.Sex = animal.Sex;
                 animalDto.HealthCheck = animal.HealthCheck;
+                animalDto.Status = animal.Status;
                 return animalDto;
             }
 
@@ -322,6 +326,25 @@ namespace BBL.Services
                 }
             }
             return allAnimalsSpe;
+        }
+
+        public ICollection<OldFoodDto> GetOldFoodOfAnimal(string animalId)
+        {
+            var aniFoods = _animalFoodRepo.GetAll().Where(af => af.AnimalId == animalId && af.EndEat < DateTime.Now).ToList();
+            var oldFoods = new List<OldFoodDto>();
+
+            foreach(var aniFood in aniFoods)
+            {
+                var oldFood = new OldFoodDto();
+                oldFood.FName = _foodRepo.GetById(aniFood.FoodId).FName;
+                oldFood.Amount = aniFood.Amount;
+                oldFood.StartEat = aniFood.StartEat;
+                oldFood.EndEat = aniFood.EndEat;
+
+                oldFoods.Add(oldFood);
+            }
+
+            return oldFoods;
         }
     }
 }

@@ -79,6 +79,10 @@ namespace Api_ZooManagement_SWP391.Controllers
         public IActionResult GetTrainersAvailable()
         {
             var user = _mapper.Map<List<AvailableTrainer>>(_userService.GetTrainersCanTrain());
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             return Ok(user);
         }
 
