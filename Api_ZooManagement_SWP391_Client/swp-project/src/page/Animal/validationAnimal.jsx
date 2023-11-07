@@ -123,9 +123,8 @@ export const schemaAnimal = yup.object().shape({
             // const entry = new Date(entryCageDate)
             const selectedDate = new Date(value);
             const currentDate = new Date();
-
-            //return moment(value).isAfter(entryCageDate); // Sử dụng moment.js hoặc thư viện tương tự để so sánh ngày
-            return selectedDate >= currentDate;
+            return moment(value).isAfter(currentDate); // Sử dụng moment.js hoặc thư viện tương tự để so sánh ngày
+            //return selectedDate >= currentDate;
           },
         }),
       endEat: yup

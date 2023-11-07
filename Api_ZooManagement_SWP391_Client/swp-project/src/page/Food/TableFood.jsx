@@ -252,7 +252,7 @@ function TableFood() {
                             <VisibilityIcon />
                           </Button>
                         }
-                        {role && role === 'ZOOTRAINER' &&
+                        {role && role === 'STAFF' &&
                           <Button
                             onClick={() => {
                               handleEditFood(items);

@@ -18,7 +18,8 @@ import YourComponent from "../Animal/AnimalFoodTest";
 import EditAnimalByZooTrainer from "../Animal/EditAnimalByZooTrainer";
 import { MDBTypography } from "mdb-react-ui-kit";
 import PetsIcon from "@mui/icons-material/Pets";
-import moment from 'moment'
+import moment from "moment";
+import { toast } from "react-toastify";
 function TableScheduleFeed() {
   const emailInfo = localStorage.getItem("email");
   const [showModalAdd, setShowmodalAdd] = useState(false);
@@ -31,6 +32,7 @@ function TableScheduleFeed() {
   const [dataAnimalEdit, setDataAnimalEdit] = useState({});
   const [dataAnimalView, setDataAnimalView] = useState({});
   const [profileZooTrainer, setProfileZooTrainer] = useState({});
+  const [listAnimalFilter, setListAnimalFilter] = useState([]);
   const [animalFilter, setAnimalFilter] = useState([]);
   const [aID, setAID] = useState("");
   useEffect(() => {
@@ -62,39 +64,37 @@ function TableScheduleFeed() {
     return () => (mounted = false);
   }, []);
 
-  const ZooProfileTest = profileZooTrainer;
   useEffect(() => {
+    const ZooProfileTest = profileZooTrainer;
     if (ZooProfileTest.length > 0) {
       setAID(ZooProfileTest[0].userId);
     }
-  }, [ZooProfileTest]);
+  }, [profileZooTrainer]);
 
-  const list = listAnimal.filter((animal) => animal.userId === aID);
-  console.log(list);
   function getPeriod(hour) {
     if (hour >= 6 && hour < 12) {
-      return 'morning';
+      return "morning";
     }
     if (hour >= 12 && hour < 18) {
-      return 'afternoon';
+      return "afternoon";
     }
     if (hour >= 18 || hour < 6) {
-      return 'evening';
+      return "evening";
     }
   }
   function parseTime(time) {
     // Chuyển thời gian sang đối tượng Date
-    const [hours] = time.split(':');
+    const [hours] = time.split(":");
     const hour = parseInt(hours);
     console.log(hour);
     if (hour >= 6 && hour < 12) {
-      return 'morning';
+      return "morning";
     }
     if (hour >= 12 && hour < 18) {
-      return 'afternoon';
+      return "afternoon";
     }
     if (hour >= 18 || hour < 6) {
-      return 'evening';
+      return "evening";
     }
   }
   // Lấy thời gian hiện tại
@@ -103,37 +103,53 @@ function TableScheduleFeed() {
   // console.log(testNow.getHours());
   // Xác định khung giờ hiện tại
   const currentPeriod = getPeriod(now.getHours());
-  console.log(currentPeriod);
+  // useEffect(() => {
+  //   const a = list;
+  //   const currentPeriod = getPeriod(now.getHours());
+  //   // a.map((item) => {
+  //   //   // item.schedules.map((value) =>{
+  //   //   //   const matchedSchedules = value.filter(schedule => {
+  //   //   //     const schedulePeriod = getPeriod(schedule.time);
+  //   //   //     return schedulePeriod === currentPeriod;
+  //   //   //   });
+  //   //   //   // console.log(matchedSchedules);
+  //   //   //   // const schedulePeriod = getPeriod(value.time)
+  //   //   //   // console.log(currentPeriod);
+  //   //   //   // console.log(schedulePeriod);
+  //   //   //   // if (currentPeriod.includes(schedulePeriod)){
+  //   //   //   //   console.log(value);
+  //   //   //   // }
+  //   //   //   // if(value.time >= afternoon.start && value.time < afternoon.end) {
+  //   //   //   //   console.log(value);
+  //   //   //   // }
+  //   //   // })
+  //   //   const matchedSchedules = item.schedules.filter((schedule) => {
+  //   //     const schedulePeriod = parseTime(schedule.time);
+  //   //     console.log(currentPeriod);
+  //   //     console.log(schedulePeriod);
+  //   //     return schedulePeriod === currentPeriod;
+  //   //   });
+  //   //   console.log(matchedSchedules);
+  //   // });
+  //   const filteredAnimals = list.filter((animal) => {
+  //     return animal.schedules.some((schedule) => {
+  //       const schedulePeriod = parseTime(schedule.time);
+  //       return schedulePeriod === currentPeriod;
+  //     });
+  //   });
+  //   setListAnimalFilter(filteredAnimals)
+  // }, [list]);
   useEffect(() => {
-    const a = list;
-    a.map((item) => {
-      // item.schedules.map((value) =>{
-      //   const matchedSchedules = value.filter(schedule => {
-      //     const schedulePeriod = getPeriod(schedule.time);
-      //     return schedulePeriod === currentPeriod;
-      //   });
-      //   // console.log(matchedSchedules);
-      //   // const schedulePeriod = getPeriod(value.time)
-      //   // console.log(currentPeriod);
-      //   // console.log(schedulePeriod);
-      //   // if (currentPeriod.includes(schedulePeriod)){
-      //   //   console.log(value);
-      //   // }
-      //   // if(value.time >= afternoon.start && value.time < afternoon.end) {
-      //   //   console.log(value);
-      //   // }
-      // })
-      const matchedSchedules = item.schedules.filter(schedule => {
-
+    const list = listAnimal.filter((animal) => animal.userId === aID);
+    const currentPeriod = getPeriod(now.getHours());
+    const filteredAnimals = list.filter((animal) => {
+      return animal.schedules.some((schedule) => {
         const schedulePeriod = parseTime(schedule.time);
-        console.log(currentPeriod);
-        console.log(schedulePeriod);
         return schedulePeriod === currentPeriod;
-
-      })
-      console.log(matchedSchedules);
-    })
-  }, [list])
+      });
+    });
+    setListAnimalFilter(filteredAnimals);
+  }, [listAnimal]);
   const handleClick = () => {
     setShowmodalAdd(true);
     setAnchorEl(null);
@@ -158,18 +174,24 @@ function TableScheduleFeed() {
   const handleEditUser = async (item) => {
     // setDataUserEdit(item);
     const feedAnimal = item.animalId;
-    const response = await fetch(`https://localhost:44352/api/Food/animalId?animalId=${feedAnimal}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `https://localhost:44352/api/Food/animalId?animalId=${feedAnimal}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (response.ok) {
       console.log("Success");
-      localStorage.setItem("isAdded", true);
-      navigate("/ZooTrainer/feed");
+      toast.success("Feed successfully");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     }
   };
+
   const handleViewUser = (item) => {
     // setDataUserEdit(item);
     const animal = item;
@@ -250,68 +272,49 @@ function TableScheduleFeed() {
             </tbody>
           </Table> */}
           <MDBTable>
-            <MDBTableHead dark
-            // style={{
-            //   borderTop: "white",
-            //   borderRight: "black",
-            //   borderLeft: "black",
-            //   borderBottom: "black",
-            // }}
+            <MDBTableHead
+              dark
+              // style={{
+              //   borderTop: "white",
+              //   borderRight: "black",
+              //   borderLeft: "black",
+              //   borderBottom: "black",
+              // }}
             >
               <tr>
-                <th
-                  scope="col"
-                  style={{ textAlign: "center" }}
-                >
+                <th scope="col" style={{ textAlign: "center" }}>
                   No.
                 </th>
-                <th
-                  scope="col"
-                  style={{ textAlign: "center" }}
-                >
+                <th scope="col" style={{ textAlign: "center" }}>
                   ANIMAL
                 </th>
-                <th
-                  scope="col"
-                  style={{ textAlign: "center" }}
-                >
+                <th scope="col" style={{ textAlign: "center" }}>
                   TYPE OF FEED
                 </th>
-                <th
-                  scope="col"
-                  style={{ textAlign: "center" }}
-                >
+                <th scope="col" style={{ textAlign: "center" }}>
                   FOOD
                 </th>
-                <th
-                  scope="col"
-                  style={{ textAlign: "center" }}
-                >
+                <th scope="col" style={{ textAlign: "center" }}>
                   AMOUNT OF FEED (KG)
                 </th>
-                <th
-                  scope="col"
-                  style={{ textAlign: "center" }}
-                >
+                <th scope="col" style={{ textAlign: "center" }}>
                   TIME OF DAY
                 </th>
-                <th
-                  scope="col"
-                  style={{ textAlign: "center" }}
-                >
+                <th scope="col" style={{ textAlign: "center" }}>
                   ACTION
                 </th>
               </tr>
             </MDBTableHead>
-            <MDBTableBody >
-              {list &&
-                list.length > 0 &&
-                list.map((items, index) => {
+            <MDBTableBody>
+              {listAnimalFilter &&
+                listAnimalFilter.length > 0 &&
+                listAnimalFilter.map((items, index) => {
                   return (
                     <tr
                       style={{
                         height: "70px",
                         textAlign: "center",
+                        verticalAlign: "middle",
                         fontWeight: "500",
                       }}
                     >
@@ -348,7 +351,6 @@ function TableScheduleFeed() {
                           })}
                       </td>
                       <td>
-
                         {items.schedules &&
                           items.schedules.map((value) => {
                             const schedulePeriod = parseTime(value.time);
@@ -374,11 +376,36 @@ function TableScheduleFeed() {
                         >
                           <VisibilityIcon />
                         </Button>
+                        {items.schedules &&
+                          items.schedules.map((value) => {
+                            const schedulePeriod = parseTime(value.time);
+                            const currentPeriod = getPeriod(now.getHours());
+                            if (schedulePeriod === currentPeriod) {
+                              return (
+                              <Button
+                                onClick={() => {
+                                  handleEditUser(items);
+                                }}
+                                variant="text"
+                                style={{
+                                  padding: 0,
+                                  backgroundColor: "gray",
+                                  color: "white",
+                                  width: "84px",
+                                  marginRight: "15px",
+                                }}
+                              >
+                                Not Yet
+                              </Button>
+                              )
+                            }
+                          })}
                         <Button
                           onClick={() => {
                             handleEditUser(items);
                           }}
                           variant="text"
+                          disabled
                           style={{
                             padding: 0,
                             backgroundColor: "green",
