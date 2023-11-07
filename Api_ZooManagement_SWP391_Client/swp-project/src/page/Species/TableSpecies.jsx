@@ -35,7 +35,7 @@ function TableSpecies() {
   useEffect(() => {
     const getList = () => {
       return fetch(
-        `https://localhost:44352/api/AnimalSpecies/pages/${currentPage}`
+        `https://localhost:44352/api/AnimalSpecies/pagesSpecies/${currentPage}`
       ).then((data) => data.json());
     };
     let mounted = true;
@@ -155,6 +155,7 @@ function TableSpecies() {
               <tr>
                 <th>Species ID</th>
                 <th>Name</th>
+                <th>Number of animals belonging to species</th>
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
             </thead>
@@ -166,6 +167,7 @@ function TableSpecies() {
                     <tr key={`species-${index}`}>
                       <td>{items.speciesId}</td>
                       <td>{items.speciesName}</td>
+                      <td>{items.countAnimal}</td>
                       <td style={{ width: "220px" }}>
                         {role && role === "STAFF" && (
                           <Button
