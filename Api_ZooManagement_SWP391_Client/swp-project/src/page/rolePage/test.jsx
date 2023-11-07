@@ -30,7 +30,7 @@ function SideMenu() {
         selectedKeys={[selectedKeys]}
         items={[
           {
-            label: "Dashbaord",
+            label: "Dashboard",
             icon: <AppstoreOutlined />,
             key: "/",
           },
@@ -50,8 +50,7 @@ function SideMenu() {
             icon: <UserOutlined />,
           },
         ]}
-      >
-      </Menu>
+      ></Menu>
     </div>
   );
 }

@@ -42,10 +42,11 @@ function Checkout() {
   }, 0);
   // tách object
   const newObject = shoppingCart.map((product) => {
+    const newDay = shoppingCart[0].day;
     return {
       type: product.name,
       Amount: product.quantity,
-      startDate: product.day,
+      startDate: newDay,
     };
   });
 
@@ -79,7 +80,7 @@ function Checkout() {
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
+      if (response) {
         const responseData = await response.json();
         window.location.replace(responseData.url);
         console.log("API Response Data:", responseData);
@@ -88,6 +89,7 @@ function Checkout() {
       }
     } catch (error) {
       // Handle network errors
+      console.log("error");
     }
   };
   const updateDay = () => {};
@@ -156,12 +158,14 @@ function Checkout() {
                 <div className="col-lg-12">
                   <input
                     type="text"
+                    required
                     className="input-text "
                     name="fullName"
                     placeholder="Complete Name"
                     onChange={handleChange}
                   />
                   <input
+                    required
                     type="email"
                     className="input-text "
                     name="email"
@@ -172,6 +176,7 @@ function Checkout() {
                   <div className="row">
                     <div className="col-lg-6">
                       <input
+                        required
                         type="tel"
                         className="input-text "
                         name="phoneNumber"

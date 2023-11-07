@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { json, useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Button, Alert, AlertTitle } from "@mui/material";
+import Button from "@mui/material/Button";
+import { Alert, Space } from "antd";
 function Loading() {
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState(10);
@@ -98,19 +99,28 @@ function Loading() {
   //   };
   // }, [navigate, countdown]);
   return (
-    <div style={{ textAlign: "center" }}>
+    <div className="container-loading" style={{ textAlign: "center" }}>
       <div className="status-payment">
-        {status == "success" ? (
-          <Alert severity="success">
-            <AlertTitle>Success</AlertTitle>
-            Payment success — <strong>check it out!</strong>
-          </Alert>
-        ) : (
-          <Alert severity="error">
-            <AlertTitle>Error</AlertTitle>
-            Payment fail— <strong>check it out!</strong>
-          </Alert>
-        )}
+        <Space
+          direction="vertical"
+          style={{ width: "100%", fontSize: "100px" }}
+        >
+          {status == "success" ? (
+            <Alert
+              message="Payment success"
+              style={{ fontSize: "30px" }}
+              type="success"
+              showIcon
+            />
+          ) : (
+            <Alert
+              message="Payment fail"
+              style={{ fontSize: "30px" }}
+              type="error"
+              showIcon
+            />
+          )}
+        </Space>
       </div>
 
       <div className="buttonLoading">

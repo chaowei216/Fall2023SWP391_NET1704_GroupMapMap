@@ -19,11 +19,15 @@ function ListItem() {
   };
 
   const Store = (cartData) => {
-    // Chuyển dữ liệu giỏ hàng thành chuỗi JSON
-    const cartDataJSON = JSON.stringify(cartData);
-    // if(localStorage.getItem("shoppingCart")
-    // Lưu vào localStorage
-    localStorage.setItem("shoppingCart", cartDataJSON);
+    if (cartData) {
+      // Chuyển dữ liệu giỏ hàng thành chuỗi JSON
+      const cartDataJSON = JSON.stringify(cartData);
+      // if(localStorage.getItem("shoppingCart")
+      // Lưu vào localStorage
+      if (cartDataJSON) {
+        localStorage.setItem("shoppingCart", cartDataJSON);
+      }
+    }
   };
   // useEffect(() => {
   //   // Lấy dữ liệu từ localStorage và cập nhật state khi thành phần được tạo

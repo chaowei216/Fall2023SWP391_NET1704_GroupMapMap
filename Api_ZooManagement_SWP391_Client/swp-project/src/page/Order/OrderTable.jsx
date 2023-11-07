@@ -34,6 +34,15 @@ function OrderTable() {
     });
     return () => (mounted = false);
   }, []);
+  console.log(listOrder);
+  const editDay = (dayNews) => {
+    const releaseDate = new Date(dayNews);
+    const day = releaseDate.getDate();
+    const month = releaseDate.getMonth() + 1; // Cộng thêm 1 vào tháng
+    const year = releaseDate.getFullYear();
+    const formattedDate = day + "/" + month + "/" + year;
+    return formattedDate;
+  };
   const handleClick = () => {
     setShowmodalAdd(true);
   };
@@ -52,9 +61,9 @@ function OrderTable() {
     setShowmodalView(false);
   };
   const handleViewFood = (item) => {
-        const food = item;
-        setDataFoodView(food);
-        setShowmodalView(true);
+    const food = item;
+    setDataFoodView(food);
+    setShowmodalView(true);
   };
   //   const handleViewUser = (item) => {
   //     // setDataUserEdit(item);
@@ -87,6 +96,7 @@ function OrderTable() {
                 <th>Full Name</th>
                 <th>Phone Number</th>
                 <th>Total Price</th>
+                <th>Day</th>
               </tr>
             </thead>
             <tbody>
@@ -99,6 +109,7 @@ function OrderTable() {
                       <td>{items.fullName}</td>
                       <td>{items.phoneNumber}</td>
                       <td>{items.totalPrice}</td>
+                      <td>{editDay(items.startDate)}</td>
                     </tr>
                   );
                 })}

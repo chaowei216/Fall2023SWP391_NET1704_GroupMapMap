@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, Switch, Divider } from "antd";
-import { MDBIcon } from 'mdb-react-ui-kit';
+import { MDBIcon } from "mdb-react-ui-kit";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -22,19 +22,33 @@ function getItem(label, key, icon, children, type) {
 }
 const items = [
   getItem("Zoo Management", "sub1", <AlertOutlined />, [
-    getItem("User", "g1", null, [getItem("User", "1",<MDBIcon fas icon="user-cog" />)], "group"),
+    getItem(
+      "User",
+      "g1",
+      null,
+      [getItem("User", "1", <MDBIcon fas icon="user-cog" />)],
+      "group"
+    ),
     getItem(
       "Manage",
       "g2",
       null,
-      [getItem("Order", "3",<MDBIcon fas icon="cash-register" />), getItem("Animal", "2",<MDBIcon fas icon="paw" />), getItem("News", "news",<MDBIcon fas icon="newspaper" />)],
+      [
+        getItem("Dashboard", "3", <MDBIcon fas icon="cash-register" />),
+        getItem("Animal", "2", <MDBIcon fas icon="paw" />),
+        getItem("News", "news", <MDBIcon fas icon="newspaper" />),
+      ],
       "group"
     ),
   ]),
   getItem("Cage & Area", "sub2", <AppstoreOutlined />, [
-    getItem("View Area", "/admin/area",<MDBIcon fas icon="map" />),
-    getItem("View Cage", "/admin/cage",<MDBIcon fas icon="archive" />),
-    getItem("View FeedBack", "/admin/feedback",<MDBIcon fas icon="comment-alt" />),
+    getItem("View Area", "/admin/area", <MDBIcon fas icon="map" />),
+    getItem("View Cage", "/admin/cage", <MDBIcon fas icon="archive" />),
+    getItem(
+      "View FeedBack",
+      "/admin/feedback",
+      <MDBIcon fas icon="comment-alt" />
+    ),
   ]),
 ];
 const SideMenuTest = ({ openSidebarToggle, OpenSidebar }) => {

@@ -4833,9 +4833,8 @@ button.swal-button.swal-button--confirm {
       transform: rotate(360deg);
     }
   }
-  .status-payment{
-    margin-top: 50px;
-  }
+ 
+
   .title-icon-loading{
     background-color: white;   
     margin-top: 10px;
@@ -4895,11 +4894,6 @@ button.swal-button.swal-button--confirm {
 display: grid;
 grid-template-columns: 0.5fr 0.5fr;
 
-}
-.MuiPaper-root{
-    font-size: 100px;
-display: flex;
-justify-content: center;
 }
 .MuiPaper-root svg{
     transform: translateX(70px);

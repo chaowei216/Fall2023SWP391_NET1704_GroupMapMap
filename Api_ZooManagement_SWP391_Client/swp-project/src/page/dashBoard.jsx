@@ -23,6 +23,8 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import OrderTable from "./Order/OrderTable";
+import Button from "@mui/material/Button";
 
 ChartJS.register(
   CategoryScale,
@@ -38,6 +40,7 @@ function Dashboard() {
   const [animails, setAnimails] = useState(0);
   const [employee, setEmployee] = useState(0);
   const [revenue, setRevenue] = useState(0);
+  const [viewInfo, setViewInfo] = useState(false);
 
   useEffect(() => {
     getOrders().then((res) => {
@@ -53,89 +56,126 @@ function Dashboard() {
   }, []);
 
   return (
-    <Space
-      size={20}
-      direction="vertical"
-      style={{
-        textAlign: "center",
-        marginLeft: "30px",
-        marginTop: "20px",
-        marginBottom: "60px",
-        width: "80%",
-      }}
-    >
-      <Typography.Title level={4}>Dashboard</Typography.Title>
-      <Space direction="horizontal">
-        <DashboardCard
-          icon={
-            <ShoppingCartOutlined
-              style={{
-                color: "green",
-                backgroundColor: "rgba(0,255,0,0.25)",
-                borderRadius: 20,
-                fontSize: 24,
-                padding: 8,
-              }}
-            />
-          }
-          title={"Orders"}
-          value={orders
-            .map((item) => item.totalTicket)
-            .reduce((acc, ticket) => acc + ticket, 0)}
-        />
-        <DashboardCard
-          icon={
-            <ShoppingOutlined
-              style={{
-                color: "blue",
-                backgroundColor: "rgba(0,0,255,0.25)",
-                borderRadius: 20,
-                fontSize: 24,
-                padding: 8,
-              }}
-            />
-          }
-          title={"Animails"}
-          value={animails}
-        />
-        <DashboardCard
-          icon={
-            <UserOutlined
-              style={{
-                color: "purple",
-                backgroundColor: "rgba(0,255,255,0.25)",
-                borderRadius: 20,
-                fontSize: 24,
-                padding: 8,
-              }}
-            />
-          }
-          title={"Employee"}
-          value={employee}
-        />
-        <DashboardCard
-          icon={
-            <DollarCircleOutlined
-              style={{
-                color: "red",
-                backgroundColor: "rgba(255,0,0,0.25)",
-                borderRadius: 20,
-                fontSize: 24,
-                padding: 8,
-              }}
-            />
-          }
-          title={"Revenue"}
-          value={orders
-            .map((item) => item.totalPrice)
-            .reduce((acc, price) => acc + price, 0)}
-        />
+    <div>
+      <Space
+        size={20}
+        direction="vertical"
+        style={{
+          textAlign: "center",
+          marginLeft: "30px",
+          marginTop: "20px",
+          marginBottom: "60px",
+          width: "80%",
+        }}
+      >
+        <Typography.Title level={10}>Dashboard</Typography.Title>
+        <Space
+          direction="horizontal"
+          style={{ width: "1400px", display: "flex", justifyContent: "center" }}
+        >
+          <DashboardCard
+            icon={
+              <ShoppingCartOutlined
+                style={{
+                  color: "green",
+                  backgroundColor: "rgba(0,255,0,0.25)",
+                  borderRadius: 20,
+                  fontSize: 24,
+                  padding: 8,
+                }}
+              />
+            }
+            title={"Orders"}
+            value={orders
+              .map((item) => item.totalTicket)
+              .reduce((acc, ticket) => acc + ticket, 0)}
+          />
+          <DashboardCard
+            icon={
+              <ShoppingOutlined
+                style={{
+                  color: "blue",
+                  backgroundColor: "rgba(0,0,255,0.25)",
+                  borderRadius: 20,
+                  fontSize: 24,
+                  padding: 8,
+                }}
+              />
+            }
+            title={"Animails"}
+            value={animails}
+          />
+          <DashboardCard
+            icon={
+              <UserOutlined
+                style={{
+                  color: "purple",
+                  backgroundColor: "rgba(0,255,255,0.25)",
+                  borderRadius: 20,
+                  fontSize: 24,
+                  padding: 8,
+                }}
+              />
+            }
+            title={"Employee"}
+            value={employee}
+          />
+          <DashboardCard
+            icon={
+              <DollarCircleOutlined
+                style={{
+                  color: "red",
+                  backgroundColor: "rgba(255,0,0,0.25)",
+                  borderRadius: 20,
+                  fontSize: 24,
+                  padding: 8,
+                }}
+              />
+            }
+            title={"Revenue"}
+            value={orders
+              .map((item) => item.totalPrice)
+              .reduce((acc, price) => acc + price, 0)}
+          />
+        </Space>
+        <Space>
+          <RecentOrders />
+
+          <DashboardChart />
+        </Space>
+        {viewInfo ? (
+          <Button
+            style={{ transform: "translateY(-300px)" }}
+            variant="contained"
+            onClick={() => setViewInfo(!viewInfo)}
+          >
+            Close Info
+          </Button>
+        ) : (
+          <Button
+            style={{ transform: "translateY(-300px)" }}
+            variant="contained"
+            onClick={() => setViewInfo(!viewInfo)}
+          >
+            View Info
+          </Button>
+        )}
       </Space>
-      <Space>
-        <RecentOrders />
-        <DashboardChart />
-      </Space>
-    </Space>
+
+      {viewInfo ? (
+        <div
+          style={{
+            width: "900px",
+            marginLeft: "400px",
+            transform: "translateY(-400px)",
+          }}
+        >
+          <OrderTable />
+        </div>
+      ) : (
+        ""
+      )}
+    </div>
   );
 }
 
@@ -234,7 +274,14 @@ function DashboardChart() {
   };
 
   return (
-    <div style={{ width: "800px", height: "700px" }}>
+    <div
+      style={{
+        width: "800px",
+        height: "700px",
+        top: "0px",
+        transform: "translateX(100px)",
+      }}
+    >
       <Bar style={{ height: "1000px" }} options={options} data={reveneuData} />
     </div>
   );

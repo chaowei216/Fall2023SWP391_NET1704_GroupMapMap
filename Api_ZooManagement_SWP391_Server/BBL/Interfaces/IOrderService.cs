@@ -11,7 +11,7 @@ namespace BBL.Interfaces
     public interface IOrderService
     {
         bool AddOrder(List<OrderTicket> ordTickets, Order order);
-        ICollection<Order> GetAllOrders();
+        ICollection<OrderDto> GetAllOrders();
         ICollection<StatisticDto> GetStatistics();
         Order GetOrder(string id);
         bool OrderExists(string id);

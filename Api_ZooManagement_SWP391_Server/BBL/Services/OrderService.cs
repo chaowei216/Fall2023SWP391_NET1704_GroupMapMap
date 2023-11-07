@@ -79,9 +79,28 @@ namespace BBL.Services
             return true;
         }
 
-        public ICollection<Order> GetAllOrders()
+        public ICollection<OrderDto> GetAllOrders()
         {
-            return _orderRepo.GetAll();
+            List<OrderDto> orderDtos = new List<OrderDto>();
+            var orders = _orderRepo.GetAll().ToList();
+            if(orders != null && orders.Count > 0)
+            {
+                foreach (var order in orders)
+                {
+                    OrderDto ord = new OrderDto()
+                    {
+                        OrderId = order.OrderId,
+                        Email = order.Email,
+                        FullName = order.FullName,
+                        PhoneNumber = order.PhoneNumber,
+                        TotalPrice = order.TotalPrice,
+                        StartDate = _transRepo.GetById(order.TransactionId).TransactionDate,
+                        TransactionId = order.TransactionId,
+                    };
+                    orderDtos.Add(ord);
+                }
+            }
+            return orderDtos.ToList();
         }
 
         public Order GetOrder(string id)
