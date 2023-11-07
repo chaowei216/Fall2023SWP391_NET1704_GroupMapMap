@@ -114,7 +114,7 @@ namespace BBL.Services
 
         public User? GetByEmail(string email)
         {
-            var users = _userRepository.GetAll();
+            var users = _userRepository.GetAll().Where(u => u.Status == true);
             if (email == null)
             {
                 return null;

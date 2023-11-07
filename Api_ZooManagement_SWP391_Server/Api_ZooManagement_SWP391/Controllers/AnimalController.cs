@@ -95,6 +95,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                             ScheduleName = scheduleDetail.ScheduleName,
                             Description = schedule.Description,
                             Time = schedule.Time,
+                            IsDone = schedule.IsDone,
                         });
                     }
                 }
@@ -162,6 +163,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                                 ScheduleName = scheduleDetail.ScheduleName,
                                 Description = schedule.Description,
                                 Time = schedule.Time,
+                                IsDone = schedule.IsDone,
                             });
                         }
                     }
@@ -282,6 +284,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                             ScheduleName = scheduleDetail.ScheduleName,
                             Description = schedule.Description,
                             Time = schedule.Time,
+                            IsDone = schedule.IsDone,
                         });
                     }
                 }
@@ -387,7 +390,6 @@ namespace Api_ZooManagement_SWP391.Controllers
             foreach (var schedule in schedules)
             {
                 var getSchedule = _scheduleService.GetSchedule(schedule.ScheduleId);
-                //if (!_animalScheduleService.AnimalScheduleExisted(animalId, schedule.ScheduleId)) return BadRequest("This schedule has existed for this animal!!!");
 
                 if (getSchedule == null) return BadRequest("Schedule not found!!!");
                 list.Add(new AnimalScheduleCreateDto()
@@ -395,7 +397,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                     ScheduleId = schedule.ScheduleId,
                     Time = schedule.Time,
                     Description = schedule.Description,
-                    Status = false,
+                    IsDone = false,
                 });
             }
 
@@ -575,6 +577,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                                 ScheduleName = scheduleDetail.ScheduleName,
                                 Description = schedule.Description,
                                 Time = schedule.Time,
+                                IsDone = schedule.IsDone,
                             });
                         }
                     }
