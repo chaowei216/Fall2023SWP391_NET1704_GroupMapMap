@@ -380,42 +380,52 @@ function TableScheduleFeed() {
                           items.schedules.map((value) => {
                             const schedulePeriod = parseTime(value.time);
                             const currentPeriod = getPeriod(now.getHours());
-                            if (schedulePeriod === currentPeriod) {
+                            {value.status}
+                            if (schedulePeriod === currentPeriod && value.status === false) {
                               return (
-                              <Button
-                                onClick={() => {
-                                  handleEditUser(items);
-                                }}
-                                variant="text"
-                                style={{
-                                  padding: 0,
-                                  backgroundColor: "gray",
-                                  color: "white",
-                                  width: "84px",
-                                  marginRight: "15px",
-                                }}
-                              >
-                                Not Yet
-                              </Button>
-                              )
+                                <Button
+                                  onClick={() => {
+                                    handleEditUser(items);
+                                  }}
+                                  variant="text"
+                                  style={{
+                                    padding: 0,
+                                    backgroundColor: "gray",
+                                    color: "white",
+                                    width: "84px",
+                                    marginRight: "15px",
+                                  }}
+                                >
+                                  Not Yet
+                                </Button>
+                              );
                             }
                           })}
-                        <Button
-                          onClick={() => {
-                            handleEditUser(items);
-                          }}
-                          variant="text"
-                          disabled
-                          style={{
-                            padding: 0,
-                            backgroundColor: "green",
-                            color: "white",
-                            width: "84px",
-                            marginRight: "15px",
-                          }}
-                        >
-                          Done
-                        </Button>
+                        {items.schedules &&
+                          items.schedules.map((value) => {
+                            const schedulePeriod = parseTime(value.time);
+                            const currentPeriod = getPeriod(now.getHours());
+                            if (schedulePeriod === currentPeriod && value.status === true) {
+                              return (
+                                <Button
+                                  onClick={() => {
+                                    handleEditUser(items);
+                                  }}
+                                  variant="text"
+                                  disabled
+                                  style={{
+                                    padding: 0,
+                                    backgroundColor: "green",
+                                    color: "white",
+                                    width: "84px",
+                                    marginRight: "15px",
+                                  }}
+                                >
+                                  Done
+                                </Button>
+                              );
+                            }
+                          })}
                       </td>
                     </tr>
                   );

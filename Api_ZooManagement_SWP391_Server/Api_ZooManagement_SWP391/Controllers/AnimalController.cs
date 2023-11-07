@@ -387,7 +387,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             foreach (var schedule in schedules)
             {
                 var getSchedule = _scheduleService.GetSchedule(schedule.ScheduleId);
-                if (!_animalScheduleService.AnimalScheduleExisted(animalId, schedule.ScheduleId)) return BadRequest("This schedule has existed for this animal!!!");
+                //if (!_animalScheduleService.AnimalScheduleExisted(animalId, schedule.ScheduleId)) return BadRequest("This schedule has existed for this animal!!!");
 
                 if (getSchedule == null) return BadRequest("Schedule not found!!!");
                 list.Add(new AnimalScheduleCreateDto()
