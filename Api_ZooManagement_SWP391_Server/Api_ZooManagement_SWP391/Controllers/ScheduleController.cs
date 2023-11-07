@@ -13,11 +13,13 @@ namespace Api_ZooManagement_SWP391.Controllers
     public class ScheduleController : ControllerBase
     {
         private readonly IScheduleService _scheduleService;
+        private readonly IAnimalScheduleService _animalScheduleService;
         private readonly IMapper _mapper;
-        public ScheduleController(IScheduleService scheduleService, IMapper mapper)
+        public ScheduleController(IScheduleService scheduleService, IMapper mapper, IAnimalScheduleService animalScheduleService)
         {
             _scheduleService = scheduleService;
             _mapper = mapper;
+            _animalScheduleService = animalScheduleService;
         }
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<ScheduleDto>))]
@@ -108,6 +110,58 @@ namespace Api_ZooManagement_SWP391.Controllers
             }
 
             return Ok("Successfully");
+        }
+
+        [HttpPut("UpdateSchedule")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateSchedule(string animalId, string scheduleId)
+        {
+            if (!_animalScheduleService.AnimalScheduleExisted(animalId, scheduleId))
+            {
+                return BadRequest("Schedule does not exist!!!");
+            }
+
+            if (_animalScheduleService.UpdateIsDone(animalId, scheduleId))
+            {
+                ModelState.AddModelError("", "Error when updating schedule");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
+        }
+
+        [HttpPut("ResetSchedule")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult ResetSchedule()
+        {
+            if (_animalScheduleService.ResetIsDone())
+            {
+                ModelState.AddModelError("", "Error when updating schedule");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
+        }
+
+        [HttpPut("UpdateScheduleHealth")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateScheduleHealth(string animalId)
+        {
+            if (!_animalScheduleService.AnimalScheduleExisted(animalId, "SC0005"))
+            {
+                return BadRequest("Schedule does not exist!!!");
+            }
+
+            if (_animalScheduleService.UpdateHealth(animalId))
+            {
+                ModelState.AddModelError("", "Error when updating!!!");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
         }
 
         [HttpDelete("{scheduleId}")]
