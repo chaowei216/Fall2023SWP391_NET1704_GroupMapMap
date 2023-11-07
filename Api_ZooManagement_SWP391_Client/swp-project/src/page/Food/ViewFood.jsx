@@ -107,7 +107,7 @@ export default function ViewFood(pros) {
                         </Form.Control.Feedback> */}
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">The Quantity</label>
+                        <label className="form-label">The Quantity (KG) </label>
                         <Form.Control
                           type="Number"
                           id="quantity"
@@ -128,7 +128,7 @@ export default function ViewFood(pros) {
                           {formik.errors.quantity}
                         </Form.Control.Feedback> */}
                       </div>
-                      <div className="row mb-5 mt-4">
+                      <div className="row mb-5 mt-4" style={{width: "104%"}}>
                         <div className="mb-3" style={{ width: "50%" }}>
                           <div>
                             <label className="form-label">
@@ -138,7 +138,7 @@ export default function ViewFood(pros) {
                             <Space
                               direction="vertical"
                               size={20}
-                              style={{ width: "90%" }}
+                              style={{ width: "100%" }}
                             >
                               <Form.Control
                                 type="date"
@@ -158,7 +158,7 @@ export default function ViewFood(pros) {
                             </Form.Control.Feedback> */}
                           </div>
                         </div>
-                        <div className="mb-3" style={{ width: "50%" }}>
+                        <div className="mb-3" style={{ width: "48%",marginLeft: "10px" }}>
                           <label className="form-label">
                              ExpiredDate
                           </label>
@@ -166,7 +166,7 @@ export default function ViewFood(pros) {
                           <Space
                             direction="vertical"
                             size={20}
-                            style={{ width: "90%" }}
+                            style={{ width: "100%" }}
                           >
                             <Form.Control
                               type="date"

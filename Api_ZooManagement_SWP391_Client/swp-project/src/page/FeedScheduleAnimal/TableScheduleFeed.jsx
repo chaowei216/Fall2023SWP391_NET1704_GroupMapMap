@@ -19,6 +19,7 @@ import EditAnimalByZooTrainer from "../Animal/EditAnimalByZooTrainer";
 import { MDBTypography } from "mdb-react-ui-kit";
 import PetsIcon from "@mui/icons-material/Pets";
 import moment from "moment";
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { toast } from "react-toastify";
 function TableScheduleFeed() {
   const emailInfo = localStorage.getItem("email");
@@ -253,6 +254,17 @@ function TableScheduleFeed() {
   runDailyReset();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const handleReset = () => {
+    resetSchedule();
+    if (resetSchedule){
+      toast.success("Reset Success");
+      setTimeout(() => {
+        window.location.reload();
+      },1200)
+    }else{
+      toast.error("Error");
+    }
+  }
   let count = 0;
   const id = open ? "simple-popover" : undefined;
   return (
@@ -269,17 +281,36 @@ function TableScheduleFeed() {
           <MDBTypography tag="h2" color="secondary" noteColor="secondary">
             <i> Animal Feeding Chart</i>
           </MDBTypography>
+
+        </div>
+        <div className="mb-4" style={{textAlign: "end"}}>
+          <Button
+            onClick={() => {
+              handleReset();
+            }}
+            variant="outlined"
+            style={{
+              padding: 0,
+              backgroundColor: "green",
+              color: "white",
+              width: "90px",
+              height: "35px",
+              marginRight: "15px",
+            }}
+          >
+            <RestartAltIcon/> Reset
+          </Button>
         </div>
         <div className="table-content">
           <MDBTable>
             <MDBTableHead
               dark
-              // style={{
-              //   borderTop: "white",
-              //   borderRight: "black",
-              //   borderLeft: "black",
-              //   borderBottom: "black",
-              // }}
+            // style={{
+            //   borderTop: "white",
+            //   borderRight: "black",
+            //   borderLeft: "black",
+            //   borderBottom: "black",
+            // }}
             >
               <tr>
                 <th scope="col" style={{ textAlign: "center" }}>

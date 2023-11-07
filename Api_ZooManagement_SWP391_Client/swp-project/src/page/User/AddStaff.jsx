@@ -109,7 +109,7 @@ function AddStaff() {
       localStorage.setItem("isAdded", true);
       navigate("/staff/1");
     }else{
-      toast.error("Create Error");
+      toast.error("Create Error Phone or Email Existed");
     }
   };
   return (

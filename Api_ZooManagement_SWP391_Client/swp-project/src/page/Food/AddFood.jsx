@@ -154,7 +154,7 @@ export default function AddFood(pros) {
                         </Form.Control.Feedback>
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Enter The Quantity</label>
+                        <label className="form-label">Enter The Quantity (KG) </label>
                         <Form.Control
                           type="Number"
                           id="quantity"

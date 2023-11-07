@@ -106,9 +106,12 @@ export default function ScheduleAnimal(pros) {
     if (response.ok) {
       console.log("Success");
       // navigate("/staff/2");
-      window.location.reload();
+      toast.success("Create Successfully");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1250)
     } else {
-      toast.error("Create error");
+      toast.error("Schedule Existed");
     }
   };
   return (
@@ -151,40 +154,40 @@ export default function ScheduleAnimal(pros) {
                     <Form noValidate onSubmit={handleSubmit}>
                       <div className="form-content">
                         <div className="form">
-                          <div className="mb-3">
-                            <label className="form-label">Choose Animal</label>
-                            <Form.Select
-                              // size="lg"
-                              placeholder="Chọn món ăn"
-                              id="animalId"
-                              name="animalId"
-                              style={{ width: "73%" }}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              isInvalid={errors.animalId && touched.animalId}
-                            >
-                              <option value={null}>Choose AnimalId</option>
-                              {/* Render các option từ API */}
-                              {animalList.map((value) => (
-                                <option
-                                  key={value.animalId}
-                                  value={value.animalId}
-                                >
-                                  {value.animalId} - Name : {value.name} -
-                                  CageId : {value.cId}
-                                </option>
-                              ))}
-                            </Form.Select>
-                            <Form.Control.Feedback type="invalid">
-                              {errors.animalId}
-                            </Form.Control.Feedback>
-                          </div>
+
                           <div className="Food-Information">
                             <div className="mb-3">
-                              <label className="form-label">
-                                Schedule For Animal
-                              </label>
+                              <div className="mb-5">
+                                <label className="form-label" style={{ fontWeight: "bolder" }}>Choose Animal</label>
+                                <Form.Select
+                                  // size="lg"
+                                  placeholder="Chọn món ăn"
+                                  id="animalId"
+                                  name="animalId"
+                                  style={{ width: "73%" }}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  isInvalid={errors.animalId && touched.animalId}
+                                >
+                                  <option value={null}>Choose AnimalId</option>
+                                  {/* Render các option từ API */}
+                                  {animalList.map((value) => (
+                                    <option
+                                      key={value.animalId}
+                                      value={value.animalId}
+                                    >
+                                      {value.animalId} - Name : {value.name} -
+                                      CageId : {value.cId}
+                                    </option>
+                                  ))}
+                                </Form.Select>
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.animalId}
+                                </Form.Control.Feedback>
+                              </div>
+
                               {fields.map((field, index) => (
+
                                 <div
                                   key={index}
                                   style={{
@@ -193,10 +196,13 @@ export default function ScheduleAnimal(pros) {
                                   }}
                                   className="mb-3"
                                 >
+                                  <label className="form-label" style={{ fontWeight: "bolder" }}>
+                                    Schedule For Animal
+                                  </label>
                                   <Field
                                     name={`fields[${index}].scheduleId`}
-                                    // as="select"
-                                    // onChange={(e) => handleChange(e.target.value)}
+                                  // as="select"
+                                  // onChange={(e) => handleChange(e.target.value)}
                                   >
                                     {({ field, form }) => (
                                       <Form.Select

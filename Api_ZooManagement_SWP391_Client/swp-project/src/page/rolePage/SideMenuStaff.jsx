@@ -88,7 +88,7 @@ const SideMenuStaff = ({ openSidebarToggle, OpenSidebar }) => {
         <Menu
           // theme="blue"
           style={{
-            height: "151vh",
+            height: "165vh",
             backgroundColor: "wheat",
             borderRadius: "10px 10px 10px 10px",
           }}

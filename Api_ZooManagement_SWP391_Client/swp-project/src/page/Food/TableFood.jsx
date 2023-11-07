@@ -46,7 +46,7 @@ function TableFood() {
       }
     });
     return () => (mounted = false);
-  }, [showModalEdit, showModalAdd]);
+  }, [showModalEdit, showModalAdd,currentPage]);
   const handleClick = () => {
     setShowmodalAdd(true);
   };
@@ -56,7 +56,7 @@ function TableFood() {
   useEffect(() => {
     const list = [];
     listFood.map((food) => {
-      if (food.quantity < 100) {
+      if (food.quantity < 500) {
         list.push(food);
       }
       setFoodNotifications(list);

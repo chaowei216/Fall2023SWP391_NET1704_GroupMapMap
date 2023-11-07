@@ -17,6 +17,7 @@ import { DatePicker, Radio, Select, Space } from "antd";
 import { South } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { validationArea } from "./validationArea";
 
 export default function AddArea(pros) {
     const [staticModal, setStaticModal] = useState(false);
@@ -48,7 +49,7 @@ export default function AddArea(pros) {
             navigate("/staff/area");
             window.location.reload();
         }else{
-            toast.error("Create Error");
+            toast.error("Area Name exist or Wrong somthing");
         }
     };
     const formik = useFormik({
@@ -59,6 +60,7 @@ export default function AddArea(pros) {
         onSubmit: (values) => {
             submitForm(values);
         },
+        validationSchema: validationArea
     });
     return (
         <>
@@ -93,13 +95,13 @@ export default function AddArea(pros) {
                                                     value={formik.values.areaName}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
-                                                // isInvalid={
-                                                //     formik.errors.category && formik.touched.category
-                                                // }
+                                                isInvalid={
+                                                    formik.errors.areaName && formik.touched.areaName
+                                                }
                                                 />
-                                                {/* <Form.Control.Feedback type="invalid">
-                                                    {formik.errors.category}
-                                                </Form.Control.Feedback> */}
+                                                <Form.Control.Feedback type="invalid">
+                                                    {formik.errors.areaName}
+                                                </Form.Control.Feedback>
                                             </div>
                                             <div className="mb-3">
                                                 <label className="form-label">Enter Description</label>
@@ -113,13 +115,13 @@ export default function AddArea(pros) {
                                                     value={formik.values.description}
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
-                                                // isInvalid={
-                                                //     formik.errors.quantity && formik.touched.quantity
-                                                // }
+                                                isInvalid={
+                                                    formik.errors.description && formik.touched.description
+                                                }
                                                 />
-                                                {/* <Form.Control.Feedback type="invalid">
-                                                    {formik.errors.quantity}
-                                                </Form.Control.Feedback> */}
+                                                <Form.Control.Feedback type="invalid">
+                                                    {formik.errors.description}
+                                                </Form.Control.Feedback>
                                             </div>
                                             <MDBModalFooter style={{paddingRight: "0px"}}>
                                                 <Button
