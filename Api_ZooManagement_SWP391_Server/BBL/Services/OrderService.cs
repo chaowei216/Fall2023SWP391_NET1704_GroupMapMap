@@ -40,9 +40,11 @@ namespace BBL.Services
             }
             var ticketAldult = _ordTicketRepo.GetAll().Where(ot => ot.OrderId == order.OrderId && ot.TicketId == "TK0001").FirstOrDefault();
             var ticketChild = _ordTicketRepo.GetAll().Where(ot => ot.OrderId == order.OrderId && ot.TicketId == "TK0002").FirstOrDefault();
-            
+            var ticketDate = _ordTicketRepo.GetAll().Where(ot => ot.OrderId == order.OrderId).FirstOrDefault();
+
             var trans = order.Transaction;
             DateTime s = trans.TransactionDate;
+            DateTime go = ticketDate.StartDate;
             var email = new MimeMessage();
             string tickAdult = "0";
             string tickChild = "0";
@@ -65,6 +67,7 @@ namespace BBL.Services
                                                                                                 + "<div style ='color: 'black''>Your Adult ticket: " + tickAdult + "</div>"
                                                                                                 + "<div>Your Child ticket: " + tickChild + "</div>"
                                                                                                 + "<div>Your total price: " + totalPrice + " VND" + "</div>"
+                                                                                                + "<div>The date that you go: " + go.ToString().Substring(0, 10) + "</div>"
                                                                                                 + "<div>Transaction infor: " + trans.TransactionInfo.ToString() + "</div>"
                                                                                                 + "<div>Transaction date: " + s.ToString().Substring(0, 10) + "</div>"
                                                                                                 + "MapMap Zoo thank you for join with us!!!" };

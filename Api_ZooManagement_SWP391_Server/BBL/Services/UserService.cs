@@ -67,8 +67,8 @@ namespace BBL.Services
                 email.Subject = "Welcome to our Mapmap zoo";
                 email.Body = new TextPart(TextFormat.Text)
                 {
-                    Text = " <h3>This is your account details: </h3>"
-                                                                    + "Your account number is: " + user.Email
+                    Text = " This is your account details: "
+                                                                    + "\nYour account number is: " + user.Email
                                                                     + "\nYour password is: " + 123456
                                                                     + "\nMapMap Zoo thank you for join with us. Wish you have a good day!!!"
                 };
