@@ -767,7 +767,7 @@ function AddAnimal(pros) {
                                     }}
                                   >
                                     <label className="form-label">
-                                      Enter Quantity
+                                      Enter Quantity (KG)
                                     </label>
                                     <Field
                                       placeholder="Enter Quantity"

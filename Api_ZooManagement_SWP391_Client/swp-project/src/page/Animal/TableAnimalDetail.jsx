@@ -193,15 +193,6 @@ function TableAnimalDetail() {
                         >
                           <EditIcon />
                         </Button>
-                        <Button
-                          variant="text"
-                          style={{ padding: 0 }}
-                          onClick={() => {
-                            handleDeleteAnimal(items);
-                          }}
-                        >
-                          <DeleteIcon />
-                        </Button>
                       </td>
                     </tr>
                   );
