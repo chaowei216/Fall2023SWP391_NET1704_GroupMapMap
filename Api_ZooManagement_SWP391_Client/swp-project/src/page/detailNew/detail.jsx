@@ -8,9 +8,10 @@ import Button from "@mui/material/Button";
 
 function Detail() {
   let { id } = useParams();
+
   const [data, setData] = useState({});
   const [listPages, setListPages] = useState([]);
-
+  console.log(id);
   useEffect(() => {
     const getPages = async (page) => {
       let res = await axios.get(
@@ -21,6 +22,7 @@ function Detail() {
         setListPages(res.data.news.filter((n) => n.checked === true));
       }
     };
+
     getPages(0);
   }, []);
   const menuItems = [
@@ -77,7 +79,7 @@ function Detail() {
       }
     };
     getData(id);
-  }, []);
+  }, [id]);
   useEffect(() => {}, [id]);
   console.log(editImg(data.newsImage));
   console.log(data);
@@ -93,7 +95,7 @@ function Detail() {
         </Button>
       </div>
       <div className="container-detail">
-        <div className="new-img" style={{ height: "1000px", width: "1000px" }}>
+        <div className="new-img" style={{ height: "600px", width: "1000px" }}>
           <img src={"../../../public/" + editImg(data.newsImage)} alt="" />
         </div>
 

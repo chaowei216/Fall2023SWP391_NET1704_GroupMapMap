@@ -137,7 +137,8 @@ function App() {
               path="3"
               element={
                 <RequireStaffRole>
-                  <OrderTable />
+                  {/* <OrderTable /> */}
+                  <Dashboard />
                 </RequireStaffRole>
               }
             ></Route>
@@ -198,7 +199,10 @@ function App() {
             <Route path="2" element={<TableAnimalDetail />}></Route>
             <Route path="feed" element={<TableScheduleFeed />}></Route>
             <Route path="profile" element={<PersonalProfile />}></Route>
-            <Route path="scheduleAnimal" element={<ScheduleAnimalNotFeeding />}></Route>
+            <Route
+              path="scheduleAnimal"
+              element={<ScheduleAnimalNotFeeding />}
+            ></Route>
           </Route>
           <Route path="/loading" element={<Loading></Loading>} />
           <Route path="/login" element={<Login />}></Route>
