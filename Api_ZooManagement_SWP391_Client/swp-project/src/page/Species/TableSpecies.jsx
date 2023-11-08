@@ -46,7 +46,7 @@ function TableSpecies() {
       }
     });
     return () => (mounted = false);
-  }, []);
+  }, [showModalAdd,currentPage]);
   const handleClick = () => {
     setShowmodalAdd(true);
   };
@@ -87,7 +87,7 @@ function TableSpecies() {
     if (term) {
       const getList = () => {
         return fetch(
-          `https://localhost:44352/api/AnimalSpecies/pages/${currentPage}`
+          `https://localhost:44352/api/AnimalSpecies/pagesSpecies/${currentPage}`
         ).then((data) => data.json());
       };
       let mounted = true;
@@ -105,7 +105,7 @@ function TableSpecies() {
     } else {
       const getList = () => {
         return fetch(
-          `https://localhost:44352/api/AnimalSpecies/pages/${currentPage}`
+          `https://localhost:44352/api/AnimalSpecies/pagesSpecies/${currentPage}`
         ).then((data) => data.json());
       };
       let mounted = true;
@@ -153,10 +153,9 @@ function TableSpecies() {
           <Table size="100px" hover>
             <thead className="table-dark">
               <tr>
-                <th>Species ID</th>
-                <th>Name</th>
-                <th>Number of animals belonging to species</th>
-                <th style={{ textAlign: "center" }}>Action</th>
+                <th style={{textAlign:"center"}}>Species ID</th>
+                <th style={{textAlign:"center"}}>Name</th>
+                <th style={{textAlign:"center"}}>Number of animals belonging to species</th>
               </tr>
             </thead>
             <tbody>
@@ -165,33 +164,9 @@ function TableSpecies() {
                 listSpecies.map((items, index) => {
                   return (
                     <tr key={`species-${index}`}>
-                      <td>{items.speciesId}</td>
-                      <td>{items.speciesName}</td>
-                      <td>{items.countAnimal}</td>
-                      <td style={{ width: "220px" }}>
-                        {role && role === "STAFF" && (
-                          <Button
-                            variant="text"
-                            style={{ padding: 0, textAlign: "center" }}
-                            onClick={() => {
-                              handleViewArea(items);
-                            }}
-                          >
-                            <VisibilityIcon />
-                          </Button>
-                        )}
-                        {role && role === "ADMIN" && (
-                          <Button
-                            variant="text"
-                            style={{ padding: 0, textAlign: "center" }}
-                            onClick={() => {
-                              handleViewArea(items);
-                            }}
-                          >
-                            <VisibilityIcon />
-                          </Button>
-                        )}
-                      </td>
+                      <td style={{textAlign:"center"}}>{items.speciesId}</td>
+                      <td style={{textAlign:"center"}}>{items.speciesName}</td>
+                      <td style={{textAlign:"center"}}>{items.countAnimal}</td>
                     </tr>
                   );
                 })}

@@ -11,6 +11,7 @@ import {
 } from "mdb-react-ui-kit";
 import { Navigate, json, useNavigate } from "react-router-dom";
 import { DatePicker, Radio, Select, Space } from "antd";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "../../assets/css/dashboard.css";
@@ -280,6 +281,9 @@ export default function EditAnimal(pros) {
         description: "",
       },
     ]);
+  };
+  const removeField = (index) => {
+    setSchedules(schedules.filter((_, i) => i !== index));
   };
   const getList = () => {
     return fetch("https://localhost:44352/api/Food").then((data) =>
@@ -1248,6 +1252,11 @@ export default function EditAnimal(pros) {
                                   />
 
                                 </div>
+                                <div style={{paddingTop: "40px"}}>
+                                  <button onClick={() => removeField(index)}>
+                                    <DeleteIcon />
+                                  </button>
+                                </div>
                               </div>
                             ))}
                             {!isValidDescription &&
@@ -1261,6 +1270,7 @@ export default function EditAnimal(pros) {
                                 }}
                               >
                                 <Button onClick={handleAdd2}>Add</Button>
+
                               </div>
                             )}
 

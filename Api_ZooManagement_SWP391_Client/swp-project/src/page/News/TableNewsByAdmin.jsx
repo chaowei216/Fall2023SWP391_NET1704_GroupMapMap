@@ -35,8 +35,6 @@ function TableNewsByAdmin() {
   const [dataNewsView, setDataNewsView] = useState({});
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  // const [showRequestList, setShowRequestList] = useState(false);
-  // const [showAvailableList, setShowAvailableList] = useState(false);
   const [currentList, setCurrentList] = useState(1);
   const onShowSizeChange = (current) => {
     console.log(current);
@@ -168,6 +166,17 @@ function TableNewsByAdmin() {
     // setShowRequestList(false);
     setCurrentList(value);
   };
+
+  const a = listNews.sort((a, b) =>{
+    return new Date(b.releaseDate) - new Date(a.releaseDate)
+  })
+  const b = listAvailableNews.sort((a,b) =>{
+    return new Date(b.releaseDate) - new Date(a.releaseDate)
+  })
+  const c = listDenyNews.sort((a,b) =>{
+    return new Date(b.releaseDate) - new Date(a.releaseDate)
+  })
+
   //  const handleShowNewsRequest = () => {
   //     setShowRequestList(!showRequestList);
   //     setShowAvailableList(false);
@@ -260,9 +269,9 @@ function TableNewsByAdmin() {
             </thead>
             <tbody>
               {currentList === 1 &&
-                listNews &&
-                listNews.length > 0 &&
-                listNews.map((items, index) => {
+                a &&
+                a.length > 0 &&
+                a.map((items, index) => {
                   return (
                     <tr key={`food-${index}`}>
                       <td>{items.newsId}</td>

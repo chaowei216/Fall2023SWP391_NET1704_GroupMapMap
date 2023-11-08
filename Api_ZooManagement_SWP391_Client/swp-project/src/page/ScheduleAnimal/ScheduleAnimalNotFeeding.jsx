@@ -20,6 +20,8 @@ import { MDBTypography } from "mdb-react-ui-kit";
 import PetsIcon from "@mui/icons-material/Pets";
 import moment from "moment";
 import { toast } from "react-toastify";
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+
 function ScheduleAnimalNotFeeding() {
   const emailInfo = localStorage.getItem("email");
   const [showModalAdd, setShowmodalAdd] = useState(false);
@@ -35,6 +37,19 @@ function ScheduleAnimalNotFeeding() {
   const [listAnimalFilter, setListAnimalFilter] = useState([]);
   const [animalFilter, setAnimalFilter] = useState([]);
   const [aID, setAID] = useState("");
+  
+  async function resetSchedule() {
+    try {
+      await fetch(`https://localhost:44352/api/Schedule/ResetSchedule`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.log("Error resetting schedule");
+    }
+  }
   useEffect(() => {
     const getTrainerList = () => {
       return fetch("https://localhost:44352/api/User/users").then((data) =>
@@ -198,7 +213,17 @@ function ScheduleAnimalNotFeeding() {
       toast.error("Error");
     }
   };
-
+  const handleReset = () => {
+    resetSchedule();
+    if (resetSchedule){
+      toast.success("Reset Success");
+      setTimeout(() => {
+        window.location.reload();
+      },1200)
+    }else{
+      toast.error("Error");
+    }
+  }
   const handleViewUser = (item) => {
     // setDataUserEdit(item);
     const animal = item;
@@ -225,16 +250,34 @@ function ScheduleAnimalNotFeeding() {
             <i> Animal Schedule Chart</i>
           </MDBTypography>
         </div>
+        <div className="mb-4" style={{ textAlign: "end" }}>
+          <Button
+            onClick={() => {
+              handleReset();
+            }}
+            variant="outlined"
+            style={{
+              padding: 0,
+              backgroundColor: "green",
+              color: "white",
+              width: "90px",
+              height: "35px",
+              marginRight: "15px",
+            }}
+          >
+            <RestartAltIcon /> Reset
+          </Button>
+        </div>
         <div className="table-content">
           <MDBTable>
             <MDBTableHead
               dark
-              // style={{
-              //   borderTop: "white",
-              //   borderRight: "black",
-              //   borderLeft: "black",
-              //   borderBottom: "black",
-              // }}
+            // style={{
+            //   borderTop: "white",
+            //   borderRight: "black",
+            //   borderLeft: "black",
+            //   borderBottom: "black",
+            // }}
             >
               <tr>
                 <th scope="col" style={{ textAlign: "center" }}>
@@ -301,7 +344,7 @@ function ScheduleAnimalNotFeeding() {
                             ) {
                               return (
                                 <div>
-                                  <span style={{marginTop: "20px"}}>{value.time}</span>
+                                  <span style={{ marginTop: "20px" }}>{value.time}</span>
                                 </div>
                               );
                             }
@@ -335,7 +378,7 @@ function ScheduleAnimalNotFeeding() {
                               return (
                                 <Button
                                   onClick={() => {
-                                    handleEditUser(items,value);
+                                    handleEditUser(items, value);
                                   }}
                                   variant="text"
                                   style={{

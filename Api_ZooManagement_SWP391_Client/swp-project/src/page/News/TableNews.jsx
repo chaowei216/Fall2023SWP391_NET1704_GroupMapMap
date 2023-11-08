@@ -72,6 +72,11 @@ function TableNews() {
   const handleClick = () => {
     setShowmodalAdd(true);
   };
+
+  const a = listNews.sort((a, b) =>{
+    return new Date(b.releaseDate) - new Date(a.releaseDate);
+  })
+  console.log(a);
   //   const handleClick = () => {
   //     setShowmodalAdd(true);
   //     setAnchorEl(null);

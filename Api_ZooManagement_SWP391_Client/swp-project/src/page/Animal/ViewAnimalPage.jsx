@@ -244,7 +244,7 @@ export default function ViewAnimal(pros) {
       setListScheduleFilter(scheduleFilter);
       console.log(listScheduleFilter);
     }
-  }, [listSchedule, scheduleId]);
+  }, [listSchedule, scheduleId,dataAnimalView]);
 
   useEffect(() => {
     if (foodId) {

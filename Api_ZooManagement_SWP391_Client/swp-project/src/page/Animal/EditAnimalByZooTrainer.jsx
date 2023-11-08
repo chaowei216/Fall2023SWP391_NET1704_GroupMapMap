@@ -295,7 +295,9 @@ export default function EditAnimalByZooTrainer(pros) {
     });
     return () => (mounted = false);
   }, []);
-
+  const removeField = (index) => {
+    setSchedules(schedules.filter((_, i) => i !== index));
+  };
   useEffect(() => {
     const getScheduleList = () => {
       return fetch("https://localhost:44352/api/Schedule").then((data) =>
@@ -1240,7 +1242,11 @@ export default function EditAnimalByZooTrainer(pros) {
                                       handleDescriptionChange(schedule.scheduleId, e)
                                     }
                                   />
-
+                                </div>
+                                <div style={{paddingTop: "40px"}}>
+                                  <button onClick={() => removeField(index)}>
+                                    <DeleteIcon />
+                                  </button>
                                 </div>
                               </div>
                             ))}

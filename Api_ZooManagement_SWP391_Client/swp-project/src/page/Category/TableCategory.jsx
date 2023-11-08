@@ -46,7 +46,7 @@ function TableCategory() {
       }
     });
     return () => (mounted = false);
-  }, []);
+  }, [showModalAdd,currentPage]);
   const handleClick = () => {
     setShowmodalAdd(true);
   };
@@ -153,9 +153,8 @@ function TableCategory() {
           <Table size="100px" hover>
             <thead className="table-dark">
               <tr>
-                <th>Species ID</th>
-                <th>Name</th>
-                <th style={{ textAlign: "center" }}>Action</th>
+                <th style={{textAlign:"center"}}>Category ID</th>
+                <th style={{textAlign:"center"}}>Category Name</th>
               </tr>
             </thead>
             <tbody>
@@ -164,21 +163,9 @@ function TableCategory() {
                 listCategory.map((items, index) => {
                   return (
                     <tr key={`species-${index}`}>
-                      <td>{items.categoryId}</td>
-                      <td>{items.categoryName}</td>
-                      <td style={{ width: "220px" }}>
-                        {role && role === "STAFF" && (
-                          <Button
-                            variant="text"
-                            style={{ padding: 0, textAlign: "center" }}
-                            onClick={() => {
-                              handleViewArea(items);
-                            }}
-                          >
-                            <VisibilityIcon />
-                          </Button>
-                        )}
-                      </td>
+                      <td style={{textAlign:"center"}}>{items.categoryId}</td>
+                      <td style={{textAlign:"center"}}>{items.categoryName}</td>
+                      
                     </tr>
                   );
                 })}
