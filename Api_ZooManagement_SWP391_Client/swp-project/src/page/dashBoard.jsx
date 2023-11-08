@@ -56,7 +56,7 @@ function Dashboard() {
   }, []);
 
   return (
-    <div>
+    <div style={{ width: "1000px" }}>
       <Space
         size={20}
         direction="vertical"
@@ -65,13 +65,19 @@ function Dashboard() {
           marginLeft: "30px",
           marginTop: "20px",
           marginBottom: "60px",
-          width: "80%",
+          width: "60%",
         }}
       >
-        <Typography.Title level={10}>Dashboard</Typography.Title>
+        <Typography.Title level={10} style={{ width: "1000px" }}>
+          Dashboard
+        </Typography.Title>
         <Space
           direction="horizontal"
-          style={{ width: "1400px", display: "flex", justifyContent: "center" }}
+          style={{
+            width: "900px",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
         >
           <DashboardCard
             icon={
@@ -143,23 +149,27 @@ function Dashboard() {
 
           <DashboardChart />
         </Space>
-        {viewInfo ? (
-          <Button
-            style={{ transform: "translateY(-300px)" }}
-            variant="contained"
-            onClick={() => setViewInfo(!viewInfo)}
-          >
-            Close Info
-          </Button>
-        ) : (
-          <Button
-            style={{ transform: "translateY(-300px)" }}
-            variant="contained"
-            onClick={() => setViewInfo(!viewInfo)}
-          >
-            View Info
-          </Button>
-        )}
+        <div>
+          {viewInfo ? (
+            <Button
+              style={{ transform: "translate(300px,-300px)" }}
+              variant="contained"
+              onClick={() => setViewInfo(!viewInfo)}
+            >
+              Close Info
+            </Button>
+          ) : (
+            <Button
+              style={{
+                transform: "translate(300px,-300px)",
+              }}
+              variant="contained"
+              onClick={() => setViewInfo(!viewInfo)}
+            >
+              View Info
+            </Button>
+          )}
+        </div>
       </Space>
 
       {viewInfo ? (

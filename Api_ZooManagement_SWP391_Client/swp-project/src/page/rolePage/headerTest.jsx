@@ -84,7 +84,7 @@ function AppHeader({ OpenSidebar }) {
     const filteredAnimals = list.filter((animal) => {
       return animal.schedules.some((schedule) => {
         const schedulePeriod = parseTime(schedule.time);
-        return (schedulePeriod === currentPeriod && schedule.isDone === false);
+        return schedulePeriod === currentPeriod && schedule.isDone === false;
       });
     });
     setListAnimalFilter(filteredAnimals);
@@ -186,10 +186,7 @@ function AppHeader({ OpenSidebar }) {
       <div className="menu-icon">
         <BsJustify className="icon" onClick={OpenSidebar} />
       </div>
-      <Image
-        width={90}
-        src="https://img.freepik.com/premium-vector/zoo-logo-design-vector-illustration_742779-149.jpg?w=2000"
-      ></Image>
+      <Image width={90} src="/logo.png"></Image>
       {/* <Typography.Title style={{ marginBottom: "0", fontSize: "30px" }}>
           {role + " " + "Manager"}
         </Typography.Title> */}
@@ -215,7 +212,11 @@ function AppHeader({ OpenSidebar }) {
           </span>
           {showLogout && (
             <span
-              style={{ marginLeft: "8px",marginRight: "15px", cursor: "pointer" }}
+              style={{
+                marginLeft: "8px",
+                marginRight: "15px",
+                cursor: "pointer",
+              }}
               onClick={handleLogout}
             >
               LOG OUT
@@ -326,7 +327,10 @@ function AppHeader({ OpenSidebar }) {
                                   const currentPeriod = getPeriod(
                                     now.getHours()
                                   );
-                                  if (schedulePeriod === currentPeriod && value.isDone === false) {
+                                  if (
+                                    schedulePeriod === currentPeriod &&
+                                    value.isDone === false
+                                  ) {
                                     return (
                                       <div className="text-muted">
                                         {value.scheduleName +
