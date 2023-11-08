@@ -183,8 +183,11 @@ function TableStaff() {
                 users.length > 0 &&
                 users.map((item, index) => {
                   return (
-                    <tr key={`user-${index}`}>
-                      <td width={140}>
+                    <tr
+                      key={`user-${index}`}
+                      style={{ verticalAlign: "middle" }}
+                    >
+                      <td width={130}>
                         {" "}
                         <img
                           className="rounded"

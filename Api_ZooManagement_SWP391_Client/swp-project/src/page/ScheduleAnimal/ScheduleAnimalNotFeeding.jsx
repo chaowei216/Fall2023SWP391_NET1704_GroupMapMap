@@ -20,7 +20,7 @@ import { MDBTypography } from "mdb-react-ui-kit";
 import PetsIcon from "@mui/icons-material/Pets";
 import moment from "moment";
 import { toast } from "react-toastify";
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 function ScheduleAnimalNotFeeding() {
   const emailInfo = localStorage.getItem("email");
@@ -37,7 +37,7 @@ function ScheduleAnimalNotFeeding() {
   const [listAnimalFilter, setListAnimalFilter] = useState([]);
   const [animalFilter, setAnimalFilter] = useState([]);
   const [aID, setAID] = useState("");
-  
+
   async function resetSchedule() {
     try {
       await fetch(`https://localhost:44352/api/Schedule/ResetSchedule`, {
@@ -215,15 +215,15 @@ function ScheduleAnimalNotFeeding() {
   };
   const handleReset = () => {
     resetSchedule();
-    if (resetSchedule){
+    if (resetSchedule) {
       toast.success("Reset Success");
       setTimeout(() => {
         window.location.reload();
-      },1200)
-    }else{
+      }, 1200);
+    } else {
       toast.error("Error");
     }
-  }
+  };
   const handleViewUser = (item) => {
     // setDataUserEdit(item);
     const animal = item;
@@ -272,12 +272,12 @@ function ScheduleAnimalNotFeeding() {
           <MDBTable>
             <MDBTableHead
               dark
-            // style={{
-            //   borderTop: "white",
-            //   borderRight: "black",
-            //   borderLeft: "black",
-            //   borderBottom: "black",
-            // }}
+              // style={{
+              //   borderTop: "white",
+              //   borderRight: "black",
+              //   borderLeft: "black",
+              //   borderBottom: "black",
+              // }}
             >
               <tr>
                 <th scope="col" style={{ textAlign: "center" }}>
@@ -344,22 +344,15 @@ function ScheduleAnimalNotFeeding() {
                             ) {
                               return (
                                 <div>
-                                  <span style={{ marginTop: "20px" }}>{value.time}</span>
+                                  <span style={{ marginTop: "20px" }}>
+                                    {value.time}
+                                  </span>
                                 </div>
                               );
                             }
                           })}
                       </td>
                       <td style={{ width: "208px", verticalAlign: "middle" }}>
-                        <Button
-                          variant="text"
-                          style={{ padding: 0 }}
-                          onClick={() => {
-                            handleViewUser(items);
-                          }}
-                        >
-                          <VisibilityIcon />
-                        </Button>
                         {items.schedules &&
                           items.schedules.map((value) => {
                             const schedulePeriod = parseTime(value.time);
@@ -412,7 +405,7 @@ function ScheduleAnimalNotFeeding() {
                                     color: "white",
                                     width: "84px",
                                     marginTop: "20px",
-                                    marginLeft: "48px"
+                                    marginLeft: "48px",
                                   }}
                                 >
                                   Not Yet

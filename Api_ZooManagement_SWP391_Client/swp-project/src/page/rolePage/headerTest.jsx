@@ -145,7 +145,7 @@ function AppHeader({ OpenSidebar }) {
   useEffect(() => {
     const list = [];
     listFood.map((food) => {
-      if (food.quantity < 200) {
+      if (food.quantity < 500) {
         list.push(food);
       }
       setFoodNotifications(list);

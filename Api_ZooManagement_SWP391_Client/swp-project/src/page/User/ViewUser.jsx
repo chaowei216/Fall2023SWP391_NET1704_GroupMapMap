@@ -8,7 +8,7 @@ import {
   MDBModalTitle,
   MDBModalBody,
   MDBModalFooter,
-  MDBCardText
+  MDBCardText,
 } from "mdb-react-ui-kit";
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
@@ -86,64 +86,147 @@ export default function ViewUser(pros) {
                   <div className="form-content">
                     <div className="form">
                       <div className="row mb-3">
-                        <div className="mb-3 mt-3" style={{ width: "33%" }}>
-                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>User Id:</label>
-                          <MDBCardText className="text-muted mt-2">{userId}</MDBCardText>
+                        <div className="mb-3" style={{ textAlign: "center" }}>
+                          <div>
+                            <img
+                              style={{ height: "259px" }}
+                              src={"/" + userImage}
+                            />
+                          </div>
                         </div>
                         <div className="mb-3 mt-3" style={{ width: "33%" }}>
-                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Email:</label>
-                          <MDBCardText className="text-muted mt-2">{email}</MDBCardText>
+                          <label
+                            className="form-label"
+                            style={{ color: "#813528", fontWeight: "bolder" }}
+                          >
+                            User Id:
+                          </label>
+                          <MDBCardText className="text-muted mt-2">
+                            {userId}
+                          </MDBCardText>
+                        </div>
+                        <div className="mb-3 mt-3" style={{ width: "33%" }}>
+                          <label
+                            className="form-label"
+                            style={{ color: "#813528", fontWeight: "bolder" }}
+                          >
+                            Email:
+                          </label>
+                          <MDBCardText className="text-muted mt-2">
+                            {email}
+                          </MDBCardText>
                         </div>
                       </div>
                       <hr></hr>
                       <div className="row mb-3">
                         <div className="mb-3 mt-3" style={{ width: "33%" }}>
-                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Full Name:</label>
-                          <MDBCardText className="text-muted mt-2">{firstName + " " + lastName}</MDBCardText>
+                          <label
+                            className="form-label"
+                            style={{ color: "#813528", fontWeight: "bolder" }}
+                          >
+                            Full Name:
+                          </label>
+                          <MDBCardText className="text-muted mt-2">
+                            {firstName + " " + lastName}
+                          </MDBCardText>
                         </div>
                         <div className="mb-3 mt-2" style={{ width: "33%" }}>
-                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Address:</label>
-                          <MDBCardText className="text-muted mt-2">{address}</MDBCardText>
+                          <label
+                            className="form-label"
+                            style={{ color: "#813528", fontWeight: "bolder" }}
+                          >
+                            Address:
+                          </label>
+                          <MDBCardText className="text-muted mt-2">
+                            {address}
+                          </MDBCardText>
                         </div>
                       </div>
                       <hr></hr>
                       <div className="row mb-3">
                         <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Phone:</label>
-                          <MDBCardText className="text-muted mt-2">{phone}</MDBCardText>
+                          <label
+                            className="form-label"
+                            style={{ color: "#813528", fontWeight: "bolder" }}
+                          >
+                            Phone:
+                          </label>
+                          <MDBCardText className="text-muted mt-2">
+                            {phone}
+                          </MDBCardText>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Role:</label>
-                          <MDBCardText className="text-muted mt-2">{role}</MDBCardText>
+                          <label
+                            className="form-label"
+                            style={{ color: "#813528", fontWeight: "bolder" }}
+                          >
+                            Role:
+                          </label>
+                          <MDBCardText className="text-muted mt-2">
+                            {role}
+                          </MDBCardText>
                         </div>
                       </div>
                       <hr></hr>
                       <div className="row mb-3">
                         <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Sex:</label>
-                          <MDBCardText className="text-muted mt-2">{sex}</MDBCardText>
+                          <label
+                            className="form-label"
+                            style={{ color: "#813528", fontWeight: "bolder" }}
+                          >
+                            Sex:
+                          </label>
+                          <MDBCardText className="text-muted mt-2">
+                            {sex}
+                          </MDBCardText>
                         </div>
                         <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Start Date:</label>
-                          <MDBCardText className="text-muted mt-2">{startDate}</MDBCardText>
+                          <label
+                            className="form-label"
+                            style={{ color: "#813528", fontWeight: "bolder" }}
+                          >
+                            Start Date:
+                          </label>
+                          <MDBCardText className="text-muted mt-2">
+                            {startDate}
+                          </MDBCardText>
                         </div>
                       </div>
 
                       {endDate && (
                         <div className="mb-3" style={{ width: "33%" }}>
-                          <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>End Date:</label>
-                          <MDBCardText className="text-muted mt-2">{endDate}</MDBCardText>
+                          <label
+                            className="form-label"
+                            style={{ color: "#813528", fontWeight: "bolder" }}
+                          >
+                            End Date:
+                          </label>
+                          <MDBCardText className="text-muted mt-2">
+                            {endDate}
+                          </MDBCardText>
                         </div>
                       )}
                       <div className="mb-3" style={{ width: "33%" }}>
-                        <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>Status:</label>
-                        <MDBCardText className="text-muted mt-2">{status === true ? "On Working" : "Out Work"}</MDBCardText>
+                        <label
+                          className="form-label"
+                          style={{ color: "#813528", fontWeight: "bolder" }}
+                        >
+                          Status:
+                        </label>
+                        <MDBCardText className="text-muted mt-2">
+                          {status === true ? "On Working" : "Out Work"}
+                        </MDBCardText>
                       </div>
                       <hr></hr>
                       <div className="label-info mb-2">
-                        <label style={{color: "#813528"}}>Experience Information</label>
+                        <label style={{ color: "#813528" }}>
+                          Experience Information
+                        </label>
                       </div>
-                      <div className="Food-Information mb-4" style={{ width: "100%" }}>
+                      <div
+                        className="Food-Information mb-4"
+                        style={{ width: "100%" }}
+                      >
                         <div className="mb-3" style={{ paddingRight: "25px" }}>
                           <Table striped bordered hover>
                             <thead>
@@ -165,23 +248,16 @@ export default function ViewUser(pros) {
                                     </tr>
                                   );
                                 })}
-                              {experienceOption.length === 0 &&
+                              {experienceOption.length === 0 && (
                                 <tr>
                                   <td colSpan={3}>Empty</td>
                                 </tr>
-                              }
+                              )}
                             </tbody>
                           </Table>
                         </div>
                       </div>
-                      <div className="mb-3">
-                        <div>
-                          <img
-                            style={{ width: "100%" }}
-                            src={"/" + userImage}
-                          />
-                        </div>
-                      </div>
+
                       <div className="btn-footer">
                         <div
                           style={{

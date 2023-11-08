@@ -8,31 +8,32 @@ import SliderHero from "./page/sliderHero";
 import SideMenu from "./page/rolePage/test";
 import SideMenuStaff from "./page/rolePage/SideMenuStaff";
 function HeaderLayoutStaff() {
-    const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
-    const OpenSidebar = () => {
-        setOpenSidebarToggle(!openSidebarToggle);
-    };
-    return (
-        <>
-            <div className="App">
-                <AppHeader OpenSidebar={OpenSidebar} />
-                <div
-                    className="SideMenuAndPageContent"
-                    style={{ "background-color": '#f5f5f5' }}
-                >
-                    <SideMenuStaff
-                        openSidebarToggle={openSidebarToggle}
-                        OpenSidebar={OpenSidebar} />
-                    <Outlet></Outlet>
-                </div>
-                {/* <Footer
+  const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
+  const OpenSidebar = () => {
+    setOpenSidebarToggle(!openSidebarToggle);
+  };
+  return (
+    <>
+      <div className="App">
+        <AppHeader OpenSidebar={OpenSidebar} />
+        <div
+          className="SideMenuAndPageContent"
+          style={{ "background-color": "#f5f5f5" }}
+        >
+          <SideMenuStaff
+            openSidebarToggle={openSidebarToggle}
+            OpenSidebar={OpenSidebar}
+          />
+          <Outlet></Outlet>
+        </div>
+        {/* <Footer
                 style={{
                     textAlign: 'center',
                 }}
             ></Footer> */}
-            </div>
-        </>
-    );
+      </div>
+    </>
+  );
 }
 
 export default HeaderLayoutStaff;

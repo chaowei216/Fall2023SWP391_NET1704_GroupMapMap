@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { DashOutlined, PlusOutlined } from "@ant-design/icons";
 import "../../assets/css/dashboard.css";
 import Table from "react-bootstrap/Table";
-import { MDBListGroup, MDBListGroupItem, MDBBadge } from 'mdb-react-ui-kit';
+import { MDBListGroup, MDBListGroupItem, MDBBadge } from "mdb-react-ui-kit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -34,19 +34,19 @@ function TableFood() {
   const [foodNotifications, setFoodNotifications] = useState([]);
   useEffect(() => {
     const getList = () => {
-      return fetch(`https://localhost:44352/api/Food/pages/${currentPage}`).then((data) =>
-        data.json()
-      );
+      return fetch(
+        `https://localhost:44352/api/Food/pages/${currentPage}`
+      ).then((data) => data.json());
     };
     let mounted = true;
     getList().then((items) => {
       if (mounted) {
         setListFood(items.foods);
-        setTotalPages(items.pages)
+        setTotalPages(items.pages);
       }
     });
     return () => (mounted = false);
-  }, [showModalEdit, showModalAdd,currentPage]);
+  }, [showModalEdit, showModalAdd, currentPage]);
   const handleClick = () => {
     setShowmodalAdd(true);
   };
@@ -60,8 +60,8 @@ function TableFood() {
         list.push(food);
       }
       setFoodNotifications(list);
-    })
-  }, [listFood])
+    });
+  }, [listFood]);
   console.log(foodNotifications);
   //   const handleClick = () => {
   //     setShowmodalAdd(true);
@@ -102,34 +102,38 @@ function TableFood() {
     let term = e.target.value;
     if (term) {
       const getList = () => {
-        return fetch(`https://localhost:44352/api/Food/pages/${currentPage}`).then((data) =>
-          data.json()
-        );
+        return fetch(
+          `https://localhost:44352/api/Food/pages/${currentPage}`
+        ).then((data) => data.json());
       };
       let mounted = true;
       getList().then((items) => {
         if (mounted) {
-          setListFood(items.foods.filter(food => food.fName.toUpperCase().includes(term.toUpperCase())));
-          setTotalPages(items.pages)
+          setListFood(
+            items.foods.filter((food) =>
+              food.fName.toUpperCase().includes(term.toUpperCase())
+            )
+          );
+          setTotalPages(items.pages);
         }
       });
       return () => (mounted = false);
     } else {
       const getList = () => {
-        return fetch(`https://localhost:44352/api/Food/pages/${currentPage}`).then((data) =>
-          data.json()
-        );
+        return fetch(
+          `https://localhost:44352/api/Food/pages/${currentPage}`
+        ).then((data) => data.json());
       };
       let mounted = true;
       getList().then((items) => {
         if (mounted) {
           setListFood(items.foods);
-          setTotalPages(items.pages)
+          setTotalPages(items.pages);
         }
       });
       return () => (mounted = false);
     }
-  }, 350)
+  }, 350);
   //   const handleViewUser = (item) => {
   //     // setDataUserEdit(item);
   //     const animal = item;
@@ -157,7 +161,11 @@ function TableFood() {
               }}
             >
               Notification
-              <MDBBadge className='ms-2' color='danger' style={{ fontSize: "small" }}>
+              <MDBBadge
+                className="ms-2"
+                color="danger"
+                style={{ fontSize: "small" }}
+              >
                 {foodNotifications.length}
               </MDBBadge>
             </Button>
@@ -167,45 +175,66 @@ function TableFood() {
               anchorEl={anchorEl}
               onClose={handleClose}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: "bottom",
+                horizontal: "left",
               }}
             >
-              {foodNotifications && foodNotifications.map((value) => {
-                return (
-                  <div key={value.foodId}>
-                    <MDBListGroup style={{ minWidth: '22rem', display: "table" }} light>
-                      <MDBListGroupItem className='d-flex justify-content-between align-items-center'>
-                        <div>
-                          <div className='text-muted'><b>Food ID: </b>{value.foodId}</div>
-                          <div className='text-muted'><b>Food Name: </b>{value.fName}</div>
-                          <div className='text-muted'><b>Quantity: </b>{value.quantity}</div>
-                        </div>
-                        <MDBBadge className='ms-2' color='warning' style={{ fontSize: "medium" }}>
-                          Warning
-                        </MDBBadge>
-                      </MDBListGroupItem>
-                    </MDBListGroup>
-                  </div>
-                )
-              })}
+              {foodNotifications &&
+                foodNotifications.map((value) => {
+                  return (
+                    <div key={value.foodId}>
+                      <MDBListGroup
+                        style={{ minWidth: "22rem", display: "table" }}
+                        light
+                      >
+                        <MDBListGroupItem className="d-flex justify-content-between align-items-center">
+                          <div>
+                            <div className="text-muted">
+                              <b>Food ID: </b>
+                              {value.foodId}
+                            </div>
+                            <div className="text-muted">
+                              <b>Food Name: </b>
+                              {value.fName}
+                            </div>
+                            <div className="text-muted">
+                              <b>Quantity: </b>
+                              {value.quantity}
+                            </div>
+                          </div>
+                          <MDBBadge
+                            className="ms-2"
+                            color="warning"
+                            style={{ fontSize: "medium" }}
+                          >
+                            Warning
+                          </MDBBadge>
+                        </MDBListGroupItem>
+                      </MDBListGroup>
+                    </div>
+                  );
+                })}
             </Popover>
           </span>
           <div className="search-container">
             {/* toggleShow */}
             <div className="search-content">
-              <input type="text" onChange={handleSearch} className="form-control" />
+              <input
+                type="text"
+                onChange={handleSearch}
+                className="form-control"
+              />
               <Button variant="contained">
                 <SearchIcon />
               </Button>
             </div>
-            {role && role === 'STAFF' &&
+            {role && role === "STAFF" && (
               <div>
                 <Button variant="contained" onClick={handleClick}>
                   <PlusOutlined />
                 </Button>
               </div>
-            }
+            )}
           </div>
         </div>
         <div className="table-content">
@@ -230,7 +259,7 @@ function TableFood() {
                       <td>{items.quantity}</td>
                       <td>{items.categoryName}</td>
                       <td style={{ width: "208px", textAlign: "center" }}>
-                        {role && role === 'ZOOTRAINER' &&
+                        {role && role === "ZOOTRAINER" && (
                           <Button
                             variant="text"
                             style={{ padding: 0 }}
@@ -240,8 +269,8 @@ function TableFood() {
                           >
                             <VisibilityIcon />
                           </Button>
-                        }
-                        {role && role === 'STAFF' &&
+                        )}
+                        {role && role === "STAFF" && (
                           <Button
                             variant="text"
                             style={{ padding: 0, textAlign: "center" }}
@@ -251,8 +280,8 @@ function TableFood() {
                           >
                             <VisibilityIcon />
                           </Button>
-                        }
-                        {role && role === 'STAFF' &&
+                        )}
+                        {role && role === "STAFF" && (
                           <Button
                             onClick={() => {
                               handleEditFood(items);
@@ -262,12 +291,12 @@ function TableFood() {
                           >
                             <EditIcon />
                           </Button>
-                        }
-                        {role && role === 'ZOOTRAINER' &&
+                        )}
+                        {role && role === "STAFF" && (
                           <Button variant="text" style={{ padding: 0 }}>
                             <DeleteIcon />
                           </Button>
-                        }
+                        )}
                       </td>
                     </tr>
                   );
