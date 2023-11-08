@@ -61,6 +61,23 @@ namespace BBL.Services
                         _expDetailRepository.Add(expDetail);
                     }
                 }
+                var email = new MimeMessage();
+                email.From.Add(MailboxAddress.Parse("mapmapzoofpt@gmail.com"));
+                email.To.Add(MailboxAddress.Parse(user.Email));
+                email.Subject = "Welcome to our Mapmap zoo";
+                email.Body = new TextPart(TextFormat.Text)
+                {
+                    Text = " <h3>This is your account details: </h3>"
+                                                                    + "Your account number is: " + user.Email
+                                                                    + "\nYour password is: " + 123456
+                                                                    + "\nMapMap Zoo thank you for join with us. Wish you have a good day!!!"
+                };
+
+                using var smtp = new MailKit.Net.Smtp.SmtpClient();
+                smtp.Connect(_config.GetSection("EmailHost").Value, 587, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_config.GetSection("EmailUser").Value, _config.GetSection("EmailPassword").Value);
+                smtp.Send(email);
+                smtp.Disconnect(true);
                 return true;
             }
             return false;

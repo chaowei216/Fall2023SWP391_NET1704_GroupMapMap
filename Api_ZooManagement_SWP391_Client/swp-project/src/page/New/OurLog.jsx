@@ -29,6 +29,9 @@ function OurLog() {
     };
     getPages(0);
   }, []);
+  const a = listPages.sort((a, b) =>{
+    return new Date(b.releaseDate) - new Date(a.releaseDate)
+  })
   const customPrevious = (
     <li style={{ top: "-30px" }} className="prev">
       <i className="fa-solid fa-angles-left"></i>
@@ -78,7 +81,7 @@ function OurLog() {
                     <img
                       alt="recent-news-img"
                       style={{ height: "100%", width: "100%" }}
-                      src={editImg(news.newsImage)}
+                      src={editImg(news.newsImage)} 
                     />
                   </div>
 

@@ -8,6 +8,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
+import { Pagination } from "antd";
+
 function OrderTable() {
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
@@ -19,21 +21,27 @@ function OrderTable() {
   const [dataAnimalView, setDataAnimalView] = useState({});
   const [dataFoodEdit, setDataFoodEdit] = useState({});
   const [dataFoodView, setDataFoodView] = useState({});
-
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const onShowSizeChange = (current) => {
+    console.log(current);
+    setCurrentPage(current);
+  };
   useEffect(() => {
     const getList = () => {
-      return fetch("https://localhost:44352/api/Order").then((data) =>
+      return fetch(`https://localhost:44352/api/Order/pages/${currentPage}`).then((data) =>
         data.json()
       );
     };
     let mounted = true;
     getList().then((items) => {
       if (mounted) {
-        setListOrder(items);
+        setListOrder(items.orders);
+        setTotalPages(items.pages);
       }
     });
     return () => (mounted = false);
-  }, []);
+  }, [currentPage]);
   console.log(listOrder);
   const editDay = (dayNews) => {
     const releaseDate = new Date(dayNews);
@@ -115,6 +123,14 @@ function OrderTable() {
                 })}
             </tbody>
           </Table>
+          <div className="pagination-container">
+            <Pagination
+              onChange={onShowSizeChange}
+              defaultCurrent={currentPage}
+              defaultPageSize={10}
+              total={totalPages * 10}
+            />
+          </div>
         </div>
       </div>
       {/* <ViewFood
