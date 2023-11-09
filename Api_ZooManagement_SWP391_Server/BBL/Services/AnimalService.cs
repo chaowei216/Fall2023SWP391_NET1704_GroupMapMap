@@ -14,7 +14,7 @@ namespace BBL.Services
         private readonly IGenericRepository<Food> _foodRepo;
         private readonly IGenericRepository<AnimalTrainer> _animalTrainerRepo;
         private readonly IGenericRepository<AnimalCage> _animalCageRepo;
-        private readonly IGenericRepository<AnimalFood> _animalFoodRepo;
+        //private readonly IGenericRepository<AnimalFood> _animalFoodRepo;
         private readonly IGenericRepository<AnimalSpecies> _animalSpeRepo;
 
         public AnimalService(IGenericRepository<Animal> animalRepo,
@@ -22,7 +22,7 @@ namespace BBL.Services
                              IGenericRepository<Cage> cageRepo, 
                              IGenericRepository<AnimalCage> animalCageRepo,
                              IGenericRepository<AnimalTrainer> animalTrainerRepo, 
-                             IGenericRepository<AnimalFood> animalFoodRepo,
+                             //IGenericRepository<AnimalFood> animalFoodRepo,
                              IGenericRepository<AnimalSpecies> animalSpeRepo,
                              IGenericRepository<Food> foodRepo)
         {
@@ -31,7 +31,7 @@ namespace BBL.Services
             _userRepo = userRepo;
             _animalCageRepo = animalCageRepo;
             _animalTrainerRepo = animalTrainerRepo;
-            _animalFoodRepo = animalFoodRepo;
+            //_animalFoodRepo = animalFoodRepo;
             _animalSpeRepo = animalSpeRepo;
             _foodRepo = foodRepo;
         }
@@ -149,7 +149,7 @@ namespace BBL.Services
                 animal.HealthCheck = animalMap.HealthCheck;
                 animal.Status = animalMap.Status;
                 animal.Rarity = animalMap.Rarity;
-                animal.AnimalFoods = animalMap.AnimalFoods;
+                //animal.AnimalFoods = animalMap.AnimalFoods;
                 animal.AnimalSchedules = animalMap.AnimalSchedules;
             }
             return _animalRepo.Update(animal);
@@ -330,10 +330,10 @@ namespace BBL.Services
 
         public ICollection<OldFoodDto> GetOldFoodOfAnimal(string animalId)
         {
-            var aniFoods = _animalFoodRepo.GetAll().Where(af => af.AnimalId == animalId && af.EndEat < DateTime.Now).ToList();
+            //var aniFoods = _animalFoodRepo.GetAll().Where(af => af.AnimalId == animalId && af.EndEat < DateTime.Now).ToList();
             var oldFoods = new List<OldFoodDto>();
 
-            foreach(var aniFood in aniFoods)
+            /*foreach(var aniFood in aniFoods)
             {
                 var oldFood = new OldFoodDto();
                 oldFood.FName = _foodRepo.GetById(aniFood.FoodId).FName;
@@ -342,7 +342,7 @@ namespace BBL.Services
                 oldFood.EndEat = aniFood.EndEat;
 
                 oldFoods.Add(oldFood);
-            }
+            }*/
 
             return oldFoods;
         }

@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class AnimalSpecies
+    public class Meal
     {
-        public string SpeciesId { get; set; }
-        public string SpeciesName { get; set; }
-        public ICollection<Animal> Animals { get; set; }
+        public string MealId { get; set; }
+        public string MealName { get; set; }
+
         public ICollection<SpeciesMeal> SpeciesMeals { get; set; }
+        public ICollection<FoodMeal> FoodMeals { get; set; }
     }
 }

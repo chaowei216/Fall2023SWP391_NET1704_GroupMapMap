@@ -15,15 +15,15 @@ namespace BBL.Services
 
     {
         private readonly IGenericRepository<Food> _foodRepository;
-        private readonly IGenericRepository<AnimalFood> _animalFoodRepo;
+        //private readonly IGenericRepository<AnimalFood> _animalFoodRepo;
         private readonly IGenericRepository<FoodCategory> _foodCategoryRepository;
         private readonly DataContext _context;
 
         public FoodService(IGenericRepository<Food> foodRepository,
-            IGenericRepository<AnimalFood> animalFoodRepo, DataContext context, IGenericRepository<FoodCategory> foodCategoryRepository)
+             DataContext context, IGenericRepository<FoodCategory> foodCategoryRepository)
         {
             _foodRepository = foodRepository;
-            _animalFoodRepo = animalFoodRepo;
+            //_animalFoodRepo = animalFoodRepo;
             _context = context;
             _foodCategoryRepository = foodCategoryRepository;
         }
@@ -69,7 +69,8 @@ namespace BBL.Services
 
         public List<Animal> GetAnimalsByFoodId(string foodId)
         {
-            var animals = _animalFoodRepo.GetAll().Where(e => e.FoodId == foodId).Select(a => a.Animal).ToList();
+            //var animals = _animalFoodRepo.GetAll().Where(e => e.FoodId == foodId).Select(a => a.Animal).ToList();
+            List<Animal> animals = null;
             if (animals == null || animals.Count() == 0) return null;
             return animals;
         }
@@ -92,10 +93,10 @@ namespace BBL.Services
             return null;
         }
 
-        public ICollection<AnimalFood> GetFoodsByAnimalId(string animalId)
+/*        public ICollection<AnimalFood> GetFoodsByAnimalId(string animalId)
         {
             return _animalFoodRepo.GetAll().Where(aniFood => aniFood.AnimalId == animalId).ToList();
-        }
+        }*/
 
         public bool UpdateFood(Food foodMap)
         {
@@ -110,7 +111,7 @@ namespace BBL.Services
 
         public bool UpdateFoodFeed(string animalId)
         {
-            var animalFood = GetFoodsByAnimalId(animalId).ToList();
+            /*var animalFood = GetFoodsByAnimalId(animalId).ToList();
             if (animalFood != null && animalFood.Count > 0) { 
             
                 foreach (var aniFood in animalFood)
@@ -122,7 +123,7 @@ namespace BBL.Services
                     }
                     _foodRepository.Update(food);
                 }
-            }
+            }*/
             return false;
         }
     }
