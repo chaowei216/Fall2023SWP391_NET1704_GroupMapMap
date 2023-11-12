@@ -143,7 +143,7 @@ function TableArea() {
                     </div>
                 </div>
                 <div className="table-content">
-                    <Table size="100px" hover>
+                    <Table size="100px" hover striped bordered style={{verticalAlign: "middle", textAlign: "center"}}>
                         <thead className="table-dark">
                             <tr>
                                 <th>Area ID</th>
