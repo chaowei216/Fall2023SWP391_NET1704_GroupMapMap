@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Entities
+namespace DTO.Dtos
 {
-    public class Meal
+    public class CreateMealDto
     {
         public string MealId { get; set; }
         public string MealName { get; set; }
-
-        public ICollection<AnimalMeal> AnimalMeals { get; set; }
-        public ICollection<FoodMeal> FoodMeals { get; set; }
+        public List<FoodMealDto> FoodMeals {  get; set; }
     }
 }
