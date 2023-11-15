@@ -139,16 +139,18 @@ namespace Api_ZooManagement_SWP391.Controllers
                             foreach (var food in foodMeal)
                             {
                                 f.FName = _foodService.GetByFoodId(f.FoodId).FName;
-                                animal.Meals.Add(new GetMealAnimalDto
-                                {
-                                    MealId = mealDetail.MealId,
-                                    StartEat = meal.StartEat,
-                                    MealName = mealDetail.MealName,
-                                    EndEat = meal.EndEat,
-                                    FoodMealDtos = fMeal
-                                });
+
                             }
+
                         }
+                        animal.Meals.Add(new GetMealAnimalDto
+                        {
+                            MealId = mealDetail.MealId,
+                            StartEat = meal.StartEat,
+                            MealName = mealDetail.MealName,
+                            EndEat = meal.EndEat,
+                            FoodMealDtos = fMeal
+                        });
                     }
                 }
 
