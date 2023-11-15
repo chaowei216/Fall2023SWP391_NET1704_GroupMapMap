@@ -488,7 +488,7 @@ figure {
     padding-bottom: 15px;
 }
 .cart-popup ul li a:before {
-    content: "";
+   
     width: 25px;
     height: 25px;
     /* background-image: url('../img/remove.svg'); */
@@ -1264,28 +1264,17 @@ img.quote {
     text-align: center;
     margin: auto;
 }
+.chef img{
+    height: 100%;
+    width: 100%;
+}
 .social-media {
     display: flex;
     margin: auto;
     justify-content: center;
 }
-.social-media li a i {
-    height: 50px;
-    width: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f5f8fd;
-    border-radius: 40px;
-    color: #555555;
-    margin-right: 10px;
-}
-.social-media li a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #555555;
-}
+
+
 .social-media li a i:hover{
     background-color: #5CDB95;
 }
@@ -1309,20 +1298,21 @@ img.quote {
 }
 
 .chef-text {
-    width: 370px;
-    height: 370px;
+    width: 250px;
+    height: 250px;
     margin: auto;
     border-color: white;
     border: 7px solid #f5f8fd;
     border-radius: 50%;
     background-color: white;
-    margin-top: -170px;
+    margin-top: -80px;
     z-index: 100;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    color:green;
 }
 ul.higher-reach li {
     font-size: 18px;

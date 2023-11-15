@@ -59,6 +59,7 @@ function LoginForm() {
         const decoded = jwt_decode(token);
         console.log(decoded);
         setUserObject(decoded);
+        localStorage.setItem("token", token);
         const role =
           decoded[
             "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"

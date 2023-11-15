@@ -32,7 +32,7 @@ function SectionGapType() {
     };
 
     fetchData();
-  }, [dataList]);
+  }, []);
   console.log(dataList);
   return (
     <div>
