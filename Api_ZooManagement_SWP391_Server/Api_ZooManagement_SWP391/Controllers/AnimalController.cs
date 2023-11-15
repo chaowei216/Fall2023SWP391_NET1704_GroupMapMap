@@ -78,9 +78,9 @@ namespace Api_ZooManagement_SWP391.Controllers
                 foreach (var meal in meals)
                 {
 
-                    var foodMeals = _mealService.GetFoodsByMealId(meal.MealId);
-                    var foodMeal = _mealService.GetFoodsByMealId(meal.MealId);
-                    var fMeal = _mapper.Map<List<GetFoodMealDto>>(_mealService.GetFoodsByMealId(meal.MealId));
+                    var foodMeals = _mealService.GetFoodsByMealId(getMeal.MealId);
+                    var foodMeal = _mealService.GetFoodsByMealId(getMeal.MealId);
+                    var fMeal = _mapper.Map<List<GetFoodMealDto>>(_mealService.GetFoodsByMealId(getMeal.MealId));
                     foreach (var f in fMeal)
                     {
                         foreach (var food in foodMeal)
