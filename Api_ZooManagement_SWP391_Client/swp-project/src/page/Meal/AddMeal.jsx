@@ -50,20 +50,7 @@ export default function AddMeal(pros) {
     console.log("haha");
   };
 
-  useEffect(() => {
-    const getAnimalList = () => {
-      return fetch("https://localhost:44352/api/Animal").then((data) =>
-        data.json()
-      );
-    };
-    let mounted = true;
-    getAnimalList().then((items) => {
-      if (mounted) {
-        setAnimalList(items);
-      }
-    });
-    return () => (mounted = false);
-  }, []);
+
 
   useEffect(() => {
     const getFoodList = () => {
@@ -82,33 +69,33 @@ export default function AddMeal(pros) {
   const submitForm = async (values) => {
     const date = new Date();
     console.log(values);
-    const schedule = {
-      animalId: values.animalId,
-      animalSchedules: values.fields,
+    const meal = {
+      mealName: values.mealName,
+      foodMeals: values.fields,
     };
-    console.log(schedule);
+    console.log(meal);
     // const time = '8:30';
     // const datetime = moment(time, 'HH:mm').toISOString();
     // console.log(datetime);
-    // const url = `https://localhost:44352/api/Animal/AnimalSchedule?animalId=${values.animalId}`;
-    // const request = {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(schedule),
-    // };
-    // const response = await fetch(url, request);
-    // if (response.ok) {
-    //   console.log("Success");
-    //   // navigate("/staff/2");
-    //   toast.success("Create Successfully");
-    //   setTimeout(() => {
-    //     window.location.reload();
-    //   }, 1250)
-    // } else {
-    //   toast.error("Schedule Existed");
-    // }
+    const url = `https://localhost:44352/api/Meal`;
+    const request = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(meal),
+    };
+    const response = await fetch(url, request);
+    if (response.ok) {
+      console.log("Success");
+      // navigate("/staff/2");
+      toast.success("Create Successfully");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1250)
+    } else {
+      toast.error("Meal Existed");
+    }
   };
   return (
     <>
@@ -130,7 +117,7 @@ export default function AddMeal(pros) {
                 </div>
                 <Formik
                   initialValues={{
-                    animalId: "",
+                    mealName: "",
                     fields,
                   }}
                   //   validationSchema={validationSchedule}
@@ -157,34 +144,23 @@ export default function AddMeal(pros) {
                                   className="form-label"
                                   style={{ fontWeight: "bolder" }}
                                 >
-                                  Choose Animal
+                                  Enter Name of Meal
                                 </label>
-                                <Form.Select
+                                <Form.Control
                                   // size="lg"
-                                  placeholder="Chọn món ăn"
-                                  id="animalId"
-                                  name="animalId"
+                                  placeholder="Name of Meal"
+                                  id="mealName"
+                                  name="mealName"
                                   style={{ width: "73%" }}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   isInvalid={
-                                    errors.animalId && touched.animalId
+                                    errors.mealName && touched.mealName
                                   }
                                 >
-                                  <option value={null}>Choose AnimalId</option>
-                                  {/* Render các option từ API */}
-                                  {animalList.map((value) => (
-                                    <option
-                                      key={value.animalId}
-                                      value={value.animalId}
-                                    >
-                                      {value.animalId} - Name : {value.name} -
-                                      CageId : {value.cId}
-                                    </option>
-                                  ))}
-                                </Form.Select>
+                                </Form.Control>
                                 <Form.Control.Feedback type="invalid">
-                                  {errors.animalId}
+                                  {errors.mealName}
                                 </Form.Control.Feedback>
                               </div>
 
@@ -204,7 +180,7 @@ export default function AddMeal(pros) {
                                     Food For Animal
                                   </label>
                                   <Field
-                                    name={`fields[${index}].scheduleId`}
+                                    name={`fields[${index}].foodId`}
                                     // as="select"
                                     // onChange={(e) => handleChange(e.target.value)}
                                   >
@@ -260,8 +236,8 @@ export default function AddMeal(pros) {
                                       marginBottom: "30px",
                                     }}
                                   >
-                                    <option value="kg">kg</option>
-                                    <option value="lit">lit</option>
+                                    <option value="Kg">Kg</option>
+                                    <option value="L">L</option>
                                   </Field>
                                   <div
                                     style={{ display: "block", width: "80%" }}
