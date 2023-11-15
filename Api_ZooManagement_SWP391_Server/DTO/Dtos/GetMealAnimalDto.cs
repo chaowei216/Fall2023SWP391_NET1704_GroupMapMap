@@ -8,6 +8,7 @@ namespace DTO.Dtos
 {
     public class GetMealAnimalDto
     {
+        public string MealId { get; set; }
         public string MealName { get; set; }
         public DateTime StartEat { get; set; }
         public DateTime? EndEat { get; set; }

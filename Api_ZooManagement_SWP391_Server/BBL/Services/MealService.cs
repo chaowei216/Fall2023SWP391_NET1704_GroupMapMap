@@ -69,7 +69,7 @@ namespace BLL.Services
 
         public AnimalMeal? GetMealByAnimalId(string animalId)
         {
-            return _animalMealRepo.GetAll().SingleOrDefault(am => am.AnimalId == animalId && (am.EndEat == null && am.StartEat < DateTime.Now) || (am.EndEat > DateTime.Now && am.StartEat < DateTime.Now));
+            return _animalMealRepo.GetAll().SingleOrDefault(am => am.AnimalId == animalId && ((am.EndEat == null && am.StartEat < DateTime.Now) || (am.EndEat > DateTime.Now && am.StartEat < DateTime.Now)));
         }
 
         public Meal GetMealById(string mealId)
