@@ -102,6 +102,33 @@ function TableAnimalDetail() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+    // const email = localStorage.getItem('email');
+  // useEffect(() => {
+  //   const checkUser = async () => {
+  //     const getUsers = () => {
+  //       return fetch(
+  //         `https://localhost:44352/api/User/users/${email}`
+  //       ).then((data) => data.json());
+  //     };
+  //     let mounted = true;
+  //     getUsers().then((items) => {
+  //       if (mounted) {
+  //         setCurrentUser(items);
+  //       }
+  //     });
+  //     return () => (mounted = false);
+  //   }
+
+  //   checkUser();
+
+  //   const interval = setInterval(checkUser, 2000);
+
+  //   return () => clearInterval(interval);
+
+  // }, [currentUser.status])
+  // if (!currentUser.status) {
+  //   navigate('/login')
+  // };
   return (
     <div className="table-container">
       <div className="table-component">

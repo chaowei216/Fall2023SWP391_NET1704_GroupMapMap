@@ -10,16 +10,19 @@ import {
   MDBModalFooter,
 } from "mdb-react-ui-kit";
 import Button from "@mui/material/Button";
+import { toast } from "react-toastify";
 
 export default function DeleteUser(pros) {
   const { show, handleClose, dataUserDelete } = pros;
 
   const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
   useEffect(() => {
     if (show) {
         setUserId(dataUserDelete.userId);
         setUserName(dataUserDelete.firstname + " " + dataUserDelete.lastname);
+        setEmail(dataUserDelete.email);
     }
   }, [dataUserDelete]);
   console.log(dataUserDelete);
@@ -42,6 +45,8 @@ export default function DeleteUser(pros) {
       if (response.ok) {
         console.log("Success");
         window.location.reload();
+      }else{
+        toast.error("Error deleting user");
       }
     } catch (error) {
       console.log(error);
