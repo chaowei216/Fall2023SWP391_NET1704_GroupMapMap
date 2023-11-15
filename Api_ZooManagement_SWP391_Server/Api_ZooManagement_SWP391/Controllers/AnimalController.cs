@@ -50,6 +50,10 @@ namespace Api_ZooManagement_SWP391.Controllers
             _foodCategoryService = foodCategoryService;
             _mealService = mealService;
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 19520c707c9e60b4b4eeaa81ccbbb641a6b483f8
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetAnimalDto>))]
         [ProducesResponseType(400)]
@@ -217,16 +221,18 @@ namespace Api_ZooManagement_SWP391.Controllers
                                 foreach (var food in foodMeal)
                                 {
                                     f.FName = _foodService.GetByFoodId(f.FoodId).FName;
-                                    animal.Meals.Add(new GetMealAnimalDto
-                                    {
-                                        MealId = mealDetail.MealId,
-                                        StartEat = meal.StartEat,
-                                        MealName = mealDetail.MealName,
-                                        EndEat = meal.EndEat,
-                                        FoodMealDtos = fMeal
-                                    });
+
                                 }
+
                             }
+                            animal.Meals.Add(new GetMealAnimalDto
+                            {
+                                MealId = mealDetail.MealId,
+                                StartEat = meal.StartEat,
+                                MealName = mealDetail.MealName,
+                                EndEat = meal.EndEat,
+                                FoodMealDtos = fMeal
+                            });
                         }
                     }
 
