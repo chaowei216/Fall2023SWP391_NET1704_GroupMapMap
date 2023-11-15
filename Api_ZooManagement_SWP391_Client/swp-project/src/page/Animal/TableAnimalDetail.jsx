@@ -156,8 +156,8 @@ function TableAnimalDetail() {
           </div>
         </div>
         <div className="table-content">
-          <Table size="100px" hover>
-            <thead className="table-dark">
+          <Table size="100px" hover striped bordered>
+            <thead className="table-dark" style={{ textAlign: "center" }}>
               <tr>
                 <th>Image</th>
                 <th>ID</th>
@@ -168,7 +168,7 @@ function TableAnimalDetail() {
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
             </thead>
-            <tbody style={{ verticalAlign: "middle" }}>
+            <tbody style={{ verticalAlign: "middle", textAlign: "center" }}>
               {list &&
                 list.length > 0 &&
                 list.map((items, index) => {

@@ -820,7 +820,6 @@ export default function ViewAnimal(pros) {
                           <Table striped bordered hover>
                             <thead>
                               <tr style={{ textAlign: "center" }}>
-                                <th>ID</th>
                                 <th>Meal's Name</th>
                                 <th>Food Name</th>
                                 <th>Amount</th>
@@ -833,13 +832,12 @@ export default function ViewAnimal(pros) {
                                 foodId.map((value) => {
                                   return (
                                     <tr style={{ textAlign: "center" }}>
-                                      <td>{value.mealId}</td>
                                       <td>{value.mealName}</td>
                                       <td>
                                         {value.foodMealDtos &&
                                           value.foodMealDtos.length > 0 &&
                                           value.foodMealDtos.map((value2) => {
-                                            return <div>{value2.foodId}</div>;
+                                            return <div>{value2.fName}</div>;
                                           })}
                                       </td>
                                       <td>
