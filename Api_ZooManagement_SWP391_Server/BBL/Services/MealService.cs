@@ -64,7 +64,7 @@ namespace BLL.Services
 
         public ICollection<AnimalMeal> GetAllMealsByAnimalId(string animalId)
         {
-            return _animalMealRepo.GetAll().ToList();
+            return _animalMealRepo.GetAll().Where(am => am.AnimalId == animalId).ToList();
         }
 
         public AnimalMeal? GetMealByAnimalId(string animalId)
