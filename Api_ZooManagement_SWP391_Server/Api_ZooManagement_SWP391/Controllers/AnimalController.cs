@@ -279,6 +279,22 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(trainers);
         }
 
+        [HttpGet("{animalId}/oldMeal")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetMealAnimalDto>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetOldMealByAnimalId(string animalId)
+        {
+            if (!_animalService.AnimalExists(animalId))
+                return NotFound();
+
+            var oldMeal = _mapper.Map<List<GetMealAnimalDto>>(_mealService.GetOldMeal(animalId));
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(oldMeal);
+        }
+
         [HttpGet("{animalId}/oldcages")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<OldCagesDto>))]
         [ProducesResponseType(400)]
