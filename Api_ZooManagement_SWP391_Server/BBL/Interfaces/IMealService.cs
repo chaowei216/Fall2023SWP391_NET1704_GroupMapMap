@@ -20,5 +20,6 @@ namespace BLL.Interfaces
         ICollection<AnimalMeal> GetMealsByAnimalId(string animalId);
         ICollection<AnimalMeal> GetAllMealsByAnimalId(string animalId);
         ICollection<FoodMeal> GetFoodsByMealId(string mealId);
+        ICollection<GetMealAnimalDto> GetOldMeal(string animalId);
     }
 }

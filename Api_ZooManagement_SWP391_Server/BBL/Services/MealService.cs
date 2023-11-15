@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BBL.Interfaces;
 using BBL.Services;
 using BLL.Interfaces;
 using DAL.Entities;
@@ -95,7 +96,8 @@ namespace BLL.Services
                             var foods = GetFoodsByMealId(fmeal.MealId);
 
                             var foodMealDetail = _mapper.Map<GetFoodMealDto>(fmeal);
-                            foreach (var food in foods) {
+                            foreach (var food in foods)
+                            {
                                 foodMealDetail.FName = _foodRepo.GetById(food.FoodId).FName;
                             }
                             mealDto.FoodMealDtos.Add(foodMealDetail);
@@ -119,6 +121,35 @@ namespace BLL.Services
         public bool UpdateMeal(Meal meal)
         {
             return _mealRepo.Update(meal);
+        }
+
+        public ICollection<GetMealAnimalDto> GetOldMeal(string animalId)
+        {
+            var animalMeals = _animalMealRepo.GetAll().Where(am => am.AnimalId == animalId && am.EndEat < DateTime.Now).ToList();
+            var meals = new List<GetMealAnimalDto>();
+            if (animalMeals != null)
+            {
+                foreach (var animalMeal in animalMeals)
+                {
+                    var fMeal = _mapper.Map<List<GetFoodMealDto>>(GetFoodsByMealId(animalMeal.MealId));
+                    var foodMeal = GetFoodsByMealId(animalMeal.MealId);
+                    foreach (var f in fMeal)
+                    {
+                        foreach (var food in foodMeal)
+                        {
+                            f.FName = _foodRepo.GetById(food.FoodId).FName;
+                        }
+                    }
+                    var meal = new GetMealAnimalDto();
+                    meal.MealId = animalMeal.MealId;
+                    meal.MealName = GetMealById(animalMeal.MealId).MealName;
+                    meal.StartEat = animalMeal.StartEat;
+                    meal.EndEat = animalMeal.EndEat;
+                    meal.FoodMealDtos = fMeal;
+                    meals.Add(meal);
+                }
+            }
+            return meals;
         }
     }
 }
