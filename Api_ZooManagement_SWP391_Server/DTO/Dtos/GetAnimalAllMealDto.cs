@@ -26,6 +26,6 @@ namespace DTO.Dtos
         public string SpeciesName { get; set; }
         public bool Status { get; set; }
         public List<GetAnimalScheduleDto> Schedules { get; set; }
-        public List<MealDto> Meals { get; set; }
+        public List<GetMealAnimalDto> Meals { get; set; }
     }
 }

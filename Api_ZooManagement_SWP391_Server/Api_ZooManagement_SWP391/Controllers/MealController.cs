@@ -35,6 +35,32 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(meal);
         }
 
+        [HttpGet("pages/{page}")]
+        [ProducesResponseType(200, Type = typeof(MealResponseDto))]
+        public IActionResult GetAllFood(int page)
+        {
+            var meals = _mealService.GetMeals();
+
+            var pageResults = 10f;
+            var pageCount = Math.Ceiling(meals.Count / pageResults);
+
+            var result = meals
+                        .Skip((page - 1) * (int)pageResults)
+                        .Take((int)pageResults).ToList();
+
+            var response = new MealResponseDto
+            {
+                Meals = result,
+                CurrentPage = page,
+                Pages = (int)pageCount
+            };
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(response);
+        }
+
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]

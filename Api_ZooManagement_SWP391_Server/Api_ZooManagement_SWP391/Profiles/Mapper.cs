@@ -105,6 +105,8 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<FoodMealDto, FoodMeal>();
             CreateMap<CreateAnimalMealDto, AnimalMeal>();
             CreateMap<UpdateAnimalMealDto, AnimalMeal>();
+            CreateMap<GetFoodMealDto, FoodMeal>();
+            CreateMap<FoodMeal, GetFoodMealDto>();
             #endregion
         }
 
