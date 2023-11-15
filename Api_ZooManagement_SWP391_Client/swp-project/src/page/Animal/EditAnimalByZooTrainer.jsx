@@ -11,12 +11,13 @@ import {
 } from "mdb-react-ui-kit";
 import { Navigate, json, useNavigate } from "react-router-dom";
 import { DatePicker, Radio, Select, Space } from "antd";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "../../assets/css/dashboard.css";
 import { ToastContainer, Zoom, toast } from "react-toastify";
 import { MDBIcon } from "mdb-react-ui-kit";
-export default function EditAnimalByZooTrainer(pros) {
+export default function EditAnimal(pros) {
   const role = localStorage.getItem("role");
   const navigate = useNavigate();
   const { show, handleClose, dataAnimalEdit } = pros;
@@ -60,6 +61,7 @@ export default function EditAnimalByZooTrainer(pros) {
   const [list3, setList3] = useState([]);
   const [availableTrainer, setAvailableTrainer] = useState([]);
   const [availableCage, setAvailableCage] = useState([]);
+  
   const validateOutCageDate = (dateString) => {
     const selectedDate = new Date(dateString);
     const currentDate = new Date();
@@ -109,7 +111,6 @@ export default function EditAnimalByZooTrainer(pros) {
   const validateStartEat = (value) => {
     const startEatDate = new Date(value);
     const entryCageDate = new Date(entryCage);
-    console.log(startEatDate > entryCageDate);
     if (startEatDate > entryCageDate) {
       // valid
       setIsValidStartEat(true)
@@ -147,7 +148,7 @@ export default function EditAnimalByZooTrainer(pros) {
   const handleFoodChange = (id, event) => {
     validateAmountFood(event.target.value);
     const newFood = foods.map((food) => {
-      if (food.foodId === id) {
+      if (food.mealId === id) {
         food.amount = Number(event.target.value);
       }
       return food;
@@ -157,7 +158,7 @@ export default function EditAnimalByZooTrainer(pros) {
   const handleStartEatDateChange = (id, event) => {
     validateStartEat(event.target.value);
     const newFood = foods.map((food) => {
-      if (food.foodId === id) {
+      if (food.mealId === id) {
         food.startEat = event.target.value;
       }
       return food;
@@ -167,7 +168,7 @@ export default function EditAnimalByZooTrainer(pros) {
   const handleEndEatDateChange = (id, event) => {
     validateEndEat(event.target.value);
     const newFood = foods.map((food) => {
-      if (food.foodId === id) {
+      if (food.mealId === id) {
         food.endEat = event.target.value;
       }
       return food;
@@ -195,24 +196,19 @@ export default function EditAnimalByZooTrainer(pros) {
   };
   useEffect(() => {
     const array = [];
-    const foodIds1 = foods.map((food) => food.foodId);
+    const foodIds1 = foods.map((food) => food.mealId);
     array.push(foodIds1);
-    console.log(array);
     setSelectedFoodIds(foodIds1);
-    console.log(foodIds1);
-    console.log(selectedFoodIds);
   }, [dataAnimalEdit, foods]);
 
   useEffect(() => {
     const array = [];
     const scheduleIds1 = schedules.map((schedule) => schedule.scheduleId);
     array.push(scheduleIds1);
-    console.log(array);
     setSelectedScheduleIds(scheduleIds1);
   }, [dataAnimalEdit, schedules]);
   const handleFoodSelect = (e, index) => {
     // setSelectedFoodId(e.target.value);
-    console.log(e.target.value);
     // Lấy ra food object từ options
     const selectedFoodId = e.target.value;
     // setSelectedFoodIds((prevSelectedFoodIds) => [
@@ -220,22 +216,16 @@ export default function EditAnimalByZooTrainer(pros) {
     //   selectedFoodId,
     // ]);
     setSelectedFoodIds([...selectedFoodIds, e.target.value]);
-    console.log(selectedFoodIds);
 
-    const selectedFood = options.find((o) => o.foodId === e.target.value);
-    console.log(selectedFood.foodId);
-    console.log(e.target.value);
-    console.log(index);
+    const selectedFood = options.find((o) => o.mealId === e.target.value);
     // Cập nhật lại cho food hiện tại
     const currentFood = foods[index];
-    currentFood.foodId = selectedFood.foodId;
-    console.log(currentFood);
+    currentFood.mealId = selectedFood.mealId;
     setFoods([...foods]);
   };
 
   const handleScheduleSelect = (e, index) => {
     // setSelectedFoodId(e.target.value);
-    console.log(e.target.value);
     // Lấy ra food object từ options
     const selectedFoodId = e.target.value;
     // setSelectedFoodIds((prevSelectedFoodIds) => [
@@ -243,16 +233,11 @@ export default function EditAnimalByZooTrainer(pros) {
     //   selectedFoodId,
     // ]);
     setSelectedScheduleIds([...selectedScheduleIds, e.target.value]);
-    console.log(selectedScheduleIds);
 
     const selectedSchedule = scheduleList.find((o) => o.scheduleId === e.target.value);
-    console.log(selectedSchedule.scheduleId);
-    console.log(e.target.value);
-    console.log(index);
     // Cập nhật lại cho food hiện tại
     const currentFood = schedules[index];
     currentFood.scheduleId = selectedSchedule.scheduleId;
-    console.log(currentFood);
     setSchedules([...schedules]);
   };
 
@@ -262,8 +247,7 @@ export default function EditAnimalByZooTrainer(pros) {
     setFoods([
       ...foods,
       {
-        foodId: "",
-        amount: "",
+        mealId: "",
         startEat: "",
         endEat: "",
       },
@@ -281,8 +265,11 @@ export default function EditAnimalByZooTrainer(pros) {
       },
     ]);
   };
+  const removeField = (index) => {
+    setSchedules(schedules.filter((_, i) => i !== index));
+  };
   const getList = () => {
-    return fetch("https://localhost:44352/api/Food").then((data) =>
+    return fetch("https://localhost:44352/api/Meal/meal").then((data) =>
       data.json()
     );
   };
@@ -295,9 +282,7 @@ export default function EditAnimalByZooTrainer(pros) {
     });
     return () => (mounted = false);
   }, []);
-  const removeField = (index) => {
-    setSchedules(schedules.filter((_, i) => i !== index));
-  };
+
   useEffect(() => {
     const getScheduleList = () => {
       return fetch("https://localhost:44352/api/Schedule").then((data) =>
@@ -337,7 +322,7 @@ export default function EditAnimalByZooTrainer(pros) {
         ),
         setSpecies(dataAnimalEdit.speciesName),
         setRarity(dataAnimalEdit.rarity);
-      setFoods(dataAnimalEdit.foods);
+      setFoods(dataAnimalEdit.meals);
       setSchedules(dataAnimalEdit.schedules);
     }
   }, [dataAnimalEdit]);
@@ -350,7 +335,6 @@ export default function EditAnimalByZooTrainer(pros) {
         list3.push(food);
       }
     });
-    console.log(list3);
     setList3(list3);
   }, [dataAnimalEdit, foods]);
   const getCageList = () => {
@@ -417,7 +401,6 @@ export default function EditAnimalByZooTrainer(pros) {
       }
     });
   }, [listZooTrainer, listTrainerOld, userID, show]);
-  console.log(availableTrainer);
   useEffect(() => {
     const oldCageId = listCageOld.map((cage) => cage.cId);
     const test2 = [];
@@ -428,7 +411,6 @@ export default function EditAnimalByZooTrainer(pros) {
       }
     });
   }, [listCage, listCageOld, cageID, show]);
-  console.log(availableCage);
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     if (healthCheck === "") {
@@ -455,8 +437,13 @@ export default function EditAnimalByZooTrainer(pros) {
     } else if (isValidEndEat === false) {
       return;
     }
-    console.log(dataAnimalEdit);
-    console.log(event);
+    const formattedMeals = foods.map(meal => {
+      return {
+        mealId: meal.mealId,
+        startEat: meal.startEat,
+        endEat: meal.endEat
+      }
+    });
     const animalEdit = {
       animalId: animalId,
       userId: userID,
@@ -467,7 +454,7 @@ export default function EditAnimalByZooTrainer(pros) {
       rarity: rarity,
       endTrainDate: null,
       outCageDate: null,
-      animalFoods: foods,
+      animalMeals: formattedMeals,
       animalSchedules: schedules,
     };
     console.log("OK");
@@ -767,7 +754,7 @@ export default function EditAnimalByZooTrainer(pros) {
                             }
                           /> */}
                           <Form.Select
-                            className="mt-1"
+                            className="mt-3"
                             value={healthCheck}
                             style={{ height: "40px", width: "28%" }}
                             onChange={(e) => {
@@ -791,7 +778,6 @@ export default function EditAnimalByZooTrainer(pros) {
                             as="textarea"
                             id="description"
                             placeholder="description"
-                            disabled
                             aria-describedby="inputGroupPrepend"
                             name="description"
                             style={{ height: "90px", width: "98%" }}
@@ -930,7 +916,6 @@ export default function EditAnimalByZooTrainer(pros) {
                           <Form.Select
                             size="lg"
                             id="userId"
-                            disabled
                             name="userId"
                             placeholder="Chọn món ăn"
                             style={{ width: "85%" }}
@@ -1006,7 +991,15 @@ export default function EditAnimalByZooTrainer(pros) {
                             </div> */}
                           </div>
                         </div>
-                        
+                        <div style={{ textAlign: "end" }}>
+                          <Button
+                            type="submit"
+                            variant="text"
+                            style={{ padding: 0, marginRight: "24px" }}
+                          >
+                            <MDBIcon fas icon="edit" size="2x" />
+                          </Button>
+                        </div>
                       </div>
                       <div className="label-info">
                         <label>Food Information</label>
@@ -1015,7 +1008,7 @@ export default function EditAnimalByZooTrainer(pros) {
                         <div className="mb-1">
                           {foods.map((food, index) => (
                             <div
-                              key={food.foodId}
+                              key={food.mealId}
                               style={{
                                 display: "flex",
                                 justifyContent: "space-between",
@@ -1037,7 +1030,7 @@ export default function EditAnimalByZooTrainer(pros) {
                               </div> */}
                               <div style={{ width: "25%" }}>
                                 <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
-                                  Edit Food For Animal
+                                  Edit Meal For Animal
                                 </label>
                                 <Form.Control
                                   as="select"
@@ -1045,7 +1038,7 @@ export default function EditAnimalByZooTrainer(pros) {
                                     width: "95%",
                                     marginRight: "20px",
                                   }}
-                                  value={food.foodId}
+                                  value={food.mealId}
                                   onChange={
                                     isNew
                                       ? (e) => handleFoodSelect(e, index)
@@ -1057,35 +1050,16 @@ export default function EditAnimalByZooTrainer(pros) {
                                   {/* Render các option từ API */}
                                   {options.map((option) => (
                                     <option
-                                      key={option.foodId}
-                                      value={option.foodId}
+                                      key={option.mealId}
+                                      value={option.mealId}
                                       disabled={selectedFoodIds.includes(
-                                        option.foodId
+                                        option.mealId
                                       )}
                                     >
-                                      {option.fName}
+                                      {option.mealName}
                                     </option>
                                   ))}
                                 </Form.Control>
-                              </div>
-                              <div style={{ width: "25%" }}>
-                                <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
-                                  Enter Amount Food (KG)
-                                </label>
-                                <Form.Control
-                                  type="number"
-                                  className="mb-3"
-                                  aria-describedby="inputGroupPrepend"
-                                  style={{ width: "90%" }}
-                                  value={food.amount}
-                                  isInvalid={!isValidAmount}
-                                  onChange={(e) =>
-                                    handleFoodChange(food.foodId, e)
-                                  }
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                  Amount is a positive number
-                                </Form.Control.Feedback>
                               </div>
                               <div style={{ width: "25%" }}>
                                 <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
@@ -1099,7 +1073,7 @@ export default function EditAnimalByZooTrainer(pros) {
                                   style={{ width: "90%" }}
                                   value={food.startEat != null ? food.startEat.slice(0, 10) : null}
                                   onChange={(e) =>
-                                    handleStartEatDateChange(food.foodId, e)
+                                    handleStartEatDateChange(food.mealId, e)
                                   }
                                 />
                               </div>
@@ -1115,7 +1089,7 @@ export default function EditAnimalByZooTrainer(pros) {
                                   style={{ width: "90%" }}
                                   value={food.endEat != null ? food.endEat.slice(0, 10) : null}
                                   onChange={(e) =>
-                                    handleEndEatDateChange(food.foodId, e)
+                                    handleEndEatDateChange(food.mealId, e)
                                   }
                                 />
                               </div>
@@ -1242,6 +1216,7 @@ export default function EditAnimalByZooTrainer(pros) {
                                       handleDescriptionChange(schedule.scheduleId, e)
                                     }
                                   />
+
                                 </div>
                                 <div style={{paddingTop: "40px"}}>
                                   <button onClick={() => removeField(index)}>
@@ -1261,6 +1236,7 @@ export default function EditAnimalByZooTrainer(pros) {
                                 }}
                               >
                                 <Button onClick={handleAdd2}>Add</Button>
+
                               </div>
                             )}
 

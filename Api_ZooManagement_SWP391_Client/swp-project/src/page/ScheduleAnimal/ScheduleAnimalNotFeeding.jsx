@@ -379,7 +379,6 @@ function ScheduleAnimalNotFeeding() {
                                     backgroundColor: "gray",
                                     color: "white",
                                     width: "84px",
-                                    marginRight: "15px",
                                   }}
                                 >
                                   Not Yet
@@ -404,8 +403,6 @@ function ScheduleAnimalNotFeeding() {
                                     backgroundColor: "gray",
                                     color: "white",
                                     width: "84px",
-                                    marginTop: "20px",
-                                    marginLeft: "48px",
                                   }}
                                 >
                                   Not Yet

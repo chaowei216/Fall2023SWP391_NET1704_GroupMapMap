@@ -22,7 +22,6 @@ import moment from "moment";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { toast } from "react-toastify";
 function TableScheduleFeed() {
-  const emailInfo = localStorage.getItem("email");
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
   const [showModalView, setShowmodalView] = useState(false);
@@ -37,7 +36,9 @@ function TableScheduleFeed() {
   const [listAnimalFilter, setListAnimalFilter] = useState([]);
   const [animalFilter, setAnimalFilter] = useState([]);
   const [aID, setAID] = useState("");
+
   useEffect(() => {
+    const emailInfo = localStorage.getItem("email");
     const getTrainerList = () => {
       return fetch("https://localhost:44352/api/User/users").then((data) =>
         data.json()
@@ -49,8 +50,17 @@ function TableScheduleFeed() {
         setProfileZooTrainer(items.filter((user) => user.email === emailInfo));
       }
     });
+    
     return () => (mounted = false);
   }, []);
+
+  useEffect(() => {
+    const ZooProfileTest = profileZooTrainer;
+    if (ZooProfileTest.length > 0) {
+      setAID(ZooProfileTest[0].userId);
+    }
+  }, [profileZooTrainer]);
+
   useEffect(() => {
     const getList = () => {
       return fetch("https://localhost:44352/api/Animal/allMeal").then((data) =>
@@ -82,11 +92,21 @@ function TableScheduleFeed() {
   }, [aID]);
 
   useEffect(() => {
-    const ZooProfileTest = profileZooTrainer;
-    if (ZooProfileTest.length > 0) {
-      setAID(ZooProfileTest[0].userId);
-    }
-  }, [profileZooTrainer]);
+    const list = listAnimalByMeal;
+    const currentPeriod = getPeriod(now.getHours());
+    const filteredAnimals = list.filter((animal) => {
+      return animal.schedules.some((schedule) => {
+        const schedulePeriod = parseTime(schedule.time);
+        return (
+          schedulePeriod === currentPeriod &&
+          (schedule.scheduleName === "Breakfast" ||
+            schedule.scheduleName === "Lunch" ||
+            schedule.scheduleName === "Dinner")
+        );
+      });
+    });
+    setMealNow(filteredAnimals);
+  }, [listAnimalByMeal]);
 
   function getPeriod(hour) {
     if (hour >= 6 && hour < 12) {
@@ -103,7 +123,6 @@ function TableScheduleFeed() {
     // Chuyển thời gian sang đối tượng Date
     const [hours] = time.split(":");
     const hour = parseInt(hours);
-    console.log(hour);
     if (hour >= 6 && hour < 12) {
       return "morning";
     }
@@ -172,6 +191,7 @@ function TableScheduleFeed() {
     });
     setListAnimalFilter(filteredAnimals);
   }, [listAnimal]);
+  
   const handleClick = () => {
     setShowmodalAdd(true);
     setAnchorEl(null);
@@ -234,8 +254,6 @@ function TableScheduleFeed() {
   };
   const hours = now.getHours();
   const minutes = now.getMinutes();
-  console.log(hours);
-  console.log(minutes);
   async function resetSchedule() {
     try {
       await fetch(`https://localhost:44352/api/Schedule/ResetSchedule`, {
@@ -339,7 +357,10 @@ function TableScheduleFeed() {
                   FOOD
                 </th>
                 <th scope="col" style={{ textAlign: "center" }}>
-                  AMOUNT OF FEED (KG)
+                  AMOUNT OF FEED
+                </th>
+                <th scope="col" style={{ textAlign: "center" }}>
+                  UNIT
                 </th>
                 <th scope="col" style={{ textAlign: "center" }}>
                   TIME OF DAY
@@ -387,30 +408,51 @@ function TableScheduleFeed() {
                         {listAnimalByMeal &&
                           listAnimalByMeal.length > 0 &&
                           listAnimalByMeal.map((value) => {
-                            return (
-                              <div>
-                                {value.foodMealDtos &&
-                                  value.foodMealDtos.length > 0 &&
-                                  value.foodMealDtos.map((value2) => {
-                                    return <div>{value2.fName}</div>;
-                                  })}
-                              </div>
-                            );
+                            if (value.animalId === items.animalId) {
+                              return (
+                                <div>
+                                  {value.foodMealDtos &&
+                                    value.foodMealDtos.length > 0 &&
+                                    value.foodMealDtos.map((value2) => {
+                                      return <div>{value2.fName}</div>;
+                                    })}
+                                </div>
+                              );
+                            }
                           })}
                       </td>
                       <td>
-                        {listAnimalByMeal &&
-                          listAnimalByMeal.length > 0 &&
-                          listAnimalByMeal.map((value) => {
-                            return (
-                              <div>
-                                {value.foodMealDtos &&
-                                  value.foodMealDtos.length > 0 &&
-                                  value.foodMealDtos.map((value2) => {
-                                    return <div>{value2.quantity}</div>;
-                                  })}
-                              </div>
-                            );
+                        {mealNow &&
+                          mealNow.length > 0 &&
+                          mealNow.map((value) => {
+                            if (value.animalId === items.animalId) {
+                              return (
+                                <div>
+                                  {value.foodMealDtos &&
+                                    value.foodMealDtos.length > 0 &&
+                                    value.foodMealDtos.map((value2) => {
+                                      return <div>{value2.quantity}</div>;
+                                    })}
+                                </div>
+                              );
+                            }
+                          })}
+                      </td>
+                      <td>
+                        {mealNow &&
+                          mealNow.length > 0 &&
+                          mealNow.map((value) => {
+                            if (value.animalId === items.animalId) {
+                              return (
+                                <div>
+                                  {value.foodMealDtos &&
+                                    value.foodMealDtos.length > 0 &&
+                                    value.foodMealDtos.map((value2) => {
+                                      return <div>{value2.unit}</div>;
+                                    })}
+                                </div>
+                              );
+                            }
                           })}
                       </td>
                       <td>

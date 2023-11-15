@@ -855,12 +855,12 @@ export default function ViewAnimal(pros) {
                                       <th>End Eat</th>
                                     </tr>
                                   </thead>
-                                  <tbody>
+                                  <tbody >
                                     {foodId &&
                                       foodId.length > 0 &&
                                       foodId.map((value) => {
                                         return (
-                                          <tr style={{ textAlign: "center" }}>
+                                          <tr style={{ textAlign: "center", verticalAlign: "middle" }}>
                                             <td>{value.mealName}</td>
                                             <td>
                                               {value.foodMealDtos &&
@@ -942,7 +942,7 @@ export default function ViewAnimal(pros) {
                                 listMealNow.length > 0 &&
                                 listMealNow.map((value) => {
                                   return (
-                                    <tr style={{ textAlign: "center" }}>
+                                    <tr style={{ textAlign: "center", verticalAlign: "middle"  }}>
                                       <td>{value.mealName}</td>
                                       <td>
                                         {value.foodMealDtos &&
