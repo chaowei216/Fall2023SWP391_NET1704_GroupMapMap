@@ -4,6 +4,7 @@
     {
         public string AnimalId { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
+        public string MealName { get; set; }
         public string Description { get; set; } = string.Empty;
         public bool Sex { get; set; }
         public string Region { get; set; } = string.Empty;

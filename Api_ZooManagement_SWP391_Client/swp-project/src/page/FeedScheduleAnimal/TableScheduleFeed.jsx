@@ -19,7 +19,7 @@ import EditAnimalByZooTrainer from "../Animal/EditAnimalByZooTrainer";
 import { MDBTypography } from "mdb-react-ui-kit";
 import PetsIcon from "@mui/icons-material/Pets";
 import moment from "moment";
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { toast } from "react-toastify";
 function TableScheduleFeed() {
   const emailInfo = localStorage.getItem("email");
@@ -28,8 +28,9 @@ function TableScheduleFeed() {
   const [showModalView, setShowmodalView] = useState(false);
   const [showModalFodd, setShowmodalFood] = useState(false);
   const [showModalFoodAnimal, setShowmodalFoodAnimal] = useState(false);
+  const [mealNow, setMealNow] = useState([]);
   const [listAnimal, setListAnimal] = useState([]);
-  const [listFood, setListFood] = useState([]);
+  const [listAnimalByMeal, setListAnimalByMeal] = useState([]);
   const [dataAnimalEdit, setDataAnimalEdit] = useState({});
   const [dataAnimalView, setDataAnimalView] = useState({});
   const [profileZooTrainer, setProfileZooTrainer] = useState({});
@@ -64,6 +65,21 @@ function TableScheduleFeed() {
     });
     return () => (mounted = false);
   }, []);
+
+  useEffect(() => {
+    const getMealNow = () => {
+      return fetch(`https://localhost:44352/api/Animal`).then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getMealNow().then((items) => {
+      if (mounted) {
+        setListAnimalByMeal(items.filter((a) => a.userId === aID));
+      }
+    });
+    return () => (mounted = false);
+  }, [aID]);
 
   useEffect(() => {
     const ZooProfileTest = profileZooTrainer;
@@ -179,8 +195,6 @@ function TableScheduleFeed() {
 
   const handleEditUser = async (item, value) => {
     // setDataUserEdit(item);
-    console.log(value);
-    console.log(item);
     const feedAnimal = item.animalId;
     const scheduleId = value.scheduleId;
     const response = await fetch(
@@ -256,15 +270,15 @@ function TableScheduleFeed() {
   const open = Boolean(anchorEl);
   const handleReset = () => {
     resetSchedule();
-    if (resetSchedule){
+    if (resetSchedule) {
       toast.success("Reset Success");
       setTimeout(() => {
         window.location.reload();
-      },1200)
-    }else{
+      }, 1200);
+    } else {
       toast.error("Error");
     }
-  }
+  };
   let count = 0;
   const id = open ? "simple-popover" : undefined;
   return (
@@ -281,9 +295,8 @@ function TableScheduleFeed() {
           <MDBTypography tag="h2" color="secondary" noteColor="secondary">
             <i> Animal Feeding Chart</i>
           </MDBTypography>
-
         </div>
-        <div className="mb-4" style={{textAlign: "end"}}>
+        <div className="mb-4" style={{ textAlign: "end" }}>
           <Button
             onClick={() => {
               handleReset();
@@ -298,19 +311,19 @@ function TableScheduleFeed() {
               marginRight: "15px",
             }}
           >
-            <RestartAltIcon/> Reset
+            <RestartAltIcon /> Reset
           </Button>
         </div>
         <div className="table-content">
           <MDBTable>
             <MDBTableHead
               dark
-            // style={{
-            //   borderTop: "white",
-            //   borderRight: "black",
-            //   borderLeft: "black",
-            //   borderBottom: "black",
-            // }}
+              // style={{
+              //   borderTop: "white",
+              //   borderRight: "black",
+              //   borderLeft: "black",
+              //   borderBottom: "black",
+              // }}
             >
               <tr>
                 <th scope="col" style={{ textAlign: "center" }}>
@@ -371,21 +384,31 @@ function TableScheduleFeed() {
                           })}
                       </td>
                       <td>
-                        {items.foods &&
-                          items.foods.map((value) => {
+                        {listAnimalByMeal &&
+                          listAnimalByMeal.length > 0 &&
+                          listAnimalByMeal.map((value) => {
                             return (
-                              <div key={value.fName}>
-                                <span>{value.fName}</span>
+                              <div>
+                                {value.foodMealDtos &&
+                                  value.foodMealDtos.length > 0 &&
+                                  value.foodMealDtos.map((value2) => {
+                                    return <div>{value2.fName}</div>;
+                                  })}
                               </div>
                             );
                           })}
                       </td>
                       <td>
-                        {items.foods &&
-                          items.foods.map((value) => {
+                        {listAnimalByMeal &&
+                          listAnimalByMeal.length > 0 &&
+                          listAnimalByMeal.map((value) => {
                             return (
-                              <div key={value.amount}>
-                                <span>{value.amount}</span>
+                              <div>
+                                {value.foodMealDtos &&
+                                  value.foodMealDtos.length > 0 &&
+                                  value.foodMealDtos.map((value2) => {
+                                    return <div>{value2.quantity}</div>;
+                                  })}
                               </div>
                             );
                           })}
@@ -410,15 +433,6 @@ function TableScheduleFeed() {
                           })}
                       </td>
                       <td style={{ width: "208px", verticalAlign: "middle" }}>
-                        <Button
-                          variant="text"
-                          style={{ padding: 0 }}
-                          onClick={() => {
-                            handleViewUser(items);
-                          }}
-                        >
-                          <VisibilityIcon />
-                        </Button>
                         {items.schedules &&
                           items.schedules.map((value) => {
                             const schedulePeriod = parseTime(value.time);

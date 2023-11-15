@@ -70,6 +70,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 if (getMeal != null)
                 {
                     animal.MealId = getMeal.MealId;
+                    animal.MealName = _mealService.GetMealById(getMeal.MealId).MealName;
                     animal.StartEat = getMeal.StartEat;
                     animal.EndEat = getMeal.EndEat;
                 }

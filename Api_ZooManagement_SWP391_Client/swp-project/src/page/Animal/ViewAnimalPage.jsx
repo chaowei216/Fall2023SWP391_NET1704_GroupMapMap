@@ -49,6 +49,7 @@ export default function ViewAnimal(pros) {
   const [listFoods, setListFoods] = useState([]);
   const [foodId, setFoodID] = useState("");
   const [scheduleId, setScheduleId] = useState("");
+  const [listMealNow, setListMealNow] = useState([]);
   const [listFoodsFilter, setListFoodsFilter] = useState([]);
   const [listSchedule, setListSchedule] = useState([]);
   const [listScheduleFilter, setListScheduleFilter] = useState([]);
@@ -113,6 +114,22 @@ export default function ViewAnimal(pros) {
       }
     }
   }, [dataAnimalView]);
+
+  useEffect(() => {
+    const getMealNow = () => {
+      return fetch(`https://localhost:44352/api/Animal`).then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getMealNow().then((items) => {
+      if (mounted) {
+        setListMealNow(items.filter(a => a.animalId === dataAnimalView.animalId));
+      }
+    });
+    return () => (mounted = false);
+  }, [dataAnimalView]);
+
   console.log(dataAnimalView);
   const date = new Date();
   useEffect(() => {
@@ -811,11 +828,103 @@ export default function ViewAnimal(pros) {
                       </div>
                       <div className="Food-Information mb-3">
                         <div className="mb-3" style={{ paddingRight: "25px" }}>
+                          <div style={{ textAlign: "end", marginTop: "10px" }}>
+                            <Button
+                              variant="primary"
+                              onClick={handleButton}
+                              style={{ background: "teal", border: "none" }}
+                            >
+                              More Meal List
+                            </Button>
+                          </div>
+                          <div>
+                            {/* here */}
+                            {showList && (
+                              <div
+                                className="list"
+                                style={{ marginTop: "10px" }}
+                              >
+                                <Table striped bordered hover>
+                                  <thead>
+                                    <tr style={{ textAlign: "center" }}>
+                                      <th>Meal's Name</th>
+                                      <th>Food Name</th>
+                                      <th>Amount</th>
+                                      <th>Unit</th>
+                                      <th>Start Eat</th>
+                                      <th>End Eat</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {foodId &&
+                                      foodId.length > 0 &&
+                                      foodId.map((value) => {
+                                        return (
+                                          <tr style={{ textAlign: "center" }}>
+                                            <td>{value.mealName}</td>
+                                            <td>
+                                              {value.foodMealDtos &&
+                                                value.foodMealDtos.length > 0 &&
+                                                value.foodMealDtos.map(
+                                                  (value2) => {
+                                                    return (
+                                                      <div>{value2.fName}</div>
+                                                    );
+                                                  }
+                                                )}
+                                            </td>
+                                            <td>
+                                              {value.foodMealDtos &&
+                                                value.foodMealDtos.length > 0 &&
+                                                value.foodMealDtos.map(
+                                                  (value2) => {
+                                                    return (
+                                                      <div>
+                                                        {value2.quantity}
+                                                      </div>
+                                                    );
+                                                  }
+                                                )}
+                                            </td>
+                                            <td>
+                                              {value.foodMealDtos &&
+                                                value.foodMealDtos.length > 0 &&
+                                                value.foodMealDtos.map(
+                                                  (value2) => {
+                                                    return (
+                                                      <div>{value2.unit}</div>
+                                                    );
+                                                  }
+                                                )}
+                                            </td>
+                                            <td>
+                                              <div>
+                                                {value.startEat.slice(0, 10)}
+                                              </div>
+                                            </td>
+                                            <td>
+                                              <div>
+                                                {value.endEat.slice(0, 10)}
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        );
+                                      })}
+                                    {foodId.length === 0 && (
+                                      <tr style={{ textAlign: "center" }}>
+                                        <td colSpan={4}>Empty List</td>
+                                      </tr>
+                                    )}
+                                  </tbody>
+                                </Table>
+                              </div>
+                            )}
+                          </div>
                           <label
                             className="form-label"
                             style={{ color: "#813528", fontWeight: "bolder" }}
                           >
-                            Meal For Animal
+                            Meal For Animal Now
                           </label>
                           <Table striped bordered hover>
                             <thead>
@@ -824,12 +933,14 @@ export default function ViewAnimal(pros) {
                                 <th>Food Name</th>
                                 <th>Amount</th>
                                 <th>Unit</th>
+                                <th>Start Eat</th>
+                                <th>End Eat</th>
                               </tr>
                             </thead>
                             <tbody>
-                              {foodId &&
-                                foodId.length > 0 &&
-                                foodId.map((value) => {
+                              {listMealNow &&
+                                listMealNow.length > 0 &&
+                                listMealNow.map((value) => {
                                   return (
                                     <tr style={{ textAlign: "center" }}>
                                       <td>{value.mealName}</td>
@@ -854,12 +965,23 @@ export default function ViewAnimal(pros) {
                                             return <div>{value2.unit}</div>;
                                           })}
                                       </td>
+                                      <td>
+                                        <div>{value.startEat.slice(0, 10)}</div>
+                                      </td>
+                                      <td>
+                                        <div>{value.endEat.slice(0, 10)}</div>
+                                      </td>
                                     </tr>
                                   );
                                 })}
-                              {foodId.length <= 0 && (
+                              {listMealNow.length <= 0 && (
                                 <tr>
-                                  <td colSpan="2">Empty</td>
+                                  <td
+                                    colSpan="6"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    Empty
+                                  </td>
                                 </tr>
                               )}
                             </tbody>
