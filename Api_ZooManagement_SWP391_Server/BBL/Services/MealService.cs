@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BBL.Services;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Repositories;
@@ -91,7 +92,12 @@ namespace BLL.Services
                     {
                         foreach (var fmeal in foodMeal)
                         {
+                            var foods = GetFoodsByMealId(fmeal.MealId);
+
                             var foodMealDetail = _mapper.Map<GetFoodMealDto>(fmeal);
+                            foreach (var food in foods) {
+                                foodMealDetail.FName = _foodRepo.GetById(food.FoodId).FName;
+                            }
                             mealDto.FoodMealDtos.Add(foodMealDetail);
                         }
                     }
