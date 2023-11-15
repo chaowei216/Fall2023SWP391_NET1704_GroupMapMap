@@ -61,9 +61,9 @@ namespace Api_ZooManagement_SWP391.Controllers
                 animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                 animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
-                var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
+                //var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
                 
-                if (foods != null && foods.Count > 0)
+                /*if (foods != null && foods.Count > 0)
                 {
                     animal.Foods = new List<FoodAmountDto>();
                     foreach (var food in foods)
@@ -80,7 +80,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                             EndEat = food.EndEat,
                         });
                     }
-                }
+                }*/
 
                 var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                 if (schedules != null)
@@ -130,8 +130,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                     animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                     animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                     animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
-                    var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
-                    if (foods != null && foods.Count > 0)
+                    //var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
+                    /*if (foods != null && foods.Count > 0)
                     {
                         animal.Foods = new List<FoodAmountDto>();
                         foreach (var food in foods)
@@ -148,7 +148,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                                 EndEat = food.EndEat,
                             });
                         }
-                    }
+                    }*/
 
                     var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                     if (schedules != null)
@@ -251,7 +251,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 animal.EntryCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).EntryCageDate;
                 animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
-                var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
+                /*var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
                 if (foods != null && foods.Count > 0)
                 {
                     animal.Foods = new List<FoodAmountDto>();
@@ -269,7 +269,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                             EndEat = food.EndEat,
                         });
                     }
-                }
+                }*/
 
                 var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                 if (schedules != null)
@@ -319,7 +319,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             else count = animals.Count() + 1;
             var animalId = "AN" + count.ToString().PadLeft(4, '0');
 
-            List<AnimalFood> animalFoods = new List<AnimalFood>();
+            //List<AnimalFood> animalFoods = new List<AnimalFood>();
 
             var animalMap = _mapper.Map<Animal>(animalDto);
             var userMap = _mapper.Map<AnimalTrainer>(animalDto);
@@ -342,14 +342,14 @@ namespace Api_ZooManagement_SWP391.Controllers
                 var food1 = _foodService.GetByFoodId(food.FoodId);
                 if (food1 == null) return BadRequest("Food not found!!!");
                 if (food.Amount == 0) continue;
-                animalFoods.Add(new AnimalFood()
+                /*animalFoods.Add(new AnimalFood()
                 {
                     AnimalId = animalMap.AnimalId,
                     Food = food1,
                     Amount = food.Amount,
                     StartEat = food.StartEat,
                     EndEat = food.EndEat,
-                });
+                });*/
             }
             
             if (isCageFull > fullCage)
@@ -438,7 +438,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             var animalMap = _mapper.Map<Animal>(updateAnimalDto);
             var trainerMap = _mapper.Map<AnimalTrainer>(updateAnimalDto);
             var cageMap = _mapper.Map<AnimalCage>(updateAnimalDto);
-            var foodMap = _mapper.Map<AnimalFood>(updateAnimalDto);
+           // var foodMap = _mapper.Map<AnimalFood>(updateAnimalDto);
             var scheduleMap = _mapper.Map<AnimalSchedule>(updateAnimalDto);
 
             var newTrainer = _userService.GetById(updateAnimalDto.UserId);
@@ -470,7 +470,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             }
             
             List<UpdateAnimalFoodDto> animalFoods = new List<UpdateAnimalFoodDto>();
-            var foods = _foodService.GetFoodsByAnimalId(updateAnimalDto.AnimalId);
+            //var foods = _foodService.GetFoodsByAnimalId(updateAnimalDto.AnimalId);
             var foodAmount = updateAnimalDto.AnimalFoods;
             foreach (var food in foodAmount)
             {
@@ -549,7 +549,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                     animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                     animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                     animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
-                    var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
+                    /*var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
 
                     if (foods != null && foods.Count > 0)
                     {
@@ -568,7 +568,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                                 EndEat = food.EndEat,
                             });
                         }
-                    }
+                    }*/
 
                     var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                     if (schedules != null)

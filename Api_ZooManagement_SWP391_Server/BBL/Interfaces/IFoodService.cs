@@ -14,7 +14,7 @@ namespace BBL.Interfaces
         bool UpdateFood(Food foodMap);
         bool DeleteFood(string foodId);
         List<Animal> GetAnimalsByFoodId(string foodId);
-        ICollection<AnimalFood> GetFoodsByAnimalId(string animalId);
+        //ICollection<AnimalFood> GetFoodsByAnimalId(string animalId);
         ICollection<FoodDto> GetAllFood();
         Food GetByFoodId(string id);
         Food GetByFoodName(string name);

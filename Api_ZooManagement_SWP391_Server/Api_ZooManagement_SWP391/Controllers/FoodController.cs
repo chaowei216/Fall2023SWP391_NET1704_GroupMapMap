@@ -190,15 +190,15 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var animalFoods = _foodService.GetFoodsByAnimalId(animalId).ToList();
-            foreach(var animalFood in animalFoods)
+            //var animalFoods = _foodService.GetFoodsByAnimalId(animalId).ToList();
+/*            foreach(var animalFood in animalFoods)
             {
                 var food = _foodService.GetByFoodId(animalFood.FoodId);
                 if(animalFood.Amount > food.Quantity)
                 {
                     return BadRequest("Not enough food in zoo!!!");
                 }
-            }
+            }*/
             if (!_foodService.UpdateFoodFeed(animalId))
             {
                 ModelState.AddModelError("", "Something went wrong while deleting food");

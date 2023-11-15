@@ -19,6 +19,6 @@ namespace DAL.Entities
         public ICollection<AnimalCage> AnimalCages { get; set; }
         public ICollection<AnimalTrainer> AnimalTrainers { get; set; }
         public ICollection<AnimalSchedule> AnimalSchedules { get; set; }
-        public ICollection<AnimalFood> AnimalFoods { get; set; }
+        public ICollection<AnimalMeal> AnimalMeals { get; set;}
     }
 }

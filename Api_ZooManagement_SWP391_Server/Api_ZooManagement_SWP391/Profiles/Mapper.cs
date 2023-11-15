@@ -59,19 +59,19 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<Cage, GetAnimalDto>();
             CreateMap<AnimalTrainer, AvailableTrainer>();
             CreateMap<User, AvailableTrainer>();
-            CreateMap<AnimalFood, AnimalCreateDto>();
-            CreateMap<AnimalCreateDto, AnimalFood>();
+            /*CreateMap<AnimalFood, AnimalCreateDto>();
+            CreateMap<AnimalCreateDto, AnimalFood>();*/
             CreateMap<Animal, AnimalCreateDto>();
             CreateMap<AnimalCreateDto, Animal>();
-            CreateMap<AnimalFood, UpdateAnimalDto>();
-            CreateMap<UpdateAnimalDto, AnimalFood>();
+            /*CreateMap<AnimalFood, UpdateAnimalDto>();
+            CreateMap<UpdateAnimalDto, AnimalFood>();*/
             CreateMap<AnimalTrainer, GetAnimalDto>();
             CreateMap<AnimalCage, GetAnimalDto>();
             CreateMap<ExperienceDetail, ExperienceDetailDto>();
-            CreateMap<UpdateAnimalFoodDto, AnimalFood>();
+            /*CreateMap<UpdateAnimalFoodDto, AnimalFood>();
             CreateMap<AnimalFood, UpdateAnimalFoodDto>();
             CreateMap<AnimalFood, FoodAmountDto>();
-            CreateMap<FoodAmountDto, AnimalFood>();
+            CreateMap<FoodAmountDto, AnimalFood>();*/
             CreateMap<ScheduleDto, Schedule>();
             CreateMap<Schedule, ScheduleDto>();
             CreateMap<ScheduleCreateDto, Schedule>();
@@ -98,8 +98,8 @@ namespace Api_ZooManagement_SWP391.Profiles
             CreateMap<UpdateAnimalScheduleDto, AnimalSchedule>();
             CreateMap<UpdateAnimalScheduleDto, Schedule>();
             CreateMap<Schedule, UpdateAnimalScheduleDto>();
-            CreateMap<AnimalFoodCreateDto,  AnimalFood>();
-            CreateMap<AnimalFood, AnimalFoodCreateDto>();  
+            /*CreateMap<AnimalFoodCreateDto,  AnimalFood>();
+            CreateMap<AnimalFood, AnimalFoodCreateDto>(); */ 
             CreateMap<AnimalSpecies, SpeciesDto>();
             CreateMap<FoodCategory, FoodCategoryPaginationDto>();
             CreateMap<WorkExperience, ExperienceDetailDto>();

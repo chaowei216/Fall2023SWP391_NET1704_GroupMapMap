@@ -14,7 +14,9 @@ namespace DAL.Data
         #region Entities
         public DbSet<ExperienceDetail> ExperienceDetails { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
-        public DbSet<AnimalFood> AnimalFoods { get; set; }
+        public DbSet<AnimalMeal> AnimalMeals { get; set; }
+        public DbSet<Meal> Meals { get; set; }
+        public DbSet<FoodMeal> FoodMeals { get; set; }
         public DbSet<AnimalSchedule> AnimalSchedules { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<News> News { get; set; }
@@ -96,6 +98,13 @@ namespace DAL.Data
                 entity.Property(e => e.AnimalImage);
             });
 
+            modelBuilder.Entity<Meal>(entity =>
+            {
+                entity.HasKey(meal => meal.MealId);
+                entity.Property(m => m.MealId).HasMaxLength(6);
+                entity.Property(m => m.MealName).HasMaxLength(50).IsRequired();
+            });
+
             modelBuilder.Entity<AnimalSpecies>(entity =>
             {
                 entity.HasKey(animal => animal.SpeciesId);
@@ -108,6 +117,7 @@ namespace DAL.Data
                 entity.HasKey(food => food.FoodId);
                 entity.Property(f => f.FoodId).HasMaxLength(6);
                 entity.Property(f => f.FName).HasMaxLength(30).IsRequired();
+                entity.Property(f => f.Unit).HasMaxLength(10).IsRequired();
                 entity.Property(f => f.Quantity).IsRequired();
                 entity.Property(f => f.ImportDate).IsRequired();
                 entity.Property(f => f.ExpiredDate).IsRequired();
@@ -201,11 +211,16 @@ namespace DAL.Data
                 entity.Property(ash => ash.IsDone).IsRequired();
             });
 
-            modelBuilder.Entity<AnimalFood>(entity =>
+            modelBuilder.Entity<AnimalMeal>(entity =>
             {
-                entity.Property(af => af.Amount).IsRequired();
-                entity.Property(af => af.StartEat).IsRequired();
-                entity.Property(af => af.EndEat).IsRequired();
+                entity.Property(sm => sm.StartEat).IsRequired();
+                entity.Property(sm => sm.EndEat).IsRequired();
+            });
+
+            modelBuilder.Entity<FoodMeal>(entity =>
+            {
+                entity.Property(fm => fm.Quantity).IsRequired();
+                entity.Property(fm => fm.Unit).HasMaxLength(10).IsRequired();
             });
 
             modelBuilder.Entity<AnimalCage>(entity =>
@@ -249,15 +264,26 @@ namespace DAL.Data
                 .WithMany(e => e.AnimalSchedules)
                 .HasForeignKey(e => e.ScheduleId);
 
-            modelBuilder.Entity<AnimalFood>()
-                .HasKey(af => new { af.AnimalId, af.FoodId });
-            modelBuilder.Entity<AnimalFood>()
+            modelBuilder.Entity<AnimalMeal>()
+                .HasKey(af => new { af.AnimalId, af.MealId });
+            modelBuilder.Entity<AnimalMeal>()
                 .HasOne(af => af.Animal)
-                .WithMany(af => af.AnimalFoods)
+                .WithMany(af => af.AnimalMeals)
                 .HasForeignKey(af => af.AnimalId);
-            modelBuilder.Entity<AnimalFood>()
+            modelBuilder.Entity<AnimalMeal>()
+                .HasOne(af => af.Meal)
+                .WithMany(af => af.AnimalMeals)
+                .HasForeignKey(af => af.MealId);
+
+            modelBuilder.Entity<FoodMeal>()
+                .HasKey(af => new { af.FoodId, af.MealId });
+            modelBuilder.Entity<FoodMeal>()
+                .HasOne(af => af.Meal)
+                .WithMany(af => af.FoodMeals)
+                .HasForeignKey(af => af.MealId);
+            modelBuilder.Entity<FoodMeal>()
                 .HasOne(af => af.Food)
-                .WithMany(af => af.AnimalFoods)
+                .WithMany(af => af.FoodMeals)
                 .HasForeignKey(af => af.FoodId);
 
             modelBuilder.Entity<AnimalTrainer>()
