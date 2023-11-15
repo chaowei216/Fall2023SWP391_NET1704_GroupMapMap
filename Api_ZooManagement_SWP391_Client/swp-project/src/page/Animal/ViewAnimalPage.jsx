@@ -101,7 +101,7 @@ export default function ViewAnimal(pros) {
         ),
         setSpecies(dataAnimalView.speciesName),
         setRarity(dataAnimalView.rarity);
-      setFoodID(dataAnimalView.foods);
+      setFoodID(dataAnimalView.meals);
       setScheduleId(dataAnimalView.schedules);
       const path = dataAnimalView.animalImage;
       if (path != "") {
@@ -244,50 +244,50 @@ export default function ViewAnimal(pros) {
       setListScheduleFilter(scheduleFilter);
       console.log(listScheduleFilter);
     }
-  }, [listSchedule, scheduleId,dataAnimalView]);
+  }, [listSchedule, scheduleId, dataAnimalView]);
 
-  useEffect(() => {
-    if (foodId) {
-      // Lấy ids
-      // const fIds = foodId.map(f => f.id);
-      // // Lọc foods
-      // const filteredFoods = listFoods.filter(food => {
-      //   return fIds.includes(food.foodId);
-      // }).map(food => {
-      //   // Tìm fId object có id trùng với food.id
-      //   const fId = fIds.find(f => f.id === food.foodId);
+  // useEffect(() => {
+  //   if (foodId) {
+  //     // Lấy ids
+  //     // const fIds = foodId.map(f => f.id);
+  //     // // Lọc foods
+  //     // const filteredFoods = listFoods.filter(food => {
+  //     //   return fIds.includes(food.foodId);
+  //     // }).map(food => {
+  //     //   // Tìm fId object có id trùng với food.id
+  //     //   const fId = fIds.find(f => f.id === food.foodId);
 
-      //   // Trả về object mới có quantity là của fId
-      //   return {
-      //     ...food,
-      //     quantity: foodId.quantity
-      //   }
-      // });
-      const foodFilter = listFoods
-        .filter((food) => {
-          return foodId.some((fId) => fId.foodId === food.foodId);
-        })
-        .map((food) => {
-          // Tìm fId object có id trùng với food.id
-          const matchedFId = foodId.find((fId) => fId.foodId === food.foodId);
+  //     //   // Trả về object mới có quantity là của fId
+  //     //   return {
+  //     //     ...food,
+  //     //     quantity: foodId.quantity
+  //     //   }
+  //     // });
+  //     const foodFilter = listFoods
+  //       .filter((food) => {
+  //         return foodId.foodMealDtos.some((fId) => fId.foodId === food.foodId);
+  //       })
+  //       .map((food) => {
+  //         // Tìm fId object có id trùng với food.id
+  //         const matchedFId = foodId.find((fId) => fId.foodId === food.foodId);
 
-          // Nếu không tìm thấy fId thì trả về food
-          if (!matchedFId) {
-            return food;
-          }
+  //         // Nếu không tìm thấy fId thì trả về food
+  //         if (!matchedFId) {
+  //           return food;
+  //         }
 
-          // Trả về object mới có quantity là của fId
-          return {
-            ...food,
-            amount: matchedFId.amount,
-            startEat: matchedFId.startEat,
-            endEat: matchedFId.endEat,
-          };
-        });
-      // Cập nhật state
-      setListFoodsFilter(foodFilter);
-    }
-  }, [listFoods, foodId]);
+  //         // Trả về object mới có quantity là của fId
+  //         return {
+  //           ...food,
+  //           startEat: matchedFId.startEat,
+  //           endEat: matchedFId.endEat,
+  //         };
+  //       });
+  //     // Cập nhật state
+  //     setListFoodsFilter(foodFilter);
+  //     console.log(foodFilter);
+  //   }
+  // }, [listFoods, foodId]);
 
   const handleButton = () => {
     setShowList(!showList);
@@ -807,7 +807,7 @@ export default function ViewAnimal(pros) {
                       </div>
 
                       <div className="label-info">
-                        <label>Food Information</label>
+                        <label>Meal Information</label>
                       </div>
                       <div className="Food-Information mb-3">
                         <div className="mb-3" style={{ paddingRight: "25px" }}>
@@ -815,37 +815,53 @@ export default function ViewAnimal(pros) {
                             className="form-label"
                             style={{ color: "#813528", fontWeight: "bolder" }}
                           >
-                            Food For Animal
+                            Meal For Animal
                           </label>
                           <Table striped bordered hover>
                             <thead>
                               <tr style={{ textAlign: "center" }}>
                                 <th>ID</th>
+                                <th>Meal's Name</th>
                                 <th>Food Name</th>
-                                <th>Category</th>
-                                <th>Amount (KG)</th>
-                                <th>Start Eating</th>
-                                <th>End Eating</th>
+                                <th>Amount</th>
+                                <th>Unit</th>
                               </tr>
                             </thead>
                             <tbody>
-                              {listFoodsFilter &&
-                                listFoodsFilter.length > 0 &&
-                                listFoodsFilter.map((value) => {
+                              {foodId &&
+                                foodId.length > 0 &&
+                                foodId.map((value) => {
                                   return (
                                     <tr style={{ textAlign: "center" }}>
-                                      <td>{value.foodId}</td>
-                                      <td>{value.fName}</td>
-                                      <td>{value.categoryName}</td>
-                                      <td>{value.amount}</td>
-                                      <td>{value.startEat.slice(0, 10)}</td>
-                                      <td>{value.endEat.slice(0, 10)}</td>
+                                      <td>{value.mealId}</td>
+                                      <td>{value.mealName}</td>
+                                      <td>
+                                        {value.foodMealDtos &&
+                                          value.foodMealDtos.length > 0 &&
+                                          value.foodMealDtos.map((value2) => {
+                                            return <div>{value2.foodId}</div>;
+                                          })}
+                                      </td>
+                                      <td>
+                                        {value.foodMealDtos &&
+                                          value.foodMealDtos.length > 0 &&
+                                          value.foodMealDtos.map((value2) => {
+                                            return <div>{value2.quantity}</div>;
+                                          })}
+                                      </td>
+                                      <td>
+                                        {value.foodMealDtos &&
+                                          value.foodMealDtos.length > 0 &&
+                                          value.foodMealDtos.map((value2) => {
+                                            return <div>{value2.unit}</div>;
+                                          })}
+                                      </td>
                                     </tr>
                                   );
                                 })}
-                              {listFoodsFilter.length <= 0 && (
+                              {foodId.length <= 0 && (
                                 <tr>
-                                  <td colSpan="5">Empty</td>
+                                  <td colSpan="2">Empty</td>
                                 </tr>
                               )}
                             </tbody>

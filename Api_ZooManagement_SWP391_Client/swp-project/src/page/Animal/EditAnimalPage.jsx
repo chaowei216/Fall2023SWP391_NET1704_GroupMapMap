@@ -148,7 +148,7 @@ export default function EditAnimal(pros) {
   const handleFoodChange = (id, event) => {
     validateAmountFood(event.target.value);
     const newFood = foods.map((food) => {
-      if (food.foodId === id) {
+      if (food.mealId === id) {
         food.amount = Number(event.target.value);
       }
       return food;
@@ -158,7 +158,7 @@ export default function EditAnimal(pros) {
   const handleStartEatDateChange = (id, event) => {
     validateStartEat(event.target.value);
     const newFood = foods.map((food) => {
-      if (food.foodId === id) {
+      if (food.mealId === id) {
         food.startEat = event.target.value;
       }
       return food;
@@ -168,7 +168,7 @@ export default function EditAnimal(pros) {
   const handleEndEatDateChange = (id, event) => {
     validateEndEat(event.target.value);
     const newFood = foods.map((food) => {
-      if (food.foodId === id) {
+      if (food.mealId === id) {
         food.endEat = event.target.value;
       }
       return food;
@@ -196,7 +196,7 @@ export default function EditAnimal(pros) {
   };
   useEffect(() => {
     const array = [];
-    const foodIds1 = foods.map((food) => food.foodId);
+    const foodIds1 = foods.map((food) => food.mealId);
     array.push(foodIds1);
     console.log(array);
     setSelectedFoodIds(foodIds1);
@@ -223,13 +223,13 @@ export default function EditAnimal(pros) {
     setSelectedFoodIds([...selectedFoodIds, e.target.value]);
     console.log(selectedFoodIds);
 
-    const selectedFood = options.find((o) => o.foodId === e.target.value);
-    console.log(selectedFood.foodId);
+    const selectedFood = options.find((o) => o.mealId === e.target.value);
+    console.log(selectedFood.mealId);
     console.log(e.target.value);
     console.log(index);
     // Cập nhật lại cho food hiện tại
     const currentFood = foods[index];
-    currentFood.foodId = selectedFood.foodId;
+    currentFood.mealId = selectedFood.mealId;
     console.log(currentFood);
     setFoods([...foods]);
   };
@@ -263,8 +263,7 @@ export default function EditAnimal(pros) {
     setFoods([
       ...foods,
       {
-        foodId: "",
-        amount: "",
+        mealId: "",
         startEat: "",
         endEat: "",
       },
@@ -286,7 +285,7 @@ export default function EditAnimal(pros) {
     setSchedules(schedules.filter((_, i) => i !== index));
   };
   const getList = () => {
-    return fetch("https://localhost:44352/api/Food").then((data) =>
+    return fetch("https://localhost:44352/api/Meal/meal").then((data) =>
       data.json()
     );
   };
@@ -339,7 +338,7 @@ export default function EditAnimal(pros) {
         ),
         setSpecies(dataAnimalEdit.speciesName),
         setRarity(dataAnimalEdit.rarity);
-      setFoods(dataAnimalEdit.foods);
+      setFoods(dataAnimalEdit.meals);
       setSchedules(dataAnimalEdit.schedules);
     }
   }, [dataAnimalEdit]);
@@ -1023,7 +1022,7 @@ export default function EditAnimal(pros) {
                         <div className="mb-1">
                           {foods.map((food, index) => (
                             <div
-                              key={food.foodId}
+                              key={food.mealId}
                               style={{
                                 display: "flex",
                                 justifyContent: "space-between",
@@ -1053,7 +1052,7 @@ export default function EditAnimal(pros) {
                                     width: "95%",
                                     marginRight: "20px",
                                   }}
-                                  value={food.foodId}
+                                  value={food.mealId}
                                   onChange={
                                     isNew
                                       ? (e) => handleFoodSelect(e, index)
@@ -1065,13 +1064,13 @@ export default function EditAnimal(pros) {
                                   {/* Render các option từ API */}
                                   {options.map((option) => (
                                     <option
-                                      key={option.foodId}
-                                      value={option.foodId}
+                                      key={option.mealId}
+                                      value={option.mealId}
                                       disabled={selectedFoodIds.includes(
-                                        option.foodId
+                                        option.mealId
                                       )}
                                     >
-                                      {option.fName}
+                                      {option.mealName}
                                     </option>
                                   ))}
                                 </Form.Control>
@@ -1088,7 +1087,7 @@ export default function EditAnimal(pros) {
                                   style={{ width: "90%" }}
                                   value={food.startEat != null ? food.startEat.slice(0, 10) : null}
                                   onChange={(e) =>
-                                    handleStartEatDateChange(food.foodId, e)
+                                    handleStartEatDateChange(food.mealId, e)
                                   }
                                 />
                               </div>
@@ -1104,7 +1103,7 @@ export default function EditAnimal(pros) {
                                   style={{ width: "90%" }}
                                   value={food.endEat != null ? food.endEat.slice(0, 10) : null}
                                   onChange={(e) =>
-                                    handleEndEatDateChange(food.foodId, e)
+                                    handleEndEatDateChange(food.mealId, e)
                                   }
                                 />
                               </div>

@@ -52,7 +52,7 @@ function TableScheduleFeed() {
   }, []);
   useEffect(() => {
     const getList = () => {
-      return fetch("https://localhost:44352/api/Animal").then((data) =>
+      return fetch("https://localhost:44352/api/Animal/allMeal").then((data) =>
         data.json()
       );
     };
