@@ -73,7 +73,6 @@ function TableStaff() {
     const user = item;
     setDataUserDelete(user);
     setShowmodalDelete(true);
-
   };
   // const email = localStorage.getItem("email");
   // const zooTrainerList = users.filter((user) => user.role === 3);
@@ -197,7 +196,13 @@ function TableStaff() {
           </div>
         </div>
         <div className="table-content">
-          <Table size="100px" hover striped bordered style={{ verticalAlign: "middle" }}>
+          <Table
+            size="100px"
+            hover
+            striped
+            bordered
+            style={{ verticalAlign: "middle" }}
+          >
             <thead className="table-dark" style={{ textAlign: "center" }}>
               <tr>
                 <th>Image</th>
@@ -271,14 +276,16 @@ function TableStaff() {
                 })}
             </tbody>
           </Table>
-          <div className="pagination-container">
-            <Pagination
-              onChange={onShowSizeChange}
-              defaultCurrent={currentPage}
-              defaultPageSize={10}
-              total={totalPages * 10}
-            />
-          </div>
+          {totalPages > 0 && (
+            <div className="pagination-container">
+              <Pagination
+                onChange={onShowSizeChange}
+                defaultCurrent={currentPage}
+                defaultPageSize={10}
+                total={totalPages * 10}
+              />
+            </div>
+          )}
         </div>
       </div>
       <EditPage

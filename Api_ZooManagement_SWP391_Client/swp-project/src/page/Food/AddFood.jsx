@@ -48,6 +48,7 @@ export default function AddFood(pros) {
     const food = {
       fName: values.fName,
       quantity: values.quantity,
+      unit: values.unit,
       importDate: values.importDate,
       expiredDate: values.expiredDate,
       categoryName: values.categoryName,
@@ -66,14 +67,15 @@ export default function AddFood(pros) {
       console.log("Success");
       handleClose();
       toast.success("Create Success");
-    }else{
-      toast.error("Error creating")
+    } else {
+      toast.error("Error creating");
     }
   };
   const formik = useFormik({
     initialValues: {
       fName: "",
       quantity: "",
+      unit: "",
       importDate: "",
       expiredDate: "",
       categoryName: "",
@@ -125,7 +127,7 @@ export default function AddFood(pros) {
                         </Form.Control.Feedback>
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Enter Category</label>
+                        <label className="form-label">Choose Category</label>
                         <Form.Select
                           size="lg"
                           id="categoryName"
@@ -134,7 +136,10 @@ export default function AddFood(pros) {
                           style={{ width: "100%" }}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          isInvalid={formik.errors.categoryName && formik.touched.categoryName}
+                          isInvalid={
+                            formik.errors.categoryName &&
+                            formik.touched.categoryName
+                          }
                         >
                           <option value={null}>Choose Category Name</option>
                           {/* Render các option từ API */}
@@ -154,7 +159,7 @@ export default function AddFood(pros) {
                         </Form.Control.Feedback>
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Enter The Quantity (KG) </label>
+                        <label className="form-label">Enter The Quantity</label>
                         <Form.Control
                           type="Number"
                           id="quantity"
@@ -174,6 +179,22 @@ export default function AddFood(pros) {
                         <Form.Control.Feedback type="invalid">
                           {formik.errors.quantity}
                         </Form.Control.Feedback>
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Choose Unit</label>
+                        <Form.Select
+                          size="lg"
+                          id="unit"
+                          name="unit"
+                          placeholder="Chọn món ăn"
+                          style={{ width: "46%" }}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          // isInvalid={formik.errors.unit && formik.touched.categoryName}
+                        >
+                          <option value="Kg">Kg</option>
+                          <option value="L">L</option>
+                        </Form.Select>
                       </div>
                       <div className="row mb-5 mt-4">
                         <div className="mb-3" style={{ width: "50%" }}>

@@ -36,10 +36,9 @@ function AddAnimal(pros) {
   const [errorFood, setErrorFood] = useState("");
   const [fields, setFields] = useState([
     {
-      foodId: "",
+      mealId: "",
       startEat: "",
       endEat: "",
-      amount: "",
     },
   ]);
   const getList = () => {
@@ -64,7 +63,7 @@ function AddAnimal(pros) {
   const addField = () => {
     setFields([
       ...fields,
-      { foodId: "", startEat: "", endEat: "", amount: "" },
+      { mealId: "", startEat: "", endEat: ""},
     ]);
   };
   const removeField = (index) => {
@@ -707,7 +706,7 @@ function AddAnimal(pros) {
                             </div> */}
                           </div>
                           <div className="label-info">
-                            <label>Food Information</label>
+                            <label>Meal Information</label>
                           </div>
                           <div className="Food-Information">
                             <div className="mb-3">
@@ -728,10 +727,10 @@ function AddAnimal(pros) {
                                     }}
                                   >
                                     <label className="form-label">
-                                      Choose Food For Animal
+                                      Choose Meal For Animal
                                     </label>
                                     <Field
-                                      name={`fields[${index}].foodId`}
+                                      name={`fields[${index}].mealId`}
                                     // as="select"
                                     // onChange={(e) => handleChange(e.target.value)}
                                     >
@@ -744,7 +743,7 @@ function AddAnimal(pros) {
                                             handleFoodSelect(event, field, form)
                                           }
                                         >
-                                          <option value="">Choose Food</option>
+                                          <option value="">Choose Meal</option>
                                           {options.map((option) => (
                                             <option
                                               key={option.foodId}
@@ -767,27 +766,13 @@ function AddAnimal(pros) {
                                     }}
                                   >
                                     <label className="form-label">
-                                      Enter Quantity (KG)
-                                    </label>
-                                    <Field
-                                      placeholder="Enter Quantity"
-                                      name={`fields[${index}].amount`}
-                                      component="input"
-                                      className="control-field"
-                                    />
-                                  </div>
-                                  <div
-                                    style={{
-                                      width: "30%",
-                                      marginRight: "20px",
-                                    }}
-                                  >
-                                    <label className="form-label">
                                       Choose Start Eat
                                     </label>
                                     <Field
                                       name={`fields[${index}].startEat`}
                                       component="input"
+                                      style={{width: "100%"}}
+                                      
                                       type="date"
                                       placeholder="Enter time to feed animal"
                                       className="control-field"
@@ -807,6 +792,7 @@ function AddAnimal(pros) {
                                       Choose End Eat
                                     </label>
                                     <Field
+                                      style={{width: "100%"}}
                                       name={`fields[${index}].endEat`}
                                       component="input"
                                       type="date"
@@ -821,21 +807,6 @@ function AddAnimal(pros) {
                               ))}
                               {errors.fields && (
                                 <>
-                                  {/* {values.foodId && (
-                                    <div style={{ color: "red" }}>
-                                      Please Choose food
-                                    </div>
-                                  )}
-                                  {values.amount && (
-                                    <div style={{ color: "red" }}>
-                                      {values.amount}
-                                    </div>
-                                  )}
-                                  {values.description && (
-                                    <div style={{ color: "red" }}>
-                                      {values.description}
-                                    </div>
-                                  )} */}
                                   <div style={{ color: "red" }}>
                                     Choose food Id
                                   </div>
@@ -859,7 +830,7 @@ function AddAnimal(pros) {
                                   justifyContent: "space-between",
                                 }}
                               >
-                                <Button onClick={addField}>More Food</Button>
+                                <Button onClick={addField}>More</Button>
                               </div>
                             )}
                           </div>

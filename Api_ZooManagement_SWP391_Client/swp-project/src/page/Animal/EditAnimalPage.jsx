@@ -1045,7 +1045,7 @@ export default function EditAnimal(pros) {
                               </div> */}
                               <div style={{ width: "25%" }}>
                                 <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
-                                  Edit Food For Animal
+                                  Edit Meal For Animal
                                 </label>
                                 <Form.Control
                                   as="select"
@@ -1075,25 +1075,6 @@ export default function EditAnimal(pros) {
                                     </option>
                                   ))}
                                 </Form.Control>
-                              </div>
-                              <div style={{ width: "25%" }}>
-                                <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>
-                                  Enter Amount Food (KG)
-                                </label>
-                                <Form.Control
-                                  type="number"
-                                  className="mb-3"
-                                  aria-describedby="inputGroupPrepend"
-                                  style={{ width: "90%" }}
-                                  value={food.amount}
-                                  isInvalid={!isValidAmount}
-                                  onChange={(e) =>
-                                    handleFoodChange(food.foodId, e)
-                                  }
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                  Amount is a positive number
-                                </Form.Control.Feedback>
                               </div>
                               <div style={{ width: "25%" }}>
                                 <label className="form-label" style={{ color: "#813528", fontWeight: "bolder" }}>

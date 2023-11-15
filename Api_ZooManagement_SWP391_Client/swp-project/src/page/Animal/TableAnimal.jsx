@@ -22,6 +22,7 @@ import _ from "lodash";
 import { debounce } from "lodash";
 import DeleteAnimal from "./DeleteAnimal";
 import { ListGroup, Form } from "react-bootstrap";
+import AddMeal from "../Meal/AddMeal";
 
 function TableAnimal() {
   const role = localStorage.getItem("role");
@@ -32,6 +33,7 @@ function TableAnimal() {
   const [showModalDelete, setShowmodalDelete] = useState(false);
   const [showModalFodd, setShowmodalFood] = useState(false);
   const [showModalFoodAnimal, setShowmodalFoodAnimal] = useState(false);
+  const [showModalMeal, setShowModalMeal] = useState(false);
   const [listAnimal, setListAnimal] = useState([]);
   const [listSpecies, setListSpecies] = useState([]);
   const [dataAnimalEdit, setDataAnimalEdit] = useState({});
@@ -78,9 +80,13 @@ function TableAnimal() {
     setAnchorEl(null);
   };
 
-  
   const handleClick2 = () => {
     setShowmodalFoodAnimal(true);
+    setAnchorEl(null);
+    // window.location.href = setAnchorEl(null);
+  };
+  const handleClick3 = () => {
+    setShowModalMeal(true);
     setAnchorEl(null);
     // window.location.href = setAnchorEl(null);
   };
@@ -94,6 +100,7 @@ function TableAnimal() {
     setShowmodalView(false);
     setShowmodalFood(false);
     setShowmodalDelete(false);
+    setShowModalMeal(false);
     setAnchorEl(null);
   };
   const handleEditUser = (item) => {
@@ -272,7 +279,7 @@ function TableAnimal() {
                   }}
                 >
                   <Typography sx={{ p: 2 }}>
-                    <div className="btn-header" style={{width: '185px'}}>
+                    <div className="btn-header" style={{ width: "185px" }}>
                       <div
                         className="mb-3 mt-1"
                         style={{ background: "aliceblue" }}
@@ -289,6 +296,14 @@ function TableAnimal() {
                           Add New Schedule
                         </Button>
                       </div>
+                      <div
+                        className="mb-3 mt-1"
+                        style={{ background: "aliceblue" }}
+                      >
+                        <Button variant="outlined" onClick={handleClick3}>
+                          Add New Meal
+                        </Button>
+                      </div>
                     </div>
                   </Typography>
                 </Popover>
@@ -298,7 +313,7 @@ function TableAnimal() {
         </div>
         <div className="table-content">
           <Table size="100px" hover striped bordered>
-            <thead className="table-dark" style={{textAlign: "center"}}>
+            <thead className="table-dark" style={{ textAlign: "center" }}>
               <tr>
                 <th>Image</th>
                 <th>ID</th>
@@ -413,6 +428,7 @@ function TableAnimal() {
         show={showModalFoodAnimal}
         handleClose={handleClose}
       ></ScheduleAnimal>
+      <AddMeal show={showModalMeal} handleClose={handleClose}></AddMeal>
     </div>
   );
 }
