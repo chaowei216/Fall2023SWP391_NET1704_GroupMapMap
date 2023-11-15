@@ -158,7 +158,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetAnimals(int page)
         {
-            var animals = _animalService.GetAllActive();
+            var animals = _animalService.GetAllAnimalWithMeals().ToList();
 
             var pageResults = 10f;
             var pageCount = Math.Ceiling(animals.Count() / pageResults);
@@ -172,9 +172,23 @@ namespace Api_ZooManagement_SWP391.Controllers
                     animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                     animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                     animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
-                    animal.MealId = _mealService.GetMealByAnimalId(animal.AnimalId).MealId;
-                    animal.StartEat = _mealService.GetMealByAnimalId(animal.AnimalId).StartEat;
-                    animal.EndEat = _mealService.GetMealByAnimalId(animal.AnimalId).EndEat;
+
+                    var meals = _mealService.GetAllMealsByAnimalId(animal.AnimalId);
+                    if (meals != null)
+                    {
+                        animal.Meals = new List<MealDto>();
+                        foreach (var meal in meals)
+                        {
+                            var fMeal = _mapper.Map<List<FoodMealDto>>(_mealService.GetFoodsByMealId(meal.MealId).ToList());
+                            var mealDetail = _mealService.GetMealById(meal.MealId);
+                            animal.Meals.Add(new MealDto
+                            {
+                                MealId = meal.MealId,
+                                MealName = mealDetail.MealName,
+                                FoodMealDtos = fMeal,
+                            });
+                        }
+                    }
 
                     var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                     if (schedules != null)
