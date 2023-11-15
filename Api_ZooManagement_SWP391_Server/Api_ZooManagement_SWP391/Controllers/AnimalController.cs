@@ -51,23 +51,6 @@ namespace Api_ZooManagement_SWP391.Controllers
             _mealService = mealService;
         }
 
-        /*        [HttpGet("meal")]
-                [ProducesResponseType(200, Type = typeof(IEnumerable<GetAnimalDto>))]
-                [ProducesResponseType(400)]
-                public IActionResult GetFood(string mealId)
-                {
-                    var fMeal = _mapper.Map<List<GetFoodMealDto>>(_mealService.GetFoodsByMealId(mealId));
-                    var foodMeal = _mealService.GetFoodsByMealId(mealId);
-                    foreach (var f in fMeal)
-                    {
-                        foreach (var food in foodMeal)
-                        {
-                            f.FName = _foodService.GetByFoodId(f.FoodId).FName;
-                        }
-                    }
-                    return Ok(fMeal);
-
-                }*/
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetAnimalDto>))]
         [ProducesResponseType(400)]
@@ -234,16 +217,18 @@ namespace Api_ZooManagement_SWP391.Controllers
                                 foreach (var food in foodMeal)
                                 {
                                     f.FName = _foodService.GetByFoodId(f.FoodId).FName;
-                                    animal.Meals.Add(new GetMealAnimalDto
-                                    {
-                                        MealId = mealDetail.MealId,
-                                        StartEat = meal.StartEat,
-                                        MealName = mealDetail.MealName,
-                                        EndEat = meal.EndEat,
-                                        FoodMealDtos = fMeal
-                                    });
+
                                 }
+
                             }
+                            animal.Meals.Add(new GetMealAnimalDto
+                            {
+                                MealId = mealDetail.MealId,
+                                StartEat = meal.StartEat,
+                                MealName = mealDetail.MealName,
+                                EndEat = meal.EndEat,
+                                FoodMealDtos = fMeal
+                            });
                         }
                     }
 
