@@ -56,7 +56,7 @@ export default function ScheduleAnimal(pros) {
   };
 
   const getAnimalList = () => {
-    return fetch("https://localhost:44352/api/Animal").then((data) =>
+    return fetch("https://localhost:44352/api/Animal/allMeal").then((data) =>
       data.json()
     );
   };

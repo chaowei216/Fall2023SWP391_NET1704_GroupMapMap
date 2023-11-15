@@ -45,6 +45,10 @@ export default function AddMeal(pros) {
     ]);
     form.setFieldValue(field.name, selectedFoodId);
   };
+  const handleFoodSelect2 = (event, field, form) => {
+    const selectedFoodId = event.target.value;
+    form.setFieldValue(field.name, selectedFoodId);
+  };
   const navigate = useNavigate();
   const handleSave = () => {
     console.log("haha");
@@ -77,25 +81,25 @@ export default function AddMeal(pros) {
     // const time = '8:30';
     // const datetime = moment(time, 'HH:mm').toISOString();
     // console.log(datetime);
-    const url = `https://localhost:44352/api/Meal`;
-    const request = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(meal),
-    };
-    const response = await fetch(url, request);
-    if (response.ok) {
-      console.log("Success");
-      // navigate("/staff/2");
-      toast.success("Create Successfully");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1250)
-    } else {
-      toast.error("Meal Existed");
-    }
+    // const url = `https://localhost:44352/api/Meal`;
+    // const request = {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(meal),
+    // };
+    // const response = await fetch(url, request);
+    // if (response.ok) {
+    //   console.log("Success");
+    //   // navigate("/staff/2");
+    //   toast.success("Create Successfully");
+    //   setTimeout(() => {
+    //     window.location.reload();
+    //   }, 1250)
+    // } else {
+    //   toast.error("Meal Existed");
+    // }
   };
   return (
     <>
@@ -226,18 +230,32 @@ export default function AddMeal(pros) {
                                   />
                                   <Field
                                     name={`fields[${index}].unit`}
-                                    // type="Select"
-                                    component="Select"
-                                    style={{
-                                      width: "40%",
-                                      height: "35px",
-                                      borderColor: "#dee2e6",
-                                      borderRadius: "5px",
-                                      marginBottom: "30px",
-                                    }}
+                                    // as="select"
+                                    // onChange={(e) => handleChange(e.target.value)}
                                   >
-                                    <option value="Kg">Kg</option>
-                                    <option value="L">L</option>
+                                    {({ field, form }) => (
+                                      <Form.Select
+                                        {...field}
+                                        placeholder="Chọn món ăn"
+                                        style={{
+                                          width: "80%",
+                                          marginBottom: "30px",
+                                        }}
+                                        onChange={(event) =>
+                                          handleFoodSelect2(event, field, form)
+                                        }
+                                      >
+                                      <option value="">
+                                          Choose Unit
+                                        </option>
+                                        <option value="Kg">
+                                          Kg
+                                        </option>
+                                        <option value="L">
+                                          L
+                                        </option>
+                                      </Form.Select>
+                                    )}
                                   </Field>
                                   <div
                                     style={{ display: "block", width: "80%" }}

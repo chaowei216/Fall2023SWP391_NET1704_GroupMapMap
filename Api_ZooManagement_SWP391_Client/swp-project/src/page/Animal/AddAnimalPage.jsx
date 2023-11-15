@@ -42,7 +42,7 @@ function AddAnimal(pros) {
     },
   ]);
   const getList = () => {
-    return fetch("https://localhost:44352/api/Food").then((data) =>
+    return fetch("https://localhost:44352/api/Meal/meal").then((data) =>
       data.json()
     );
   };
@@ -198,7 +198,7 @@ function AddAnimal(pros) {
       startTrainDate: date,
       animalImage: img,
       speciesName: values.species,
-      animalFoods: values.fields,
+      animalMeals: values.fields,
     };
     const params = {
       userId: values.userId,
@@ -746,13 +746,13 @@ function AddAnimal(pros) {
                                           <option value="">Choose Meal</option>
                                           {options.map((option) => (
                                             <option
-                                              key={option.foodId}
-                                              value={option.foodId}
+                                              key={option.mealId}
+                                              value={option.mealId}
                                               disabled={selectedFoodIds.includes(
-                                                option.foodId
+                                                option.mealId
                                               )}
                                             >
-                                              {option.fName}
+                                              {option.mealName}
                                             </option>
                                           ))}
                                         </Form.Select>

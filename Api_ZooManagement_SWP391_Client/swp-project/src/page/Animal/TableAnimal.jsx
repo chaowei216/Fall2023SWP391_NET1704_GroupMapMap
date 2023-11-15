@@ -164,7 +164,7 @@ function TableAnimal() {
     if (term) {
       setTestShow(false);
       const getList = () => {
-        return fetch(`https://localhost:44352/api/Animal`).then((data) =>
+        return fetch(`https://localhost:44352/api/Animal/allMeal`).then((data) =>
           data.json()
         );
       };

@@ -111,7 +111,7 @@ export const schemaAnimal = yup.object().shape({
   // image: yup.mixed().required('Please choose the image')
   fields: yup.array().of(
     yup.object().shape({
-      foodId: yup.string().required("Please choose foood"),
+      // foodId: yup.string().required("Please choose foood"),
       startEat: yup
         .string()
         .required("Vui lòng nhập ngày bắt đầu ăn")
@@ -139,13 +139,6 @@ export const schemaAnimal = yup.object().shape({
             const selected = new Date(value);
             return selected >= baby;
           },
-        }),
-      amount: yup
-        .string()
-        .required("Please enter amount of food")
-        .min(1, "Amount must be at least 2 characters")
-        .test("positive", "The amount cannot be negative", (value) => {
-          return Number(value) >= 1;
         }),
     })
   ),
