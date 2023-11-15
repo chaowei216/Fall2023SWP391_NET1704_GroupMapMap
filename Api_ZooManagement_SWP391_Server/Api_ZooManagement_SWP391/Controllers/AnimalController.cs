@@ -65,9 +65,14 @@ namespace Api_ZooManagement_SWP391.Controllers
                 animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                 animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
-                animal.MealId = _mealService.GetMealByAnimalId(animal.AnimalId).MealId;
-                animal.StartEat = _mealService.GetMealByAnimalId(animal.AnimalId).StartEat;
-                animal.EndEat = _mealService.GetMealByAnimalId(animal.AnimalId).EndEat;
+                var getMeal = _mealService.GetMealByAnimalId(animal.AnimalId);
+                if (getMeal == null) return BadRequest("Some animals don't have meal!!! Check again!!!");
+                if (getMeal != null)
+                {
+                    animal.MealId = getMeal.MealId;
+                    animal.StartEat = getMeal.StartEat;
+                    animal.EndEat = getMeal.EndEat;
+                }
 
                 var meals = _mealService.GetMealsByAnimalId(animal.AnimalId);
                 foreach (var meal in meals)
