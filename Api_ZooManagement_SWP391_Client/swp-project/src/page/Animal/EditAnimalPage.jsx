@@ -61,6 +61,7 @@ export default function EditAnimal(pros) {
   const [list3, setList3] = useState([]);
   const [availableTrainer, setAvailableTrainer] = useState([]);
   const [availableCage, setAvailableCage] = useState([]);
+  
   const validateOutCageDate = (dateString) => {
     const selectedDate = new Date(dateString);
     const currentDate = new Date();
@@ -458,6 +459,13 @@ export default function EditAnimal(pros) {
     }
     console.log(dataAnimalEdit);
     console.log(event);
+    const formattedMeals = foods.map(meal => {
+      return {
+        mealId: meal.mealId,
+        startEat: meal.startEat,
+        endEat: meal.endEat
+      }
+    });
     const animalEdit = {
       animalId: animalId,
       userId: userID,
@@ -468,7 +476,7 @@ export default function EditAnimal(pros) {
       rarity: rarity,
       endTrainDate: null,
       outCageDate: null,
-      animalFoods: foods,
+      animalMeals: formattedMeals,
       animalSchedules: schedules,
     };
     console.log("OK");
