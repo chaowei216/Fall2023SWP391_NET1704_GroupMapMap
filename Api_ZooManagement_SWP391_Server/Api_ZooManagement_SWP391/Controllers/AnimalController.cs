@@ -28,7 +28,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         private readonly IFoodCategoryService _foodCategoryService;
         private readonly IMealService _mealService;
 
-        public AnimalController(IMapper mapper, 
+        public AnimalController(IMapper mapper,
                                 IAnimalService animalService,
                                 ICageService cageService,
                                 IUserService userService,
@@ -51,6 +51,23 @@ namespace Api_ZooManagement_SWP391.Controllers
             _mealService = mealService;
         }
 
+/*        [HttpGet("meal")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAnimalDto>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetFood(string mealId)
+        {
+            var fMeal = _mapper.Map<List<GetFoodMealDto>>(_mealService.GetFoodsByMealId(mealId));
+            var foodMeal = _mealService.GetFoodsByMealId(mealId);
+            foreach (var f in fMeal)
+            {
+                foreach (var food in foodMeal)
+                {
+                    f.FName = _foodService.GetByFoodId(f.FoodId).FName;
+                }
+            }
+            return Ok(fMeal);
+
+        }*/
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetAnimalDto>))]
         [ProducesResponseType(400)]
@@ -75,21 +92,18 @@ namespace Api_ZooManagement_SWP391.Controllers
                 }
 
                 var meals = _mealService.GetMealsByAnimalId(animal.AnimalId);
-                foreach (var meal in meals)
+                var foodMeals = _mealService.GetFoodsByMealId(getMeal.MealId);
+                var foodMeal = _mealService.GetFoodsByMealId(getMeal.MealId);
+                var fMeal = _mapper.Map<List<GetFoodMealDto>>(_mealService.GetFoodsByMealId(getMeal.MealId));
+                foreach (var f in fMeal)
                 {
-
-                    var foodMeals = _mealService.GetFoodsByMealId(getMeal.MealId);
-                    var foodMeal = _mealService.GetFoodsByMealId(getMeal.MealId);
-                    var fMeal = _mapper.Map<List<GetFoodMealDto>>(_mealService.GetFoodsByMealId(getMeal.MealId));
-                    foreach (var f in fMeal)
+                    foreach (var food in foodMeal)
                     {
-                        foreach (var food in foodMeal)
-                        {
-                            f.FName = _foodService.GetByFoodId(food.FoodId).FName;
-                        }
+                        f.FName = _foodService.GetByFoodId(f.FoodId).FName;
                     }
-                    animal.FoodMealDtos = fMeal;
                 }
+                animal.FoodMealDtos = fMeal;
+
 
                 var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                 if (schedules != null)
@@ -112,7 +126,7 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             return Ok(animals);
         }
-        
+
         [HttpGet("allMeal")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetAnimalAllMealDto>))]
         [ProducesResponseType(400)]
@@ -127,7 +141,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                 animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
-                
+
                 var meals = _mealService.GetAllMealsByAnimalId(animal.AnimalId);
                 if (meals != null)
                 {
@@ -137,11 +151,11 @@ namespace Api_ZooManagement_SWP391.Controllers
                         var fMeal = _mapper.Map<List<GetFoodMealDto>>(_mealService.GetFoodsByMealId(meal.MealId));
                         var foodMeal = _mealService.GetFoodsByMealId(meal.MealId);
                         var mealDetail = _mealService.GetMealById(meal.MealId);
-                        foreach (var f in fMeal) {
+                        foreach (var f in fMeal)
+                        {
                             foreach (var food in foodMeal)
                             {
-                                
-                                f.FName = _foodService.GetByFoodId(food.FoodId).FName;
+                                f.FName = _foodService.GetByFoodId(f.FoodId).FName;
                                 animal.Meals.Add(new GetMealAnimalDto
                                 {
                                     MealId = mealDetail.MealId,
@@ -217,7 +231,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                             {
                                 foreach (var food in foodMeal)
                                 {
-                                    f.FName = _foodService.GetByFoodId(food.FoodId).FName;
+                                    f.FName = _foodService.GetByFoodId(f.FoodId).FName;
                                     animal.Meals.Add(new GetMealAnimalDto
                                     {
                                         MealId = mealDetail.MealId,
@@ -326,7 +340,7 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             var foods = _animalService.GetOldFoodOfAnimal(animalId);
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
                 return BadRequest();
 
             return Ok(foods);
@@ -342,7 +356,7 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             var animal = _animalService.GetById(animalId);
             if (animal.Status != true) { return BadRequest("Animal deleted!!!"); }
-            if(animal != null)
+            if (animal != null)
             {
                 animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;
                 animal.EntryCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).EntryCageDate;
@@ -375,7 +389,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest();
 
             return Ok(animal);
-        } 
+        }
 
         [HttpPost("Animal")]
         [ProducesResponseType(204)]
@@ -408,7 +422,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             List<AnimalMeal> animalMeals = new List<AnimalMeal>();
 
             animalMap.AnimalId = animalId;
-            cageMap.EntryCageDate = DateTime.Now;    
+            cageMap.EntryCageDate = DateTime.Now;
             userMap.StartTrainDate = DateTime.Now;
             animalMap.Species = species;
 
@@ -429,7 +443,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                     EndEat = meal.EndEat,
                 });
             }
-            
+
             if (isCageFull > fullCage)
             {
                 return BadRequest("This cage is full");
@@ -458,7 +472,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest(ModelState);
             if (!_animalService.AnimalExists(animalId))
                 return NotFound();
-            
+
             var animalScheduleMap = _mapper.Map<Animal>(animalScheduleDto);
             var animal = _animalService.GetByAnimalId(animalId);
             var schedules = animalScheduleDto.AnimalSchedules;
@@ -470,7 +484,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 var getSchedule = _scheduleService.GetSchedule(schedule.ScheduleId);
 
                 if (_animalScheduleService.AnimalScheduleExisted(animalId, getSchedule.ScheduleId))
-                { 
+                {
                     return BadRequest("This schedule has existed for this animal!!!");
                 }
 
@@ -535,7 +549,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             var newCage = _cageService.GetByCageId(updateAnimalDto.CageId);
             var animalCage = _animalService.GetAnimalCageByAnimalId(animalId).Where(c => c.OutCageDate == null).FirstOrDefault();
             var oldCage = _cageService.GetByCageId(animalCage.CageId);
-            if(animalCage == null)
+            if (animalCage == null)
             {
                 return BadRequest("Something wrong!!!");
             }
@@ -546,7 +560,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 animalCage.OutCageDate = DateTime.Now;
                 _animalService.AddAnimalCage(updateAnimalDto.CageId, animalId, cageMap);
             }
-            
+
             List<UpdateAnimalMealDto> animalMeals = new List<UpdateAnimalMealDto>();
             var meals = _mealService.GetMealsByAnimalId(updateAnimalDto.AnimalId);
             var mealAmount = updateAnimalDto.AnimalMeals;
@@ -615,7 +629,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         public IActionResult GetAnimalSpecies(string speciesId)
         {
             var animalSpecies = _animalService.GetAnimalBySpecies(speciesId);
-            foreach(var animalSpecie in  animalSpecies)
+            foreach (var animalSpecie in animalSpecies)
             {
                 var animals = animalSpecie.Animals.Where(a => a.Status == true);
                 foreach (var animal in animals)
