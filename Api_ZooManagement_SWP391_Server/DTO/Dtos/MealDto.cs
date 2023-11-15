@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace DTO.Dtos
 {
-    public class CreateMealDto
+    public class MealDto
     {
+        public string MealId { get; set; }
         public string MealName { get; set; }
-        public List<FoodMealDto> FoodMeals {  get; set; }
+        public List<FoodMealDto> FoodMealDtos { get; set; } = new List<FoodMealDto>();
     }
 }

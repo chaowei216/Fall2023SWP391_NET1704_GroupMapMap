@@ -12,7 +12,6 @@ namespace DAL.Entities
         public string FoodId { get; set; }
         public double Quantity { get; set; }
         public string Unit { get; set; }
-
         public Meal Meal { get; set; }
         public Food Food { get; set; }
     }

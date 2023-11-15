@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BBL.Interfaces;
 using BLL.Interfaces;
 using DAL.Entities;
 using DTO.Dtos;
@@ -13,11 +14,25 @@ namespace Api_ZooManagement_SWP391.Controllers
     {
         private readonly IMealService _mealService;
         private readonly IMapper _mapper;
+        private readonly IFoodService _foodService;
 
-        public MealController(IMealService mealService, IMapper mapper)
+        public MealController(IMealService mealService, IMapper mapper, IFoodService foodService)
         {
             _mapper = mapper;
+            _foodService = foodService;
             _mealService = mealService;
+        }
+
+        [HttpGet("meal")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<MealDto>))]
+        public IActionResult GetMeal()
+        {
+            var meal = _mealService.GetMeals();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(meal);
         }
 
         [HttpPost]
@@ -27,28 +42,23 @@ namespace Api_ZooManagement_SWP391.Controllers
         {
             if (createMealDto == null) return BadRequest();
 
-            var meal = _mealService.GetMealById(createMealDto.MealId);
-
-            if(meal != null) return BadRequest("Meal already existed");
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var mealMap = _mapper.Map<Meal>(createMealDto);
 
-            int count = 0;
-            var meals = _mealService.GetMeals();
-            if (meals == null) count = 1;
-            else count = meals.Count() + 1;
+            int count = _mealService.CountMeal() + 1;
             var mealId = "ME" + count.ToString().PadLeft(4, '0');
 
             mealMap.MealId = mealId;
 
-            if(!_mealService.AddMeal(createMealDto.FoodMeals, meal))
+            if(!_mealService.AddMeal(createMealDto.FoodMeals, mealMap))
             {
-
+                ModelState.AddModelError("", "Something went wrong while saving");
+                return StatusCode(500, ModelState);
             }
-            return Ok();
+
+            return Ok("Create Successfully!!!");
         }
     }
 }

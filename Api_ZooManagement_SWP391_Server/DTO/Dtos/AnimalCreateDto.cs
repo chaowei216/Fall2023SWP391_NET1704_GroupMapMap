@@ -13,6 +13,6 @@
         public DateTime? StartTrainDate { get; set; }
         public string? AnimalImage { get; set; }
         public string SpeciesName { get; set; }
-        public List<AnimalFoodCreateDto> AnimalFoods { get; set; }
+        public List<CreateAnimalMealDto> AnimalMeals { get; set; }
     }
 }
