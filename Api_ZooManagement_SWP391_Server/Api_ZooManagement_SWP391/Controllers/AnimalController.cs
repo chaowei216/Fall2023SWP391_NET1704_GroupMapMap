@@ -122,7 +122,6 @@ namespace Api_ZooManagement_SWP391.Controllers
                 animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                 animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
-
                 
                 var meals = _mealService.GetAllMealsByAnimalId(animal.AnimalId);
                 if (meals != null)
@@ -136,9 +135,11 @@ namespace Api_ZooManagement_SWP391.Controllers
                         foreach (var f in fMeal) {
                             foreach (var food in foodMeal)
                             {
+                                
                                 f.FName = _foodService.GetByFoodId(food.FoodId).FName;
                                 animal.Meals.Add(new GetMealAnimalDto
                                 {
+                                    MealId = mealDetail.MealId,
                                     StartEat = meal.StartEat,
                                     MealName = mealDetail.MealName,
                                     EndEat = meal.EndEat,
@@ -214,6 +215,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                                     f.FName = _foodService.GetByFoodId(food.FoodId).FName;
                                     animal.Meals.Add(new GetMealAnimalDto
                                     {
+                                        MealId = mealDetail.MealId,
                                         StartEat = meal.StartEat,
                                         MealName = mealDetail.MealName,
                                         EndEat = meal.EndEat,

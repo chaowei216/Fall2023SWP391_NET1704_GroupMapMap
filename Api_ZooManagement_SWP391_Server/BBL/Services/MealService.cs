@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BBL.Services;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Repositories;
@@ -69,7 +70,7 @@ namespace BLL.Services
 
         public AnimalMeal? GetMealByAnimalId(string animalId)
         {
-            return _animalMealRepo.GetAll().SingleOrDefault(am => am.AnimalId == animalId && (am.EndEat == null && am.StartEat < DateTime.Now) || (am.EndEat > DateTime.Now && am.StartEat < DateTime.Now));
+            return _animalMealRepo.GetAll().SingleOrDefault(am => am.AnimalId == animalId && ((am.EndEat == null && am.StartEat < DateTime.Now) || (am.EndEat > DateTime.Now && am.StartEat < DateTime.Now)));
         }
 
         public Meal GetMealById(string mealId)
@@ -91,7 +92,12 @@ namespace BLL.Services
                     {
                         foreach (var fmeal in foodMeal)
                         {
+                            var foods = GetFoodsByMealId(fmeal.MealId);
+
                             var foodMealDetail = _mapper.Map<GetFoodMealDto>(fmeal);
+                            foreach (var food in foods) {
+                                foodMealDetail.FName = _foodRepo.GetById(food.FoodId).FName;
+                            }
                             mealDto.FoodMealDtos.Add(foodMealDetail);
                         }
                     }
