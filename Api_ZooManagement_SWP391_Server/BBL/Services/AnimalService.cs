@@ -14,7 +14,6 @@ namespace BBL.Services
         private readonly IGenericRepository<Food> _foodRepo;
         private readonly IGenericRepository<AnimalTrainer> _animalTrainerRepo;
         private readonly IGenericRepository<AnimalCage> _animalCageRepo;
-        //private readonly IGenericRepository<AnimalFood> _animalFoodRepo;
         private readonly IGenericRepository<AnimalSpecies> _animalSpeRepo;
 
         public AnimalService(IGenericRepository<Animal> animalRepo,
@@ -22,7 +21,6 @@ namespace BBL.Services
                              IGenericRepository<Cage> cageRepo, 
                              IGenericRepository<AnimalCage> animalCageRepo,
                              IGenericRepository<AnimalTrainer> animalTrainerRepo, 
-                             //IGenericRepository<AnimalFood> animalFoodRepo,
                              IGenericRepository<AnimalSpecies> animalSpeRepo,
                              IGenericRepository<Food> foodRepo)
         {
@@ -31,7 +29,6 @@ namespace BBL.Services
             _userRepo = userRepo;
             _animalCageRepo = animalCageRepo;
             _animalTrainerRepo = animalTrainerRepo;
-            //_animalFoodRepo = animalFoodRepo;
             _animalSpeRepo = animalSpeRepo;
             _foodRepo = foodRepo;
         }
@@ -76,6 +73,32 @@ namespace BBL.Services
                 foreach (var animal in animals)
                 {
                     var a = new GetAnimalDto();
+                    a.AnimalId = animal.AnimalId;
+                    a.AnimalImage = animal.AnimalImage;
+                    a.Birthday = animal.Birthday;
+                    a.Description = animal.Description;
+                    a.Name = animal.Name;
+                    a.Rarity = animal.Rarity;
+                    a.Region = animal.Region;
+                    a.Sex = animal.Sex;
+                    a.HealthCheck = animal.HealthCheck;
+                    a.SpeciesName = _animalSpeRepo.GetById(animal.SpeciesId).SpeciesName;
+                    a.Status = animal.Status;
+
+                    allAnimals.Add(a);
+                }
+            }
+            return allAnimals;
+        }
+        public ICollection<GetAnimalAllMealDto> GetAllAnimalWithMeals()
+        {
+            var animals = _animalRepo.GetAll().Where(a=>a.Status == true).ToList();
+            var allAnimals = new List<GetAnimalAllMealDto>();
+            if (animals != null && animals.Count > 0)
+            {
+                foreach (var animal in animals)
+                {
+                    var a = new GetAnimalAllMealDto();
                     a.AnimalId = animal.AnimalId;
                     a.AnimalImage = animal.AnimalImage;
                     a.Birthday = animal.Birthday;

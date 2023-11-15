@@ -15,7 +15,6 @@ namespace BBL.Services
 
     {
         private readonly IGenericRepository<Food> _foodRepository;
-        //private readonly IGenericRepository<AnimalFood> _animalFoodRepo;
         private readonly IGenericRepository<FoodCategory> _foodCategoryRepository;
         private readonly DataContext _context;
 
@@ -23,7 +22,6 @@ namespace BBL.Services
              DataContext context, IGenericRepository<FoodCategory> foodCategoryRepository)
         {
             _foodRepository = foodRepository;
-            //_animalFoodRepo = animalFoodRepo;
             _context = context;
             _foodCategoryRepository = foodCategoryRepository;
         }
@@ -57,6 +55,7 @@ namespace BBL.Services
                 f.FoodId = getFood.FoodId;
                 f.FName = getFood.FName;
                 f.Quantity = getFood.Quantity;
+                f.Unit = getFood.Unit;
                 f.ImportDate = getFood.ImportDate;
                 f.ExpiredDate = getFood.ExpiredDate;
                 var food = _foodCategoryRepository.GetById(getFood.CategoryId);
@@ -69,7 +68,6 @@ namespace BBL.Services
 
         public List<Animal> GetAnimalsByFoodId(string foodId)
         {
-            //var animals = _animalFoodRepo.GetAll().Where(e => e.FoodId == foodId).Select(a => a.Animal).ToList();
             List<Animal> animals = null;
             if (animals == null || animals.Count() == 0) return null;
             return animals;
@@ -93,16 +91,12 @@ namespace BBL.Services
             return null;
         }
 
-/*        public ICollection<AnimalFood> GetFoodsByAnimalId(string animalId)
-        {
-            return _animalFoodRepo.GetAll().Where(aniFood => aniFood.AnimalId == animalId).ToList();
-        }*/
-
         public bool UpdateFood(Food foodMap)
         {
             var food = _foodRepository.GetById(foodMap.FoodId);
             if (food == null) return false;
             food.FName = foodMap.FName;
+            food.Unit = foodMap.Unit;
             food.ImportDate = foodMap.ImportDate;
             food.ExpiredDate = foodMap.ExpiredDate;
             food.Quantity = foodMap.Quantity;          
