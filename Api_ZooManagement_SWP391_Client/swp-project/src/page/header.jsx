@@ -158,7 +158,7 @@ function Header(props) {
                               >
                                 <div className="p-img light-bg">
                                   <img
-                                    src="https://via.placeholder.com/75x75"
+                                    src="../../public/Adult_Ticket.png"
                                     alt="Product Image"
                                   />
                                 </div>
@@ -167,7 +167,7 @@ function Header(props) {
                                     {product.name}
                                   </h3>
                                   <p className="theme-clr font-semi-bold">
-                                    1 x ${product.price}
+                                    {product.quantity} x {product.price}
                                   </p>
                                 </div>
                                 <a href="" id={`cross${product.id}`}></a>

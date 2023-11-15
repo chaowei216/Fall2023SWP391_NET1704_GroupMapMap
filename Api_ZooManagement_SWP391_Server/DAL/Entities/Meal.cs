@@ -11,7 +11,7 @@ namespace DAL.Entities
         public string MealId { get; set; }
         public string MealName { get; set; }
 
-        public ICollection<SpeciesMeal> SpeciesMeals { get; set; }
+        public ICollection<AnimalMeal> AnimalMeals { get; set; }
         public ICollection<FoodMeal> FoodMeals { get; set; }
     }
 }

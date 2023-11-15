@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 function Info() {
   const [formData, setFormData] = useState({
@@ -23,7 +24,13 @@ function Info() {
         "https://localhost:44352/api/Review",
         formData
       );
-      window.location.reload();
+      if (res.status == 200) {
+        toast("submit success");
+      }
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+
       console.log(res);
     } catch (error) {
       console.log(error);

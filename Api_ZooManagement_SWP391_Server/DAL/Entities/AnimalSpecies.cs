@@ -11,6 +11,5 @@ namespace DAL.Entities
         public string SpeciesId { get; set; }
         public string SpeciesName { get; set; }
         public ICollection<Animal> Animals { get; set; }
-        public ICollection<SpeciesMeal> SpeciesMeals { get; set; }
     }
 }

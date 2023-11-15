@@ -14,7 +14,7 @@ namespace DAL.Data
         #region Entities
         public DbSet<ExperienceDetail> ExperienceDetails { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
-        public DbSet<SpeciesMeal> SpeciesMeals { get; set; }
+        public DbSet<AnimalMeal> AnimalMeals { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<FoodMeal> FoodMeals { get; set; }
         public DbSet<AnimalSchedule> AnimalSchedules { get; set; }
@@ -211,7 +211,7 @@ namespace DAL.Data
                 entity.Property(ash => ash.IsDone).IsRequired();
             });
 
-            modelBuilder.Entity<SpeciesMeal>(entity =>
+            modelBuilder.Entity<AnimalMeal>(entity =>
             {
                 entity.Property(sm => sm.StartEat).IsRequired();
                 entity.Property(sm => sm.EndEat).IsRequired();
@@ -264,15 +264,15 @@ namespace DAL.Data
                 .WithMany(e => e.AnimalSchedules)
                 .HasForeignKey(e => e.ScheduleId);
 
-            modelBuilder.Entity<SpeciesMeal>()
-                .HasKey(af => new { af.SpeciesId, af.MealId });
-            modelBuilder.Entity<SpeciesMeal>()
-                .HasOne(af => af.AnimalSpecies)
-                .WithMany(af => af.SpeciesMeals)
-                .HasForeignKey(af => af.SpeciesId);
-            modelBuilder.Entity<SpeciesMeal>()
+            modelBuilder.Entity<AnimalMeal>()
+                .HasKey(af => new { af.AnimalId, af.MealId });
+            modelBuilder.Entity<AnimalMeal>()
+                .HasOne(af => af.Animal)
+                .WithMany(af => af.AnimalMeals)
+                .HasForeignKey(af => af.AnimalId);
+            modelBuilder.Entity<AnimalMeal>()
                 .HasOne(af => af.Meal)
-                .WithMany(af => af.SpeciesMeals)
+                .WithMany(af => af.AnimalMeals)
                 .HasForeignKey(af => af.MealId);
 
             modelBuilder.Entity<FoodMeal>()
