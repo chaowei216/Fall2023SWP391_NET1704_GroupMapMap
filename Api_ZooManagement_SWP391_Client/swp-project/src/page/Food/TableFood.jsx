@@ -238,7 +238,7 @@ function TableFood() {
           </div>
         </div>
         <div className="table-content">
-          <Table size="100px" hover>
+          <Table size="100px" hover striped bordered style={{verticalAlign: "middle", textAlign: "center"}}>
             <thead className="table-dark">
               <tr>
                 <th>Food ID</th>
@@ -258,7 +258,7 @@ function TableFood() {
                       <td>{items.fName}</td>
                       <td>{items.quantity}</td>
                       <td>{items.categoryName}</td>
-                      <td style={{ width: "208px", textAlign: "center" }}>
+                      <td style={{ width: "240px", textAlign: "center" }}>
                         {role && role === "ZOOTRAINER" && (
                           <Button
                             variant="text"
