@@ -50,7 +50,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             _foodCategoryService = foodCategoryService;
             _mealService = mealService;
         }
-        /*
+        
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetAnimalDto>))]
         [ProducesResponseType(400)]
@@ -107,7 +107,7 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             return Ok(animals);
         }
-        */
+        
         [HttpGet("allMeal")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetAnimalAllMealDto>))]
         [ProducesResponseType(400)]
