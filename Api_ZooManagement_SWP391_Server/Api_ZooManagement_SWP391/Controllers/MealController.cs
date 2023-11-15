@@ -86,5 +86,15 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             return Ok("Create Successfully!!!");
         }
+
+        [HttpPut("{mealId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateMeal(string mealId)
+        {
+
+            return Ok("Update successfully!!!");
+        }
     }
 }
