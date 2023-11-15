@@ -15,7 +15,8 @@ import {
 import React, { useState, useEffect } from "react";
 import "../../assets/css/dashboard.css";
 import Password from "antd/es/input/Password";
-import { DatePicker, Empty, Radio, Select, Space } from "antd";
+import { DatePicker, Empty, Radio, Space } from "antd";
+import Select from "react-select";
 const { RangePicker } = DatePicker;
 import { Formik, useFormik, Field, useFormikContext } from "formik";
 import FormList from "antd/es/form/FormList";
@@ -61,10 +62,7 @@ function AddAnimal(pros) {
   const [selectedHealthCheck, setSelectedHealthCheck] = useState("Good");
   const [selectedCage, setSelectedCage] = useState();
   const addField = () => {
-    setFields([
-      ...fields,
-      { mealId: "", startEat: "", endEat: ""},
-    ]);
+    setFields([...fields, { mealId: "", startEat: "", endEat: "" }]);
   };
   const removeField = (index) => {
     setFields(fields.filter((_, i) => i !== index));
@@ -232,6 +230,11 @@ function AddAnimal(pros) {
     }
   };
   const a = "huhu";
+  const [searchValue, setSearchValue] = useState("");
+  const handleSearch = (e) => {
+    setSearchValue(e.target.value);
+  };
+
   return (
     <>
       <MDBModal staticBackdrop tabIndex="-1" show={show} onHide={handleClose}>
@@ -531,7 +534,10 @@ function AddAnimal(pros) {
                                     value={values.healthCheck}
                                     style={{ height: "45px", width: "28%" }}
                                     onChange={(e) => {
-                                      setFieldValue("healthCheck", e.target.value);
+                                      setFieldValue(
+                                        "healthCheck",
+                                        e.target.value
+                                      );
                                       setSelectedHealthCheck(e.target.value);
                                     }}
                                   >
@@ -539,7 +545,9 @@ function AddAnimal(pros) {
                                       <div style={{ height: "50px" }}>Good</div>
                                     </option>
                                     <option value="Sickness">
-                                      <div style={{ height: "50px" }}>Sickness</div>
+                                      <div style={{ height: "50px" }}>
+                                        Sickness
+                                      </div>
                                     </option>
                                   </Form.Select>
                                 )}
@@ -716,48 +724,69 @@ function AddAnimal(pros) {
                                   style={{
                                     display: "flex",
                                     justifyContent: "space-between",
-                                    width: "95%",
+                                    width: "100%",
                                   }}
                                   className="mb-3"
                                 >
                                   <div
                                     style={{
-                                      width: "30%",
+                                      width: "35%",
                                       marginRight: "20px",
                                     }}
                                   >
                                     <label className="form-label">
                                       Choose Meal For Animal
                                     </label>
-                                    <Field
-                                      name={`fields[${index}].mealId`}
-                                    // as="select"
-                                    // onChange={(e) => handleChange(e.target.value)}
-                                    >
-                                      {({ field, form }) => (
-                                        <Form.Select
-                                          {...field}
-                                          value={field.foodId}
-                                          placeholder="Chọn món ăn"
-                                          onChange={(event) =>
-                                            handleFoodSelect(event, field, form)
-                                          }
-                                        >
-                                          <option value="">Choose Meal</option>
-                                          {options.map((option) => (
-                                            <option
-                                              key={option.mealId}
-                                              value={option.mealId}
-                                              disabled={selectedFoodIds.includes(
-                                                option.mealId
-                                              )}
-                                            >
-                                              {option.mealName}
-                                            </option>
-                                          ))}
-                                        </Form.Select>
-                                      )}
-                                    </Field>
+                                    <div style={{display: "flex"}}>
+                                    <div className="mb-2" style={{ width: "20%",marginRight: "15px" }}>
+                                      <Form.Control
+                                        value={searchValue}
+                                        onChange={handleSearch}
+                                      />
+                                    </div>
+                                    <div style={{width: "80%"}}>
+                                      <Field
+                                        name={`fields[${index}].mealId`}
+                                        // as="select"
+                                        // onChange={(e) => handleChange(e.target.value)}
+                                      >
+                                        {({ field, form }) => (
+                                          <Form.Select
+                                            {...field}
+                                            value={field.foodId}
+                                            placeholder="Chọn món ăn"
+                                            onChange={(event) =>
+                                              handleFoodSelect(
+                                                event,
+                                                field,
+                                                form
+                                              )
+                                            }
+                                          >
+                                            {options
+                                              .filter((option) =>
+                                                option.mealName
+                                                  .toUpperCase()
+                                                  .includes(
+                                                    searchValue.toUpperCase()
+                                                  )
+                                              )
+                                              .map((option) => (
+                                                <option
+                                                  key={option.mealId}
+                                                  value={option.mealId}
+                                                  disabled={selectedFoodIds.includes(
+                                                    option.mealId
+                                                  )}
+                                                >
+                                                  {option.mealName}
+                                                </option>
+                                              ))}
+                                          </Form.Select>
+                                        )}
+                                      </Field>
+                                    </div>
+                                    </div>
                                   </div>
                                   <div
                                     style={{
@@ -771,15 +800,14 @@ function AddAnimal(pros) {
                                     <Field
                                       name={`fields[${index}].startEat`}
                                       component="input"
-                                      style={{width: "100%"}}
-                                      
+                                      style={{ width: "100%" }}
                                       type="date"
                                       placeholder="Enter time to feed animal"
                                       className="control-field"
-                                    // `style={{
-                                    //   width: "30%",
-                                    //   marginRight: "20px",
-                                    // }}`
+                                      // `style={{
+                                      //   width: "30%",
+                                      //   marginRight: "20px",
+                                      // }}`
                                     />
                                   </div>
                                   <div
@@ -792,7 +820,7 @@ function AddAnimal(pros) {
                                       Choose End Eat
                                     </label>
                                     <Field
-                                      style={{width: "100%"}}
+                                      style={{ width: "100%" }}
                                       name={`fields[${index}].endEat`}
                                       component="input"
                                       type="date"
