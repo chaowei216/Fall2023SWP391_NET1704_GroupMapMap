@@ -16,7 +16,7 @@ namespace BLL.Interfaces
         bool UpdateMeal(Meal meal);
         bool DeleteMeal(string mealId);
         int CountMeal();
-        AnimalMeal GetMealByAnimalId(string animalId);
+        AnimalMeal? GetMealByAnimalId(string animalId);
         ICollection<AnimalMeal> GetMealsByAnimalId(string animalId);
         ICollection<AnimalMeal> GetAllMealsByAnimalId(string animalId);
         ICollection<FoodMeal> GetFoodsByMealId(string mealId);

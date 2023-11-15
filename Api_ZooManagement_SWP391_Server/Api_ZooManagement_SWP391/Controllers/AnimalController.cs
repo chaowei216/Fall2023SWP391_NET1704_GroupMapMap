@@ -69,6 +69,23 @@ namespace Api_ZooManagement_SWP391.Controllers
                 animal.StartEat = _mealService.GetMealByAnimalId(animal.AnimalId).StartEat;
                 animal.EndEat = _mealService.GetMealByAnimalId(animal.AnimalId).EndEat;
 
+                var meals = _mealService.GetMealsByAnimalId(animal.AnimalId);
+                foreach (var meal in meals)
+                {
+
+                    var foodMeals = _mealService.GetFoodsByMealId(meal.MealId);
+                    var foodMeal = _mealService.GetFoodsByMealId(meal.MealId);
+                    var fMeal = _mapper.Map<List<GetFoodMealDto>>(_mealService.GetFoodsByMealId(meal.MealId));
+                    foreach (var f in fMeal)
+                    {
+                        foreach (var food in foodMeal)
+                        {
+                            f.FName = _foodService.GetByFoodId(food.FoodId).FName;
+                        }
+                    }
+                    animal.FoodMealDtos = fMeal;
+                }
+
                 var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                 if (schedules != null)
                 {
@@ -110,17 +127,25 @@ namespace Api_ZooManagement_SWP391.Controllers
                 var meals = _mealService.GetAllMealsByAnimalId(animal.AnimalId);
                 if (meals != null)
                 {
-                    animal.Meals = new List<MealDto>();
+                    animal.Meals = new List<GetMealAnimalDto>();
                     foreach (var meal in meals)
                     {
-                        var fMeal = _mapper.Map<List<FoodMealDto>>(_mealService.GetFoodsByMealId(meal.MealId).ToList());
+                        var fMeal = _mapper.Map<List<GetFoodMealDto>>(_mealService.GetFoodsByMealId(meal.MealId));
+                        var foodMeal = _mealService.GetFoodsByMealId(meal.MealId);
                         var mealDetail = _mealService.GetMealById(meal.MealId);
-                        animal.Meals.Add(new MealDto
-                        {
-                            MealId = meal.MealId,
-                            MealName = mealDetail.MealName,
-                            FoodMealDtos = fMeal,
-                        });
+                        foreach (var f in fMeal) {
+                            foreach (var food in foodMeal)
+                            {
+                                f.FName = _foodService.GetByFoodId(food.FoodId).FName;
+                                animal.Meals.Add(new GetMealAnimalDto
+                                {
+                                    StartEat = meal.StartEat,
+                                    MealName = mealDetail.MealName,
+                                    EndEat = meal.EndEat,
+                                    FoodMealDtos = fMeal
+                                });
+                            }
+                        }
                     }
                 }
 
@@ -176,17 +201,26 @@ namespace Api_ZooManagement_SWP391.Controllers
                     var meals = _mealService.GetAllMealsByAnimalId(animal.AnimalId);
                     if (meals != null)
                     {
-                        animal.Meals = new List<MealDto>();
+                        animal.Meals = new List<GetMealAnimalDto>();
                         foreach (var meal in meals)
                         {
-                            var fMeal = _mapper.Map<List<FoodMealDto>>(_mealService.GetFoodsByMealId(meal.MealId).ToList());
+                            var fMeal = _mapper.Map<List<GetFoodMealDto>>(_mealService.GetFoodsByMealId(meal.MealId));
+                            var foodMeal = _mealService.GetFoodsByMealId(meal.MealId);
                             var mealDetail = _mealService.GetMealById(meal.MealId);
-                            animal.Meals.Add(new MealDto
+                            foreach (var f in fMeal)
                             {
-                                MealId = meal.MealId,
-                                MealName = mealDetail.MealName,
-                                FoodMealDtos = fMeal,
-                            });
+                                foreach (var food in foodMeal)
+                                {
+                                    f.FName = _foodService.GetByFoodId(food.FoodId).FName;
+                                    animal.Meals.Add(new GetMealAnimalDto
+                                    {
+                                        StartEat = meal.StartEat,
+                                        MealName = mealDetail.MealName,
+                                        EndEat = meal.EndEat,
+                                        FoodMealDtos = fMeal
+                                    });
+                                }
+                            }
                         }
                     }
 

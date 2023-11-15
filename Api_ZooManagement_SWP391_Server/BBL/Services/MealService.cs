@@ -67,7 +67,7 @@ namespace BLL.Services
             return _animalMealRepo.GetAll().ToList();
         }
 
-        public AnimalMeal GetMealByAnimalId(string animalId)
+        public AnimalMeal? GetMealByAnimalId(string animalId)
         {
             return _animalMealRepo.GetAll().SingleOrDefault(am => am.AnimalId == animalId && (am.EndEat == null && am.StartEat < DateTime.Now) || (am.EndEat > DateTime.Now && am.StartEat < DateTime.Now));
         }
@@ -91,7 +91,7 @@ namespace BLL.Services
                     {
                         foreach (var fmeal in foodMeal)
                         {
-                            var foodMealDetail = _mapper.Map<FoodMealDto>(fmeal);
+                            var foodMealDetail = _mapper.Map<GetFoodMealDto>(fmeal);
                             mealDto.FoodMealDtos.Add(foodMealDetail);
                         }
                     }

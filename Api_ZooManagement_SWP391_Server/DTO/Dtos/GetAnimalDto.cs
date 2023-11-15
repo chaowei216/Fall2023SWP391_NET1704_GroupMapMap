@@ -23,5 +23,6 @@
         public string SpeciesName { get; set; }
         public bool Status { get; set; }
         public List<GetAnimalScheduleDto> Schedules { get; set; }
+        public List<GetFoodMealDto> FoodMealDtos { get; set; } = new List<GetFoodMealDto>();
     }
 }
