@@ -11,7 +11,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ReactPaginate from "react-paginate";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { colors } from "@mui/material";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -30,6 +30,7 @@ function TableStaff() {
   }, []);
   const [dataUserEdit, setDataUserEdit] = useState({});
   const [dataUserView, setDataUserView] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
   const [showModalEdit, setShowmodalEdit] = useState(false);
   const [dataUserDelete, setDataUserDelete] = useState({});
   const [showModalDelete, setShowmodalDelete] = useState(false);
@@ -72,6 +73,7 @@ function TableStaff() {
     const user = item;
     setDataUserDelete(user);
     setShowmodalDelete(true);
+
   };
   // const email = localStorage.getItem("email");
   // const zooTrainerList = users.filter((user) => user.role === 3);
@@ -140,6 +142,34 @@ function TableStaff() {
       return () => (mounted = false);
     }
   }, 350);
+  // const email = localStorage.getItem('email');
+  // useEffect(() => {
+  //   const checkUser = async () => {
+  //     const getUsers = () => {
+  //       return fetch(
+  //         `https://localhost:44352/api/User/users/${email}`
+  //       ).then((data) => data.json());
+  //     };
+  //     let mounted = true;
+  //     getUsers().then((items) => {
+  //       if (mounted) {
+  //         setCurrentUser(items);
+  //       }
+  //     });
+  //     return () => (mounted = false);
+  //   }
+
+  //   checkUser();
+
+  //   const interval = setInterval(checkUser, 2000);
+
+  //   return () => clearInterval(interval);
+
+  // }, [currentUser.status])
+  // if (!currentUser.status) {
+  //   navigate('/login')
+  // };
+
   return (
     <div className="table-container">
       <div className="table-component">
@@ -167,10 +197,10 @@ function TableStaff() {
           </div>
         </div>
         <div className="table-content">
-          <Table size="100px" hover>
-            <thead className="table-dark">
+          <Table size="100px" hover striped bordered style={{ verticalAlign: "middle" }}>
+            <thead className="table-dark" style={{ textAlign: "center" }}>
               <tr>
-                <th>Imgae</th>
+                <th>Image</th>
                 <th>ID</th>
                 <th>Email</th>
                 <th>Role</th>
@@ -185,7 +215,7 @@ function TableStaff() {
                   return (
                     <tr
                       key={`user-${index}`}
-                      style={{ verticalAlign: "middle" }}
+                      style={{ verticalAlign: "middle", textAlign: "center" }}
                     >
                       <td width={130}>
                         {" "}
@@ -207,7 +237,7 @@ function TableStaff() {
                       <td>{item.email}</td>
                       <td>{item.role === 2 ? "Staff" : "ZooTrainer"}</td>
                       <td>{item.firstname + " " + item.lastname}</td>
-                      <td style={{ width: "13rem" }}>
+                      <td style={{ width: "17rem", textAlign: "center" }}>
                         <Button
                           variant="text"
                           style={{ padding: 0 }}

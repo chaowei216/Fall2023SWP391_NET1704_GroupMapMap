@@ -4,15 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Entities
+namespace DTO.Dtos
 {
-    public class AnimalMeal
+    public class UpdateAnimalMealDto
     {
         public string MealId { get; set; }
-        public string AnimalId { get; set; }
         public DateTime StartEat { get; set; }
         public DateTime? EndEat { get; set; }
-        public Animal Animal { get; set; }
-        public Meal Meal { get; set; }
     }
 }

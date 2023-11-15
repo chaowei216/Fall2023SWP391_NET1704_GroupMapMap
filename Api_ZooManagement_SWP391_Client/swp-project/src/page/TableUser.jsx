@@ -22,6 +22,8 @@ import ViewUser from "./User/ViewUser";
 import _ from "lodash";
 import { debounce } from "lodash";
 import DeleteUser from "./User/DeleteUser";
+
+
 function TableUser() {
   // const [isAdded, setIsAdded] = useState(
   //   localStorage.getItem("isAdded") === "true"
@@ -37,7 +39,7 @@ function TableUser() {
   const [dataUserEdit, setDataUserEdit] = useState({});
   const [dataUserView, setDataUserView] = useState({});
   const [dataUserDelete, setDataUserDelete] = useState({});
-
+  const [currentUser, setCurrentUser] = useState({});
   const [showModalEdit, setShowmodalEdit] = useState(false);
   const [showModalView, setShowmodalView] = useState(false);
   const [showModalDelete, setShowmodalDelete] = useState(false);
@@ -70,7 +72,7 @@ function TableUser() {
   //   return axios.get("https://reqres.in/api/users?page=2");
   //   // return axios.get("https://localhost:44352/api/User/users");
   // };
-  const handlePageClick = () => {};
+  const handlePageClick = () => { };
   const handleEditUser = (item) => {
     // setDataUserEdit(item);
     console.log(item);
@@ -141,6 +143,8 @@ function TableUser() {
       return () => (mounted = false);
     }
   }, 350);
+
+
   return (
     <div className="table-container">
       <div className="table-component">
@@ -267,7 +271,7 @@ function TableUser() {
         handleClose={handleClose}
         dataUserDelete={dataUserDelete}
       />
-     
+
     </div>
   );
 }

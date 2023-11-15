@@ -1,4 +1,5 @@
 ﻿using DAL.Entities;
+using DTO.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,15 @@ namespace BLL.Interfaces
     public interface IMealService
     {
         Meal GetMealById(string mealId);
-        ICollection<Meal> GetMeals();
-        bool AddMeal(Meal meal);
+        ICollection<MealDto> GetMeals();
+        bool AddMeal(List<FoodMealDto> foodMeals, Meal meal);
         bool UpdateMeal(Meal meal);
         bool DeleteMeal(string mealId);
+        int CountMeal();
+        AnimalMeal? GetMealByAnimalId(string animalId);
+        ICollection<AnimalMeal> GetMealsByAnimalId(string animalId);
+        ICollection<AnimalMeal> GetAllMealsByAnimalId(string animalId);
+        ICollection<FoodMeal> GetFoodsByMealId(string mealId);
+        ICollection<GetMealAnimalDto> GetOldMeal(string animalId);
     }
 }

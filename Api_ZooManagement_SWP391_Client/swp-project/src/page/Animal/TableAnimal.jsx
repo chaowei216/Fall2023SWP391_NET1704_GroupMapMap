@@ -297,8 +297,8 @@ function TableAnimal() {
           </div>
         </div>
         <div className="table-content">
-          <Table size="100px" hover>
-            <thead className="table-dark">
+          <Table size="100px" hover striped bordered>
+            <thead className="table-dark" style={{textAlign: "center"}}>
               <tr>
                 <th>Image</th>
                 <th>ID</th>
@@ -309,17 +309,17 @@ function TableAnimal() {
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
             </thead>
-            <tbody style={{ verticalAlign: "middle" }}>
+            <tbody style={{ verticalAlign: "middle", textAlign: "center" }}>
               {listAnimal &&
                 listAnimal.length > 0 &&
                 listAnimal.map((items, index) => {
                   return (
                     <tr key={`animal-${index}`}>
-                      <td width={140}>
+                      <td width={140} height={130}>
                         {" "}
                         <img
                           className="rounded"
-                          style={{ width: "100%" }}
+                          style={{ width: "100%", maxHeight: "95px" }}
                           src={
                             "/" +
                             items.animalImage.substring(

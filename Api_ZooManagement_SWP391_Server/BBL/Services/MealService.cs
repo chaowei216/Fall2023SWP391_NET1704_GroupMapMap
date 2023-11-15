@@ -1,6 +1,10 @@
-﻿using BLL.Interfaces;
+﻿using AutoMapper;
+using BBL.Interfaces;
+using BBL.Services;
+using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Repositories;
+using DTO.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,34 +16,140 @@ namespace BLL.Services
     public class MealService : IMealService
     {
         private readonly IGenericRepository<Meal> _mealRepo;
-
-        public MealService(IGenericRepository<Meal> mealRepo)
+        private readonly IGenericRepository<Food> _foodRepo;
+        private readonly IGenericRepository<FoodMeal> _foodMealRepo;
+        private readonly IGenericRepository<AnimalMeal> _animalMealRepo;
+        private readonly IMapper _mapper;
+        public MealService(IGenericRepository<Meal> mealRepo, IGenericRepository<Food> foodRepo, IGenericRepository<FoodMeal> foodMealRepo, IMapper mapper, IGenericRepository<AnimalMeal> animalMealRepo)
         {
             _mealRepo = mealRepo;
+            _foodRepo = foodRepo;
+            _animalMealRepo = animalMealRepo;
+            _foodMealRepo = foodMealRepo;
+            _mapper = mapper;
         }
-        public bool AddMeal(Meal meal)
+        public bool AddMeal(List<FoodMealDto> foodMeals, Meal meal)
         {
-            throw new NotImplementedException();
+            if (_mealRepo.Add(meal))
+            {
+                if (foodMeals != null && foodMeals.Count() > 0)
+                {
+                    foreach (var foodMeal in foodMeals)
+                    {
+                        var food = _foodRepo.GetById(foodMeal.FoodId);
+                        if (food == null) return false;
+                        FoodMeal fMeal = new FoodMeal
+                        {
+                            Meal = meal,
+                            Food = food,
+                            Quantity = foodMeal.Quantity,
+                            Unit = foodMeal.Unit
+                        };
+                        _foodMealRepo.Add(fMeal);
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public int CountMeal()
+        {
+            return _mealRepo.GetAll().ToList().Count();
         }
 
         public bool DeleteMeal(string mealId)
         {
-            throw new NotImplementedException();
+            var meal = _mealRepo.GetById(mealId);
+            return _mealRepo.Delete(meal);
+        }
+
+        public ICollection<AnimalMeal> GetAllMealsByAnimalId(string animalId)
+        {
+            return _animalMealRepo.GetAll().Where(am => am.AnimalId == animalId).ToList();
+        }
+
+        public AnimalMeal? GetMealByAnimalId(string animalId)
+        {
+            return _animalMealRepo.GetAll().SingleOrDefault(am => am.AnimalId == animalId && ((am.EndEat == null && am.StartEat < DateTime.Now) || (am.EndEat > DateTime.Now && am.StartEat < DateTime.Now)));
         }
 
         public Meal GetMealById(string mealId)
         {
-            throw new NotImplementedException();
+            return _mealRepo.GetById(mealId);
         }
 
-        public ICollection<Meal> GetMeals()
+        public ICollection<MealDto> GetMeals()
         {
-            return _mealRepo.GetAll().ToList();
+            var meals = _mealRepo.GetAll().ToList();
+            var allMeals = new List<MealDto>();
+            if (meals != null && meals.Count > 0)
+            {
+                foreach (var meal in meals)
+                {
+                    var mealDto = _mapper.Map<MealDto>(meal);
+                    var foodMeal = _foodMealRepo.GetAll().Where(ex => ex.MealId == meal.MealId).ToList();
+                    if (foodMeal != null && foodMeal.Count > 0)
+                    {
+                        foreach (var fmeal in foodMeal)
+                        {
+                            var foods = GetFoodsByMealId(fmeal.MealId);
+
+                            var foodMealDetail = _mapper.Map<GetFoodMealDto>(fmeal);
+                            foreach (var food in foods)
+                            {
+                                foodMealDetail.FName = _foodRepo.GetById(food.FoodId).FName;
+                            }
+                            mealDto.FoodMealDtos.Add(foodMealDetail);
+                        }
+                    }
+                    allMeals.Add(mealDto);
+                }
+            }
+            return allMeals;
+        }
+
+        public ICollection<FoodMeal> GetFoodsByMealId(string mealId)
+        {
+            return _foodMealRepo.GetAll().Where(fm => fm.MealId == mealId).ToList();
+        }
+        public ICollection<AnimalMeal> GetMealsByAnimalId(string animalId)
+        {
+            return _animalMealRepo.GetAll().Where(a => a.AnimalId == animalId).ToList();
         }
 
         public bool UpdateMeal(Meal meal)
         {
-            throw new NotImplementedException();
+            return _mealRepo.Update(meal);
+        }
+
+        public ICollection<GetMealAnimalDto> GetOldMeal(string animalId)
+        {
+            var animalMeals = _animalMealRepo.GetAll().Where(am => am.AnimalId == animalId && am.EndEat < DateTime.Now).ToList();
+            var meals = new List<GetMealAnimalDto>();
+            if (animalMeals != null)
+            {
+                foreach (var animalMeal in animalMeals)
+                {
+                    var fMeal = _mapper.Map<List<GetFoodMealDto>>(GetFoodsByMealId(animalMeal.MealId));
+                    var foodMeal = GetFoodsByMealId(animalMeal.MealId);
+                    foreach (var f in fMeal)
+                    {
+                        foreach (var food in foodMeal)
+                        {
+                            f.FName = _foodRepo.GetById(food.FoodId).FName;
+                        }
+                    }
+                    var meal = new GetMealAnimalDto();
+                    meal.MealId = animalMeal.MealId;
+                    meal.MealName = GetMealById(animalMeal.MealId).MealName;
+                    meal.StartEat = animalMeal.StartEat;
+                    meal.EndEat = animalMeal.EndEat;
+                    meal.FoodMealDtos = fMeal;
+                    meals.Add(meal);
+                }
+            }
+            return meals;
         }
     }
 }

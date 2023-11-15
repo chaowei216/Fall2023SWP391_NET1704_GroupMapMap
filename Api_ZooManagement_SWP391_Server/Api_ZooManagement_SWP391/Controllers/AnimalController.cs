@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using System.Globalization;
+using BLL.Interfaces;
 
 namespace Api_ZooManagement_SWP391.Controllers
 {
@@ -25,8 +26,9 @@ namespace Api_ZooManagement_SWP391.Controllers
         private readonly IAnimalScheduleService _animalScheduleService;
         private readonly IAnimalSpeciesService _animalSpeciesService;
         private readonly IFoodCategoryService _foodCategoryService;
+        private readonly IMealService _mealService;
 
-        public AnimalController(IMapper mapper, 
+        public AnimalController(IMapper mapper,
                                 IAnimalService animalService,
                                 ICageService cageService,
                                 IUserService userService,
@@ -34,7 +36,8 @@ namespace Api_ZooManagement_SWP391.Controllers
                                 IScheduleService scheduleService,
                                 IAnimalScheduleService animalScheduleService,
                                 IAnimalSpeciesService animalSpeciesService,
-                                IFoodCategoryService foodCategoryService)
+                                IFoodCategoryService foodCategoryService,
+                                IMealService mealService)
         {
             _animalService = animalService;
             _mapper = mapper;
@@ -45,6 +48,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             _animalScheduleService = animalScheduleService;
             _animalSpeciesService = animalSpeciesService;
             _foodCategoryService = foodCategoryService;
+            _mealService = mealService;
         }
 
         [HttpGet]
@@ -61,26 +65,94 @@ namespace Api_ZooManagement_SWP391.Controllers
                 animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                 animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
-                //var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
-                
-                /*if (foods != null && foods.Count > 0)
+                var getMeal = _mealService.GetMealByAnimalId(animal.AnimalId);
+                if (getMeal == null) return BadRequest("Some animals don't have meal!!! Check again!!!");
+                if (getMeal != null)
                 {
-                    animal.Foods = new List<FoodAmountDto>();
-                    foreach (var food in foods)
+                    animal.MealId = getMeal.MealId;
+                    animal.StartEat = getMeal.StartEat;
+                    animal.EndEat = getMeal.EndEat;
+                }
+
+                var meals = _mealService.GetMealsByAnimalId(animal.AnimalId);
+                var foodMeals = _mealService.GetFoodsByMealId(getMeal.MealId);
+                var foodMeal = _mealService.GetFoodsByMealId(getMeal.MealId);
+                var fMeal = _mapper.Map<List<GetFoodMealDto>>(_mealService.GetFoodsByMealId(getMeal.MealId));
+                foreach (var f in fMeal)
+                {
+                    foreach (var food in foodMeal)
                     {
-                        var foodDetail = _foodService.GetByFoodId(food.FoodId);
-                        var foodCate = _foodService.GetByFoodId(food.FoodId).CategoryId;
-                        animal.Foods.Add(new FoodAmountDto
+                        f.FName = _foodService.GetByFoodId(f.FoodId).FName;
+                    }
+                }
+                animal.FoodMealDtos = fMeal;
+
+
+                var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
+                if (schedules != null)
+                {
+                    animal.Schedules = new List<GetAnimalScheduleDto>();
+                    foreach (var schedule in schedules)
+                    {
+                        var scheduleDetail = _scheduleService.GetSchedule(schedule.ScheduleId);
+                        animal.Schedules.Add(new GetAnimalScheduleDto
                         {
-                            FoodId = food.FoodId,
-                            FName = foodDetail.FName,
-                            CategoryName = _foodCategoryService.GetByCateId(foodCate).CategoryName,
-                            Amount = food.Amount,
-                            StartEat = food.StartEat,
-                            EndEat = food.EndEat,
+                            ScheduleId = schedule.ScheduleId,
+                            ScheduleName = scheduleDetail.ScheduleName,
+                            Description = schedule.Description,
+                            Time = schedule.Time,
+                            IsDone = schedule.IsDone,
                         });
                     }
-                }*/
+                }
+            }
+
+            return Ok(animals);
+        }
+
+        [HttpGet("allMeal")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAnimalAllMealDto>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetAllAnimalWithAllMeals()
+        {
+            var animals = _animalService.GetAllAnimalWithMeals().ToList();
+            foreach (var animal in animals)
+            {
+                animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;
+                animal.EntryCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).EntryCageDate;
+                animal.OutCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).OutCageDate;
+                animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
+                animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
+                animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
+
+                var meals = _mealService.GetAllMealsByAnimalId(animal.AnimalId);
+                if (meals != null)
+                {
+                    animal.Meals = new List<GetMealAnimalDto>();
+                    foreach (var meal in meals)
+                    {
+                        var fMeal = _mapper.Map<List<GetFoodMealDto>>(_mealService.GetFoodsByMealId(meal.MealId));
+                        var foodMeal = _mealService.GetFoodsByMealId(meal.MealId);
+                        var mealDetail = _mealService.GetMealById(meal.MealId);
+                        foreach (var f in fMeal)
+                        {
+                            foreach (var food in foodMeal)
+                            {
+                                f.FName = _foodService.GetByFoodId(f.FoodId).FName;
+
+                            }
+
+                        }
+                        animal.Meals.Add(new GetMealAnimalDto
+                        {
+                            MealId = mealDetail.MealId,
+                            StartEat = meal.StartEat,
+                            MealName = mealDetail.MealName,
+                            EndEat = meal.EndEat,
+                            FoodMealDtos = fMeal
+                        });
+                    }
+                }
 
                 var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                 if (schedules != null)
@@ -116,7 +188,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetAnimals(int page)
         {
-            var animals = _animalService.GetAllActive();
+            var animals = _animalService.GetAllAnimalWithMeals().ToList();
 
             var pageResults = 10f;
             var pageCount = Math.Ceiling(animals.Count() / pageResults);
@@ -130,25 +202,35 @@ namespace Api_ZooManagement_SWP391.Controllers
                     animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                     animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                     animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
-                    //var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
-                    /*if (foods != null && foods.Count > 0)
+
+                    var meals = _mealService.GetAllMealsByAnimalId(animal.AnimalId);
+                    if (meals != null)
                     {
-                        animal.Foods = new List<FoodAmountDto>();
-                        foreach (var food in foods)
+                        animal.Meals = new List<GetMealAnimalDto>();
+                        foreach (var meal in meals)
                         {
-                            var foodDetail = _foodService.GetByFoodId(food.FoodId);
-                            var foodCate = _foodService.GetByFoodId(food.FoodId).CategoryId;
-                            animal.Foods.Add(new FoodAmountDto
+                            var fMeal = _mapper.Map<List<GetFoodMealDto>>(_mealService.GetFoodsByMealId(meal.MealId));
+                            var foodMeal = _mealService.GetFoodsByMealId(meal.MealId);
+                            var mealDetail = _mealService.GetMealById(meal.MealId);
+                            foreach (var f in fMeal)
                             {
-                                FoodId = food.FoodId,
-                                FName = foodDetail.FName,
-                                CategoryName = _foodCategoryService.GetByCateId(foodCate).CategoryName,
-                                Amount = food.Amount,
-                                StartEat = food.StartEat,
-                                EndEat = food.EndEat,
+                                foreach (var food in foodMeal)
+                                {
+                                    f.FName = _foodService.GetByFoodId(f.FoodId).FName;
+
+                                }
+
+                            }
+                            animal.Meals.Add(new GetMealAnimalDto
+                            {
+                                MealId = mealDetail.MealId,
+                                StartEat = meal.StartEat,
+                                MealName = mealDetail.MealName,
+                                EndEat = meal.EndEat,
+                                FoodMealDtos = fMeal
                             });
                         }
-                    }*/
+                    }
 
                     var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                     if (schedules != null)
@@ -203,6 +285,22 @@ namespace Api_ZooManagement_SWP391.Controllers
             return Ok(trainers);
         }
 
+        [HttpGet("{animalId}/oldMeal")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetMealAnimalDto>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetOldMealByAnimalId(string animalId)
+        {
+            if (!_animalService.AnimalExists(animalId))
+                return NotFound();
+
+            var oldMeal = _mapper.Map<List<GetMealAnimalDto>>(_mealService.GetOldMeal(animalId));
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(oldMeal);
+        }
+
         [HttpGet("{animalId}/oldcages")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<OldCagesDto>))]
         [ProducesResponseType(400)]
@@ -229,7 +327,7 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             var foods = _animalService.GetOldFoodOfAnimal(animalId);
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
                 return BadRequest();
 
             return Ok(foods);
@@ -245,31 +343,15 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             var animal = _animalService.GetById(animalId);
             if (animal.Status != true) { return BadRequest("Animal deleted!!!"); }
-            if(animal != null)
+            if (animal != null)
             {
                 animal.CId = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).CageId;
                 animal.EntryCageDate = _cageService.GetAnimalCageByAnimalId(animal.AnimalId).EntryCageDate;
                 animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
-                /*var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
-                if (foods != null && foods.Count > 0)
-                {
-                    animal.Foods = new List<FoodAmountDto>();
-                    foreach (var food in foods)
-                    {
-                        var foodDetail = _foodService.GetByFoodId(food.FoodId);
-                        var foodCate = _foodService.GetByFoodId(food.FoodId).CategoryId;
-                        animal.Foods.Add(new FoodAmountDto
-                        {
-                            FoodId = food.FoodId,
-                            FName = foodDetail.FName,
-                            CategoryName = _foodCategoryService.GetByCateId(foodCate).CategoryName,
-                            Amount = food.Amount,
-                            StartEat = food.StartEat,
-                            EndEat = food.EndEat,
-                        });
-                    }
-                }*/
+                animal.MealId = _mealService.GetMealByAnimalId(animal.AnimalId).MealId;
+                animal.StartEat = _mealService.GetMealByAnimalId(animal.AnimalId).StartEat;
+                animal.EndEat = _mealService.GetMealByAnimalId(animal.AnimalId).EndEat;
 
                 var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                 if (schedules != null)
@@ -294,7 +376,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest();
 
             return Ok(animal);
-        } 
+        }
 
         [HttpPost("Animal")]
         [ProducesResponseType(204)]
@@ -319,16 +401,15 @@ namespace Api_ZooManagement_SWP391.Controllers
             else count = animals.Count() + 1;
             var animalId = "AN" + count.ToString().PadLeft(4, '0');
 
-            //List<AnimalFood> animalFoods = new List<AnimalFood>();
-
             var animalMap = _mapper.Map<Animal>(animalDto);
             var userMap = _mapper.Map<AnimalTrainer>(animalDto);
             var cageMap = _mapper.Map<AnimalCage>(animalDto);
-            var foodAmount = animalDto.AnimalFoods;
+            var mealAmout = animalDto.AnimalMeals;
             var species = _animalSpeciesService.GetBySpeciesName(animalDto.SpeciesName);
+            List<AnimalMeal> animalMeals = new List<AnimalMeal>();
 
             animalMap.AnimalId = animalId;
-            cageMap.EntryCageDate = DateTime.Now;    
+            cageMap.EntryCageDate = DateTime.Now;
             userMap.StartTrainDate = DateTime.Now;
             animalMap.Species = species;
 
@@ -337,21 +418,19 @@ namespace Api_ZooManagement_SWP391.Controllers
             int isCageFull = _cageService.GetByCageId(cageId).AnimalQuantity;
             int fullCage = _cageService.GetByCageId(cageId).MaxCapacity;
 
-            foreach (var food in foodAmount)
+            foreach (var meal in mealAmout)
             {
-                var food1 = _foodService.GetByFoodId(food.FoodId);
-                if (food1 == null) return BadRequest("Food not found!!!");
-                if (food.Amount == 0) continue;
-                /*animalFoods.Add(new AnimalFood()
+                var meal1 = _mealService.GetMealById(meal.MealId);
+                if (meal1 == null) return BadRequest("Meal not found!!!");
+                animalMeals.Add(new AnimalMeal()
                 {
                     AnimalId = animalMap.AnimalId,
-                    Food = food1,
-                    Amount = food.Amount,
-                    StartEat = food.StartEat,
-                    EndEat = food.EndEat,
-                });*/
+                    Meal = meal1,
+                    StartEat = meal.StartEat,
+                    EndEat = meal.EndEat,
+                });
             }
-            
+
             if (isCageFull > fullCage)
             {
                 return BadRequest("This cage is full");
@@ -380,7 +459,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest(ModelState);
             if (!_animalService.AnimalExists(animalId))
                 return NotFound();
-            
+
             var animalScheduleMap = _mapper.Map<Animal>(animalScheduleDto);
             var animal = _animalService.GetByAnimalId(animalId);
             var schedules = animalScheduleDto.AnimalSchedules;
@@ -392,7 +471,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 var getSchedule = _scheduleService.GetSchedule(schedule.ScheduleId);
 
                 if (_animalScheduleService.AnimalScheduleExisted(animalId, getSchedule.ScheduleId))
-                { 
+                {
                     return BadRequest("This schedule has existed for this animal!!!");
                 }
 
@@ -438,7 +517,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             var animalMap = _mapper.Map<Animal>(updateAnimalDto);
             var trainerMap = _mapper.Map<AnimalTrainer>(updateAnimalDto);
             var cageMap = _mapper.Map<AnimalCage>(updateAnimalDto);
-           // var foodMap = _mapper.Map<AnimalFood>(updateAnimalDto);
+            var mealMap = _mapper.Map<AnimalMeal>(updateAnimalDto);
             var scheduleMap = _mapper.Map<AnimalSchedule>(updateAnimalDto);
 
             var newTrainer = _userService.GetById(updateAnimalDto.UserId);
@@ -457,7 +536,7 @@ namespace Api_ZooManagement_SWP391.Controllers
             var newCage = _cageService.GetByCageId(updateAnimalDto.CageId);
             var animalCage = _animalService.GetAnimalCageByAnimalId(animalId).Where(c => c.OutCageDate == null).FirstOrDefault();
             var oldCage = _cageService.GetByCageId(animalCage.CageId);
-            if(animalCage == null)
+            if (animalCage == null)
             {
                 return BadRequest("Something wrong!!!");
             }
@@ -468,20 +547,19 @@ namespace Api_ZooManagement_SWP391.Controllers
                 animalCage.OutCageDate = DateTime.Now;
                 _animalService.AddAnimalCage(updateAnimalDto.CageId, animalId, cageMap);
             }
-            
-            List<UpdateAnimalFoodDto> animalFoods = new List<UpdateAnimalFoodDto>();
-            //var foods = _foodService.GetFoodsByAnimalId(updateAnimalDto.AnimalId);
-            var foodAmount = updateAnimalDto.AnimalFoods;
-            foreach (var food in foodAmount)
+
+            List<UpdateAnimalMealDto> animalMeals = new List<UpdateAnimalMealDto>();
+            var meals = _mealService.GetMealsByAnimalId(updateAnimalDto.AnimalId);
+            var mealAmount = updateAnimalDto.AnimalMeals;
+            foreach (var meal in mealAmount)
             {
-                var food1 = _foodService.GetByFoodId(food.FoodId);
-                if (food1 == null) return BadRequest("Food not found!!!");
-                animalFoods.Add(new UpdateAnimalFoodDto()
+                var meal1 = _mealService.GetMealById(meal.MealId);
+                if (meal1 == null) return BadRequest("Meal not found!!!");
+                animalMeals.Add(new UpdateAnimalMealDto()
                 {
-                    FoodId = food.FoodId,
-                    Amount = food.Amount,
-                    StartEat = food.StartEat,
-                    EndEat = food.EndEat,
+                    MealId = meal.MealId,
+                    StartEat = meal.StartEat,
+                    EndEat = meal.EndEat,
                 });
             }
 
@@ -538,7 +616,7 @@ namespace Api_ZooManagement_SWP391.Controllers
         public IActionResult GetAnimalSpecies(string speciesId)
         {
             var animalSpecies = _animalService.GetAnimalBySpecies(speciesId);
-            foreach(var animalSpecie in  animalSpecies)
+            foreach (var animalSpecie in animalSpecies)
             {
                 var animals = animalSpecie.Animals.Where(a => a.Status == true);
                 foreach (var animal in animals)
@@ -549,26 +627,9 @@ namespace Api_ZooManagement_SWP391.Controllers
                     animal.UserId = _userService.GetUserByAnimalId(animal.AnimalId).UserId;
                     animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                     animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
-                    /*var foods = _foodService.GetFoodsByAnimalId(animal.AnimalId);
-
-                    if (foods != null && foods.Count > 0)
-                    {
-                        animal.Foods = new List<FoodAmountDto>();
-                        foreach (var food in foods)
-                        {
-                            var foodDetail = _foodService.GetByFoodId(food.FoodId);
-                            var foodCate = _foodService.GetByFoodId(food.FoodId).CategoryId;
-                            animal.Foods.Add(new FoodAmountDto
-                            {
-                                FoodId = food.FoodId,
-                                FName = foodDetail.FName,
-                                CategoryName = _foodCategoryService.GetByCateId(foodCate).CategoryName,
-                                Amount = food.Amount,
-                                StartEat = food.StartEat,
-                                EndEat = food.EndEat,
-                            });
-                        }
-                    }*/
+                    animal.MealId = _mealService.GetMealByAnimalId(animal.AnimalId).MealId;
+                    animal.StartEat = _mealService.GetMealByAnimalId(animal.AnimalId).StartEat;
+                    animal.EndEat = _mealService.GetMealByAnimalId(animal.AnimalId).EndEat;
 
                     var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                     if (schedules != null)

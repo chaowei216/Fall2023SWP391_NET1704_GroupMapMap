@@ -11,6 +11,8 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using DAL.Entities;
 using DTO.Dtos;
+using BLL.Interfaces;
+using BLL.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,6 +72,7 @@ builder.Services.AddScoped<IAnimalScheduleService, AnimalScheduleService>();
 
 builder.Services.AddScoped<IFoodCategoryService, FoodCategoryService>();
 builder.Services.AddScoped<IAnimalSpeciesService, AnimalSpeciesService>();
+builder.Services.AddScoped<IMealService, MealService>();
 
 
 builder.Services.AddScoped<IReviewService, ReviewService>();
@@ -86,7 +89,6 @@ builder.Services.AddScoped<IGenericRepository<Animal>, GenericRepository<Animal>
 builder.Services.AddScoped<IGenericRepository<WorkExperience>, GenericRepository<WorkExperience>>();
 builder.Services.AddScoped<IGenericRepository<ExperienceDetail>, GenericRepository<ExperienceDetail>>();
 builder.Services.AddScoped<IGenericRepository<AnimalCage>, GenericRepository<AnimalCage>>();
-/*builder.Services.AddScoped<IGenericRepository<AnimalFood>, GenericRepository<AnimalFood>>();*/
 builder.Services.AddScoped<IGenericRepository<AnimalSchedule>, GenericRepository<AnimalSchedule>>();
 builder.Services.AddScoped<IGenericRepository<AnimalTrainer>, GenericRepository<AnimalTrainer>>();
 builder.Services.AddScoped<IGenericRepository<OrderTicket>, GenericRepository<OrderTicket>>();
@@ -98,6 +100,9 @@ builder.Services.AddScoped<IGenericRepository<FoodCategory>, GenericRepository<F
 builder.Services.AddScoped<IGenericRepository<AnimalSpecies>, GenericRepository<AnimalSpecies>>();
 
 builder.Services.AddScoped<IGenericRepository<Review>, GenericRepository<Review>>();
+builder.Services.AddScoped<IGenericRepository<Meal>, GenericRepository<Meal>>();
+builder.Services.AddScoped<IGenericRepository<FoodMeal>, GenericRepository<FoodMeal>>();
+builder.Services.AddScoped<IGenericRepository<AnimalMeal>, GenericRepository<AnimalMeal>>();
 
 builder.Services.AddCors(options =>
 {
