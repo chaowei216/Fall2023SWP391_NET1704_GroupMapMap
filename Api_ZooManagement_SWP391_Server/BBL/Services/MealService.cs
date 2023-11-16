@@ -130,7 +130,7 @@ namespace BLL.Services
             return _animalMealRepo.GetAll().Where(a => a.AnimalId == animalId).ToList();
         }
 
-        public bool UpdateMeal(Meal meal, List<GetFoodMealDto> foodMeals)
+        public bool UpdateMeal(Meal meal, List<FoodMealUpdateDto> foodMeals)
         {
             if (meal.FoodMeals == null)
                 meal.FoodMeals = new List<FoodMeal>();

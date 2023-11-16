@@ -9,6 +9,6 @@ namespace DTO.Dtos
     public class MealUpdateDto
     {
         public string MealId { get; set; }
-        public List<GetFoodMealDto> FoodMeals { get; set; }
+        public List<FoodMealUpdateDto> FoodMeals { get; set; }
     }
 }

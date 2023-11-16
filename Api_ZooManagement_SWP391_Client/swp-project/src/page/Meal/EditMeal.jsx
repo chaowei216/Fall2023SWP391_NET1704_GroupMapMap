@@ -44,7 +44,7 @@ export default function EditMeal(pros) {
     });
     return () => (mounted = false);
   }, []);
-  
+
   useEffect(() => {
     if (show) {
       setMealName(dataFoodEdit.mealName);
@@ -85,11 +85,6 @@ export default function EditMeal(pros) {
   };
   const handleSave = () => {
     console.log("haha");
-    setClick(!click);
-    const a = localStorage.getItem("click");
-    if (a != undefined) {
-      localStorage.setItem("click", !click);
-    }
   };
   const handleAdd2 = () => {
     setIsNew2(true);
@@ -143,12 +138,12 @@ export default function EditMeal(pros) {
       console.log("Success");
       // localStorage.setItem("isAdded", true);
       // handleClose()
-        //window.location.href = '/staff/food'
-        // handleClose();
-        toast.success("Update Success");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+      //window.location.href = '/staff/food'
+      // handleClose();
+      toast.success("Update Success");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
       // navigate("/staff/1")
     }
   };
@@ -196,16 +191,17 @@ export default function EditMeal(pros) {
                       {listFood.length > 0 && (
                         <div className="mb-3 Schedule-Information">
                           <div className="mb-1">
-                            {listFood && listFood.map((food, index) => (
-                              <div
-                                key={food.foodId}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  width: "95%",
-                                }}
-                              >
-                                {/* <div style={{ width: "30%" }}>
+                            {listFood &&
+                              listFood.map((food, index) => (
+                                <div
+                                  key={food.foodId}
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    width: "95%",
+                                  }}
+                                >
+                                  {/* <div style={{ width: "30%" }}>
                                 <label className="form-label">
                                   ID Food Of Animal
                                 </label>
@@ -218,97 +214,91 @@ export default function EditMeal(pros) {
                                   value={food.foodId}
                                 />
                               </div> */}
-                                <div style={{ width: "30%" }}>
-                                  <label className="form-label">
-                                    Edit Food For Animal
-                                  </label>
-                                  <Form.Control
-                                    as="select"
-                                    style={{
-                                      width: "95%",
-                                      marginRight: "20px",
-                                    }}
-                                    value={food.foodId}
-                                    onChange={
-                                      isNew2
-                                        ? (e) => handleFoodSelect(e, index)
-                                        : null
-                                    }
-                                    placeholder="Chọn món ăn"
-                                  >
-                                    <option value="">Choose Food</option>
-                                    {/* Render các option từ API */}
-                                    {options.map((option) => (
-                                      <option
-                                        key={option.foodId}
-                                        value={option.foodId}
-                                        disabled={selectedFoodIds.includes(
-                                          option.foodId
-                                        )}
-                                      >
-                                        {option.fName}
-                                      </option>
-                                    ))}
-                                  </Form.Control>
-                                </div>
-                                <div style={{ width: "30%" }}>
-                                  <label className="form-label">
-                                    Edit Quantity
-                                  </label>
-                                  <Form.Control
-                                    type="text"
-                                    className="mb-3"
-                                    aria-describedby="inputGroupPrepend"
-                                    style={{ width: "90%" }}
-                                    value={food.quantity}
-                                    onChange={(e) =>
+                                  <div style={{ width: "30%" }}>
+                                    <label className="form-label">
+                                      Edit Food For Animal
+                                    </label>
+                                    <Form.Control
+                                      as="select"
+                                      style={{
+                                        width: "95%",
+                                        marginRight: "20px",
+                                      }}
+                                      value={food.foodId}
+                                      onChange={
+                                        isNew2
+                                          ? (e) => handleFoodSelect(e, index)
+                                          : null
+                                      }
+                                      placeholder="Chọn món ăn"
+                                    >
+                                      <option value="">Choose Food</option>
+                                      {/* Render các option từ API */}
+                                      {options.map((option) => (
+                                        <option
+                                          key={option.foodId}
+                                          value={option.foodId}
+                                          disabled={selectedFoodIds.includes(
+                                            option.foodId
+                                          )}
+                                        >
+                                          {option.fName}
+                                        </option>
+                                      ))}
+                                    </Form.Control>
+                                  </div>
+                                  <div style={{ width: "30%" }}>
+                                    <label className="form-label">
+                                      Edit Quantity
+                                    </label>
+                                    <Form.Control
+                                      type="text"
+                                      className="mb-3"
+                                      aria-describedby="inputGroupPrepend"
+                                      style={{ width: "90%" }}
+                                      value={food.quantity}
+                                      onChange={(e) =>
                                         handleFoodChange(food.foodId, e)
-                                    }
-                                  />
+                                      }
+                                    />
+                                  </div>
+                                  <div style={{ width: "30%" }}>
+                                    <label className="form-label">
+                                      Edit Unit
+                                    </label>
+                                    <Form.Select
+                                      value={food.unit}
+                                      style={{
+                                        width: "80%",
+                                        marginBottom: "30px",
+                                      }}
+                                      onChange={(e) =>
+                                        handleUnitChange(food.foodId, e)
+                                      }
+                                    >
+                                      <option value="">Choose Unit</option>
+                                      <option value="Kg">Kg</option>
+                                      <option value="L">L</option>
+                                    </Form.Select>
+                                  </div>
+                                  <div style={{ paddingTop: "40px" }}>
+                                    <button onClick={() => removeField(index)}>
+                                      <DeleteIcon />
+                                    </button>
+                                  </div>
                                 </div>
-                                <div style={{ width: "30%" }}>
-                                  <label className="form-label">
-                                    Edit Unit
-                                  </label>                                
-                                  <Form.Select
-                                    value={food.unit}
-                                        style={{
-                                          width: "80%",
-                                          marginBottom: "30px",
-                                        }}
-                                        onChange={(e) =>
-                                      handleUnitChange(food.foodId, e)
-                                        }
-                                      >
-                                      <option value="">
-                                          Choose Unit
-                                        </option>
-                                        <option value="Kg">
-                                          Kg
-                                        </option>
-                                        <option value="L">
-                                          L
-                                        </option>
-                                      </Form.Select>
-
+                              ))}
+                            {listFood.length &&
+                              listFood.length < options.length && (
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                  }}
+                                >
+                                  <Button onClick={handleAdd2}>Add</Button>
                                 </div>
-                                <div style={{ paddingTop: "40px" }}>
-                                  <button onClick={() => removeField(index)}>
-                                    <DeleteIcon />
-                                  </button>
-                                </div>
-                              </div>
-                            ))}
-                            {listFood.length && listFood.length < options.length && (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                }}
-                              >
-                                <Button onClick={handleAdd2}>Add</Button>
-                              </div>
-                            )}
+                              )}
                           </div>
                           <div style={{ textAlign: "end" }}>
                             <Button
@@ -319,7 +309,6 @@ export default function EditMeal(pros) {
                               <MDBIcon fas icon="edit" size="2x" />
                             </Button>
                           </div>
-
                         </div>
                       )}
                       <MDBModalFooter>
