@@ -103,7 +103,9 @@ export default function EditArea(pros) {
                         />
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Edit Description of Area</label>
+                        <label className="form-label">
+                          Edit Description of Area
+                        </label>
                         <Form.Control
                           type="text"
                           style={{ height: "56px" }}
@@ -113,9 +115,9 @@ export default function EditArea(pros) {
                           name="description"
                           value={description}
                           onChange={(e) => setDescription(e.target.value)}
-                        //   isInvalid={
-                        //     formik.errors.fName && formik.touched.fName
-                        //   }
+                          //   isInvalid={
+                          //     formik.errors.fName && formik.touched.fName
+                          //   }
                         />
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.fName}
