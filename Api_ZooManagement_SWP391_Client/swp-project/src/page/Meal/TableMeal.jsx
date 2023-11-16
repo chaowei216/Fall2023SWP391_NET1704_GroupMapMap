@@ -165,6 +165,7 @@ function TableMeal() {
                                 <th style={{ textAlign: "center" }}>FoodName</th>
                                 <th style={{ textAlign: "center" }}>Quantity</th>
                                 <th style={{ textAlign: "center" }}>Unit</th>
+                                <th style={{ textAlign: "center" }}>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -205,9 +206,6 @@ function TableMeal() {
                                                     style={{ padding: 0 }}
                                                 >
                                                     <EditIcon />
-                                                </Button>
-                                                <Button variant="text" style={{ padding: 0 }}>
-                                                    <DeleteIcon />
                                                 </Button>
                                             </td>
 
