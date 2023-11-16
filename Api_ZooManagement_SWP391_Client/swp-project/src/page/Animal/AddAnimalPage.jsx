@@ -836,10 +836,7 @@ function AddAnimal(pros) {
                               {errors.fields && (
                                 <>
                                   <div style={{ color: "red" }}>
-                                    Choose food Id
-                                  </div>
-                                  <div style={{ color: "red" }}>
-                                    Amount must be positive
+                                    Choose Meal ID
                                   </div>
                                   <div style={{ color: "red" }}>
                                     Start Eat must be after or equal Day Now

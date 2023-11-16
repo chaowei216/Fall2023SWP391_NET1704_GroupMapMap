@@ -111,7 +111,7 @@ export const schemaAnimal = yup.object().shape({
   // image: yup.mixed().required('Please choose the image')
   fields: yup.array().of(
     yup.object().shape({
-      // foodId: yup.string().required("Please choose foood"),
+      mealId: yup.string().required("Please choose meal"),
       startEat: yup
         .string()
         .required("Vui lòng nhập ngày bắt đầu ăn")
@@ -123,6 +123,7 @@ export const schemaAnimal = yup.object().shape({
             // const entry = new Date(entryCageDate)
             const selectedDate = new Date(value);
             const currentDate = new Date();
+            currentDate.setDate(currentDate.getDate() - 1);
             return moment(value).isAfter(currentDate); // Sử dụng moment.js hoặc thư viện tương tự để so sánh ngày
             //return selectedDate >= currentDate;
           },

@@ -834,7 +834,7 @@ export default function ViewAnimal(pros) {
                               onClick={handleButton}
                               style={{ background: "teal", border: "none" }}
                             >
-                              More Meal List
+                              Total Meal List
                             </Button>
                           </div>
                           <div>

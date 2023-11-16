@@ -282,7 +282,7 @@ function AddStaff() {
                 <div className="Food-Information">
                   <div className="mb-3">
                     <label className="form-label">
-                      World Experience For Animal
+                      Experience For User
                     </label>
                     {errorQuantity && errorQuantity != null && (
                       <div style={{ color: "red" }}>{errorFood}</div>
