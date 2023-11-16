@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "ignored": "true",
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:DefaultConnection"
+    },
+    "mssql2": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/zoomapmap/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsZooManagement_A379315C32",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/zoomapmap/databases/ZooManagement",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:ZooManagement",
+      "dynamicId": null
+    }
+  }
+}

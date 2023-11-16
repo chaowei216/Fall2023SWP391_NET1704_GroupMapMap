@@ -16,14 +16,18 @@ namespace BBL.Services
     {
         private readonly IGenericRepository<Food> _foodRepository;
         private readonly IGenericRepository<FoodCategory> _foodCategoryRepository;
+        private readonly IGenericRepository<FoodMeal> _foodMealRepository;
+        private readonly IGenericRepository<AnimalMeal> _animalMealRepository;
         private readonly DataContext _context;
 
         public FoodService(IGenericRepository<Food> foodRepository,
-             DataContext context, IGenericRepository<FoodCategory> foodCategoryRepository)
+             DataContext context, IGenericRepository<FoodCategory> foodCategoryRepository, IGenericRepository<FoodMeal> foodMealRepository, IGenericRepository<AnimalMeal> animalMealRepository)
         {
             _foodRepository = foodRepository;
             _context = context;
             _foodCategoryRepository = foodCategoryRepository;
+            _foodMealRepository = foodMealRepository;
+            _animalMealRepository = animalMealRepository;
         }
 
         public bool AddFood(Food food)
@@ -103,21 +107,37 @@ namespace BBL.Services
             return _foodRepository.Update(food);
         }
 
+        public ICollection<FoodMeal> GetFoodsByMealId(string mealId)
+        {
+            return _foodMealRepository.GetAll().Where(fm => fm.MealId == mealId).ToList();
+        }
+
+        public ICollection<AnimalMeal> GetMealsByAnimalId(string animalId)
+        {
+            return _animalMealRepository.GetAll().Where(am => am.AnimalId == animalId).ToList();
+        }
+       
         public bool UpdateFoodFeed(string animalId)
         {
-            /*var animalFood = GetFoodsByAnimalId(animalId).ToList();
-            if (animalFood != null && animalFood.Count > 0) { 
+            var animalMeal = GetMealsByAnimalId(animalId);
             
-                foreach (var aniFood in animalFood)
+
+            if (animalMeal != null && animalMeal.Count > 0) {
+
+                foreach (var aMeal in animalMeal)
                 {
-                    var food = _foodRepository.GetById(aniFood.FoodId);
-                    if (food.Quantity > aniFood.Amount && aniFood.EndEat > DateTime.Now)
+                    var foodMeal = GetFoodsByMealId(aMeal.MealId).ToList();
+                    foreach (var fMeal in foodMeal)
                     {
-                        food.Quantity -= aniFood.Amount;
+                        var food = _foodRepository.GetById(fMeal.FoodId);
+                        if (food.Quantity > fMeal.Quantity && aMeal.StartEat < DateTime.Now && aMeal.EndEat > DateTime.Now)
+                        {
+                            food.Quantity -= fMeal.Quantity;
+                        }
+                        _foodRepository.Update(food);
                     }
-                    _foodRepository.Update(food);
                 }
-            }*/
+            }
             return false;
         }
     }
