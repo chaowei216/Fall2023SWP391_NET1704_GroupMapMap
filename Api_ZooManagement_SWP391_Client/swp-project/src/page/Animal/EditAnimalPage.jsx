@@ -111,7 +111,7 @@ export default function EditAnimal(pros) {
   const validateStartEat = (value) => {
     const startEatDate = new Date(value);
     const entryCageDate = new Date(entryCage);
-    console.log(startEatDate > entryCageDate);
+    entryCageDate.setDate(entryCageDate.getDate() - 1)
     if (startEatDate > entryCageDate) {
       // valid
       setIsValidStartEat(true)
@@ -460,8 +460,7 @@ export default function EditAnimal(pros) {
     } else if (isValidEndEat === false) {
       return;
     }
-    console.log(dataAnimalEdit);
-    console.log(event);
+
     const formattedMeals = foods.map(meal => {
       return {
         mealId: meal.mealId,

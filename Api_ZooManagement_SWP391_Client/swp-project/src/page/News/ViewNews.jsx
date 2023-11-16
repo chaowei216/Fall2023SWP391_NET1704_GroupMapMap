@@ -39,7 +39,7 @@ export default function ViewNews(pros) {
       const substring = path.substring(secondSlashIndex + 1);
       setNewsImage(substring);
       setReleaseDay(dataNewsView.releaseDate.slice(0, 10));
-      setStatus(dataNewsView.status);
+      setStatus(dataNewsView.checked);
     }
   }, [dataNewsView]);
   const handleSave = () => {
@@ -145,9 +145,9 @@ export default function ViewNews(pros) {
                         </label>
                         <MDBCardText className="text-muted mt-2">
                           {status === true ? (
-                            <MDBIcon fas icon="check" />
+                            <><span style={{color: "green"}}>Approve</span><MDBIcon fas icon="check" /></>
                           ) : (
-                            <MDBIcon fas icon="times" />
+                            <><span style={{color: "#FFBC00"}}>Pending</span><MDBIcon fas icon="times" /></>
                           )}
                         </MDBCardText>
                       </div>

@@ -172,7 +172,10 @@ function TableUser() {
           </div>
         </div>
         <div className="table-content">
-          <Table size="100px" hover>
+          <Table size="100px" hover
+            striped
+            bordered
+            style={{ verticalAlign: "middle", textAlign: "center" }}>
             <thead className="table-dark">
               <tr>
                 <th>ID</th>
@@ -194,7 +197,7 @@ function TableUser() {
                       <td>{item.role === 2 ? "Staff" : "ZooTrainer"}</td>
                       <td>{item.firstname}</td>
                       <td>{item.lastname}</td>
-                      <td style={{ width: "13rem" }}>
+                      <td width={370}>
                         <Button
                           variant="text"
                           style={{ padding: 0 }}

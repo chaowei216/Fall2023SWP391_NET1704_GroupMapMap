@@ -179,6 +179,7 @@ namespace BBL.Services
                 animal.Status = animalMap.Status;
                 animal.Rarity = animalMap.Rarity;
                 //animal.AnimalFoods = animalMap.AnimalFoods;
+                animal.AnimalMeals = animalMap.AnimalMeals;
                 animal.AnimalSchedules = animalMap.AnimalSchedules;
             }
             return _animalRepo.Update(animal);

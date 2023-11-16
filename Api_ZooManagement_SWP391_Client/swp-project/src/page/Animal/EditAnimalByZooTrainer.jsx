@@ -1004,7 +1004,7 @@ export default function EditAnimal(pros) {
                         </div>
                       </div>
                       <div className="label-info">
-                        <label>Food Information</label>
+                        <label>Meal Information</label>
                       </div>
                       <div className="mb-3 Food-Information">
                         <div className="mb-1">
