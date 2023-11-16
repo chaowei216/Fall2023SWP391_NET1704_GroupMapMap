@@ -1035,9 +1035,17 @@ export default function ViewAnimal(pros) {
                                       <td>{value.description}</td>
                                       <td>
                                         {value.isDone === true ? (
-                                          <span style={{ color: "green" }}>
-                                            "Already Eat"
-                                          </span>
+                                          <div
+                                            style={{
+                                              background: "#008800",
+                                              borderRadius: "50px",
+                                              textAlign: "center",
+                                              color: "white",
+                                              fontWeight: "bold",
+                                            }}
+                                          >
+                                            Already Eat
+                                          </div>
                                         ) : (
                                           <span>Not Yet</span>
                                         )}
