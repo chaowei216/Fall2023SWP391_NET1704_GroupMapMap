@@ -20,5 +20,7 @@ namespace BBL.Interfaces
         Food GetByFoodName(string name);
         bool FoodExists(string id);
         bool UpdateFoodFeed(string animalId);
+        ICollection<AnimalMeal> GetMealsByAnimalId(string animalId);
+        ICollection<FoodMeal> GetFoodsByMealId(string mealId);
     }
 }
