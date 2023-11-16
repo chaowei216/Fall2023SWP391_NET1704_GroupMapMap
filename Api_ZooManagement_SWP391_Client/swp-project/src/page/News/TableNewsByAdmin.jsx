@@ -241,22 +241,12 @@ function TableNewsByAdmin() {
               )
             </Button>
           </span>
-          <div className="search-container" style={{ height: "50%" }}>
-            {/* toggleShow */}
-            <div className="search-content">
-              <input
-                type="text"
-                className="form-control"
-                style={{ marginRight: "10px" }}
-              />
-              <Button variant="contained">
-                <SearchIcon />
-              </Button>
-            </div>
-          </div>
         </div>
         <div className="table-content">
-          <Table size="100px" hover>
+          <Table size="100px" hover
+            striped
+            bordered
+            style={{ verticalAlign: "middle", textAlign: "center" }}>
             <thead className="table-dark">
               <tr>
                 <th>News ID</th>
@@ -305,7 +295,7 @@ function TableNewsByAdmin() {
                           </div>
                         )}
                       </td>
-                      <td style={{ width: "170px", textAlign: "center" }}>
+                      <td style={{ width: "250px", textAlign: "center" }}>
                         <Button
                           variant="text"
                           style={{ padding: 0 }}

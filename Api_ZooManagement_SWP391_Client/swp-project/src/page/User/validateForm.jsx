@@ -9,7 +9,7 @@ export const basicSchema = yup.object().shape({
     .min(2, "Name must be at least 2 characters")
     .max(10, "Name cannot be more than 50 characters")
     .matches(
-      /^[a-zA-Z-.']+$/,
+      /^[a-zA-Z\s-.']+(\d*)$/,
       "Name can only contain letters, dashes, periods, and apostrophes"
     ),
   // .matches(/\s+/, "Name cannot contain only spaces"),
@@ -19,7 +19,7 @@ export const basicSchema = yup.object().shape({
     .min(2, "Name must be at least 2 characters")
     .max(50, "Name cannot be more than 50 characters")
     .matches(
-      /^[a-zA-Z-.']+$/,
+      /^[a-zA-Z\s-.']+(\d*)$/,
       "Name can only contain letters, dashes, periods, and apostrophes"
     ),
   // .matches(/^([a-zA-Z-.']+\s*?)+[a-zA-Z-.']+$/, "Name cannot contain only spaces"),

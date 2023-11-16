@@ -109,7 +109,7 @@ namespace BLL.Services
                             var foodMealDetail = _mapper.Map<GetFoodMealDto>(fmeal);
                             foreach (var food in foods)
                             {
-                                foodMealDetail.FName = _foodRepo.GetById(food.FoodId).FName;
+                                foodMealDetail.FName = _foodRepo.GetById(foodMealDetail.FoodId).FName;
                             }
                             mealDto.FoodMealDtos.Add(foodMealDetail);
                         }

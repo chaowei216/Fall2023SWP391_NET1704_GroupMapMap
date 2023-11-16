@@ -52,7 +52,7 @@ function TableStaff() {
       }
     });
     return () => (mounted = false);
-  }, [currentPage,showModalEdit]);
+  }, [currentPage, showModalEdit]);
   const handleEditUser = (item) => {
     console.log(item);
     const user = item;
@@ -141,34 +141,44 @@ function TableStaff() {
       return () => (mounted = false);
     }
   }, 350);
-  // const email = localStorage.getItem('email');
-  // useEffect(() => {
-  //   const checkUser = async () => {
-  //     const getUsers = () => {
-  //       return fetch(
-  //         `https://localhost:44352/api/User/users/${email}`
-  //       ).then((data) => data.json());
-  //     };
-  //     let mounted = true;
-  //     getUsers().then((items) => {
-  //       if (mounted) {
-  //         setCurrentUser(items);
-  //       }
-  //     });
-  //     return () => (mounted = false);
-  //   }
 
-  //   checkUser();
+  useEffect(() => {
+    const checkUser = async () => {
+      const email = localStorage.getItem('email');
+      const getUsers = () => {
+        return fetch(
+          `https://localhost:44352/api/User/users/${email}`
+        ).then((data) => data.json());
+      };
+      let mounted = true;
+      getUsers().then((items) => {
+        if (mounted) {
+          setCurrentUser(items);
+        }
+      });
+      return () => (mounted = false);
+    }
 
-  //   const interval = setInterval(checkUser, 2000);
+    checkUser();
 
-  //   return () => clearInterval(interval);
+    const interval = setInterval(checkUser, 2000);
 
-  // }, [currentUser.status])
-  // if (!currentUser.status) {
-  //   navigate('/login')
-  // };
+    return () => clearInterval(interval);
 
+  }, [currentUser.status])
+
+  if (currentUser.status === false) {
+    const confirmLogout = async () => {
+      if (await confirm("You have been kicked by admin, to know more information please ask your admin")) {
+        navigate('/login');
+        localStorage.removeItem("token");
+        localStorage.removeItem("name");
+        localStorage.removeItem("email");
+        localStorage.removeItem("role");
+      }
+    }
+    confirmLogout();
+  };
   return (
     <div className="table-container">
       <div className="table-component">

@@ -347,14 +347,14 @@ function TableAnimal() {
                         ></img>
                       </td>
                       <td width={100}>{items.animalId}</td>
-                      <td width={110}>{items.name}</td>
+                      <td width={180}>{items.name}</td>
                       <td width={320} style={{ textAlign: "justify" }}>
                         {items.description}
                       </td>
                       <td style={{ textAlign: "center" }}>
                         {items.sex === true ? "Male" : "Female"}
                       </td>
-                      <td width={160} style={{ textAlign: "center" }}>
+                      <td width={185} style={{ textAlign: "center" }}>
                         {items.region}
                       </td>
                       <td width={370} style={{ textAlign: "center" }}>

@@ -283,7 +283,7 @@ function AddPage() {
                 <div className="Food-Information">
                   <div className="mb-3">
                     <label className="form-label">
-                      World Experience For Animal
+                      Experience For User
                     </label>
                     {errorQuantity && errorQuantity != null && (
                       <div style={{ color: "red" }}>{errorFood}</div>
@@ -324,7 +324,7 @@ function AddPage() {
                                     option.experienceId
                                   )}
                                 >
-                                  {option.experienceId}
+                                  {option.experienceId} - Position: {option.position}
                                 </option>
                               ))}
                             </Form.Select>

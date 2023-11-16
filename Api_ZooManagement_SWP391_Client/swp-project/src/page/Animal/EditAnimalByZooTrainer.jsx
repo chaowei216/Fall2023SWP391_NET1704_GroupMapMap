@@ -819,6 +819,7 @@ export default function EditAnimal(pros) {
                           </label>
                           <Form.Select
                             size="lg"
+                            disabled
                             placeholder="Chọn món ăn"
                             id="cageId"
                             name="cageId"
@@ -917,6 +918,7 @@ export default function EditAnimal(pros) {
                             size="lg"
                             id="userId"
                             name="userId"
+                            disabled
                             placeholder="Chọn món ăn"
                             style={{ width: "85%" }}
                             onChange={(evnet) => setUserID(evnet.target.value)}
@@ -1002,7 +1004,7 @@ export default function EditAnimal(pros) {
                         </div>
                       </div>
                       <div className="label-info">
-                        <label>Food Information</label>
+                        <label>Meal Information</label>
                       </div>
                       <div className="mb-3 Food-Information">
                         <div className="mb-1">

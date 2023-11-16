@@ -60,6 +60,8 @@ import { ToastContainer, Zoom, toast } from "react-toastify";
 import Detail from "./page/detailNew/detail";
 import ScheduleAnimal from "./page/Animal/ScheduleAnimal";
 import ScheduleAnimalNotFeeding from "./page/ScheduleAnimal/ScheduleAnimalNotFeeding";
+import TableMeal from "./page/Meal/TableMeal";
+import TableSchedule from "./page/schedule/TableSchedule";
 
 const secretKey = "your_secret_key";
 
@@ -191,6 +193,9 @@ function App() {
             <Route path="experience" element={<TableExperience />}></Route>
             <Route path="category" element={<TableCategory />}></Route>
             <Route path="profile" element={<PersonalProfile />}></Route>
+            <Route path="meal" element={<TableMeal />}></Route>
+            <Route path="schedule" element={<TableSchedule />}></Route>
+
             {/* <Route path="3" element={<TableFood />}></Route> */}
           </Route>
           <Route path="/ZooTrainer" element={<HeaderLayOutTrainer />}>
@@ -203,6 +208,7 @@ function App() {
               path="scheduleAnimal"
               element={<ScheduleAnimalNotFeeding />}
             ></Route>
+            <Route path="meal" element={<TableMeal />}></Route>
           </Route>
           <Route path="/loading" element={<Loading></Loading>} />
           <Route path="/login" element={<Login />}></Route>

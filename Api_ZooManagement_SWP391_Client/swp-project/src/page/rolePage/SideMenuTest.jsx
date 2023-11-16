@@ -77,7 +77,7 @@ const SideMenuTest = ({ openSidebarToggle, OpenSidebar }) => {
       <Menu
         // theme="blue"
         style={{
-          height: 1000,
+          height: "89rem",
           backgroundColor: "wheat",
           borderRadius: "10px 10px 10px 10px",
         }}
