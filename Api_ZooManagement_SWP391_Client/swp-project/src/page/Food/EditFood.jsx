@@ -23,7 +23,7 @@ export default function EditFood(pros) {
   const role = localStorage.getItem("role");
   const [foodId, setFoodId] = useState("");
   const [foodName, setFoodName] = useState("");
-  const [unit,setUnit] = useState("");
+  const [unit, setUnit] = useState("");
   const [quantity, setQuantity] = useState("");
   const [importDate, setImportDate] = useState("");
   const [expiredDate, setExpiredDate] = useState("");
@@ -39,7 +39,7 @@ export default function EditFood(pros) {
       setExpiredDate(dataFoodEdit.expiredDate.slice(0, 10));
       setCategory(dataFoodEdit.category);
       setAnimalFood(dataFoodEdit.animalFood);
-      setUnit(dataFoodEdit.unit)
+      setUnit(dataFoodEdit.unit);
     }
   }, [dataFoodEdit]);
 
@@ -56,6 +56,7 @@ export default function EditFood(pros) {
     const food = {
       foodId: foodId,
       fName: foodName,
+      unit: unit,
       quantity: quantity,
       importDate: importDate,
       expiredDate: expiredDate,

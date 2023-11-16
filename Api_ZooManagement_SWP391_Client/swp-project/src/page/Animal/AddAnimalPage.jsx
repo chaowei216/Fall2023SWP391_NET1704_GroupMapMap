@@ -142,8 +142,8 @@ function AddAnimal(pros) {
   }, []);
 
   const ZooTrainerList = listZooTrainer.filter((user) => user.role === 3);
-  const CageListFilter = listCage.filter(
-    (cage) => cage.name.toUpperCase().includes(selectedSpecies.toUpperCase())
+  const CageListFilter = listCage.filter((cage) =>
+    cage.name.toUpperCase().includes(selectedSpecies.toUpperCase())
   );
   const handleClick = () => {
     setShowmodalAdd(true);
@@ -737,55 +737,64 @@ function AddAnimal(pros) {
                                     <label className="form-label">
                                       Choose Meal For Animal
                                     </label>
-                                    <div style={{display: "flex"}}>
-                                    <div className="mb-2" style={{ width: "40%",marginRight: "15px" }}>
-                                      <Form.Control
-                                        value={searchValue}
-                                        onChange={handleSearch}
-                                      />
-                                    </div>
-                                    <div style={{width: "60%"}}>
-                                      <Field
-                                        name={`fields[${index}].mealId`}
-                                        // as="select"
-                                        // onChange={(e) => handleChange(e.target.value)}
+                                    <div style={{ display: "flex" }}>
+                                      <div
+                                        className="mb-2"
+                                        style={{
+                                          width: "40%",
+                                          marginRight: "15px",
+                                        }}
                                       >
-                                        {({ field, form }) => (
-                                          <Form.Select
-                                            {...field}
-                                            value={field.foodId}
-                                            placeholder="Chọn món ăn"
-                                            onChange={(event) =>
-                                              handleFoodSelect(
-                                                event,
-                                                field,
-                                                form
-                                              )
-                                            }
-                                          >
-                                            {options
-                                              .filter((option) =>
-                                                option.mealName
-                                                  .toUpperCase()
-                                                  .includes(
-                                                    searchValue.toUpperCase()
-                                                  )
-                                              )
-                                              .map((option) => (
-                                                <option
-                                                  key={option.mealId}
-                                                  value={option.mealId}
-                                                  disabled={selectedFoodIds.includes(
-                                                    option.mealId
-                                                  )}
-                                                >
-                                                  {option.mealName}
-                                                </option>
-                                              ))}
-                                          </Form.Select>
-                                        )}
-                                      </Field>
-                                    </div>
+                                        <Form.Control
+                                          value={searchValue}
+                                          onChange={handleSearch}
+                                        />
+                                      </div>
+                                      <div style={{ width: "60%" }}>
+                                        <Field
+                                          name={`fields[${index}].mealId`}
+                                          // as="select"
+                                          // onChange={(e) => handleChange(e.target.value)}
+                                        >
+                                          {({ field, form }) => (
+                                            <Form.Select
+                                              {...field}
+                                              value={field.foodId}
+                                              placeholder="Chọn món ăn"
+                                              onChange={(event) =>
+                                                handleFoodSelect(
+                                                  event,
+                                                  field,
+                                                  form
+                                                )
+                                              }
+                                            >
+                                              <option value={null}>
+                                                Choose Meal
+                                              </option>
+                                              {options
+                                                .filter((option) =>
+                                                  option.mealName
+                                                    .toUpperCase()
+                                                    .includes(
+                                                      searchValue.toUpperCase()
+                                                    )
+                                                )
+                                                .map((option) => (
+                                                  <option
+                                                    key={option.mealId}
+                                                    value={option.mealId}
+                                                    disabled={selectedFoodIds.includes(
+                                                      option.mealId
+                                                    )}
+                                                  >
+                                                    {option.mealName}
+                                                  </option>
+                                                ))}
+                                            </Form.Select>
+                                          )}
+                                        </Field>
+                                      </div>
                                     </div>
                                   </div>
                                   <div

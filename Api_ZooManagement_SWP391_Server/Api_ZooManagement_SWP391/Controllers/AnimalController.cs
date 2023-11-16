@@ -391,10 +391,6 @@ namespace Api_ZooManagement_SWP391.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
             int count = 0;
             var animals = _animalService.GetAll();
@@ -419,8 +415,12 @@ namespace Api_ZooManagement_SWP391.Controllers
             int isCageFull = _cageService.GetByCageId(cageId).AnimalQuantity;
             int fullCage = _cageService.GetByCageId(cageId).MaxCapacity;
 
+            DateTime? dateNow = DateTime.Today;
             foreach (var meal in mealAmout)
             {
+                if (meal.StartEat < dateNow)
+                    return BadRequest();
+                dateNow = meal.EndEat;
                 var meal1 = _mealService.GetMealById(meal.MealId);
                 if (meal1 == null) return BadRequest("Meal not found!!!");
                 animalMeals.Add(new AnimalMeal()
@@ -435,6 +435,12 @@ namespace Api_ZooManagement_SWP391.Controllers
             if (isCageFull > fullCage)
             {
                 return BadRequest("This cage is full");
+            }
+
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
             }
 
             if (!_animalService.AddAnimal(userId, cageId, animalMap))

@@ -75,7 +75,7 @@ export default function AddFood(pros) {
     initialValues: {
       fName: "",
       quantity: "",
-      unit: "",
+      unit: "KG",
       importDate: "",
       expiredDate: "",
       categoryName: "",
