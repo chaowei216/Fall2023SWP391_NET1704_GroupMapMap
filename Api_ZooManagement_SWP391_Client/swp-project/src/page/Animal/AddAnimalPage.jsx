@@ -730,7 +730,7 @@ function AddAnimal(pros) {
                                 >
                                   <div
                                     style={{
-                                      width: "35%",
+                                      width: "45%",
                                       marginRight: "20px",
                                     }}
                                   >
@@ -738,13 +738,13 @@ function AddAnimal(pros) {
                                       Choose Meal For Animal
                                     </label>
                                     <div style={{display: "flex"}}>
-                                    <div className="mb-2" style={{ width: "20%",marginRight: "15px" }}>
+                                    <div className="mb-2" style={{ width: "40%",marginRight: "15px" }}>
                                       <Form.Control
                                         value={searchValue}
                                         onChange={handleSearch}
                                       />
                                     </div>
-                                    <div style={{width: "80%"}}>
+                                    <div style={{width: "60%"}}>
                                       <Field
                                         name={`fields[${index}].mealId`}
                                         // as="select"
@@ -790,7 +790,7 @@ function AddAnimal(pros) {
                                   </div>
                                   <div
                                     style={{
-                                      width: "30%",
+                                      width: "25%",
                                       marginRight: "20px",
                                     }}
                                   >
@@ -800,7 +800,7 @@ function AddAnimal(pros) {
                                     <Field
                                       name={`fields[${index}].startEat`}
                                       component="input"
-                                      style={{ width: "100%" }}
+                                      style={{ width: "80%" }}
                                       type="date"
                                       placeholder="Enter time to feed animal"
                                       className="control-field"
@@ -812,7 +812,7 @@ function AddAnimal(pros) {
                                   </div>
                                   <div
                                     style={{
-                                      width: "30%",
+                                      width: "25%",
                                       marginRight: "20px",
                                     }}
                                   >
@@ -820,7 +820,7 @@ function AddAnimal(pros) {
                                       Choose End Eat
                                     </label>
                                     <Field
-                                      style={{ width: "100%" }}
+                                      style={{ width: "80%" }}
                                       name={`fields[${index}].endEat`}
                                       component="input"
                                       type="date"

@@ -208,6 +208,7 @@ function App() {
               path="scheduleAnimal"
               element={<ScheduleAnimalNotFeeding />}
             ></Route>
+            <Route path="meal" element={<TableMeal />}></Route>
           </Route>
           <Route path="/loading" element={<Loading></Loading>} />
           <Route path="/login" element={<Login />}></Route>
