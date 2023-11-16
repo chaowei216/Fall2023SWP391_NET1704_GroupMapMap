@@ -28,6 +28,7 @@ export default function EditMeal(pros) {
   const [listFood, setListFood] = useState([]);
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [isNew2, setIsNew2] = useState(false);
+  const [isValidAmount, setIsValidAmount] = useState(true);
 
   const [options, setOptions] = useState([]);
   const getList = () => {
@@ -107,7 +108,7 @@ export default function EditMeal(pros) {
     setListFood(listFood.filter((_, i) => i !== index));
   };
   const handleFoodChange = (id, event) => {
-    // validateAmountFood(event.target.value);
+    validateAmountFood(event.target.value);
     const newFood = listFood.map((food) => {
       if (food.foodId === id) {
         food.quantity = Number(event.target.value);
@@ -125,6 +126,16 @@ export default function EditMeal(pros) {
     });
     setListFood(newSchedule);
   };
+
+  const validateAmountFood = (value) => {
+    const amout = Number(value);
+    if (!isNaN(amout) && amout >= 1) {
+      setIsValidAmount(true);
+    } else {
+      setIsValidAmount(false);
+    }
+  };
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     const food = {
@@ -132,6 +143,10 @@ export default function EditMeal(pros) {
       foodMeals: listFood,
     };
     console.log(food);
+    if(isValidAmount === false) {
+        toast.success("Quantity must be > 0");
+        return;
+    }
     const response = await fetch(`https://localhost:44352/api/Meal/${mealId}`, {
       method: "PUT",
       headers: {
@@ -141,15 +156,12 @@ export default function EditMeal(pros) {
     });
     if (response.ok) {
       console.log("Success");
-      // localStorage.setItem("isAdded", true);
-      // handleClose()
-        //window.location.href = '/staff/food'
-        // handleClose();
         toast.success("Update Success");
         setTimeout(() => {
           window.location.reload();
-        }, 1000);
-      // navigate("/staff/1")
+        }, 1300);
+    }else{
+        toast.success("Update Failure");
     }
   };
   return (
@@ -256,7 +268,7 @@ export default function EditMeal(pros) {
                                     Edit Quantity
                                   </label>
                                   <Form.Control
-                                    type="text"
+                                    type="number"
                                     className="mb-3"
                                     aria-describedby="inputGroupPrepend"
                                     style={{ width: "90%" }}
@@ -299,6 +311,9 @@ export default function EditMeal(pros) {
                                 </div>
                               </div>
                             ))}
+                            {!isValidAmount &&
+                            <div className="mb-3" style={{ color: "red" }}>Amount must be larger than 0</div>
+                          }
                             {listFood.length && listFood.length < options.length && (
                               <div
                                 style={{

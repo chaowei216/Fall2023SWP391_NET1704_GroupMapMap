@@ -1021,7 +1021,17 @@ export default function ViewAnimal(pros) {
                                       <td>{value.scheduleName}</td>
                                       <td>{value.time}</td>
                                       <td>{value.description}</td>
-                                      <td>{value.isDone === true ? <span style={{color: "green"}}>"Already Eat"</span> : <span>Not Yet</span>}</td>
+                                      <td>{value.isDone === true ? <div
+                                            style={{
+                                              background: "#008800",
+                                              borderRadius: "50px",
+                                              textAlign: "center",
+                                              color: "white",
+                                              fontWeight: "bold",
+                                            }}
+                                          >
+                                            Already Eat
+                                          </div> : <span>Not Yet</span>}</td>
                                     </tr>
                                   );
                                 })}
