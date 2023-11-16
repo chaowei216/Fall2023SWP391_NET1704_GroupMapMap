@@ -15,6 +15,8 @@ namespace BBL.Services
         private readonly IGenericRepository<AnimalTrainer> _animalTrainerRepo;
         private readonly IGenericRepository<AnimalCage> _animalCageRepo;
         private readonly IGenericRepository<AnimalSpecies> _animalSpeRepo;
+        private readonly IGenericRepository<AnimalMeal> _animalMealRepo;
+        private readonly IGenericRepository<AnimalSchedule> _animalScheduleRepo;
 
         public AnimalService(IGenericRepository<Animal> animalRepo,
                              IGenericRepository<User> userRepo,
@@ -22,7 +24,9 @@ namespace BBL.Services
                              IGenericRepository<AnimalCage> animalCageRepo,
                              IGenericRepository<AnimalTrainer> animalTrainerRepo, 
                              IGenericRepository<AnimalSpecies> animalSpeRepo,
-                             IGenericRepository<Food> foodRepo)
+                             IGenericRepository<Food> foodRepo,
+                             IGenericRepository<AnimalMeal> animalMealRepo,
+                             IGenericRepository<AnimalSchedule> animalScheRepo)
         {
             _animalRepo = animalRepo;
             _cageRepo = cageRepo;
@@ -31,6 +35,8 @@ namespace BBL.Services
             _animalTrainerRepo = animalTrainerRepo;
             _animalSpeRepo = animalSpeRepo;
             _foodRepo = foodRepo;
+            _animalMealRepo = animalMealRepo;
+            _animalScheduleRepo = animalScheRepo;
         }
         public bool AddAnimal(string? userId, string? cageId, Animal animal)
         {
@@ -229,6 +235,24 @@ namespace BBL.Services
             var train = _userRepo.GetById(animalTrainer.UserId);
             train.CountAnimal -= 1;
 
+            var animalMeals = _animalMealRepo.GetAll().Where(a => a.AnimalId == animalId && a.StartEat > DateTime.Now).ToList();
+            foreach (var animalMeal in animalMeals)
+            {
+                _animalMealRepo.Delete(animalMeal);
+            }
+
+            var mealAnimals = _animalMealRepo.GetAll().Where(_a => _a.AnimalId == animalId && (_a.EndEat > DateTime.Now && _a.StartEat < DateTime.Now)).ToList();
+            foreach(var  animalMeal in mealAnimals)
+            {
+                animalMeal.EndEat = DateTime.Now;
+                _animalMealRepo.Update(animalMeal);
+            }
+
+            var animalSchedule = _animalScheduleRepo.GetAll().Where(ac => ac.AnimalId == animalId).ToList();
+            foreach(var aniSche in animalSchedule)
+            {
+                _animalScheduleRepo.Delete(aniSche);
+            }
             animal.Status = false;
             return _animalRepo.Update(animal);
         }
