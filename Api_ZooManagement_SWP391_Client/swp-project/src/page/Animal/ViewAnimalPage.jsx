@@ -255,6 +255,7 @@ export default function ViewAnimal(pros) {
             name: matchedFId.scheduleName,
             time: matchedFId.time,
             description: matchedFId.description,
+            isDone: matchedFId.isDone,
           };
         });
       // Cập nhật state

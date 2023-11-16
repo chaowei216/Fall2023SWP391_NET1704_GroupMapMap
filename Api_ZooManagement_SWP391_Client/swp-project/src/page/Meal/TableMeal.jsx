@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import { Pagination } from "antd";
 import { debounce } from "lodash";
 import AddMeal from "./AddMeal";
+import EditMeal from "./EditMeal";
 
 function TableMeal() {
     const role = localStorage.getItem("role");
@@ -22,7 +23,7 @@ function TableMeal() {
     const [showModalFodd, setShowmodalFood] = useState(false);
     const [showModalFoodAnimal, setShowmodalFoodAnimal] = useState(false);
     const [listMeal, setListMeal] = useState([]);
-    const [dataAnimalEdit, setDataAnimalEdit] = useState({});
+    const [dataFoodEdit, setDataFoodEdit] = useState({});
     const [dataAnimalView, setDataAnimalView] = useState({});
     const [dataCageEdit, setDataCageEdit] = useState({});
     const [dataCageView, setDataCageView] = useState({});
@@ -50,6 +51,12 @@ function TableMeal() {
     const handleClick = () => {
         setShowmodalAdd(true);
     };
+    const handleEditFood = (item) => {
+        // setDataUserEdit(item);
+        const food = item;
+        setDataFoodEdit(food);
+        setShowmodalEdit(true);
+      };
     //   const handleClick = () => {
     //     setShowmodalAdd(true);
     //     setAnchorEl(null);
@@ -189,6 +196,21 @@ function TableMeal() {
                                                         return <div>{value2.unit}</div>;
                                                     })}
                                             </td>
+                                            <td style={{ width: "240px", textAlign: "center" }}>
+                                                <Button
+                                                    onClick={() => {
+                                                        handleEditFood(items);
+                                                    }}
+                                                    variant="text"
+                                                    style={{ padding: 0 }}
+                                                >
+                                                    <EditIcon />
+                                                </Button>
+                                                <Button variant="text" style={{ padding: 0 }}>
+                                                    <DeleteIcon />
+                                                </Button>
+                                            </td>
+
                                         </tr>
                                     );
                                 })}
@@ -205,7 +227,12 @@ function TableMeal() {
                 </div>
             </div>
             {/* <AddSpecies show={showModalAdd} handleClose={handleClose} /> */}
-            <AddMeal show={showModalAdd} handleClose={handleClose}/>
+            <AddMeal show={showModalAdd} handleClose={handleClose} />
+            <EditMeal
+                show={showModalEdit}
+                handleClose={handleClose}
+                dataFoodEdit={dataFoodEdit}
+            />
             {/*
             <ViewFood
                 show={showModalView}
