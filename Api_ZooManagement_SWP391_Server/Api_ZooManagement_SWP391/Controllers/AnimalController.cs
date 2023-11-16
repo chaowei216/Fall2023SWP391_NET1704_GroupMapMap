@@ -66,7 +66,12 @@ namespace Api_ZooManagement_SWP391.Controllers
                 animal.StartTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).StartTrainDate;
                 animal.EndTrainDate = _userService.GetUserByAnimalId(animal.AnimalId).EndTrainDate;
                 var getMeal = _mealService.GetMealByAnimalId(animal.AnimalId);
-                if (getMeal == null) return BadRequest("Some animals don't have meal!!! Check again!!!");
+                if (getMeal == null)
+                {
+                    animal.MealId = null;
+                    animal.StartEat = null;
+                    animal.EndEat = null;
+                }
                 if (getMeal != null)
                 {
                     animal.MealId = getMeal.MealId;
@@ -74,19 +79,21 @@ namespace Api_ZooManagement_SWP391.Controllers
                     animal.EndEat = getMeal.EndEat;
                 }
 
-                var meals = _mealService.GetMealsByAnimalId(animal.AnimalId);
-                var foodMeals = _mealService.GetFoodsByMealId(getMeal.MealId);
-                var foodMeal = _mealService.GetFoodsByMealId(getMeal.MealId);
-                var fMeal = _mapper.Map<List<GetFoodMealDto>>(_mealService.GetFoodsByMealId(getMeal.MealId));
-                foreach (var f in fMeal)
+                if (getMeal != null)
                 {
-                    foreach (var food in foodMeal)
+                    var meals = _mealService.GetMealsByAnimalId(animal.AnimalId);
+                    var foodMeals = _mealService.GetFoodsByMealId(getMeal.MealId);
+                    var foodMeal = _mealService.GetFoodsByMealId(getMeal.MealId);
+                    var fMeal = _mapper.Map<List<GetFoodMealDto>>(_mealService.GetFoodsByMealId(getMeal.MealId));
+                    foreach (var f in fMeal)
                     {
-                        f.FName = _foodService.GetByFoodId(f.FoodId).FName;
+                        foreach (var food in foodMeal)
+                        {
+                            f.FName = _foodService.GetByFoodId(f.FoodId).FName;
+                        }
                     }
+                    animal.FoodMealDtos = fMeal;
                 }
-                animal.FoodMealDtos = fMeal;
-
 
                 var schedules = _animalScheduleService.GetScheduleByAnimalId(animal.AnimalId);
                 if (schedules != null)
@@ -431,7 +438,7 @@ namespace Api_ZooManagement_SWP391.Controllers
                 });
             }
 
-            if (isCageFull > fullCage)
+            if (isCageFull >= fullCage)
             {
                 return BadRequest("This cage is full");
             }

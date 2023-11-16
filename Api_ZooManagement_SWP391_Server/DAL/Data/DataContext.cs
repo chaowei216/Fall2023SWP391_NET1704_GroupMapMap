@@ -214,7 +214,7 @@ namespace DAL.Data
             modelBuilder.Entity<AnimalMeal>(entity =>
             {
                 entity.Property(sm => sm.StartEat).IsRequired();
-                entity.Property(sm => sm.EndEat).IsRequired();
+                entity.Property(sm => sm.EndEat).HasDefaultValueSql(null);
             });
 
             modelBuilder.Entity<FoodMeal>(entity =>

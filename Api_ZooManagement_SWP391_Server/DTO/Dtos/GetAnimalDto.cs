@@ -17,7 +17,7 @@
         public DateTime? StartTrainDate { get; set; }
         public DateTime? EndTrainDate { get; set; }
         public string MealId { get; set; }
-        public DateTime StartEat { get; set; }
+        public DateTime? StartEat { get; set; }
         public DateTime? EndEat { get; set; }
         public string? AnimalImage { get; set; }
         public string SpeciesName { get; set; }
