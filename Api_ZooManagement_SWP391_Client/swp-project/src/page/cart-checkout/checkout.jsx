@@ -225,9 +225,7 @@ function Checkout() {
                           <td>
                             <span className="woocommerce-Price-amount">
                               <bdi>
-                                <span className="woocommerce-Price-currencySymbol">
-                                  $
-                                </span>
+                                <span className="woocommerce-Price-currencySymbol"></span>
                                 {totalPrice}
                               </bdi>
                             </span>
@@ -237,10 +235,7 @@ function Checkout() {
                           <th>Total:</th>
                           <td>
                             <span className="woocommerce-Price-amount">
-                              <bdi>
-                                <span>$</span>
-                                {totalPrice}
-                              </bdi>
+                              <bdi>{totalPrice}</bdi>
                             </span>
                           </td>
                         </tr>
@@ -252,6 +247,7 @@ function Checkout() {
                     <ul>
                       <li>
                         <input
+                          checked
                           type="radio"
                           id="Bank_Payment"
                           name="Bank_Payment"
