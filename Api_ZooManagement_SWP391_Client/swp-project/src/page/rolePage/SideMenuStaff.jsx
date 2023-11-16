@@ -39,6 +39,9 @@ const items = [
         getItem("Area", "/staff/area", <MDBIcon fas icon="map-marked-alt" />),
         getItem("Cage", "/staff/cage", <MDBIcon fas icon="archive" />),
         getItem("Food", "/staff/food", <MDBIcon fas icon="carrot" />),
+        getItem("Schedule", "/staff/schedule", <MDBIcon fas icon="carrot" />),
+        getItem("Meal", "/staff/meal", <MDBIcon fas icon="carrot" />),
+
       ],
       "group"
     ),
@@ -88,7 +91,7 @@ const SideMenuStaff = ({ openSidebarToggle, OpenSidebar }) => {
         <Menu
           // theme="blue"
           style={{
-            height: "165vh",
+            height: "140vh",
             backgroundColor: "wheat",
             borderRadius: "10px 10px 10px 10px",
           }}

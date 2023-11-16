@@ -324,7 +324,7 @@ function AddPage() {
                                     option.experienceId
                                   )}
                                 >
-                                  {option.experienceId}
+                                  {option.experienceId} - Position: {option.position}
                                 </option>
                               ))}
                             </Form.Select>

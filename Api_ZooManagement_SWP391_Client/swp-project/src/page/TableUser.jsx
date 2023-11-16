@@ -178,6 +178,7 @@ function TableUser() {
             style={{ verticalAlign: "middle", textAlign: "center" }}>
             <thead className="table-dark">
               <tr>
+                <th>Image</th>
                 <th>ID</th>
                 <th>Email</th>
                 <th>Role</th>
@@ -192,12 +193,28 @@ function TableUser() {
                 users.map((item, index) => {
                   return (
                     <tr key={`user-${index}`}>
+                      <td width={130}>
+                        {" "}
+                        <img
+                          className="rounded"
+                          style={{ width: "100%" }}
+                          src={
+                            "/" +
+                            item.userImage.substring(
+                              item.userImage.indexOf(
+                                "\\",
+                                item.userImage.indexOf("\\") + 1
+                              ) + 1
+                            )
+                          }
+                        ></img>
+                      </td>
                       <td>{item.userId}</td>
                       <td>{item.email}</td>
                       <td>{item.role === 2 ? "Staff" : "ZooTrainer"}</td>
-                      <td>{item.firstname}</td>
-                      <td>{item.lastname}</td>
-                      <td width={370}>
+                      <td width={115}>{item.firstname}</td>
+                      <td width={150}>{item.lastname}</td>
+                      <td width={360}>
                         <Button
                           variant="text"
                           style={{ padding: 0 }}
