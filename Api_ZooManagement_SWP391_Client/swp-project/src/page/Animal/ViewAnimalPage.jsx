@@ -1055,7 +1055,7 @@ export default function ViewAnimal(pros) {
                                 })}
                               {listScheduleFilter.length <= 0 && (
                                 <tr style={{ textAlign: "center" }}>
-                                  <td colSpan="4">Empty</td>
+                                  <td colSpan="5">Empty</td>
                                 </tr>
                               )}
                             </tbody>

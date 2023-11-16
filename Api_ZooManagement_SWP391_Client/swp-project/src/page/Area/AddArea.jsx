@@ -89,7 +89,7 @@ export default function AddArea(pros) {
                                                     type="text"
                                                     style={{ width: "100%", height: "50px" }}
                                                     id="areaName"
-                                                    placeholder="areaName"
+                                                    placeholder="Area Name"
                                                     aria-describedby="inputGroupPrepend"
                                                     name="areaName"
                                                     value={formik.values.areaName}
@@ -108,9 +108,9 @@ export default function AddArea(pros) {
                                                 <Form.Control
                                                     type="text"
                                                     id="description"
-                                                    placeholder="description"
+                                                    placeholder="Description"
                                                     aria-describedby="inputGroupPrepend"
-                                                    name="description"
+                                                    name="Description"
                                                     style={{ width: "100%", height: "50px" }}
                                                     value={formik.values.description}
                                                     onChange={formik.handleChange}

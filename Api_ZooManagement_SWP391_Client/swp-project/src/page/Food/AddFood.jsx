@@ -112,7 +112,7 @@ export default function AddFood(pros) {
                           type="text"
                           style={{ height: "56px" }}
                           id="fName"
-                          placeholder="fName"
+                          placeholder="Food Name"
                           aria-describedby="inputGroupPrepend"
                           name="fName"
                           value={formik.values.fName}
@@ -163,7 +163,7 @@ export default function AddFood(pros) {
                         <Form.Control
                           type="Number"
                           id="quantity"
-                          placeholder="quantity"
+                          placeholder="Quantity"
                           aria-describedby="inputGroupPrepend"
                           name="quantity"
                           style={{ height: "56px" }}

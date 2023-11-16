@@ -1,17 +1,19 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
+
 import { Link } from "react-router-dom";
 function OurLog() {
   const [listPages, setListPages] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [listSpecies, setListSpecies] = useState([]);
   // phân trang api
   const getPages = async (page) => {
     let res = await axios.get(`https://localhost:44352/api/News/pages/${page}`);
     if (res && res.data) {
       console.log(res);
       setTotalPages(res.data.pages);
-      setListPages(res.data.news);
+      setListPages(res.data.news.filter(news => news.checked === true));
     }
   };
 
@@ -29,7 +31,7 @@ function OurLog() {
     };
     getPages(0);
   }, []);
-  const a = listPages.sort((a, b) =>{
+  const a = listPages.sort((a, b) => {
     return new Date(b.releaseDate) - new Date(a.releaseDate)
   })
   const customPrevious = (
@@ -60,6 +62,20 @@ function OurLog() {
     const formattedDate = day + "/" + month + "/" + year;
     return formattedDate;
   };
+  useEffect(() => {
+    const getSpeciesList = () => {
+      return fetch("https://localhost:44352/api/AnimalSpecies").then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getSpeciesList().then((items) => {
+      if (mounted) {
+        setListSpecies(items);
+      }
+    });
+    return () => (mounted = false);
+  }, []);
 
   console.log(editImg("C:\\fakepath\\caheo.jpg"));
   return (
@@ -81,7 +97,7 @@ function OurLog() {
                     <img
                       alt="recent-news-img"
                       style={{ height: "100%", width: "100%" }}
-                      src={editImg(news.newsImage)} 
+                      src={editImg(news.newsImage)}
                     />
                   </div>
 
@@ -158,41 +174,6 @@ function OurLog() {
                       </div>
                     </li>
                   ))}
-                </ul>
-              </div>
-              <div className="posts">
-                <h3>Number of animal species.</h3>
-                <ul className="categories">
-                  <li className="pt-0">
-                    <a href="#">
-                      Lion<span>12</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Tiger<span>13</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Elephant<span>19</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Giraffe<span>22</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Zebra <span>11</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      Hippo<span>08</span>
-                    </a>
-                  </li>
                 </ul>
               </div>
             </div>

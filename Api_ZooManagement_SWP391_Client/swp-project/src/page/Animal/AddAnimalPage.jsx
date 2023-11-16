@@ -300,7 +300,7 @@ function AddAnimal(pros) {
                                 <Form.Control
                                   id="name"
                                   type="text"
-                                  placeholder="name of the animal"
+                                  placeholder="Name of the animal"
                                   aria-describedby="inputGroupPrepend"
                                   name="name"
                                   value={values.name}
@@ -563,7 +563,7 @@ function AddAnimal(pros) {
                               <Form.Control
                                 as="textarea"
                                 id="description"
-                                placeholder="description"
+                                placeholder="Description"
                                 aria-describedby="inputGroupPrepend"
                                 name="description"
                                 style={{ height: "100px" }}
@@ -738,6 +738,7 @@ function AddAnimal(pros) {
                                       Choose Meal For Animal
                                     </label>
                                     <div style={{ display: "flex" }}>
+<<<<<<< HEAD
                                       <div
                                         className="mb-2"
                                         style={{
@@ -745,6 +746,9 @@ function AddAnimal(pros) {
                                           marginRight: "15px",
                                         }}
                                       >
+=======
+                                      <div className="mb-2" style={{ width: "40%", marginRight: "15px" }}>
+>>>>>>> 07735f933fc78efd263fe0a1a1e90103703b431f
                                         <Form.Control
                                           value={searchValue}
                                           onChange={handleSearch}
@@ -753,8 +757,13 @@ function AddAnimal(pros) {
                                       <div style={{ width: "60%" }}>
                                         <Field
                                           name={`fields[${index}].mealId`}
+<<<<<<< HEAD
                                           // as="select"
                                           // onChange={(e) => handleChange(e.target.value)}
+=======
+                                        // as="select"
+                                        // onChange={(e) => handleChange(e.target.value)}
+>>>>>>> 07735f933fc78efd263fe0a1a1e90103703b431f
                                         >
                                           {({ field, form }) => (
                                             <Form.Select
@@ -769,9 +778,13 @@ function AddAnimal(pros) {
                                                 )
                                               }
                                             >
+<<<<<<< HEAD
                                               <option value={null}>
                                                 Choose Meal
                                               </option>
+=======
+                                              <option value={null}>Choose Meal</option>
+>>>>>>> 07735f933fc78efd263fe0a1a1e90103703b431f
                                               {options
                                                 .filter((option) =>
                                                   option.mealName
@@ -813,10 +826,10 @@ function AddAnimal(pros) {
                                       type="date"
                                       placeholder="Enter time to feed animal"
                                       className="control-field"
-                                      // `style={{
-                                      //   width: "30%",
-                                      //   marginRight: "20px",
-                                      // }}`
+                                    // `style={{
+                                    //   width: "30%",
+                                    //   marginRight: "20px",
+                                    // }}`
                                     />
                                   </div>
                                   <div

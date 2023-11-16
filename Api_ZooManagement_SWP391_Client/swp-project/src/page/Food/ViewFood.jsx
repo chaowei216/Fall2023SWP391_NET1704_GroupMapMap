@@ -24,6 +24,7 @@ export default function ViewFood(pros) {
   const [foodId, setFoodId] = useState("");
   const [foodName, setFoodName] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [unit, setUnit] = useState("");
   const [importDate, setImportDate] = useState("");
   const [expiredDate, setExpiredDate] = useState("");
   const [category, setCategory] = useState("");
@@ -37,6 +38,7 @@ export default function ViewFood(pros) {
       setImportDate(dataFoodView.importDate.slice(0, 10));
       setExpiredDate(dataFoodView.expiredDate.slice(0, 10));
       setCategory(dataFoodView.categoryName);
+      setUnit(dataFoodView.unit);
     }
   }, [dataFoodView]);
 
@@ -107,7 +109,7 @@ export default function ViewFood(pros) {
                         </Form.Control.Feedback> */}
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">The Quantity (KG) </label>
+                        <label className="form-label">The Quantity</label>
                         <Form.Control
                           type="Number"
                           id="quantity"
@@ -118,15 +120,20 @@ export default function ViewFood(pros) {
                           style={{ height: "56px" }}
                           value={quantity}
                           onChange={(e) => setQuantity(e.target.value)}
-                          // onChange={formik.handleChange}
-                          // onBlur={formik.handleBlur}
-                          //   isInvalid={
-                          //     formik.errors.quantity && formik.touched.quantity
-                          //   }
                         />
-                        {/* <Form.Control.Feedback type="invalid">
-                          {formik.errors.quantity}
-                        </Form.Control.Feedback> */}
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Unit</label>
+                        <Form.Control
+                          type="Number"
+                          id="unit"
+                          placeholder="unit"
+                          aria-describedby="inputGroupPrepend"
+                          name="unit"
+                          disabled
+                          style={{ height: "56px" }}
+                          value={unit}
+                        />
                       </div>
                       <div className="row mb-5 mt-4" style={{width: "104%"}}>
                         <div className="mb-3" style={{ width: "50%" }}>
@@ -147,15 +154,8 @@ export default function ViewFood(pros) {
                                 disabled
                                 value={importDate}
                                 onChange={(e) => setImportDate(e.target.value)}
-                                // isInvalid={
-                                //   formik.errors.importDate &&
-                                //   formik.touched.importDate
-                                // }
                               />
                             </Space>
-                            {/* <Form.Control.Feedback type="invalid">
-                              {formik.errors.quantity}
-                            </Form.Control.Feedback> */}
                           </div>
                         </div>
                         <div className="mb-3" style={{ width: "48%",marginLeft: "10px" }}>
@@ -175,15 +175,8 @@ export default function ViewFood(pros) {
                               name="expiredDate"
                               value={expiredDate}
                               onChange={(e) => setExpiredDate(e.target.value)}
-                              //   isInvalid={
-                              //     formik.errors.expiredDate &&
-                              //     formik.touched.expiredDate
-                              //   }
                             />
                           </Space>
-                          {/* <Form.Control.Feedback type="invalid">
-                            {formik.errors.expiredDate}
-                          </Form.Control.Feedback> */}
                         </div>
                       </div>
                       <MDBModalFooter>
