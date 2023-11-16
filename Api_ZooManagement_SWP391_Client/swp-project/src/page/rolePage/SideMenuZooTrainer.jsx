@@ -17,7 +17,7 @@ function getItem(label, key, icon, children, type) {
     type,
   };
 }
-import { MDBIcon } from 'mdb-react-ui-kit';
+import { MDBIcon } from "mdb-react-ui-kit";
 
 const items = [
   getItem("Zoo Management", "sub1", <AlertOutlined />, [
@@ -25,10 +25,27 @@ const items = [
       "Manage",
       "g1",
       null,
-      [getItem("Profile", "profile",<MDBIcon fas icon="user-cog" />), getItem("Animal", "2",<MDBIcon fas icon="paw" />, getItem("Meal", "/staff/meal", <MDBIcon fas icon="utensils" />),)],
+      [
+        getItem("Profile", "profile", <MDBIcon fas icon="user-cog" />),
+        getItem("Animal", "2", <MDBIcon fas icon="paw" />),
+      ],
       "group"
     ),
-    getItem("Other", "g2", null, [getItem("Food", "food",<MDBIcon fas icon="carrot" />),getItem("Feeding", "feed",<MDBIcon fas icon="utensils" />),getItem("Schedule Animal", "scheduleAnimal",<MDBIcon fas icon="utensils" />)], "group"),
+    getItem(
+      "Other",
+      "g2",
+      null,
+      [
+        getItem("Food", "food", <MDBIcon fas icon="carrot" />),
+        getItem("Feeding", "feed", <MDBIcon fas icon="utensils" />),
+        getItem(
+          "Schedule Animal",
+          "scheduleAnimal",
+          <MDBIcon fas icon="utensils" />
+        ),
+      ],
+      "group"
+    ),
   ]),
 ];
 const SideMenuZooTrainer = ({ openSidebarToggle, OpenSidebar }) => {

@@ -96,8 +96,30 @@ namespace Api_ZooManagement_SWP391.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateMeal(string mealId)
+        public IActionResult UpdateMeal(string mealId, [FromBody] MealUpdateDto fMealDto)
         {
+            if(_mealService.GetMealById(mealId) == null)
+                return BadRequest("Meal does not exist!");
+
+            if (fMealDto == null)
+                return BadRequest("Food list is null!");
+            
+            if(mealId != fMealDto.MealId)
+            {
+                return BadRequest();
+            }
+
+            var meal = _mealService.GetMealById(mealId);
+            var foodMeals = fMealDto.FoodMeals;
+
+            if (foodMeals == null)
+                return BadRequest();
+
+            if (!_mealService.UpdateMeal(meal, foodMeals))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving");
+                return StatusCode(500, ModelState);
+            }
 
             return Ok("Update successfully!!!");
         }

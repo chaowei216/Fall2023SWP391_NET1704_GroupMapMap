@@ -41,6 +41,7 @@ namespace BLL.Services
                         foreach (var fMeal in foodMeals)
                         {
                             var food = _foodRepo.GetById(fMeal.FoodId);
+                            if(food == null) return false;
                             newMeal.FoodMeals.Add(new FoodMeal
                             {
                                 MealId = newMeal.MealId,
@@ -129,9 +130,36 @@ namespace BLL.Services
             return _animalMealRepo.GetAll().Where(a => a.AnimalId == animalId).ToList();
         }
 
-        public bool UpdateMeal(Meal meal)
+        public bool UpdateMeal(Meal meal, List<GetFoodMealDto> foodMeals)
         {
-            return _mealRepo.Update(meal);
+            if (meal.FoodMeals == null)
+                meal.FoodMeals = new List<FoodMeal>();
+            try
+            {
+                var meals = _foodMealRepo.GetAll().Where(m => m.MealId == meal.MealId).ToList();
+                foreach(var m in meals)
+                {
+                    _foodMealRepo.Delete(m);
+                }
+                meal.FoodMeals.Clear();
+                foreach (var fMeal in foodMeals)
+                {
+                    var food = _foodRepo.GetById(fMeal.FoodId);
+                    if (food == null) return false;
+                    meal.FoodMeals.Add(new FoodMeal
+                    {
+                        MealId = meal.MealId,
+                        FoodId = food.FoodId,
+                        Quantity = fMeal.Quantity,
+                        Unit = fMeal.Unit
+                    });
+                }
+                return _mealRepo.Update(meal);
+            } catch (Exception ex)
+            {
+                return false;
+            }
+
         }
 
         public ICollection<GetMealAnimalDto> GetOldMeal(string animalId)

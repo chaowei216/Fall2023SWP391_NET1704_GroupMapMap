@@ -13,7 +13,7 @@ namespace BLL.Interfaces
         Meal GetMealById(string mealId);
         ICollection<MealDto> GetMeals();
         bool AddMeal(List<FoodMealDto> foodMeals, Meal meal);
-        bool UpdateMeal(Meal meal);
+        bool UpdateMeal(Meal meal, List<GetFoodMealDto> foodMeals);
         bool DeleteMeal(string mealId);
         int CountMeal();
         AnimalMeal? GetMealByAnimalId(string animalId);
