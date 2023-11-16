@@ -294,11 +294,6 @@ function TableFood() {
                             <EditIcon />
                           </Button>
                         )}
-                        {role && role === "STAFF" && (
-                          <Button variant="text" style={{ padding: 0 }}>
-                            <DeleteIcon />
-                          </Button>
-                        )}
                       </td>
                     </tr>
                   );
