@@ -61,7 +61,7 @@ export default function EditAnimal(pros) {
   const [list3, setList3] = useState([]);
   const [availableTrainer, setAvailableTrainer] = useState([]);
   const [availableCage, setAvailableCage] = useState([]);
-  
+
   const validateOutCageDate = (dateString) => {
     const selectedDate = new Date(dateString);
     const currentDate = new Date();
@@ -284,6 +284,9 @@ export default function EditAnimal(pros) {
   };
   const removeField = (index) => {
     setSchedules(schedules.filter((_, i) => i !== index));
+  };
+  const removeField2 = (index) => {
+    setFoods(foods.filter((_, i) => i !== index));
   };
   const getList = () => {
     return fetch("https://localhost:44352/api/Meal/meal").then((data) =>
@@ -1024,7 +1027,7 @@ export default function EditAnimal(pros) {
                         </div>
                       </div>
                       <div className="label-info">
-                        <label>Food Information</label>
+                        <label>Meal Information</label>
                       </div>
                       <div className="mb-3 Food-Information">
                         <div className="mb-1">
@@ -1066,9 +1069,9 @@ export default function EditAnimal(pros) {
                                       ? (e) => handleFoodSelect(e, index)
                                       : null
                                   }
-                                  placeholder="Chọn món ăn"
+                                  placeholder="Choose Meals"
                                 >
-                                  <option value="">Chọn món ăn</option>
+                                  <option value="">Choose Meals</option>
                                   {/* Render các option từ API */}
                                   {options.map((option) => (
                                     <option
@@ -1115,13 +1118,18 @@ export default function EditAnimal(pros) {
                                   }
                                 />
                               </div>
+                              <div style={{ paddingTop: "40px" }}>
+                                <button onClick={() => removeField2(index)}>
+                                  <DeleteIcon />
+                                </button>
+                              </div>
                             </div>
                           ))}
                           {!isValidStartEat &&
-                            <div className="mb-3" style={{ color: "red" }}>StartEatDate must be after EntryCageDate</div>
+                            <div className="mb-3" style={{ color: "red" }}>Start Eat Date must be after Entry Cage Date</div>
                           }
                           {!isValidEndEat &&
-                            <div className="mb-3" style={{ color: "red" }}>EndEatDate must be after StartEatDate</div>
+                            <div className="mb-3" style={{ color: "red" }}>End Eat Date must be after Start Eat Date</div>
                           }
 
                           {foods.length && foods.length < options.length && (
@@ -1134,6 +1142,7 @@ export default function EditAnimal(pros) {
                               <Button onClick={handleAdd}>Add</Button>
                             </div>
                           )}
+
                         </div>
                         <div style={{ textAlign: "end" }}>
                           <Button
@@ -1240,7 +1249,7 @@ export default function EditAnimal(pros) {
                                   />
 
                                 </div>
-                                <div style={{paddingTop: "40px"}}>
+                                <div style={{ paddingTop: "40px" }}>
                                   <button onClick={() => removeField(index)}>
                                     <DeleteIcon />
                                   </button>
@@ -1258,10 +1267,8 @@ export default function EditAnimal(pros) {
                                 }}
                               >
                                 <Button onClick={handleAdd2}>Add</Button>
-
                               </div>
                             )}
-
                           </div>
                           <div style={{ textAlign: "end" }}>
                             <Button
@@ -1274,6 +1281,18 @@ export default function EditAnimal(pros) {
                           </div>
 
                         </div>
+                      )}
+                      {schedules.length === 0 && scheduleList.length > 0 && (
+                        <>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <Button onClick={handleAdd2}>Add Schedule for Animal</Button>
+                          </div>
+                        </>
                       )}
 
                       <div className="btn-footer" style={{ marginRight: "0px" }}>

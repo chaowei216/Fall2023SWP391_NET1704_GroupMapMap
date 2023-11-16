@@ -37,27 +37,52 @@ function TableScheduleFeed() {
   const [animalFilter, setAnimalFilter] = useState([]);
   const [aID, setAID] = useState("");
 
+  function getPeriod(hour) {
+    if (hour >= 6 && hour < 12) {
+      return "morning";
+    }
+    if (hour >= 12 && hour < 18) {
+      return "afternoon";
+    }
+    if (hour >= 18 || hour < 6) {
+      return "evening";
+    }
+  }
+
+  function parseTime(time) {
+    // Chuyển thời gian sang đối tượng Date
+    const [hours] = time.split(":");
+    const hour = parseInt(hours);
+    if (hour >= 6 && hour < 12) {
+      return "morning";
+    }
+    if (hour >= 12 && hour < 18) {
+      return "afternoon";
+    }
+    if (hour >= 18 || hour < 6) {
+      return "evening";
+    }
+  }
+
   useEffect(() => {
     const emailInfo = localStorage.getItem("email");
     const getTrainerList = () => {
-      return fetch("https://localhost:44352/api/User/users").then((data) =>
+      return fetch(`https://localhost:44352/api/User/users/${emailInfo}`).then((data) =>
         data.json()
       );
     };
     let mounted = true;
     getTrainerList().then((items) => {
       if (mounted) {
-        setProfileZooTrainer(items.filter((user) => user.email === emailInfo));
+        setProfileZooTrainer(items.userId);
       }
     });
-    
     return () => (mounted = false);
   }, []);
 
   useEffect(() => {
-    const ZooProfileTest = profileZooTrainer;
-    if (ZooProfileTest.length > 0) {
-      setAID(ZooProfileTest[0].userId);
+    if (profileZooTrainer.length > 0) {
+      setAID(profileZooTrainer);
     }
   }, [profileZooTrainer]);
 
@@ -77,21 +102,6 @@ function TableScheduleFeed() {
   }, []);
 
   useEffect(() => {
-    const getMealNow = () => {
-      return fetch(`https://localhost:44352/api/Animal`).then((data) =>
-        data.json()
-      );
-    };
-    let mounted = true;
-    getMealNow().then((items) => {
-      if (mounted) {
-        setListAnimalByMeal(items.filter((a) => a.userId === aID));
-      }
-    });
-    return () => (mounted = false);
-  }, [aID]);
-
-  useEffect(() => {
     const list = listAnimalByMeal;
     const currentPeriod = getPeriod(now.getHours());
     const filteredAnimals = list.filter((animal) => {
@@ -108,37 +118,26 @@ function TableScheduleFeed() {
     setMealNow(filteredAnimals);
   }, [listAnimalByMeal]);
 
-  function getPeriod(hour) {
-    if (hour >= 6 && hour < 12) {
-      return "morning";
-    }
-    if (hour >= 12 && hour < 18) {
-      return "afternoon";
-    }
-    if (hour >= 18 || hour < 6) {
-      return "evening";
-    }
-  }
-  function parseTime(time) {
-    // Chuyển thời gian sang đối tượng Date
-    const [hours] = time.split(":");
-    const hour = parseInt(hours);
-    if (hour >= 6 && hour < 12) {
-      return "morning";
-    }
-    if (hour >= 12 && hour < 18) {
-      return "afternoon";
-    }
-    if (hour >= 18 || hour < 6) {
-      return "evening";
-    }
-  }
+  useEffect(() => {
+    const getMealNow = () => {
+      return fetch(`https://localhost:44352/api/Animal`).then((data) =>
+        data.json()
+      );
+    };
+    let mounted = true;
+    getMealNow().then((items) => {
+      if (mounted) {
+        setListAnimalByMeal(items.filter((a) => a.userId === aID));
+      }
+    });
+    return () => (mounted = false);
+  }, [aID]);
+
   // Lấy thời gian hiện tại
   const now = new Date();
   // const testNow = new Date(now)
   // console.log(testNow.getHours());
   // Xác định khung giờ hiện tại
-  const currentPeriod = getPeriod(now.getHours());
   // useEffect(() => {
   //   const a = list;
   //   const currentPeriod = getPeriod(now.getHours());
@@ -191,7 +190,7 @@ function TableScheduleFeed() {
     });
     setListAnimalFilter(filteredAnimals);
   }, [listAnimal]);
-  
+
   const handleClick = () => {
     setShowmodalAdd(true);
     setAnchorEl(null);
@@ -336,12 +335,12 @@ function TableScheduleFeed() {
           <MDBTable>
             <MDBTableHead
               dark
-              // style={{
-              //   borderTop: "white",
-              //   borderRight: "black",
-              //   borderLeft: "black",
-              //   borderBottom: "black",
-              // }}
+            // style={{
+            //   borderTop: "white",
+            //   borderRight: "black",
+            //   borderLeft: "black",
+            //   borderBottom: "black",
+            // }}
             >
               <tr>
                 <th scope="col" style={{ textAlign: "center" }}>
@@ -500,7 +499,6 @@ function TableScheduleFeed() {
                                     backgroundColor: "gray",
                                     color: "white",
                                     width: "84px",
-                                    marginRight: "15px",
                                   }}
                                 >
                                   Not Yet
@@ -531,7 +529,6 @@ function TableScheduleFeed() {
                                     backgroundColor: "green",
                                     color: "white",
                                     width: "84px",
-                                    marginRight: "15px",
                                   }}
                                 >
                                   Done

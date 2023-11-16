@@ -243,7 +243,8 @@ function TableFood() {
               <tr>
                 <th>Food ID</th>
                 <th>Food Name</th>
-                <th>Food Quantity (KG) </th>
+                <th>Food Quantity</th>
+                <th>Unit</th>
                 <th>Category</th>
                 <th style={{ textAlign: "center" }}>Action</th>
               </tr>
@@ -257,6 +258,7 @@ function TableFood() {
                       <td>{items.foodId}</td>
                       <td>{items.fName}</td>
                       <td>{items.quantity}</td>
+                      <td>{items.unit}</td>
                       <td>{items.categoryName}</td>
                       <td style={{ width: "240px", textAlign: "center" }}>
                         {role && role === "ZOOTRAINER" && (

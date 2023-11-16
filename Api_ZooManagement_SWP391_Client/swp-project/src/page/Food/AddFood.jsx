@@ -192,7 +192,7 @@ export default function AddFood(pros) {
                           onBlur={formik.handleBlur}
                           // isInvalid={formik.errors.unit && formik.touched.categoryName}
                         >
-                          <option value="Kg">Kg</option>
+                          <option value="KG">KG</option>
                           <option value="L">L</option>
                         </Form.Select>
                       </div>

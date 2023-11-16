@@ -154,7 +154,7 @@ function TableNews() {
           </div>
         </div>
         <div className="table-content">
-          <Table size="100px" hover>
+          <Table size="100px" hover  bordered style={{textAlign: "center", verticalAlign: "middle"}}>
             <thead className="table-dark">
               <tr>
                 <th>News ID</th>

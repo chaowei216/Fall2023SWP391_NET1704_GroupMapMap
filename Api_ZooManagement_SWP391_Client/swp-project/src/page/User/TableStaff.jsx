@@ -52,7 +52,7 @@ function TableStaff() {
       }
     });
     return () => (mounted = false);
-  }, [currentPage]);
+  }, [currentPage,showModalEdit]);
   const handleEditUser = (item) => {
     console.log(item);
     const user = item;

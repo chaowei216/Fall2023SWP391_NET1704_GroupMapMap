@@ -191,7 +191,7 @@ function TableAnimalDetail() {
                         ></img>
                       </td>
                       <td width={100}>{items.animalId}</td>
-                      <td width={110}>{items.name}</td>
+                      <td width={160}>{items.name}</td>
                       <td width={320} style={{ textAlign: "justify" }}>
                         {items.description}
                       </td>
@@ -201,7 +201,7 @@ function TableAnimalDetail() {
                       <td width={160} style={{ textAlign: "center" }}>
                         {items.region}
                       </td>
-                      <td width={370} style={{ textAlign: "center" }}>
+                      <td width={280} style={{ textAlign: "center" }}>
                         <Button
                           variant="text"
                           style={{ padding: 0 }}

@@ -23,6 +23,7 @@ export default function EditFood(pros) {
   const role = localStorage.getItem("role");
   const [foodId, setFoodId] = useState("");
   const [foodName, setFoodName] = useState("");
+  const [unit,setUnit] = useState("");
   const [quantity, setQuantity] = useState("");
   const [importDate, setImportDate] = useState("");
   const [expiredDate, setExpiredDate] = useState("");
@@ -38,6 +39,7 @@ export default function EditFood(pros) {
       setExpiredDate(dataFoodEdit.expiredDate.slice(0, 10));
       setCategory(dataFoodEdit.category);
       setAnimalFood(dataFoodEdit.animalFood);
+      setUnit(dataFoodEdit.unit)
     }
   }, [dataFoodEdit]);
 
@@ -151,7 +153,7 @@ export default function EditFood(pros) {
                         </Form.Control.Feedback> */}
                       </div>
                       <div className="mb-3">
-                        <label className="form-label">Enter The Quantity (KG) </label>
+                        <label className="form-label">Enter The Quantity</label>
                         <Form.Control
                           type="Number"
                           id="quantity"
@@ -170,6 +172,19 @@ export default function EditFood(pros) {
                         {/* <Form.Control.Feedback type="invalid">
                           {formik.errors.quantity}
                         </Form.Control.Feedback> */}
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Unit</label>
+                        <Form.Control
+                          type="text"
+                          id="unit"
+                          placeholder="unit"
+                          aria-describedby="inputGroupPrepend"
+                          name="unit"
+                          style={{ height: "56px" }}
+                          value={unit}
+                          disabled
+                        />
                       </div>
                       <div className="row mb-5 mt-4">
                         <div className="mb-3" style={{ width: "50%" }}>
