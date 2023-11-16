@@ -1,41 +1,38 @@
-import React from 'react'
+import React from "react";
 
 function Banner() {
   return (
-    <div>  <section className="banner" style={{backgroundImage:'url(https://via.placeholder.com/1920x470)'}}>
-    <div className="container">
-       <div className="row align-items-center">
-          <div className="col-lg-7">
-             <div className="title-area-data">
+    <div>
+      {" "}
+      <section
+        className="banner"
+        style={{
+          backgroundImage: "",
+        }}
+      >
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-lg-7">
+              <div className="title-area-data">
                 <h2>Contact Us</h2>
                 <p>A magical combination that sent aromas to the taste buds</p>
-             </div>
-             <ol className="breadcrumb">
+              </div>
+              <ol className="breadcrumb">
                 <li className="breadcrumb-item">
-                  <a href="index.html"><i className="fa-solid fa-house"></i> Home</a>
+                  <a href="index.html">
+                    <i className="fa-solid fa-house"></i> Home
+                  </a>
                 </li>
-                <li className="breadcrumb-item active" aria-current="page">Contact Us</li>
-             </ol>
+                <li className="breadcrumb-item active" aria-current="page">
+                  Contact Us
+                </li>
+              </ol>
+            </div>
           </div>
-          <div className="col-lg-5">
-             <div className="row">
-                <div className="col-6">
-                   <div className="title-area-img">
-                      <img alt="title-area-img" src="https://via.placeholder.com/230x376"/>
-                      <img alt="pata" className="pata" src="assets/img/pata.png"/>
-                   </div>
-                </div>
-                <div className="col-6">
-                   <div className="title-area-img two">
-                      <img alt="title-area-img" src="https://via.placeholder.com/230x376"/>
-                   </div>
-                </div>
-             </div>
-          </div>
-       </div>
+        </div>
+      </section>
     </div>
- </section></div>
-  )
+  );
 }
 
-export default Banner
+export default Banner;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useShopping from "../../hooks/useShopping";
 import { GrFormAdd, GrFormSubtract } from "react-icons/gr";
+import { toast } from "react-toastify";
 
 function ListItem() {
   const { shoppingCart, handleUpdateItemQuantity, handleUpdateDay } =
@@ -77,12 +78,24 @@ function ListItem() {
     //   console.log(item.day);
     // })
     if (shoppingCart.length > 0) {
-      console.log(getCurrentDate());
+      console.log();
       if (shoppingCart[0].day >= getCurrentDate()) {
         return true;
       }
     }
     return false;
+  };
+  const checkQuantity = () => {
+    // shoppingCart.map((item)=>{
+    //   console.log(item.day);
+    // })
+    if (shoppingCart.length > 0) {
+      console.log(shoppingCart[0].quantity);
+      if (isNaN(shoppingCart[0].quantity)) {
+        return false;
+      }
+    }
+    return true;
   };
   console.log(checkDay());
   function getCurrentDate() {
@@ -121,29 +134,22 @@ function ListItem() {
                         </div>
                       </td>
                       <td className="product-quantity">
-                        <GrFormSubtract
-                          style={{
-                            cursor: "pointer",
-                            fontSize: "22px",
-                            marginBottom: "7px",
+                        <input
+                          type="number"
+                          value={product.quantity}
+                          required
+                          onChange={(e) => {
+                            const newQuantity = parseInt(e.target.value);
+                            if (newQuantity < 1 || newQuantity > 500) {
+                              toast(
+                                "Quantity can't be less than 1 or greater than 500"
+                              );
+                            } else {
+                              handleUpdateItemQuantity(product.id, newQuantity);
+                            }
                           }}
-                          onClick={(e) => {
-                            handleDecrease(product.id);
-                          }}
-                        ></GrFormSubtract>
-                        <span style={{ fontSize: "22px" }}>
-                          {product.quantity}
-                        </span>
-                        <GrFormAdd
-                          style={{
-                            cursor: "pointer",
-                            fontSize: "22px",
-                            marginBottom: "7px",
-                          }}
-                          onClick={(e) => {
-                            handleIncrease(product.id);
-                          }}
-                        ></GrFormAdd>
+                          min="1"
+                        />
                       </td>
 
                       <td className="product-subtotal">
@@ -170,6 +176,7 @@ function ListItem() {
                         <td className="product-day">
                           <p>DAY</p>
                           <input
+                            style={{ width: "170px" }}
                             type="date"
                             value={
                               shoppingCart.length > 0
@@ -259,15 +266,19 @@ function ListItem() {
                   </div>
                   <div className="wc-proceed-to-checkout">
                     <Link
-                      to={checkDay() ? "/checkout" : "/cart"}
+                      to={checkDay() && checkQuantity() ? "/checkout" : "/cart"}
                       className="button"
                       onClick={() => {
                         console.log(checkDay());
                         if (checkDay()) {
-                          Store(shoppingCart);
+                          if (checkQuantity() == false) {
+                            toast("Your ticket number is empty");
+                          } else {
+                            Store(shoppingCart);
+                          }
                         } else {
-                          alert(
-                            "Không thể thanh toán với ngày không hợp lệ.Vui lòng chọn ngày hiện tại hoặc trong tương lai"
+                          toast(
+                            "Invalid date payments cannot be made. Please select a current or future date"
                           );
                         }
                       }}
