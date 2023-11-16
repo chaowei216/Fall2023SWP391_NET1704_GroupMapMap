@@ -85,7 +85,7 @@ export default function EditCage(pros) {
                           type="text"
                           style={{ height: "56px" }}
                           id="cId"
-                          placeholder="cId"
+                          placeholder="Cage Id"
                           aria-describedby="inputGroupPrepend"
                           name="cId"
                           value={cId}
@@ -98,11 +98,11 @@ export default function EditCage(pros) {
                           type="text"
                           style={{ height: "56px" }}
                           id="name"
-                          placeholder="name"
+                          placeholder="Name"
                           aria-describedby="inputGroupPrepend"
                           name="name"
                           value={name}
-                          disabled
+                          onChange={(e) => setName(e.target.value)}
                         />
                       </div>
                       <div className="mb-3">
@@ -111,7 +111,7 @@ export default function EditCage(pros) {
                           type="text"
                           style={{ height: "56px" }}
                           id="maxCapacity"
-                          placeholder="maxCapacity"
+                          placeholder="Max Capacity"
                           aria-describedby="inputGroupPrepend"
                           name="maxCapacity"
                           value={maxCapacity}
@@ -130,7 +130,7 @@ export default function EditCage(pros) {
                           type="text"
                           style={{ height: "56px" }}
                           id="animalQuantity"
-                          placeholder="animalQuantity"
+                          placeholder="Animal Quantity"
                           aria-describedby="inputGroupPrepend"
                           name="animalQuantity"
                           value={animalQuantity}
@@ -158,7 +158,7 @@ export default function EditCage(pros) {
                           type="submit"
                           active
                         >
-                          Edit Area
+                          Edit
                         </Button>
                       </MDBModalFooter>
                     </div>

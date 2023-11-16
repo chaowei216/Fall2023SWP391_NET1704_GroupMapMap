@@ -111,7 +111,7 @@ export const schemaAnimal = yup.object().shape({
   // image: yup.mixed().required('Please choose the image')
   fields: yup.array().of(
     yup.object().shape({
-      mealId: yup.string().required("Please choose meal"),
+      // mealId: yup.string().required("Please choose meal"),
       startEat: yup
         .string()
         .required("Vui lòng nhập ngày bắt đầu ăn")

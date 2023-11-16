@@ -59,9 +59,11 @@ export default function AddCage(pros) {
         const response = await fetch(url, request);
         if (response.ok) {
             console.log("Success");
-            navigate("/staff/cage");
-            window.location.reload();
-        }else{
+            toast.success("Create Successful");
+            setTimeout(() => {
+                window.location.reload();
+            }, [1300])
+        } else {
             toast.error("Create Error");
         }
     };
@@ -136,7 +138,7 @@ export default function AddCage(pros) {
                                                     type="text"
                                                     style={{ width: "100%", height: "50px" }}
                                                     id="name"
-                                                    placeholder="name"
+                                                    placeholder="Name"
                                                     aria-describedby="inputGroupPrepend"
                                                     name="name"
                                                     value={formik.values.name}
@@ -155,7 +157,7 @@ export default function AddCage(pros) {
                                                 <Form.Control
                                                     type="Number"
                                                     id="maxCapacity"
-                                                    placeholder="maxCapacity"
+                                                    placeholder="Max Capacity"
                                                     aria-describedby="inputGroupPrepend"
                                                     name="maxCapacity"
                                                     style={{ width: "100%", height: "50px" }}
@@ -170,7 +172,7 @@ export default function AddCage(pros) {
                                                     {formik.errors.quantity}
                                                 </Form.Control.Feedback> */}
                                             </div>
-                                            <MDBModalFooter style={{paddingRight: "0px"}}>
+                                            <MDBModalFooter style={{ paddingRight: "0px" }}>
                                                 <Button
                                                     style={{ background: "blue", color: "white", marginRight: "20px" }}
                                                     variant="primary"

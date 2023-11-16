@@ -82,7 +82,7 @@ export default function EditArea(pros) {
                           type="text"
                           style={{ height: "56px" }}
                           id="areaId"
-                          placeholder="areaId"
+                          placeholder="Area Id"
                           aria-describedby="inputGroupPrepend"
                           name="areaId"
                           value={areaId}
@@ -95,7 +95,7 @@ export default function EditArea(pros) {
                           type="text"
                           style={{ height: "56px" }}
                           id="areaName"
-                          placeholder="areaName"
+                          placeholder="Area Name"
                           aria-describedby="inputGroupPrepend"
                           name="areaName"
                           value={areaName}

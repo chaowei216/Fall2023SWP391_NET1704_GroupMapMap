@@ -23,7 +23,6 @@ import { toast } from "react-toastify";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 function ScheduleAnimalNotFeeding() {
-  const emailInfo = localStorage.getItem("email");
   const [showModalAdd, setShowmodalAdd] = useState(false);
   const [showModalEdit, setShowmodalEdit] = useState(false);
   const [showModalView, setShowmodalView] = useState(false);
@@ -52,18 +51,20 @@ function ScheduleAnimalNotFeeding() {
   }
   useEffect(() => {
     const getTrainerList = () => {
-      return fetch("https://localhost:44352/api/User/users").then((data) =>
+      const emailInfo = localStorage.getItem("email");
+      return fetch(`https://localhost:44352/api/User/users/${emailInfo}`).then((data) =>
         data.json()
       );
     };
     let mounted = true;
     getTrainerList().then((items) => {
       if (mounted) {
-        setProfileZooTrainer(items.filter((user) => user.email === emailInfo));
+        setProfileZooTrainer(items.userId);
       }
     });
     return () => (mounted = false);
   }, []);
+
   useEffect(() => {
     const getList = () => {
       return fetch("https://localhost:44352/api/Animal/allMeal").then((data) =>
@@ -80,9 +81,8 @@ function ScheduleAnimalNotFeeding() {
   }, []);
 
   useEffect(() => {
-    const ZooProfileTest = profileZooTrainer;
-    if (ZooProfileTest.length > 0) {
-      setAID(ZooProfileTest[0].userId);
+    if (profileZooTrainer.length > 0) {
+      setAID(profileZooTrainer);
     }
   }, [profileZooTrainer]);
 
@@ -101,7 +101,6 @@ function ScheduleAnimalNotFeeding() {
     // Chuyển thời gian sang đối tượng Date
     const [hours] = time.split(":");
     const hour = parseInt(hours);
-    console.log(hour);
     if (hour >= 6 && hour < 12) {
       return "morning";
     }
@@ -133,7 +132,8 @@ function ScheduleAnimalNotFeeding() {
       });
     });
     setListAnimalFilter(filteredAnimals);
-  }, [listAnimal]);
+  }, [listAnimal,aID]);
+  
   const handleClick = () => {
     setShowmodalAdd(true);
     setAnchorEl(null);
@@ -272,12 +272,12 @@ function ScheduleAnimalNotFeeding() {
           <MDBTable>
             <MDBTableHead
               dark
-              // style={{
-              //   borderTop: "white",
-              //   borderRight: "black",
-              //   borderLeft: "black",
-              //   borderBottom: "black",
-              // }}
+            // style={{
+            //   borderTop: "white",
+            //   borderRight: "black",
+            //   borderLeft: "black",
+            //   borderBottom: "black",
+            // }}
             >
               <tr>
                 <th scope="col" style={{ textAlign: "center" }}>
