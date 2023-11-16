@@ -74,7 +74,7 @@ export default function EditPage(pros) {
       setWID(dataUserEdit.wID === null ? "2" : `${wID}`);
     }
   }, [dataUserEdit]);
-  console.log(dataUserEdit);
+  // console.log(dataUserEdit);
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     let end = null;

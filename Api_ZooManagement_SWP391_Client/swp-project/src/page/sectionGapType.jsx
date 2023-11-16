@@ -33,7 +33,6 @@ function SectionGapType() {
 
     fetchData();
   }, [dataList]);
-  console.log(dataList);
   return (
     <div>
       <section className="gap" id="1">

@@ -347,7 +347,7 @@ function TableAnimal() {
                         ></img>
                       </td>
                       <td width={100}>{items.animalId}</td>
-                      <td width={110}>{items.name}</td>
+                      <td width={190}>{items.name}</td>
                       <td width={320} style={{ textAlign: "justify" }}>
                         {items.description}
                       </td>

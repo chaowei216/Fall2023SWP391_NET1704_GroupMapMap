@@ -143,7 +143,7 @@ function AddAnimal(pros) {
 
   const ZooTrainerList = listZooTrainer.filter((user) => user.role === 3);
   const CageListFilter = listCage.filter(
-    (cage) => cage.name === selectedSpecies
+    (cage) => cage.name.toUpperCase().includes(selectedSpecies.toUpperCase())
   );
   const handleClick = () => {
     setShowmodalAdd(true);

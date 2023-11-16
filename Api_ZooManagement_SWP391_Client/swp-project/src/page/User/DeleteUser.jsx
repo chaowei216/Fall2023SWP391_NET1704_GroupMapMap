@@ -25,7 +25,7 @@ export default function DeleteUser(pros) {
         setEmail(dataUserDelete.email);
     }
   }, [dataUserDelete]);
-  console.log(dataUserDelete);
+  // console.log(dataUserDelete);
   const handleSave = () => {
     console.log("haha");
   };
