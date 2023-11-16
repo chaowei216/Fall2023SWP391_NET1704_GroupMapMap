@@ -30,27 +30,38 @@ namespace BLL.Services
         }
         public bool AddMeal(List<FoodMealDto> foodMeals, Meal meal)
         {
-            if (_mealRepo.Add(meal))
+            try
             {
-                if (foodMeals != null && foodMeals.Count() > 0)
+                if (_mealRepo.Add(meal))
                 {
-                    foreach (var foodMeal in foodMeals)
+                    var newMeal = _mealRepo.GetById(meal.MealId);
+                    if(newMeal != null)
                     {
-                        var food = _foodRepo.GetById(foodMeal.FoodId);
-                        if (food == null) return false;
-                        FoodMeal fMeal = new FoodMeal
+                        newMeal.FoodMeals = new List<FoodMeal>();
+                        foreach (var fMeal in foodMeals)
                         {
-                            Meal = meal,
-                            Food = food,
-                            Quantity = foodMeal.Quantity,
-                            Unit = foodMeal.Unit
-                        };
-                        _foodMealRepo.Add(fMeal);
+                            var food = _foodRepo.GetById(fMeal.FoodId);
+                            newMeal.FoodMeals.Add(new FoodMeal
+                            {
+                                MealId = newMeal.MealId,
+                                FoodId = food.FoodId,
+                                Quantity = fMeal.Quantity,
+                                Unit = fMeal.Unit
+                            });
+                        }
+                        _mealRepo.Update(newMeal);
+                        return true;
                     }
+                    return false;
                 }
-                return true;
+
+                return false;
             }
-            return false;
+            catch (Exception ex)
+            {
+                return false;
+            }
+
         }
 
         public int CountMeal()

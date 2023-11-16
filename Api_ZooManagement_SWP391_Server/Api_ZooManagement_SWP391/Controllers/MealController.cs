@@ -68,8 +68,10 @@ namespace Api_ZooManagement_SWP391.Controllers
         {
             if (createMealDto == null) return BadRequest();
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if(createMealDto.FoodMeals == null || createMealDto.FoodMeals.Count == 0)
+            {
+                return BadRequest("Food is empty!");
+            }
 
             var mealMap = _mapper.Map<Meal>(createMealDto);
 
@@ -78,7 +80,10 @@ namespace Api_ZooManagement_SWP391.Controllers
 
             mealMap.MealId = mealId;
 
-            if(!_mealService.AddMeal(createMealDto.FoodMeals, mealMap))
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_mealService.AddMeal(createMealDto.FoodMeals, mealMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving");
                 return StatusCode(500, ModelState);
