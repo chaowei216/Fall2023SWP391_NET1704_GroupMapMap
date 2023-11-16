@@ -232,6 +232,7 @@ namespace BBL.Services
             if (user.CountAnimal != 0) return false;
 
             user.Status = false;
+            user.EndDate = DateTime.Now;
             return _userRepository.Update(user);
         }
 
