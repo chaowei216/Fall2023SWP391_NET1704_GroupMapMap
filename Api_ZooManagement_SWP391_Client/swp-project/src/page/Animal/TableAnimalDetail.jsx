@@ -58,13 +58,16 @@ function TableAnimalDetail() {
     });
     return () => (mounted = false);
   }, []);
-  const ZooProfileTest = profileZooTrainer;
+
   useEffect(() => {
-    if (ZooProfileTest.length > 0) {
-      setAID(ZooProfileTest[0].userId);
+    if (profileZooTrainer.length > 0) {
+      setAID(profileZooTrainer[0].userId);
     }
-  }, [ZooProfileTest]);
+  }, [profileZooTrainer]);
+
   const list = listAnimal.filter((animal) => animal.userId === aID);
+
+
   const handleClick = () => {
     setShowmodalAdd(true);
     setAnchorEl(null);

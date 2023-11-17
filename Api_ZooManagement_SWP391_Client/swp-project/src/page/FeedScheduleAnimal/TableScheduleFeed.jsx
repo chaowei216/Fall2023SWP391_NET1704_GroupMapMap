@@ -36,6 +36,7 @@ function TableScheduleFeed() {
   const [listAnimalFilter, setListAnimalFilter] = useState([]);
   const [animalFilter, setAnimalFilter] = useState([]);
   const [aID, setAID] = useState("");
+  const [edit, setEdit] = useState(false);
 
   function getPeriod(hour) {
     if (hour >= 6 && hour < 12) {
@@ -99,7 +100,7 @@ function TableScheduleFeed() {
       }
     });
     return () => (mounted = false);
-  }, []);
+  }, [edit]);
 
   useEffect(() => {
     const list = listAnimalByMeal;
@@ -116,7 +117,7 @@ function TableScheduleFeed() {
       });
     });
     setMealNow(filteredAnimals);
-  }, [listAnimalByMeal]);
+  }, [listAnimalByMeal,edit]);
 
   useEffect(() => {
     const getMealNow = () => {
@@ -189,7 +190,7 @@ function TableScheduleFeed() {
       });
     });
     setListAnimalFilter(filteredAnimals);
-  }, [listAnimal]);
+  }, [listAnimal,edit]);
 
   const handleClick = () => {
     setShowmodalAdd(true);
@@ -237,9 +238,8 @@ function TableScheduleFeed() {
     if (response.ok && response2.ok) {
       console.log("Success");
       toast.success("Feed successfully");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+        // window.location.reload();
+        setEdit(!edit);
     } else {
       toast.error("Error");
     }
@@ -289,9 +289,8 @@ function TableScheduleFeed() {
     resetSchedule();
     if (resetSchedule) {
       toast.success("Reset Success");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1200);
+        // window.location.reload();
+        setEdit(!edit)
     } else {
       toast.error("Error");
     }

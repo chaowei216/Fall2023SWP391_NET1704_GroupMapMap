@@ -36,6 +36,7 @@ function ScheduleAnimalNotFeeding() {
   const [listAnimalFilter, setListAnimalFilter] = useState([]);
   const [animalFilter, setAnimalFilter] = useState([]);
   const [aID, setAID] = useState("");
+  const [edit, setEdit] = useState(false);
 
   async function resetSchedule() {
     try {
@@ -78,7 +79,7 @@ function ScheduleAnimalNotFeeding() {
       }
     });
     return () => (mounted = false);
-  }, []);
+  }, [edit]);
 
   useEffect(() => {
     if (profileZooTrainer.length > 0) {
@@ -132,7 +133,7 @@ function ScheduleAnimalNotFeeding() {
       });
     });
     setListAnimalFilter(filteredAnimals);
-  }, [listAnimal,aID]);
+  }, [listAnimal,aID,edit]);
   
   const handleClick = () => {
     setShowmodalAdd(true);
@@ -182,9 +183,8 @@ function ScheduleAnimalNotFeeding() {
     if (response.ok && response2.ok) {
       console.log("Success");
       toast.success("Feed successfully");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+        // window.location.reload();
+        setEdit(!edit)
     } else {
       toast.error("Error");
     }
@@ -206,9 +206,8 @@ function ScheduleAnimalNotFeeding() {
     if (response.ok) {
       console.log("Success");
       toast.success("Take care successfully");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+        // window.location.reload();
+        setEdit(!edit);
     } else {
       toast.error("Error");
     }
@@ -217,9 +216,8 @@ function ScheduleAnimalNotFeeding() {
     resetSchedule();
     if (resetSchedule) {
       toast.success("Reset Success");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1200);
+        // window.location.reload();
+        setEditMode(!edit);
     } else {
       toast.error("Error");
     }
